@@ -34,7 +34,7 @@ public class AssetLoader : MonoBehaviour {
 
         // 에셋 번들을 저장할 경로
 
-        string assetBundleDirectory = "Assets/AssetBundles";
+        string assetBundleDirectory = "Assets/6.AssetBundles";
         // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
         if (!Directory.Exists(assetBundleDirectory))
         {

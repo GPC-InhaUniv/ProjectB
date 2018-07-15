@@ -1,0 +1,51 @@
+Initialize engine version: 5.6.5f1 (2cac56bf7bb6)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 765M (ID=0x11e2)
+    Vendor:   NVIDIA
+    VRAM:     1991 MB
+    Driver:   21.21.13.7270
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.050 seconds
+Platform assembly: C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Gaeguri\Desktop\BlueTeam깃허브\BlueTeam\TeamBlue\BuildTest_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 59Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 4.615247 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 28bc -> priority: 1 
+  Thread -> id: 28b8 -> priority: 1 
+Desired shader compiler platform 4 is not available in shader blob
+ 
+(Filename:  Line: 536)
+
+WARNING: Shader Unsupported: 'Standard' - Pass 'FORWARD' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'FORWARD_DELTA' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'SHADOWCASTER' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'META' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - All passes removed
+WARNING: Shader Unsupported: 'Standard' - Pass 'FORWARD' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'FORWARD_DELTA' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'SHADOWCASTER' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'DEFERRED' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - Pass 'META' has no vertex shader
+WARNING: Shader Unsupported: 'Standard' - All passes removed
+PlayFab.PlayFabError
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+System.String
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
