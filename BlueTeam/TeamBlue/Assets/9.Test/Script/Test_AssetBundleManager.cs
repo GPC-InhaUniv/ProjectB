@@ -14,13 +14,22 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager> {
     AssetBundle publicBundle;
     AssetBundle nextSceneBundle;
 
+    public string path;
 
-
-    public GameObject PlayerInstancing()
+    private void Start()
     {
-        GameObject player;
-        player = Instantiate(playerBundle.LoadAsset(AssetName) as GameObject);
-        return player;
+        path = "file://" + Application.persistentDataPath + "/AssetBundle";
+         
     }
+
+    IEnumerator LoadPlayerBundle()
+    {
+        using (WWW www = new WWW(path))
+        {
+            yield return www;
+        }
+    }
+
+
 
 }
