@@ -34,10 +34,11 @@ public class AssetSaver : MonoBehaviour {
         // 에셋 번들을 저장할 경로
 
 #if UNITY_ANDROID
-        assetBundleDirectory = Application.persistentDataPath+ "/7.AssetBundles";
+        assetBundleDirectory = Application.persistentDataPath+ "/AssetBundles";
 #else
-       assetBundleDirectory = "Assets/7.AssetBundles";
+       assetBundleDirectory = "Assets/AssetBundles";
 #endif
+
 
         // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
         if (!Directory.Exists(assetBundleDirectory))

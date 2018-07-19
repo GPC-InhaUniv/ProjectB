@@ -10,11 +10,15 @@ public class JsonManager : MonoBehaviour
     bool istired = false;
     bool isseek = true;
     int age = 15;
-  
+    string assetBundleDirectory;
 
     private void Start()
     {
-      
+#if UNITY_ANDROID
+        assetBundleDirectory = Application.persistentDataPath+ "/10.JsonFolder";
+#else
+        assetBundleDirectory="Assets/10.JsonFolder";
+#endif
         OnClickSaveJSONBtn();
     }
 
@@ -49,16 +53,15 @@ public class JsonManager : MonoBehaviour
 
     private string readStringFromFile(string path)
     {
-        string text = System.IO.File.ReadAllText("Assets/11.JsonFolder" + "/" + path);
+        string text = System.IO.File.ReadAllText(assetBundleDirectory+ "/" + path);
 
         return text;
-
     }
 
 
     private void writeStringToFile(string text, string path)
     {
-        string assetBundleDirectory = "Assets/11.JsonFolder";
+
         // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
         if (!Directory.Exists(assetBundleDirectory))
         {

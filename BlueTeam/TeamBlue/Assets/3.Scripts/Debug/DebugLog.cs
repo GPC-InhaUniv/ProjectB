@@ -5,9 +5,9 @@ using System;
 public static class DebugLog
 {
 #if UNITY_ANDROID
-    static string savePath =Application.persistentDataPath+"/0.DebugLog/DebugLog.txt";
+    static string assetBundleDirectory = Application.persistentDataPath+"/0.DebugLog";
 #else
-    static string savePath = "Assets/0.DebugLog/DebugLog.txt";
+    static string assetBundleDirectory = "Assets/0.DebugLog";
    
 #endif
     static string saveText;
@@ -20,7 +20,13 @@ public static class DebugLog
             " Data: " + data.ToString();
 
         Debug.Log(saveText);
-        FileStream fs = new FileStream(savePath, FileMode.Append, FileAccess.Write);
+        if (!Directory.Exists(assetBundleDirectory))
+        {
+            Directory.CreateDirectory(assetBundleDirectory);
+        }
+
+
+        FileStream fs = new FileStream(assetBundleDirectory + "/DebugLog.txt", FileMode.Append, FileAccess.Write);
 
         using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
         {

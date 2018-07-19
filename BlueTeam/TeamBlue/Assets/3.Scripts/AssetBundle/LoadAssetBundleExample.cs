@@ -17,10 +17,8 @@ public class LoadAssetBundleExample : MonoBehaviour
 #if UNITY_ANDROID
   //  BundleURL = "https://docs.google.com/uc?export=download&id=18ic7M3z4M1XFhPGZ4BndeoUgONdQ8GZg";
         BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";
-        savePath = Application.persistentDataPath + "/0.DebugLog/DebugLog.txt";
 #else
     BundleURL = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";
-        savePath = "Assets/0.DebugLog/DebugLog.txt";
 #endif
     }
 
@@ -95,9 +93,10 @@ public class LoadAssetBundleExample : MonoBehaviour
 #if UNITY_ANDROID
 
         StartCoroutine(TestLoadAssetBundle_Android());
-    //    DebugLog.SaveLog(this, "PlayerID:"+ 123123); 
+        DebugLog.SaveLog(this, "PlayerID:"+ 123123);
 #else
         StartCoroutine(LoadAssetBundle());
+        DebugLog.SaveLog(this, "PlayerID:" + 123123);
 #endif
 
     }
