@@ -4,32 +4,32 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager> {
+    public class Test_AssetBundleManager : MonoBehaviour {
 
-    protected Test_AssetBundleManager() { }
-    
-    public string AssetName;
+        protected Test_AssetBundleManager() { }
 
-    AssetBundle playerBundle;
-    AssetBundle publicBundle;
-    AssetBundle nextSceneBundle;
-
-    public string path;
-
-    private void Start()
-    {
-        path = "file://" + Application.persistentDataPath + "/AssetBundle";
-         
-    }
-
-    IEnumerator LoadPlayerBundle()
-    {
-        using (WWW www = new WWW(path))
+        public string AssetName;
+        
+      
+       
+        private void Start()
         {
-            yield return www;
+        StartCoroutine(test());
         }
+
+    IEnumerator test()
+    {
+        AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("test", "TestBundle", typeof(GameObject));
+        
+        if (request == null)
+            yield break;
+        yield return StartCoroutine(request);
+        GameObject prefab = request.GetAsset<GameObject>();
+        if (prefab != null)
+            GameObject.Instantiate(prefab);
     }
 
 
 
-}
+
+    }
