@@ -19,7 +19,6 @@ public class JsonManager : MonoBehaviour
 #else
         assetBundleDirectory="Assets/10.JsonFolder";
 #endif
-        OnClickSaveJSONBtn();
     }
 
 
