@@ -8,18 +8,23 @@ public class LoadAssetBundleExample : MonoBehaviour
 {
 
     private string BundleURL;
-
+    string savePath;
     // 번들의 version 
     public int version;
     void Start()
     {
+
 #if UNITY_ANDROID
   //  BundleURL = "https://docs.google.com/uc?export=download&id=18ic7M3z4M1XFhPGZ4BndeoUgONdQ8GZg";
         BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";
+        savePath = Application.persistentDataPath + "/0.DebugLog/DebugLog.txt";
 #else
     BundleURL = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";
+        savePath = "Assets/0.DebugLog/DebugLog.txt";
 #endif
     }
+
+
     IEnumerator LoadAssetBundle_Android()
     {
         string uri = BundleURL;
@@ -90,7 +95,7 @@ public class LoadAssetBundleExample : MonoBehaviour
 #if UNITY_ANDROID
 
         StartCoroutine(TestLoadAssetBundle_Android());
-        DebugClass.SaveAndPrintDebugLog(this, "PlayerID:"+ 123123); 
+    //    DebugLog.SaveLog(this, "PlayerID:"+ 123123); 
 #else
         StartCoroutine(LoadAssetBundle());
 #endif

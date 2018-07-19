@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class AssetLoader : MonoBehaviour {
+public class AssetSaver : MonoBehaviour {
 
     // 서버에서 받아오고자 하는 에셋 번들의 이름 목록
 
@@ -13,6 +13,9 @@ public class AssetLoader : MonoBehaviour {
 
     // 서버의 에셋 번들 버전 정보를 비교해서 받아오는 것이 좋다.
     public string[] assetBundleNames;
+
+    string assetBundleDirectory;
+
 
     IEnumerator SaveAssetBundleOnDisk()
     {
@@ -24,30 +27,28 @@ public class AssetLoader : MonoBehaviour {
         // 주소 + 에셋 번들 이름 형태를 띄는 것이 좋다.
         string uri = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";
 
-
-
         // 웹 서버에 요청을 생성한다.
         UnityWebRequest request = UnityWebRequest.Get(uri);
         yield return request.Send();
 
-
-
         // 에셋 번들을 저장할 경로
 
-        string assetBundleDirectory = "Assets/6.AssetBundles";
+#if UNITY_ANDROID
+        assetBundleDirectory = Application.persistentDataPath+ "/7.AssetBundles";
+#else
+       assetBundleDirectory = "Assets/7.AssetBundles";
+#endif
+
         // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
         if (!Directory.Exists(assetBundleDirectory))
         {
             Directory.CreateDirectory(assetBundleDirectory);
         }
 
-
-
         // 파일 입출력을 통해 받아온 에셋을 저장하는 과정
         FileStream fs = new FileStream(assetBundleDirectory + "/" + "character.unity3d", System.IO.FileMode.Create);
         fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
         fs.Close();
-
      
     }
 

@@ -3,12 +3,11 @@
     "birthday": "json",
     "istired": false,
     "isseek": true,
-    "age": 15
-}
-{
-    "charname": "hello",
-    "birthday": "json",
-    "istired": false,
-    "isseek": true,
-    "age": 15
+    "age": 15,
+    "itemList": [
+        "철퇴",
+        "대검",
+        "단검",
+        "원거리공격"
+    ]
 }

@@ -10,12 +10,15 @@ public class JsonManager : MonoBehaviour
     bool istired = false;
     bool isseek = true;
     int age = 15;
-
+  
 
     private void Start()
     {
+      
         OnClickSaveJSONBtn();
     }
+
+
     //제이슨 파일 저장
     public void OnClickSaveJSONBtn()
     {
@@ -81,6 +84,16 @@ public class Data
     public bool istired = false;
     public bool isseek = true;
     public int age = 15;
+    public string[] itemList;
+
+   public Data()
+    {
+        itemList = new string[4];
+        itemList[0] = "철퇴";
+        itemList[1] = "대검";
+        itemList[2] = "단검";
+        itemList[3] = "원거리공격";
+    }
 }
 
 
