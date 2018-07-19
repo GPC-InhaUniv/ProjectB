@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.IO;
 
 public class LoadAssetBundleExample : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class LoadAssetBundleExample : MonoBehaviour
     string savePath;
     // 번들의 version 
     public int version;
+
+    string assetBundleDirectory;
+
+
+
     void Start()
     {
 
@@ -21,6 +27,43 @@ public class LoadAssetBundleExample : MonoBehaviour
     BundleURL = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";
 #endif
     }
+
+    IEnumerator SaveAssetBundleOnDisk()
+    {
+
+        // 에셋 번들을 받아오고자하는 서버의 주소
+
+        // 지금은 주소와 에셋 번들 이름을 함께 묶어 두었지만
+
+        // 주소 + 에셋 번들 이름 형태를 띄는 것이 좋다.
+        string uri = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";
+
+        // 웹 서버에 요청을 생성한다.
+        UnityWebRequest request = UnityWebRequest.Get(uri);
+        yield return request.Send();
+
+        // 에셋 번들을 저장할 경로
+
+        //#if UNITY_ANDROID
+        assetBundleDirectory = Application.persistentDataPath + "/AssetBundles";
+        //#else
+        //    assetBundleDirectory = "Assets/AssetBundles";
+        //#endif
+
+
+        // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
+        if (!Directory.Exists(assetBundleDirectory))
+        {
+            Directory.CreateDirectory(assetBundleDirectory);
+        }
+
+        // 파일 입출력을 통해 받아온 에셋을 저장하는 과정
+        FileStream fs = new FileStream(assetBundleDirectory + "/" + "character.unity3d", System.IO.FileMode.Create);
+        fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
+        fs.Close();
+
+    }
+
 
 
     IEnumerator LoadAssetBundle_Android()
@@ -93,6 +136,7 @@ public class LoadAssetBundleExample : MonoBehaviour
 #if UNITY_ANDROID
 
         StartCoroutine(TestLoadAssetBundle_Android());
+        StartCoroutine(SaveAssetBundleOnDisk());
         DebugLog.SaveLog(this, "PlayerID:"+ 123123);
 #else
         StartCoroutine(LoadAssetBundle());
