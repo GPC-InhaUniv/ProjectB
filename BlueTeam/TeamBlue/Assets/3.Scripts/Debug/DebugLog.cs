@@ -2,13 +2,18 @@
 using System.IO;
 using System;
 
-public static class DebugClass
+public static class DebugLog
 {
+#if UNITY_ANDROID
+    static string savePath =Application.persistentDataPath+"/0.DebugLog/DebugLog.txt";
+#else
     static string savePath = "Assets/0.DebugLog/DebugLog.txt";
+   
+#endif
     static string saveText;
 
 
-    public static void SaveAndPrintDebugLog(UnityEngine.Object className, string data)
+    public static void SaveLog(UnityEngine.Object className, string data)
     {
 
         saveText = DateTime.Now.ToString("yyyy/MM/dd/HH:MM:ss") + " Object Name: " + className.ToString() +
