@@ -1,1 +1,1 @@
-﻿
+﻿2018/07/19/20:07:35 Object Name: TestObject (LoadAssetBundleExample) Data: PlayerID:123123
