@@ -30,7 +30,7 @@ public class JsonManager : MonoBehaviour
         Debug.Log(save);
 
 
-        writeStringToFile(save, "save.json");
+        WriteStringToFile(save, "save.json");
 
 
     }
@@ -38,7 +38,7 @@ public class JsonManager : MonoBehaviour
     //제이슨 파일 로드
     public void OnClickLoadJSONBtn()
     {
-        string load = readStringFromFile("save.json");
+        string load = ReadStringFromFile("save.json");
         var loadData = JsonUtility.FromJson<Data>(load);
         charname = loadData.charname;
         birthday = loadData.birthday;
@@ -50,7 +50,7 @@ public class JsonManager : MonoBehaviour
         Debug.Log(charname);
     }
 
-    private string readStringFromFile(string path)
+    private string ReadStringFromFile(string path)
     {
         string text = System.IO.File.ReadAllText(assetBundleDirectory+ "/" + path);
 
@@ -58,7 +58,7 @@ public class JsonManager : MonoBehaviour
     }
 
 
-    private void writeStringToFile(string text, string path)
+    private void WriteStringToFile(string text, string path)
     {
 
         // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
@@ -69,7 +69,7 @@ public class JsonManager : MonoBehaviour
 
 
         using (System.IO.StreamWriter file =
-             new System.IO.StreamWriter(assetBundleDirectory + "/" + path, true))
+             new System.IO.StreamWriter(assetBundleDirectory + "/" + path, false))
         {
             file.WriteLine(text);
         }
@@ -87,6 +87,7 @@ public class Data
     public bool isseek = true;
     public int age = 15;
     public string[] itemList;
+    public string[] Test;
 
    public Data()
     {
@@ -95,6 +96,10 @@ public class Data
         itemList[1] = "대검";
         itemList[2] = "단검";
         itemList[3] = "원거리공격";
+
+        Test = new string[4];
+        Test[0] = "1";
+        Test[1] = "2";
     }
 }
 

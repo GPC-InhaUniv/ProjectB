@@ -15,18 +15,20 @@ public static class DebugLog
 
     public static void SaveLog(UnityEngine.Object className, string data)
     {
-
-        saveText = DateTime.Now.ToString("yyyy/MM/dd/HH:MM:ss") + " Object Name: " + className.ToString() +
+        string currentTime = DateTime.Now.ToString("yyyy/MM/dd/HH:MM:ss");
+        string currentTimeForSaving = DateTime.Now.ToString("yyyy_MM_dd");
+        saveText = currentTime + " Object Name: " + className.ToString() +
             " Data: " + data.ToString();
 
         Debug.Log(saveText);
+
         if (!Directory.Exists(assetBundleDirectory))
         {
             Directory.CreateDirectory(assetBundleDirectory);
         }
 
 
-        FileStream fs = new FileStream(assetBundleDirectory + "/DebugLog.txt", FileMode.Append, FileAccess.Write);
+        FileStream fs = new FileStream(assetBundleDirectory +"/"+ currentTimeForSaving + "_"+"DebugLog.txt", FileMode.Append, FileAccess.Write);
 
         using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.UTF8))
         {
