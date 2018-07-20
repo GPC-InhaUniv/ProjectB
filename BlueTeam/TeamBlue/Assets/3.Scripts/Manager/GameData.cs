@@ -1,6 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿/// <summary>
+/// 담당자 : 김정수
+/// 
+/// 내용 : 게임 자원 관리
+/// 
+/// Input : 자원 타입, 자원 개수
+/// </summary>
+
 
 public enum GameResources
 {
@@ -8,12 +13,11 @@ public enum GameResources
     Wood,
     Iron,
     Sheep,
-
 }
 
 public class GameData : Singleton<GameData>
 {
-    
+
     private int brick;
     private int wood;
     private int iron;
