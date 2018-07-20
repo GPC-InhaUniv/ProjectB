@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: a6b2f7cf957ed6e4f94b861d00fede92
-timeCreated: 1531988840
+guid: e31b13bc4a01d1d42bf6b5b66dd86be7
+timeCreated: 1532063659
 licenseType: Free
 NativeFormatImporter:
   mainObjectFileID: 100100000
   userData: 
-  assetBundleName: test
+  assetBundleName: publicbundle/particle
   assetBundleVariant: 
