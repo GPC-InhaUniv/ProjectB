@@ -1,12 +1,4 @@
-﻿/// <summary>
-/// 담당자 : 김정수
-/// 
-/// 내용 : 게임 자원 관리
-/// 
-/// Input : 자원 타입, 자원 개수
-/// </summary>
-
-
+﻿
 public enum GameResources
 {
     Brick,
