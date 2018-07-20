@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class JsonManager : MonoBehaviour
 {
-
-    string charname = "hello";
-    string birthday = "json";
-    bool istired = false;
-    bool isseek = true;
-    int age = 15;
     string assetBundleDirectory;
-
+    string playerInformation;
     private void Start()
     {
 #if UNITY_ANDROID
@@ -40,14 +34,10 @@ public class JsonManager : MonoBehaviour
     {
         string load = ReadStringFromFile("save.json");
         var loadData = JsonUtility.FromJson<Data>(load);
-        charname = loadData.charname;
-        birthday = loadData.birthday;
-        istired = loadData.istired;
-        isseek = loadData.isseek;
-        age = loadData.age;
-
+        playerInformation = loadData.playerInfomation.PlayerLevel.ToString();
         Debug.Log(load);
-        Debug.Log(charname);
+        Debug.Log(playerInformation);
+       
     }
 
     private string ReadStringFromFile(string path)
@@ -81,25 +71,21 @@ public class JsonManager : MonoBehaviour
 [SerializeField]
 public class Data
 {
-    public string charname = "hello";
-    public string birthday = "json";
-    public bool istired = false;
-    public bool isseek = true;
-    public int age = 15;
-    public string[] itemList;
-    public string[] Test;
+    public PlayerInformation playerInfomation;
+    public TownInformation AtownInformation;
+    public TownInformation BtownInformation;
+    public Equipment equipment;
+    public Item inventoryItems;
+    public Item wareHouseItems;
 
-   public Data()
+    public Data()
     {
-        itemList = new string[4];
-        itemList[0] = "철퇴";
-        itemList[1] = "대검";
-        itemList[2] = "단검";
-        itemList[3] = "원거리공격";
-
-        Test = new string[4];
-        Test[0] = "1";
-        Test[1] = "2";
+        playerInfomation = GameData.Instance.playerInfomation;
+        AtownInformation = GameData.Instance.AtownInformation;
+        BtownInformation = GameData.Instance.BtownInformation;
+        equipment = GameData.Instance.equipment;
+        inventoryItems = GameData.Instance.inventoryItems;
+        wareHouseItems = GameData.Instance.wareHouseItems;
     }
 }
 
