@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 /// http://wergia.tistory.com/36?category=737654
 /// </summary>
 
-public class Test_AssetBundleManager : MonoBehaviour
+public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
 
     protected Test_AssetBundleManager() { }
