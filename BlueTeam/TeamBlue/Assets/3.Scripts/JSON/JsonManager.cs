@@ -49,9 +49,10 @@ public class JsonManager : MonoBehaviour
         PlayFabClientAPI.UpdateUserPublisherData(new UpdateUserDataRequest()
         {
             Data = new Dictionary<string, string>() {
-             { "playerInformationLv", playerInformationLv},
+                {"playerInformationLv", playerInformationLv},
                 {"playerInformationExp",playerInformationExp },
-                {"playerInformationPortionCount",playerInformationPortionCount }
+                {"playerInformationPortionCount",playerInformationPortionCount },
+
          }
         },
         result => Debug.Log("Complete setting Regular User Publisher Data"),
@@ -61,7 +62,7 @@ public class JsonManager : MonoBehaviour
             Debug.Log(error.GenerateErrorReport());
         });
     }
-
+    
     //제이슨 파일 로드
     public void OnClickLoadJSONBtn()
     {
@@ -71,20 +72,22 @@ public class JsonManager : MonoBehaviour
 
         ClientGetUserPublisherData();
     }
-    
+
     // Use client API to get Regular User Publisher Data for selected user 
     public void ClientGetUserPublisherData()
     {
         PlayFabClientAPI.GetUserPublisherData(new GetUserDataRequest()
         {
-         //   PlayFabId = "12341234"
-        }, result => {
-            if (result.Data == null || !result.Data.ContainsKey("playerInformationPortionCount")) Debug.Log("No SomeKey");
+
+        }, result =>
+        {
+            if (result.Data == null || !result.Data.ContainsKey("playerInformationPortionCount")) Debug.Log("No playerInformationPortionCount");
             else Debug.Log("playerInformationPortionCount: " + result.Data["playerInformationPortionCount"].Value);
 
-            
+
         },
-        error => {
+        error =>
+        {
             Debug.Log("Got error getting Regular Publisher Data:");
             Debug.Log(error.GenerateErrorReport());
         });
@@ -117,7 +120,7 @@ public class JsonManager : MonoBehaviour
     }
 
 
-   
+
 
 }
 
