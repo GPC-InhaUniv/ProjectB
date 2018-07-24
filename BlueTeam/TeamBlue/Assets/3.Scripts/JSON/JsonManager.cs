@@ -1,20 +1,30 @@
 ﻿
+using PlayFab;
+using PlayFab.ClientModels;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class JsonManager : MonoBehaviour
 {
     string assetBundleDirectory;
-    string playerInformation;
+    string playerInformationLv;
+    string playerInformationExp;
+    string playerInformationPortionCount;
+
     private void Start()
     {
 #if UNITY_ANDROID
-        assetBundleDirectory = Application.persistentDataPath+ "/10.JsonFolder";
+        assetBundleDirectory = Application.persistentDataPath + "/10.JsonFolder";
 #else
         assetBundleDirectory="Assets/10.JsonFolder";
 #endif
     }
 
+    public void PlusPortion()
+    {
+        GameData.Instance.playerInfomation.PortionCount++;
+    }
 
     //제이슨 파일 저장
     public void OnClickSaveJSONBtn()
@@ -22,11 +32,34 @@ public class JsonManager : MonoBehaviour
         Data mydata = new Data();
         string save = JsonUtility.ToJson(mydata, prettyPrint: true);
         Debug.Log(save);
-
-
         WriteStringToFile(save, "save.json");
 
+        ClientSetUserPublisherData();
 
+    }
+
+    public void ClientSetUserPublisherData()
+    {
+        string load = ReadStringFromFile("save.json");
+        var loadData = JsonUtility.FromJson<Data>(load);
+        playerInformationLv = loadData.playerInfomation.PlayerLevel.ToString();
+        playerInformationExp = loadData.playerInfomation.PlayerExp.ToString();
+        playerInformationPortionCount = loadData.playerInfomation.PortionCount.ToString();
+
+        PlayFabClientAPI.UpdateUserPublisherData(new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>() {
+             { "playerInformationLv", playerInformationLv},
+                {"playerInformationExp",playerInformationExp },
+                {"playerInformationPortionCount",playerInformationPortionCount }
+         }
+        },
+        result => Debug.Log("Complete setting Regular User Publisher Data"),
+        error =>
+        {
+            Debug.Log("Error setting Regular User Publisher Data");
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
 
     //제이슨 파일 로드
@@ -34,15 +67,32 @@ public class JsonManager : MonoBehaviour
     {
         string load = ReadStringFromFile("save.json");
         var loadData = JsonUtility.FromJson<Data>(load);
-        playerInformation = loadData.playerInfomation.PlayerLevel.ToString();
         Debug.Log(load);
-        Debug.Log(playerInformation);
-       
+
+        ClientGetUserPublisherData();
+    }
+    
+    // Use client API to get Regular User Publisher Data for selected user 
+    public void ClientGetUserPublisherData()
+    {
+        PlayFabClientAPI.GetUserPublisherData(new GetUserDataRequest()
+        {
+         //   PlayFabId = "12341234"
+        }, result => {
+            if (result.Data == null || !result.Data.ContainsKey("playerInformationPortionCount")) Debug.Log("No SomeKey");
+            else Debug.Log("playerInformationPortionCount: " + result.Data["playerInformationPortionCount"].Value);
+
+            
+        },
+        error => {
+            Debug.Log("Got error getting Regular Publisher Data:");
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
 
     private string ReadStringFromFile(string path)
     {
-        string text = System.IO.File.ReadAllText(assetBundleDirectory+ "/" + path);
+        string text = System.IO.File.ReadAllText(assetBundleDirectory + "/" + path);
 
         return text;
     }
@@ -65,6 +115,10 @@ public class JsonManager : MonoBehaviour
         }
 
     }
+
+
+   
+
 }
 
 

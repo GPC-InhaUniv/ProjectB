@@ -129,16 +129,20 @@ public class LoadAssetBundleExample : MonoBehaviour
     public void LoginBtn()
     {
         AccountInfo.Login("12341234", "123123");
+
+    }
+
+    public void LoadAssets()
+    {
 #if UNITY_ANDROID
 
         StartCoroutine(TestLoadAssetBundle_Android());
         StartCoroutine(SaveAssetBundleOnDisk());
-        DebugLog.SaveLog(this, "PlayerID:"+ 123123); 
+        DebugLog.SaveLog(this, "PlayerID:" + 123123);
 #else
         StartCoroutine(LoadAssetBundle());
         DebugLog.SaveLog(this, "PlayerID:" + 123123);
 #endif
-
     }
 
 }
