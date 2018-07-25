@@ -74,7 +74,7 @@ namespace PlayFab.Json
                 if (valueStr == null) // For all of our custom conversions, value is a string
                     return base.DeserializeObject(value, type);
 
-                var underType = Nullable.GetUnderlyingType(type);
+                var underType = System.Nullable.GetUnderlyingType(type);
                 if (underType != null)
                     return DeserializeObject(value, underType);
                 else if (type.GetTypeInfo().IsEnum)

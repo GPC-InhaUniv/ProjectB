@@ -60,7 +60,7 @@ namespace PlayFab.PfEditor
                 if (valueStr == null) // For all of our custom conversions, value is a string
                     return base.DeserializeObject(value, type);
 
-                Type underType = Nullable.GetUnderlyingType(type);
+                Type underType = System.Nullable.GetUnderlyingType(type);
                 if (underType != null)
                     return DeserializeObject(value, underType);
 #if NETFX_CORE
