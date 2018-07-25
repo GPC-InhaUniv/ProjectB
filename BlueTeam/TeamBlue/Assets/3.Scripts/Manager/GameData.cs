@@ -95,8 +95,8 @@ public struct Item
 
 public class GameData : Singleton<GameData>
 {
-    const int MAXDUNGEONCOUNT = 4;
-    const int MAXITEMCOUNT = 9;
+    public const int MAXDUNGEONCOUNT = 4;
+    public const int MAXITEMCOUNT = 9;
     public PlayerInformation playerInfomation;
     public TownInformation AtownInformation;
     public TownInformation BtownInformation;
@@ -112,8 +112,7 @@ public class GameData : Singleton<GameData>
 
 
     private void Start()
-    {
-
+    { 
         inventoryItems = new Item(0,0,0,0,0);
         wareHouseItems = new Item(0, 0, 0, 0, 0);
         AtownInformation = new TownInformation(0,0);
@@ -129,29 +128,5 @@ public class GameData : Singleton<GameData>
         }
 
     }
-
-
-
-
-    //public void ChangeResource(GameResources type, int count)
-    //{
-    //    switch (type)
-    //    {
-    //        case GameResources.Brick:
-    //            brick += count;
-    //            break;
-    //        case GameResources.Wood:
-    //            wood += count;
-    //            break;
-    //        case GameResources.Iron:
-    //            iron += count;
-    //            break;
-    //        case GameResources.Sheep:
-    //            sheep += count;
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
 
 }

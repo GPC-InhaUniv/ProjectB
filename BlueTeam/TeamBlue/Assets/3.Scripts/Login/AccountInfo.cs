@@ -41,6 +41,7 @@ public class AccountInfo : MonoBehaviour
     public static void Register(string username, string password)
     {
         string email = username + "@temp.com";
+
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest()
         {
             TitleId = PlayFabSettings.TitleId,

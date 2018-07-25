@@ -38,7 +38,7 @@ public class LoadAssetBundleExample : MonoBehaviour
 
     IEnumerator SaveAssetBundleOnDisk(string URL,string AssetName)
     {
-
+        
         // 에셋 번들을 받아오고자하는 서버의 주소
 
         // 지금은 주소와 에셋 번들 이름을 함께 묶어 두었지만
