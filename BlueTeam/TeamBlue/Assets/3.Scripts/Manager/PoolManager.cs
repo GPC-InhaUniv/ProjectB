@@ -16,6 +16,10 @@ using UnityEngine;
 
 public class PoolManager : Singleton<PoolManager> {
 
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     enum ObjectType
     {
         monster,
