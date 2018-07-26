@@ -12,7 +12,6 @@ public class Named : Monster {
         monsterMove = GetComponent<MonsterMove>();
         animator = GetComponent<Animator>();
         startPosition = transform.position;
-        StartCoroutine(Waliking());
     }
 
     // Update is called once per frame
@@ -23,17 +22,17 @@ public class Named : Monster {
             switch (state)
             {
                 case State.Walking:
-                    StartCoroutine(Waliking());
+                    StartCoroutine(Walk());
                     Debug.Log("ggo");
                     break;
                 case State.Chasing:
-                    Chasing();
+                    ChaseTarget();
                     break;
                 case State.Attacking:
-                    Attack();
+                    AttackTarget();
                     break;
                 case State.Skilling:
-                    SkillUse();
+                    UseSkill();
                     break;
                 case State.Died:
                     Died();
@@ -41,25 +40,16 @@ public class Named : Monster {
             }
         }
     }
-    protected override void Attack()
+    protected override void AttackTarget()
     {
-        attacking = true;
+
 
         //look toward player
-        Vector3 targetDirection = (attackTarget.position - transform.position).normalized;
-        monsterMove.SetDirection(targetDirection);
-        monsterMove.StopMove();
-        if (attacking == true)
-        {
-            animator.SetInteger("moving", 3);
-            attacking = false;
-            //ChangeState(State.Walking);
-            Debug.Log("물어");
-
-            //타겟이 바로 해제되지않게 할것
-            attackTarget = null;
-
-        }
+        //Vector3 targetDirection = (attackTarget.position - transform.position).normalized;
+        //Debug.Log(targetDirection);
+        //monsterMove.SetDirection(targetDirection);
+        //monsterMove.StopMove();
+            animator.SetTrigger("Attack");
 
 
         //if (charaAnimation.IsAttacked())
@@ -68,9 +58,15 @@ public class Named : Monster {
         // 타겟을 리셋한다.
     }
 
-    protected override void SkillUse()
+    protected override void UseSkill()
     {
         throw new System.NotImplementedException();
     }
+
+    //protected void Endattack()
+    //{
+    //    ChangeState(State.Chasing);
+    //    Debug.Log("EndAttack");
+    //}
 
 }

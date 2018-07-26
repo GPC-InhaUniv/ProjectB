@@ -68,17 +68,17 @@ public abstract class Monster : MonoBehaviour
         switch (state)
         {
             case State.Walking:
-                StartCoroutine(Waliking());
+                StartCoroutine(Walk());
                 Debug.Log("ggo");
                 break;
             case State.Chasing:
-                Chasing();
+                ChaseTarget();
                 break;
             case State.Attacking:
-                Attack();
+                AttackTarget();
                 break;
             case State.Skilling:
-                SkillUse();
+                UseSkill();
                 break;
             case State.Died:
                 Died();
@@ -96,8 +96,8 @@ public abstract class Monster : MonoBehaviour
     }
 
 
-    protected abstract void Attack();
-    protected abstract void SkillUse();
+    protected abstract void AttackTarget();
+    protected abstract void UseSkill();
 
     protected void Damaged()
     {
@@ -117,7 +117,7 @@ public abstract class Monster : MonoBehaviour
     }
 
 
-    protected IEnumerator Waliking()
+    protected IEnumerator Walk()
     {
         isCoroutineRunning = true;
         if (attackTarget)
@@ -140,7 +140,9 @@ public abstract class Monster : MonoBehaviour
             monsterMove.SetDirection(destinationPosition);
 
 
-            yield return new WaitForSeconds(2.0f);
+            const float IDELTIME = 2f;
+
+            yield return new WaitForSeconds(IDELTIME);
 
 
             //float distance = Vector3.Distance(transform.position, destinationPosition);
@@ -152,7 +154,7 @@ public abstract class Monster : MonoBehaviour
         }
         isCoroutineRunning = false;
     }
-    protected void Chasing()
+    protected void ChaseTarget()
     {
         //SetDestination to Player
         monsterMove.SetDestination(attackTarget.position, speed + 3);
@@ -164,6 +166,17 @@ public abstract class Monster : MonoBehaviour
         // 2미터 이내로 접근하면 공격한다.
         float attackRange = 1.5f;
         if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+        {
             ChangeState(State.Attacking);
+            animator.SetInteger("moving", 0);
+
+        }
     }
+
+    protected void Endattack()
+    {
+        ChangeState(State.Chasing);
+        Debug.Log("EndAttack");
+    }
+
 }
