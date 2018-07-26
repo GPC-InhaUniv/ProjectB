@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 8652435d5c71bf04689e00c7916fc0a6
-timeCreated: 1532063655
+guid: dbf56a2f115611140a6894b76c521298
+timeCreated: 1532589145
 licenseType: Free
 NativeFormatImporter:
   mainObjectFileID: 100100000
   userData: 
-  assetBundleName: publicbundle/ui
+  assetBundleName: townbundle
   assetBundleVariant: 
