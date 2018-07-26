@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-
 public abstract class TradeHandler
 {
     protected TradeHandler nextTrade;
@@ -24,10 +23,11 @@ public abstract class TradeHandler
 
     }
 
-    //public abstract void TradeBrick(ref Item playerResources, ref Item otherResources, TownInformation relationShipInfo);
+    public abstract void TradeResources(ref Item playerResources, ref Item otherResources, TownInformation relationShipInfo, int resourceCount);
+
     //public abstract void TradeWood(ref Item playerResources, ref Item otherResources, TownInformation relationShipInfo);
     //public abstract void TradeIron(ref Item playerResources, ref Item otherResources, TownInformation relationShipInfo);
     //public abstract void TradeSheep(ref Item playerResources, ref Item otherResources, TownInformation relationShipInfo);
 
-    public abstract void TradeResources(ref Item playerResources, ref Item otherResources, TownInformation relationShipInfo, int resourceCount);
+
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloudyState : MonoBehaviour, IWeatherState
+public class CloudyState : Weather
 {
     bool isCloudy = false;
 
-    public bool SetWeatherState(bool weatherState)
+    public override bool SetWeatherState(bool weatherState)
     {
         this.isCloudy = weatherState;
 
