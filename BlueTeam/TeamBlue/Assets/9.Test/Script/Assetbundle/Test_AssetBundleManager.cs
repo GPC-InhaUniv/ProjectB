@@ -13,15 +13,53 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     public string AssetName;
 
-    public string path;
+    //public string path;
 
-    public AssetBundle player;
-    private void Start()
+    public AssetBundle PlayerBundle;
+    public AssetBundle PublicAssetBundle;
+
+    public AssetBundle Scene;
+    public AssetBundle Monster;
+    public AssetBundle Model;
+
+
+    void Start()
     {
-        path =Application.persistentDataPath + "/AssetBundles/character.unity3d";
-        StartCoroutine(test());
+            StartCoroutine(LoadAssetBundle());
+    }
+   
+    string SetPath(string assetName)
+    {
+        return Application.persistentDataPath + "/AssetBundles/" + assetName;//".unity3d";
     }
 
+    IEnumerator LoadedAssetBundles()
+    {
+       PlayerBundle = AssetBundle.LoadFromFile(SetPath("character"));
+        
+        //  PublicAssetBundle = AssetBundle.LoadFromFile(SetPath("publicassets"));
+        if ( PublicAssetBundle ==null)
+        {
+            Debug.Log("Fail");
+            yield break;
+        }
+        else
+            Debug.Log("Successe");
+    }
+
+    IEnumerator LoadAssetBundle()
+    {
+        Monster = AssetBundle.LoadFromFile(SetPath("brickdungeon/monster"));
+        if (Monster == null)
+        {
+            Debug.Log("Fail");
+            yield break;
+        }
+        else
+            Debug.Log("Successe");
+    }
+
+    /*
     IEnumerator test()
     {
 
@@ -37,7 +75,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
        
 
-        /*
+        
        using (WWW www = new WWW(path))
        {
            yield return www;
@@ -51,6 +89,6 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
        yield return StartCoroutine(request);
        GameObject prefab = request.GetAsset<GameObject>();
        if (prefab != null)
-           GameObject.Instantiate(prefab);*/
-    }
+           GameObject.Instantiate(prefab);
+    }*/
 }
