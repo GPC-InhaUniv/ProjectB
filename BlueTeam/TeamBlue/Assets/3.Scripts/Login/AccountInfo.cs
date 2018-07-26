@@ -8,10 +8,10 @@ using System;
 
 public class AccountInfo : MonoBehaviour
 {
-    private static AccountInfo instance;  
+    static AccountInfo instance;  
 
     [SerializeField]
-    private GetPlayerCombinedInfoResultPayload info;
+    GetPlayerCombinedInfoResultPayload info;
 
     public GetPlayerCombinedInfoResultPayload Info
     {
@@ -26,7 +26,7 @@ public class AccountInfo : MonoBehaviour
         set { instance = value; }
     }
 
-    private void Awake()
+    void Awake()
     {
         if (instance == null)
         {

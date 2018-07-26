@@ -8,13 +8,13 @@ using System.IO;
 public class LoadAssetBundleExample : MonoBehaviour
 {
     [SerializeField]
-    private InputField IdInputField;
+     InputField IdInputField;
     [SerializeField]
-    private InputField PwInputFiled;
+     InputField PwInputFiled;
 
 
-    private string BundleURL;
-    private string BundleURL2;
+     string BundleURL;
+     string BundleURL2;
 
     string savePath;
     // 번들의 version 
@@ -137,11 +137,6 @@ public class LoadAssetBundleExample : MonoBehaviour
     public void LoginBtn()
     {
 
-        //if (IdInputField.text == null || PwInputFiled.text == null)
-        //{
-
-        //}
-        //else AccountInfo.Login(IdInputField.text, PwInputFiled.text);
         Debug.Log("개발용 로그인");
         AccountInfo.Login("12341234", "123123");
     }
@@ -149,7 +144,6 @@ public class LoadAssetBundleExample : MonoBehaviour
     public void LoadAssets()
     {
 #if UNITY_ANDROID
-
         StartCoroutine(TestLoadAssetBundle_Android(BundleURL));
         StartCoroutine(LoadAssetBundle_Android(BundleURL2));
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL,"Riko"));
