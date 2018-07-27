@@ -6,6 +6,16 @@ using UnityEngine.SceneManagement;
 /// http://wergia.tistory.com/36?category=737654
 /// </summary>
 
+public enum AreaType
+{
+    Null,
+    Town,
+    WoodDungeon,
+    IronDungeon,
+    BrickDungeon,
+    SheepDungeon,
+}
+
 public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
 
@@ -17,28 +27,55 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     public AssetBundle PlayerBundle;
     public AssetBundle PublicAssetBundle;
-
-    public AssetBundle Scene;
-    public AssetBundle Monster;
-    public AssetBundle Model;
-
+    public AssetBundle Area;
+    public AreaType currentArea;
 
     void Start()
     {
-            StartCoroutine(LoadAssetBundle());
+        DontDestroyOnLoad(gameObject);
+        StartCoroutine(LoadedAssetBundles());
     }
-   
+
+    public void LoadArea(AreaType areaType)
+    {
+        if (currentArea == areaType)
+            return;
+        string bundleName;
+        switch (areaType)
+        {
+            case AreaType.Town:
+                bundleName = "townbundle";
+                break;
+            case AreaType.WoodDungeon:
+                bundleName = "wooddungeonbundle";
+                break;
+            case AreaType.IronDungeon:
+                bundleName = "irondungeonbundle";
+                break;
+            case AreaType.BrickDungeon:
+                bundleName = "brickdungeonbundle";
+                break;
+            case AreaType.SheepDungeon:
+                bundleName = "sheepdungeonbundle";
+                break;
+            default:
+                bundleName = null;
+                break;
+        }
+        currentArea = areaType;
+        StartCoroutine(LoadAssetBundle(bundleName));
+    }
+
     string SetPath(string assetName)
     {
-        return Application.persistentDataPath + "/AssetBundles/" + assetName;//".unity3d";
+        return Application.persistentDataPath + "/AssetBundles/" + assetName;// + ".unity3d";
     }
-
+    
     IEnumerator LoadedAssetBundles()
     {
-       PlayerBundle = AssetBundle.LoadFromFile(SetPath("character"));
-        
-        //  PublicAssetBundle = AssetBundle.LoadFromFile(SetPath("publicassets"));
-        if ( PublicAssetBundle ==null)
+        PlayerBundle = AssetBundle.LoadFromFile(SetPath("plyaerbundle"));
+        PublicAssetBundle = AssetBundle.LoadFromFile(SetPath("publicbundles"));
+        if (PlayerBundle == null ||PublicAssetBundle == null)
         {
             Debug.Log("Fail");
             yield break;
@@ -47,10 +84,19 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
             Debug.Log("Successe");
     }
 
-    IEnumerator LoadAssetBundle()
+    IEnumerator LoadAssetBundle(string areaType)
     {
-        Monster = AssetBundle.LoadFromFile(SetPath("brickdungeon/monster"));
-        if (Monster == null)
+        
+        if (areaType == null)
+            yield break;
+        if (Area != null)
+        {
+            Area.Unload(true);
+            Area = null;
+        }
+
+        Area = AssetBundle.LoadFromFile(SetPath(areaType));
+        if (Area == null)
         {
             Debug.Log("Fail");
             yield break;
@@ -59,36 +105,30 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
             Debug.Log("Successe");
     }
 
-    /*
-    IEnumerator test()
+    public GameObject LoadObject()
     {
+        GameObject gameObject;
+        gameObject = Instantiate(Area.LoadAsset(AssetName) as GameObject);
+        return gameObject;
+    }
 
-        player = AssetBundle.LoadFromFile(path);
-        if (player == null)
+    public void LoadScene()
+    {
+        string[] scene = Area.GetAllScenePaths();
+        string loadScenePath = null;
+
+        foreach(string sname in scene)
         {
-            Debug.Log("Fail");
-            yield break;
-
+            if(sname.Contains(AssetName))
+            {
+                loadScenePath = sname;
+            }
         }
-        else
-            Debug.Log("Successe");
 
-       
+        if (loadScenePath == null)
+            return;
 
-        
-       using (WWW www = new WWW(path))
-       {
-           yield return www;
-           AssetBundle bundle = www.assetBundle;
-       }
+        SceneManager.LoadScene(loadScenePath);
+    }
 
-       AssetBundleLoadAssetOperation request = AssetBundleManager.LoadAssetAsync("test", "TestBundle", typeof(GameObject));
-
-       if (request == null)
-           yield break;
-       yield return StartCoroutine(request);
-       GameObject prefab = request.GetAsset<GameObject>();
-       if (prefab != null)
-           GameObject.Instantiate(prefab);
-    }*/
 }
