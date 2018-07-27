@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using MonsterAI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Named : Monster {
 
-
+    
     // Use this for initialization
     void Start()
     {
@@ -12,6 +13,11 @@ public class Named : Monster {
         monsterMove = GetComponent<MonsterMove>();
         animator = GetComponent<Animator>();
         startPosition = transform.position;
+
+        waitBaseTime = 2.0f;
+
+        waitTime = waitBaseTime;
+
     }
 
     // Update is called once per frame
@@ -22,8 +28,20 @@ public class Named : Monster {
             switch (state)
             {
                 case State.Walking:
-                    StartCoroutine(Walk());
-                    Debug.Log("ggo");
+                    Walkaround();
+                    break;
+                case State.Chasing:
+                    ChaseTarget();
+                    break;
+            }
+        }
+        if (state != currentState)
+        {
+            state = currentState;
+            switch (state)
+            {
+                case State.Walking:
+                    Walkaround();
                     break;
                 case State.Chasing:
                     ChaseTarget();
@@ -39,23 +57,16 @@ public class Named : Monster {
                     break;
             }
         }
+
+
     }
     protected override void AttackTarget()
     {
 
+        animator.SetInteger("Attack",1);
 
-        //look toward player
-        //Vector3 targetDirection = (attackTarget.position - transform.position).normalized;
-        //Debug.Log(targetDirection);
-        //monsterMove.SetDirection(targetDirection);
-        //monsterMove.StopMove();
-            animator.SetTrigger("Attack");
+        Debug.Log("ATTTTTAck");
 
-
-        //if (charaAnimation.IsAttacked())
-        //    ChangeState(State.Walking);
-        // 대기 시간을 다시 설정한다.
-        // 타겟을 리셋한다.
     }
 
     protected override void UseSkill()
@@ -63,10 +74,6 @@ public class Named : Monster {
         throw new System.NotImplementedException();
     }
 
-    //protected void Endattack()
-    //{
-    //    ChangeState(State.Chasing);
-    //    Debug.Log("EndAttack");
-    //}
+
 
 }
