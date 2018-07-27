@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// http://wergia.tistory.com/36?category=737654
 /// </summary>
-
+using UnityEngine.UI;
 public enum AreaType
 {
     Null,
@@ -24,7 +24,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     public string AssetName;
 
     //public string path;
-
+    public Text Log;
     public AssetBundle PlayerBundle;
     public AssetBundle PublicAssetBundle;
     public AssetBundle Area;
@@ -96,6 +96,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         }
 
         Area = AssetBundle.LoadFromFile(SetPath(areaType));
+        
         if (Area == null)
         {
             Debug.Log("Fail");
@@ -114,12 +115,14 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     public void LoadScene()
     {
-        string[] scene = Area.GetAllScenePaths();
-        string loadScenePath = null;
+         string[] scene = Area.GetAllScenePaths();
+         string loadScenePath = null;
 
-        foreach(string sname in scene)
+        Log.text = scene.Length.ToString();
+
+        foreach (string sname in scene)
         {
-            if(sname.Contains(AssetName))
+            if(sname.Contains("Villige_Sence"))
             {
                 loadScenePath = sname;
             }
@@ -128,7 +131,11 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         if (loadScenePath == null)
             return;
 
-        SceneManager.LoadScene(loadScenePath);
+        LoadSceneMode loadmode;
+        loadmode = LoadSceneMode.Single;
+
+
+        SceneManager.LoadScene(loadScenePath,loadmode);
     }
 
 }
