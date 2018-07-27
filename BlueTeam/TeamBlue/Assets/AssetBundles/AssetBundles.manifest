@@ -1,46 +1,10 @@
 ManifestFileVersion: 0
-CRC: 3521519063
+CRC: 4012148988
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: playerbundle
-      Dependencies: {}
-    Info_1:
       Name: townbundle
       Dependencies: {}
-    Info_2:
-      Name: publicbundle/sound/bgm
-      Dependencies: {}
-    Info_3:
-      Name: brickdungeon/monster
-      Dependencies: {}
-    Info_4:
-      Name: brickdungeon/scene
-      Dependencies: {}
-    Info_5:
-      Name: publicbundle/sound/fx
-      Dependencies: {}
-    Info_6:
-      Name: irondungeon/monster
-      Dependencies: {}
-    Info_7:
-      Name: irondungeon/scene
-      Dependencies: {}
-    Info_8:
-      Name: publicbundle/particle
-      Dependencies: {}
-    Info_9:
-      Name: sheepdungeon/monster
-      Dependencies: {}
-    Info_10:
-      Name: sheepdungeon/scene
-      Dependencies: {}
-    Info_11:
-      Name: publicbundle/ui
-      Dependencies: {}
-    Info_12:
-      Name: wooddungeon/monster
-      Dependencies: {}
-    Info_13:
-      Name: wooddungeon/scene
+    Info_1:
+      Name: brickdungeonbundle
       Dependencies: {}
