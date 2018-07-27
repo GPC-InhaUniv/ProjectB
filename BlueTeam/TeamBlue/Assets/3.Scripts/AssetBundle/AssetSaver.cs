@@ -49,8 +49,7 @@ public class AssetSaver : MonoBehaviour {
         // 파일 입출력을 통해 받아온 에셋을 저장하는 과정
         FileStream fs = new FileStream(assetBundleDirectory + "/" + "character.unity3d", System.IO.FileMode.Create);
         fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
-        fs.Close();
-     
+        fs.Close();     
     }
 
     private void Start()

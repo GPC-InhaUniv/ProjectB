@@ -7,8 +7,15 @@ using System.IO;
 
 public class LoadAssetBundleExample : MonoBehaviour
 {
+    [SerializeField]
+     InputField IdInputField;
+    [SerializeField]
+     InputField PwInputFiled;
 
-    private string BundleURL;
+
+     string BundleURL;
+     string BundleURL2;
+
     string savePath;
     // 번들의 version 
     public int version;
@@ -21,22 +28,23 @@ public class LoadAssetBundleExample : MonoBehaviour
     {
 
 #if UNITY_ANDROID
-  //  BundleURL = "https://docs.google.com/uc?export=download&id=18ic7M3z4M1XFhPGZ4BndeoUgONdQ8GZg";
-        BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";
+  
+        BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
+        BundleURL2= "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";  //CUBE URL
 #else
     BundleURL = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";
 #endif
     }
 
-    IEnumerator SaveAssetBundleOnDisk()
+    IEnumerator SaveAssetBundleOnDisk(string URL,string AssetName)
     {
-
+        
         // 에셋 번들을 받아오고자하는 서버의 주소
 
         // 지금은 주소와 에셋 번들 이름을 함께 묶어 두었지만
 
         // 주소 + 에셋 번들 이름 형태를 띄는 것이 좋다.
-        string uri = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";
+        string uri = URL;
 
         // 웹 서버에 요청을 생성한다.
         UnityWebRequest request = UnityWebRequest.Get(uri);
@@ -54,7 +62,7 @@ public class LoadAssetBundleExample : MonoBehaviour
         }
 
         // 파일 입출력을 통해 받아온 에셋을 저장하는 과정
-        FileStream fs = new FileStream(assetBundleDirectory + "/" + "character.unity3d", System.IO.FileMode.Create);
+        FileStream fs = new FileStream(assetBundleDirectory + "/" + AssetName+".unity3d", System.IO.FileMode.Create);
         fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
         fs.Close();
 
@@ -62,9 +70,9 @@ public class LoadAssetBundleExample : MonoBehaviour
 
 
 
-    IEnumerator LoadAssetBundle_Android()
+    IEnumerator LoadAssetBundle_Android(string URL)
     {
-        string uri = BundleURL;
+        string uri = URL;
         UnityWebRequest request = UnityWebRequest.GetAssetBundle(uri, 0);
         yield return request.Send();
 
@@ -108,9 +116,9 @@ public class LoadAssetBundleExample : MonoBehaviour
         } // using문은 File 및 Font 처럼 컴퓨터 에서 관리되는 리소스들을 쓰고 나서 쉽게 자원을 되돌려줄수 있도록 기능을 제공 
     }
 
-    IEnumerator TestLoadAssetBundle_Android()
+    IEnumerator TestLoadAssetBundle_Android(string URL)
     {
-        string uri = BundleURL;
+        string uri = URL;
         UnityWebRequest request = UnityWebRequest.GetAssetBundle(uri, 0);
         yield return request.Send();
 
@@ -121,24 +129,30 @@ public class LoadAssetBundleExample : MonoBehaviour
         yield return request;
         GameObject obj = Instantiate(bundleRequest.asset) as GameObject;
         obj.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-
- 
     }
+
+   
 
 
     public void LoginBtn()
     {
-        AccountInfo.Login("12341234", "123123");
-#if UNITY_ANDROID
 
-        StartCoroutine(TestLoadAssetBundle_Android());
-        StartCoroutine(SaveAssetBundleOnDisk());
-        DebugLog.SaveLog(this, "PlayerID:"+ 123123); 
+        Debug.Log("개발용 로그인");
+        AccountInfo.Login("12341234", "123123");
+    }
+
+    public void LoadAssets()
+    {
+#if UNITY_ANDROID
+        StartCoroutine(TestLoadAssetBundle_Android(BundleURL));
+        StartCoroutine(LoadAssetBundle_Android(BundleURL2));
+        StartCoroutine(SaveAssetBundleOnDisk(BundleURL,"Riko"));
+        StartCoroutine(SaveAssetBundleOnDisk(BundleURL2,"Cube"));
+        DebugLog.SaveLog(this, "PlayerID:" + 123123);
 #else
         StartCoroutine(LoadAssetBundle());
         DebugLog.SaveLog(this, "PlayerID:" + 123123);
 #endif
-
     }
 
 }

@@ -1363,11 +1363,11 @@ namespace PlayFab.PfEditor.Json
             {
                 if (str.Length != 0) // We know it can't be null now.
                 {
-                    if (type == typeof(DateTime) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTime)))
+                    if (type == typeof(DateTime) || (ReflectionUtils.IsNullableType(type) && System.Nullable.GetUnderlyingType(type) == typeof(DateTime)))
                         return DateTime.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-                    if (type == typeof(DateTimeOffset) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset)))
+                    if (type == typeof(DateTimeOffset) || (ReflectionUtils.IsNullableType(type) && System.Nullable.GetUnderlyingType(type) == typeof(DateTimeOffset)))
                         return DateTimeOffset.ParseExact(str, Iso8601Format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
-                    if (type == typeof(Guid) || (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid)))
+                    if (type == typeof(Guid) || (ReflectionUtils.IsNullableType(type) && System.Nullable.GetUnderlyingType(type) == typeof(Guid)))
                         return new Guid(str);
                     if (type == typeof(Uri))
                     {
@@ -1389,13 +1389,13 @@ namespace PlayFab.PfEditor.Json
                 {
                     if (type == typeof(Guid))
                         obj = default(Guid);
-                    else if (ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
+                    else if (ReflectionUtils.IsNullableType(type) && System.Nullable.GetUnderlyingType(type) == typeof(Guid))
                         obj = null;
                     else
                         obj = str;
                 }
                 // Empty string case
-                if (!ReflectionUtils.IsNullableType(type) && Nullable.GetUnderlyingType(type) == typeof(Guid))
+                if (!ReflectionUtils.IsNullableType(type) && System.Nullable.GetUnderlyingType(type) == typeof(Guid))
                     return str;
             }
             else if (value is bool)
@@ -1404,7 +1404,7 @@ namespace PlayFab.PfEditor.Json
             bool valueIsLong = value is long;
             bool valueIsUlong = value is ulong;
             bool valueIsDouble = value is double;
-            Type nullableType = Nullable.GetUnderlyingType(type);
+            Type nullableType = System.Nullable.GetUnderlyingType(type);
             if (nullableType != null && PlayFabSimpleJson.NumberTypes.IndexOf(nullableType) != -1)
                 type = nullableType; // Just use the regular type for the conversion
             bool isNumberType = PlayFabSimpleJson.NumberTypes.IndexOf(type) != -1;
@@ -1758,7 +1758,7 @@ namespace PlayFab.PfEditor.Json
 
         public static object ToNullableType(object obj, Type nullableType)
         {
-            return obj == null ? null : Convert.ChangeType(obj, Nullable.GetUnderlyingType(nullableType), CultureInfo.InvariantCulture);
+            return obj == null ? null : Convert.ChangeType(obj, System.Nullable.GetUnderlyingType(nullableType), CultureInfo.InvariantCulture);
         }
 
         public static bool IsValueType(Type type)

@@ -1,62 +1,66 @@
 ﻿
+using PlayFab;
+using PlayFab.ClientModels;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class JsonManager : MonoBehaviour
 {
     string assetBundleDirectory;
-    string playerInformation;
-    private void Start()
+
+    void Start()
     {
+
 #if UNITY_ANDROID
-        assetBundleDirectory = Application.persistentDataPath+ "/10.JsonFolder";
+        assetBundleDirectory = Application.persistentDataPath + "/10.JsonFolder";
 #else
         assetBundleDirectory="Assets/10.JsonFolder";
 #endif
     }
 
+   
 
     //제이슨 파일 저장
     public void OnClickSaveJSONBtn()
     {
+        GameData.Instance.SetGameDataToServer();
         Data mydata = new Data();
         string save = JsonUtility.ToJson(mydata, prettyPrint: true);
         Debug.Log(save);
-
-
         WriteStringToFile(save, "save.json");
 
-
     }
+
 
     //제이슨 파일 로드
     public void OnClickLoadJSONBtn()
     {
+        GameData.Instance.GetGameDataFromServer();
         string load = ReadStringFromFile("save.json");
         var loadData = JsonUtility.FromJson<Data>(load);
-        playerInformation = loadData.playerInfomation.PlayerLevel.ToString();
         Debug.Log(load);
-        Debug.Log(playerInformation);
-       
+        
     }
 
-    private string ReadStringFromFile(string path)
+   
+
+    string ReadStringFromFile(string path)
     {
-        string text = System.IO.File.ReadAllText(assetBundleDirectory+ "/" + path);
+        string text = System.IO.File.ReadAllText(assetBundleDirectory + "/" + path);
 
         return text;
     }
 
 
-    private void WriteStringToFile(string text, string path)
+    void WriteStringToFile(string text, string path)
     {
-
         // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
         if (!Directory.Exists(assetBundleDirectory))
         {
             Directory.CreateDirectory(assetBundleDirectory);
         }
-
 
         using (System.IO.StreamWriter file =
              new System.IO.StreamWriter(assetBundleDirectory + "/" + path, false))
@@ -65,27 +69,31 @@ public class JsonManager : MonoBehaviour
         }
 
     }
+
 }
 
 
 [SerializeField]
 public class Data
 {
-    public PlayerInformation playerInfomation;
-    public TownInformation AtownInformation;
-    public TownInformation BtownInformation;
-    public Equipment equipment;
-    public Item inventoryItems;
-    public Item wareHouseItems;
+    public PlayerInformation PlayerInfomation;
+    public TownInformation ATownInformation;
+    public TownInformation BTownInformation;
+    public Equipment Equipment;
+    public Item InventoryItems;
+    public Item WareHouseItems;
+    public DevelopmentCard Card;
 
     public Data()
     {
-        playerInfomation = GameData.Instance.playerInfomation;
-        AtownInformation = GameData.Instance.AtownInformation;
-        BtownInformation = GameData.Instance.BtownInformation;
-        equipment = GameData.Instance.equipment;
-        inventoryItems = GameData.Instance.inventoryItems;
-        wareHouseItems = GameData.Instance.wareHouseItems;
+        PlayerInfomation = GameData.Instance.playerInfomation;
+        ATownInformation = GameData.Instance.AtownInformation;
+        BTownInformation = GameData.Instance.BtownInformation;
+        Equipment = GameData.Instance.equipment;
+        InventoryItems = GameData.Instance.inventoryItem;
+        WareHouseItems = GameData.Instance.wareHouseItem;
+        Card = GameData.Instance.card;
+
     }
 }
 

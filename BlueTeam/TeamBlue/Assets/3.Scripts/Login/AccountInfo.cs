@@ -8,10 +8,10 @@ using System;
 
 public class AccountInfo : MonoBehaviour
 {
-    private static AccountInfo instance;  
+    static AccountInfo instance;  
 
     [SerializeField]
-    private GetPlayerCombinedInfoResultPayload info;
+    GetPlayerCombinedInfoResultPayload info;
 
     public GetPlayerCombinedInfoResultPayload Info
     {
@@ -26,7 +26,7 @@ public class AccountInfo : MonoBehaviour
         set { instance = value; }
     }
 
-    private void Awake()
+    void Awake()
     {
         if (instance == null)
         {
@@ -38,8 +38,10 @@ public class AccountInfo : MonoBehaviour
         }
     }
 
-    public static void Register(string username, string email, string password)
+    public static void Register(string username, string password)
     {
+        string email = username + "@temp.com";
+
         RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest()
         {
             TitleId = PlayFabSettings.TitleId,
@@ -57,8 +59,6 @@ public class AccountInfo : MonoBehaviour
     static void OnRegister(RegisterPlayFabUserResult result)
     {
         Debug.Log("Registered with: " + result.PlayFabId);
-        Instance.SetUpAccount();
-        Debug.Log("계정 생성 완료!");
 
     }
 
@@ -118,12 +118,6 @@ public class AccountInfo : MonoBehaviour
     void SetUpAccount()
     {
         Dictionary<string, string> data = new Dictionary<string, string>();
-
-        data.Add("PlayerMoney", "1000");
-        data.Add("PlayerDiamondCount", "0");
-        data.Add("CompleteStageNumber", "0");
-        data.Add("CleardStageScore", "0");
-        data.Add("PlayerPlaneCount", "0");
 
         UpdateUserDataRequest request = new UpdateUserDataRequest()
         {
