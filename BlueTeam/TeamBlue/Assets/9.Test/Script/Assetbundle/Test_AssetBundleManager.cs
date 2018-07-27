@@ -33,7 +33,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        StartCoroutine(LoadedAssetBundles());
+       // StartCoroutine(LoadedAssetBundles());
     }
 
     public void LoadArea(AreaType areaType)
@@ -44,7 +44,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         switch (areaType)
         {
             case AreaType.Town:
-                bundleName = "townbundle";
+                bundleName = "Villige_Sence";
                 break;
             case AreaType.WoodDungeon:
                 bundleName = "wooddungeonbundle";
@@ -68,7 +68,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     string SetPath(string assetName)
     {
-        return Application.persistentDataPath + "/AssetBundles/" + assetName;// + ".unity3d";
+        return Application.persistentDataPath + "/AssetBundles/" + assetName + ".unity3d";
     }
     
     IEnumerator LoadedAssetBundles()

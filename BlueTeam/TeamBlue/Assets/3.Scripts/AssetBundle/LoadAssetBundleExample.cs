@@ -166,7 +166,7 @@ public class LoadAssetBundleExample : MonoBehaviour
     }
     public void MoveNextScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("Test_AssetBundleLoad");
     }
     public void LoadAssets()
     {
