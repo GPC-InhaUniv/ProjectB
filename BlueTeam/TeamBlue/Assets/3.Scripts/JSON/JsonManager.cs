@@ -37,11 +37,12 @@ public class JsonManager : MonoBehaviour
     //제이슨 파일 로드
     public void OnClickLoadJSONBtn()
     {
+        //string load = ReadStringFromFile("save.json");
+        //var loadData = JsonUtility.FromJson<Data>(load);
+        //for(int i=0;i<4;i++)
+        //Debug.Log(GameData.Instance.equipmentCombination.WeaponCombination[i]);
         GameData.Instance.GetGameDataFromServer();
-        string load = ReadStringFromFile("save.json");
-        var loadData = JsonUtility.FromJson<Data>(load);
-        Debug.Log(load);
-        
+
     }
 
    

@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public enum GameResources
 {
     Brick,
@@ -139,7 +141,7 @@ public class GameData : Singleton<GameData>
     public Item wareHouseItem;
     public DevelopmentCard card;
     public EquipmentCombination equipmentCombination;
-
+    
 
     public int[] lastCleardDungeonNum;
 
@@ -163,7 +165,7 @@ public class GameData : Singleton<GameData>
         BtownInformation = new TownInformation(0, 0);
         playerInfomation = new PlayerInformation(0, 0, 0);
         equipment = new Equipment(MAXITEMCOUNT);
-        equipmentCombination=new EquipmentCombination(MAXITEMCOUNT);
+        equipmentCombination = new EquipmentCombination(MAXITEMCOUNT);
         card = new DevelopmentCard(0, 0, 0, 0);
 
         lastCleardDungeonNum = new int[MAXDUNGEONCOUNT];
@@ -172,8 +174,9 @@ public class GameData : Singleton<GameData>
         {
             lastCleardDungeonNum[i] = 0;
         }
-
     }
+
+
 
     public void PlusPortion()
     {
@@ -275,6 +278,8 @@ public class GameData : Singleton<GameData>
 
     }
 
+
+
     void UpdateDataInfo(UpdateUserDataResult result)
     {
         Debug.Log("UpdateDataInfo");
@@ -331,28 +336,28 @@ public class GameData : Singleton<GameData>
         for (int i = 0; i < MAXITEMCOUNT; i++)
         {
             if (equipmentArray[0][i].Equals('0'))
-                Instance.equipment.Weapon[i] = false;
-            else Instance.equipment.Weapon[i] = true;
+                equipment.Weapon[i] = false;
+            else equipment.Weapon[i] = true;
 
             if (equipmentArray[1][i].Equals('0'))
-                Instance.equipment.Armor[i] = false;
-            else Instance.equipment.Armor[i] = true;
+                equipment.Armor[i] = false;
+            else equipment.Armor[i] = true;
 
             if (equipmentArray[2][i].Equals('0'))
-                Instance.equipment.Hat[i] = false;
-            else Instance.equipment.Hat[i] = true;
+                equipment.Hat[i] = false;
+            else equipment.Hat[i] = true;
 
             if (equipmentCombinationArray[0][i].Equals('0'))
-                Instance.equipmentCombination.WeaponCombination[i] = false;
-            else Instance.equipmentCombination.WeaponCombination[i] = true;
+                equipmentCombination.WeaponCombination[i] = false;
+            else equipmentCombination.WeaponCombination[i] = true;
 
             if (equipmentCombinationArray[1][i].Equals('0'))
-                Instance.equipmentCombination.ArmorCombination[i] = false;
-            else Instance.equipmentCombination.ArmorCombination[i] = true;
+                equipmentCombination.ArmorCombination[i] = false;
+            else equipmentCombination.ArmorCombination[i] = true;
 
             if (equipmentCombinationArray[2][i].Equals('0'))
-                Instance.equipmentCombination.HatCombination[i] = false;
-            else Instance.equipmentCombination.HatCombination[i] = true;
+                equipmentCombination.HatCombination[i] = false;
+            else equipmentCombination.HatCombination[i] = true;
 
         }
 
