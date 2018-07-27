@@ -80,9 +80,11 @@ public class Data
     public TownInformation ATownInformation;
     public TownInformation BTownInformation;
     public Equipment Equipment;
+    public EquipmentCombination EquipmentCombination;
     public Item InventoryItems;
     public Item WareHouseItems;
     public DevelopmentCard Card;
+    
 
     public Data()
     {
@@ -93,7 +95,7 @@ public class Data
         InventoryItems = GameData.Instance.inventoryItem;
         WareHouseItems = GameData.Instance.wareHouseItem;
         Card = GameData.Instance.card;
-
+        EquipmentCombination = GameData.Instance.equipmentCombination;
     }
 }
 

@@ -14,6 +14,9 @@ public enum GameResources
     SpecialItem,
 }
 
+/// <summary>
+/// int RelationShip, int LastCleardQuest
+/// </summary>
 [Serializable]
 public struct TownInformation
 {
@@ -26,7 +29,9 @@ public struct TownInformation
         LastCleardQuest = lastclearQuest;
     }
 }
-
+/// <summary>
+/// int PlayerLevel, flat PlayerExp, int PortionCount
+/// </summary>
 [Serializable]
 public struct PlayerInformation
 {
@@ -42,7 +47,9 @@ public struct PlayerInformation
       
     }
 }
-
+/// <summary>
+/// MaxIndex=5 bool[0~4] Weapon,Armor,Hat
+/// </summary>
 [Serializable]
 public struct Equipment
 {
@@ -58,6 +65,9 @@ public struct Equipment
     }
 }
 
+/// <summary>
+/// int one,two,three,four Development Card
+/// </summary>
 [Serializable]
 public struct DevelopmentCard
 {
@@ -75,6 +85,9 @@ public struct DevelopmentCard
     }
 }
 
+/// <summary>
+/// int Brick,Wood,Iron,Sheep,SpecialItem
+/// </summary>
 [Serializable]
 public struct Item
 {
@@ -94,26 +107,49 @@ public struct Item
     }
 }
 
+/// <summary>
+/// Combination Item List
+/// </summary>
+[Serializable]
+public struct EquipmentCombination
+{
+    public bool[] WeaponCombination;
+    public bool[] HatCombination;
+    public bool[] ArmorCombination;
+
+    public EquipmentCombination(int maxItemCount)
+    {
+        WeaponCombination = new bool[maxItemCount];
+        HatCombination = new bool[maxItemCount];
+        ArmorCombination = new bool[maxItemCount];
+    }
+
+
+}
 
 public class GameData : Singleton<GameData>
 {
     public const int MAXDUNGEONCOUNT = 4;
-    public const int MAXITEMCOUNT = 9;
+    public const int MAXITEMCOUNT = 5;
     public PlayerInformation playerInfomation;
-    public TownInformation AtownInformation;
+    public TownInformation AtownInformation;  
     public TownInformation BtownInformation;
     public Equipment equipment;
     public Item inventoryItem;
     public Item wareHouseItem;
     public DevelopmentCard card;
+    public EquipmentCombination equipmentCombination;
 
-    /*NOTICE*/
-    /* 0= Brick, 1=Wood, 2=Iron 3=Sheep*/
+
     public int[] lastCleardDungeonNum;
 
+
+    /*NOTICE*/
+    /* For Load String Data*/
     AccountInfo Info;
     string[] playerInformationArray;
     string[] equipmentArray;
+    string[] equipmentCombinationArray;
     string[] inventoryItemArray;
     string[] warehouseItemArray;
     string[] townInformationArray;
@@ -127,6 +163,7 @@ public class GameData : Singleton<GameData>
         BtownInformation = new TownInformation(0, 0);
         playerInfomation = new PlayerInformation(0, 0, 0);
         equipment = new Equipment(MAXITEMCOUNT);
+        equipmentCombination=new EquipmentCombination(MAXITEMCOUNT);
         card = new DevelopmentCard(0, 0, 0, 0);
 
         lastCleardDungeonNum = new int[MAXDUNGEONCOUNT];
@@ -165,6 +202,10 @@ public class GameData : Singleton<GameData>
         string EquipmentArmor = "";
         string EquipmentHat = "";
 
+        string EquipmentWeaponCombination = "";
+        string EquipmentArmorCombination = "";
+        string EquipmentHatCombination = "";
+
         string InventoryItems = "";
         string WareHouseItems = "";
 
@@ -190,6 +231,20 @@ public class GameData : Singleton<GameData>
             if (equipment.Hat[i])
                 EquipmentHat += 1;
             else EquipmentHat += 0;
+
+            if (equipmentCombination.WeaponCombination[i])
+                EquipmentWeaponCombination += 1;
+            else EquipmentWeaponCombination += 0;
+
+            if (equipmentCombination.HatCombination[i])
+                EquipmentHatCombination += 1;
+            else EquipmentHatCombination += 0;
+
+            if (equipmentCombination.ArmorCombination[i])
+                EquipmentArmorCombination += 1;
+            else EquipmentArmorCombination += 0;
+
+
         }
 
         InventoryItems = inventoryItem.Brick.ToString() + "/" + inventoryItem.Wood.ToString() + "/"
@@ -209,6 +264,7 @@ public class GameData : Singleton<GameData>
         data.Add("InventoryItems", InventoryItems);
         data.Add("WareHouseItems", WareHouseItems);
         data.Add("Card", Cards);
+        data.Add("EquipmentCombination", EquipmentWeaponCombination + "/" + EquipmentArmorCombination + "/" + EquipmentHatCombination);
 
         UpdateUserDataRequest request = new UpdateUserDataRequest()
         {
@@ -229,6 +285,7 @@ public class GameData : Singleton<GameData>
     {
         string tempPlayerInformation = "";
         string tempEquipments = "";
+        string tempEquipmentCombinations = "";
         string tempInventoryitems = "";
         string tempWarehouseitems = "";
         string tempTownInformations = "";
@@ -240,6 +297,9 @@ public class GameData : Singleton<GameData>
 
         AccountInfo.Instance.Info.UserData.TryGetValue("Equipment", out userData);
         tempEquipments = userData.Value;
+
+        AccountInfo.Instance.Info.UserData.TryGetValue("EquipmentCombination", out userData);
+        tempEquipmentCombinations = userData.Value;
 
         AccountInfo.Instance.Info.UserData.TryGetValue("InventoryItems", out userData);
         tempInventoryitems = userData.Value;
@@ -260,6 +320,7 @@ public class GameData : Singleton<GameData>
         warehouseItemArray = tempWarehouseitems.Split('/');
         townInformationArray = tempTownInformations.Split('/');
         cardInformationArray = tempCards.Split('/');
+        equipmentCombinationArray = tempEquipmentCombinations.Split('/');
 
         //playerinfo load
         playerInfomation.PlayerLevel = Convert.ToInt32(playerInformationArray[0]);
@@ -280,6 +341,18 @@ public class GameData : Singleton<GameData>
             if (equipmentArray[2][i].Equals('0'))
                 Instance.equipment.Hat[i] = false;
             else Instance.equipment.Hat[i] = true;
+
+            if (equipmentCombinationArray[0][i].Equals('0'))
+                Instance.equipmentCombination.WeaponCombination[i] = false;
+            else Instance.equipmentCombination.WeaponCombination[i] = true;
+
+            if (equipmentCombinationArray[1][i].Equals('0'))
+                Instance.equipmentCombination.ArmorCombination[i] = false;
+            else Instance.equipmentCombination.ArmorCombination[i] = true;
+
+            if (equipmentCombinationArray[2][i].Equals('0'))
+                Instance.equipmentCombination.HatCombination[i] = false;
+            else Instance.equipmentCombination.HatCombination[i] = true;
 
         }
 

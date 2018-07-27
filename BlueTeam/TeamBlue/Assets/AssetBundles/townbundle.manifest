@@ -1,0 +1,14 @@
+ManifestFileVersion: 0
+CRC: 1002433281
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 88693995204d80e3fdac4a19fc3c3492
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 31d6cfe0d16ae931b73c59d7e0c089c0
+HashAppended: 0
+ClassTypes: []
+Assets:
+- Assets/1.Scene/Villige_Sence.unity
+Dependencies: []

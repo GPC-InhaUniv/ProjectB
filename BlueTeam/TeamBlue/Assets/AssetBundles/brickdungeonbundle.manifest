@@ -1,0 +1,54 @@
+ManifestFileVersion: 0
+CRC: 2450490888
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 874b240f9cb046147f2b71334ee38433
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9799feb7ff329fc9cbdb8d321d3795ba
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 59872bf22b30cfd4c9754097389f0568, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b99f213ae5d6798449e78f088ac1eb55, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8640ffddd7f6b8c4ab297d4ff4e629e1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/9.Test/Monster/TestMonster.prefab
+Dependencies: []
