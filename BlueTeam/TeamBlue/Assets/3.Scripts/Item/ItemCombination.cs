@@ -4,10 +4,11 @@ using UnityEngine;
 
 enum EquipmentItem
 {
-    Hat=0,
-    Weapon,
+    Weapon = 0,
+    Hat,
     Armor,
 }
+
 
 public class ItemCombination : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class ItemCombination : MonoBehaviour
     //Before 이벤트 중 이벤트의 진행을 취소하고 싶다면 Cancel 프로퍼티를 True 설정하는 것만으로 이벤트의 진행의 취소가 가능합니다.
     
    
+    void Combination()
+    {
+
+    }
 
 
     // Use this for initialization
