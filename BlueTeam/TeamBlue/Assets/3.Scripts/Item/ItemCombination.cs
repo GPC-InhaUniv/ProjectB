@@ -1,43 +1,96 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-enum EquipmentItem
+enum CombinationItem
 {
     Weapon = 0,
     Hat,
     Armor,
+    Sheep,
 }
 
 
 public class ItemCombination : MonoBehaviour
 {
 
-    int brickweight;
-    int woodBrickweight;
-    int ironWeight;
-    int sheepWeight;
-    //Before 이벤트 중 이벤트의 진행을 취소하고 싶다면 Cancel 프로퍼티를 True 설정하는 것만으로 이벤트의 진행의 취소가 가능합니다.
+    int requiredBrickCount;
+    int requiredWoodCount;
+    int requiredIronCount;
+    int requiredSheepCount;
+    CombinationItem currentEquipment;
+
+    [SerializeField]
+    Button[] combinationWeaponButtons;
+
+    public void SearchEquipmentKind(string index)
+    {
+
+        int equipmentKind = Convert.ToInt32(index);
+
+        if (equipmentKind == 0)
+        {
+            Debug.Log("무기 조합");
+            currentEquipment = CombinationItem.Weapon;
+            for(int i=0;i< combinationWeaponButtons.Length;i++)
+            {
+                if (GameData.Instance.equipmentCombination.WeaponCombination[i])
+                {
+                    combinationWeaponButtons[i].gameObject.SetActive(false);
+                    Debug.Log(i + " ");
+                }
+            }
+            Debug.Log("활성화");
+        }
+        else if (equipmentKind == 1)
+            currentEquipment = CombinationItem.Hat;
+
+        else if (equipmentKind == 2)
+            currentEquipment = CombinationItem.Armor;
+
+        else
+            currentEquipment = CombinationItem.Sheep;
+
+
+
+        requiredBrickCount = (equipmentKind + 1) * 10;
+        requiredWoodCount = (equipmentKind + 1) * 10;
+        requiredIronCount = (equipmentKind + 1) * 5;
+        requiredSheepCount = (equipmentKind + 1) * 5;
+
+
+    }
     
-   
-    void Combination()
+
+    public void CheckPlayerCanCombinate()
     {
 
     }
 
 
+
+    //public bool CheckPlayerDataToInput(int brick, int wood, int iron, int sheep)
+    //{
+
+    //}
+
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-  
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+
 }
 
 

@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class LoadAssetBundleExample : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class LoadAssetBundleExample : MonoBehaviour
 
      string BundleURL;
      string BundleURL2;
-
+    string BundleURL3;
     string savePath;
     // 번들의 version 
     public int version;
@@ -31,6 +32,7 @@ public class LoadAssetBundleExample : MonoBehaviour
   
         BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
         BundleURL2= "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";  //CUBE URL
+        BundleURL3 = "https://docs.google.com/uc?export=download&id=1xIrOuUIX30HS_Dwq2xrP1nqYSIzOIcrT"; //Town URL
 #else
     BundleURL = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";
 #endif
@@ -131,6 +133,23 @@ public class LoadAssetBundleExample : MonoBehaviour
         obj.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
+    IEnumerator LoadBundleScene(string URL,string AssetName)
+    {
+
+        string uri = URL;
+        UnityWebRequest request = UnityWebRequest.GetAssetBundle(uri, 0);
+        yield return request.Send();
+
+        AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
+
+        AssetBundleRequest bundleRequest = bundle.LoadAssetAsync(AssetName,
+            typeof(GameObject));
+        yield return request;
+        GameObject obj = Instantiate(bundleRequest.asset) as GameObject;
+        obj.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+
+    }
+
    
 
 
@@ -140,12 +159,21 @@ public class LoadAssetBundleExample : MonoBehaviour
         Debug.Log("개발용 로그인");
         AccountInfo.Login("12341234", "123123");
     }
-
+    public void LoadScene()
+    {
+        StartCoroutine(SaveAssetBundleOnDisk(BundleURL3, "Villige_Sence"));
+        Debug.Log("씬 다운로드 완료");
+    }
+    public void MoveNextScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
     public void LoadAssets()
     {
 #if UNITY_ANDROID
         StartCoroutine(TestLoadAssetBundle_Android(BundleURL));
         StartCoroutine(LoadAssetBundle_Android(BundleURL2));
+      //  StartCoroutine(TestLoadAssetBundle_Android(BundleURL3));
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL,"Riko"));
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL2,"Cube"));
         DebugLog.SaveLog(this, "PlayerID:" + 123123);
