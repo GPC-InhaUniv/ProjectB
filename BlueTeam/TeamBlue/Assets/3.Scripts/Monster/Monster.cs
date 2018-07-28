@@ -63,48 +63,48 @@ namespace MonsterAI
 
         private void Update()
         {
-            switch (state)
-            {
-                case State.Walking:
-                    Walkaround();
-                    Debug.Log("ggo");
-                    break;
-                case State.Chasing:
-                    ChaseTarget();
-                    break;
-                case State.Attacking:
-                    AttackTarget();
-                    break;
-                case State.Skilling:
-                    UseSkill();
-                    break;
-                case State.Died:
-                    Died();
-                    break;
-            }
-            if (state != currentState)
-            {
-                state = currentState;
-                switch (state)
-                {
-                    case State.Walking:
-                        Walkaround();
-                        Debug.Log("ggo");
-                        break;
-                    case State.Chasing:
-                        ChaseTarget();
-                        break;
-                    case State.Attacking:
-                        AttackTarget();
-                        break;
-                    case State.Skilling:
-                        UseSkill();
-                        break;
-                    case State.Died:
-                        Died();
-                        break;
-                }
-            }
+            //switch (state)
+            //{
+            //    case State.Walking:
+            //        Walkaround();
+            //        Debug.Log("ggo");
+            //        break;
+            //    case State.Chasing:
+            //        ChaseTarget();
+            //        break;
+            //    case State.Attacking:
+            //        AttackTarget();
+            //        break;
+            //    case State.Skilling:
+            //        UseSkill();
+            //        break;
+            //    case State.Died:
+            //        Died();
+            //        break;
+            //}
+            //if (state != currentState)
+            //{
+            //    state = currentState;
+            //    switch (state)
+            //    {
+            //        case State.Walking:
+            //            Walkaround();
+            //            Debug.Log("ggo");
+            //            break;
+            //        case State.Chasing:
+            //            ChaseTarget();
+            //            break;
+            //        case State.Attacking:
+            //            AttackTarget();
+            //            break;
+            //        case State.Skilling:
+            //            UseSkill();
+            //            break;
+            //        case State.Died:
+            //            Died();
+            //            break;
+            //    }
+            //}
 
         }
         protected void ChangeState(State currentState)
@@ -194,7 +194,7 @@ namespace MonsterAI
             animator.SetInteger("moving", 2);
 
             Debug.Log(attackTarget.position);
-            // 2미터 이내로 접근하면 공격한다.
+            // 1.5미터 이내로 접근하면 공격한다.
             float attackRange = 1.5f;
             if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
             {
@@ -204,15 +204,16 @@ namespace MonsterAI
             }
         }
 
-        protected void EndAttack()
+        protected void AttackCombo()
         {
             //ChangeState(State.Chasing);
 
-            float attackRange = 2.0f;
+            float attackRange = 1.5f;
 
             Debug.Log(Vector3.Distance(attackTarget.position, transform.position));
             if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
             {
+
                 animator.SetInteger("Attack", 2);
 
                 Debug.Log(attackRange);
@@ -223,12 +224,15 @@ namespace MonsterAI
                 animator.SetInteger("Attack", 0);
 
                 ChangeState(State.Chasing);
-                Debug.Log("EndAttack");
+                Debug.Log("ComboAttack");
             }
         }
-        protected void ComboAttack()
+        protected void AttackEnd()
         {
+            animator.SetInteger("Attack", 0);
 
+            ChangeState(State.Chasing);
+            Debug.Log("EndAttack");
         }
     }
 }

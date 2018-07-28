@@ -62,6 +62,7 @@ public class Named : Monster {
     }
     protected override void AttackTarget()
     {
+       // monsterMove.StopMove();
 
         animator.SetInteger("Attack",1);
 
