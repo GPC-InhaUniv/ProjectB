@@ -43,6 +43,7 @@ public struct PlayerInformation
 
     public PlayerInformation(int playerlevel, int playerexp, int portioncount)
     {
+        
         PlayerLevel = playerlevel;
         PlayerExp = playerexp;
         PortionCount = portioncount;
