@@ -33,7 +33,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-       // StartCoroutine(LoadedAssetBundles());
+        StartCoroutine(LoadedAssetBundles());
     }
 
     public void LoadArea(AreaType areaType)
@@ -44,7 +44,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         switch (areaType)
         {
             case AreaType.Town:
-                bundleName = "Villige_Sence";
+                bundleName = "Riko";
                 break;
             case AreaType.WoodDungeon:
                 bundleName = "wooddungeonbundle";

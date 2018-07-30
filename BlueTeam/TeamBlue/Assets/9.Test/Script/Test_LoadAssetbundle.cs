@@ -24,8 +24,9 @@ public class Test_LoadAssetbundle : MonoBehaviour {
         Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
        
     }
-    public void ChangeScene()
+    public void ChangeObejct()
     {
-        Test_AssetBundleManager.Instance.LoadScene();
+        Test_AssetBundleManager.Instance.AssetName = "Riko";
+        Test_AssetBundleManager.Instance.LoadObject();
     }
 }
