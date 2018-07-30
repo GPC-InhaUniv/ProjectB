@@ -3,49 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Named : Monster {
-
-    
-    // Use this for initialization
+public class Named : Monster
+{
     void Start()
     {
-
         monsterMove = GetComponent<MonsterMove>();
         animator = GetComponent<Animator>();
         startPosition = transform.position;
-
         waitBaseTime = 2.0f;
-
         waitTime = waitBaseTime;
 
-    }
+        attackable = new NormalAttack();
+        skillUsable = new NamedSkill();
 
-    // Update is called once per frame
+    }
     void Update()
     {
-        if (!isCoroutineRunning)
+
+        switch (state)
         {
-            switch (state)
-            {
-                case State.Walking:
-                    Walkaround();
-                    break;
-                case State.Chasing:
-                    ChaseTarget();
-                    break;
-            }
+            case State.Walking:
+                Walkaround();
+                break;
+            case State.Chasing:
+                ChaseTarget();
+                break;
         }
+        
         if (state != currentState)
         {
             state = currentState;
             switch (state)
             {
-                case State.Walking:
-                    Walkaround();
-                    break;
-                case State.Chasing:
-                    ChaseTarget();
-                    break;
                 case State.Attacking:
                     AttackTarget();
                     break;
@@ -57,24 +46,11 @@ public class Named : Monster {
                     break;
             }
         }
-
-
-    }
-    protected override void AttackTarget()
-    {
-       // monsterMove.StopMove();
-
-        animator.SetInteger("Attack",1);
-
-        Debug.Log("ATTTTTAck");
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Died();
+           
+        }
 
     }
-
-    protected override void UseSkill()
-    {
-        throw new System.NotImplementedException();
-    }
-
-
-
 }

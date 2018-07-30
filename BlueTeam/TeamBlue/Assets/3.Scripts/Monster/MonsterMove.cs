@@ -59,6 +59,7 @@ public class MonsterMove : MonoBehaviour {
         walkSpeed = speed;
         arrived = false;
         this.destination = destination;
+
     }
 
     public void SetDirection(Vector3 direction)
@@ -71,7 +72,8 @@ public class MonsterMove : MonoBehaviour {
 
     public void StopMove()
     {
-        destination = transform.position;
+        arrived = true;
+        Debug.Log(arrived);
     }
 
     // 목적지에 도착했는지 조사한다(도착했다 true / 도착하지 않았다 false).

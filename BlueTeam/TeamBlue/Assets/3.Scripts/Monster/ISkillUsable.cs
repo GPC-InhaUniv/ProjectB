@@ -2,15 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ISkillUsable : MonoBehaviour {
+public interface ISkillUsable  {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void UseSkill();
+
+}
+
+public class NoSkill : ISkillUsable
+{
+    public void UseSkill()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+public class NamedSkill : ISkillUsable
+{
+    public void UseSkill()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+public class BossSkillFirst : ISkillUsable
+{
+    public void UseSkill()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+public class BossSkillSecond : ISkillUsable
+{
+    public void UseSkill()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+public class BossSkillThird : ISkillUsable
+{
+    public void UseSkill()
+    {
+        throw new System.NotImplementedException();
+    }
 }

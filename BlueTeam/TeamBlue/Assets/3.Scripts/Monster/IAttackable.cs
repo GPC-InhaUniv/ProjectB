@@ -8,3 +8,19 @@ public interface IAttackable  {
 
 
 }
+public class NormalAttack : IAttackable
+{
+    public void Attack()
+    {
+        throw new System.NotImplementedException();
+
+    }
+}
+
+public class StrunAttack : IAttackable
+{
+    public void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
+}
