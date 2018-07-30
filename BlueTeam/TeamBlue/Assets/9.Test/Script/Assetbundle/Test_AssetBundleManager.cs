@@ -74,6 +74,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     IEnumerator LoadedAssetBundles()
     {
         PlayerBundle = AssetBundle.LoadFromFile(SetPath("plyaerbundle"));
+        
         PublicAssetBundle = AssetBundle.LoadFromFile(SetPath("publicbundles"));
         if (PlayerBundle == null ||PublicAssetBundle == null)
         {
