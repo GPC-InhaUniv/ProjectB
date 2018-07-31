@@ -2,5 +2,5 @@
 
     void SendData();
     void ReceiveData();
-	
+   
 }
