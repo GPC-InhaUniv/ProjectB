@@ -9,7 +9,7 @@ public class MonsterMove : MonoBehaviour {
 
     //Go To Destination//
     [SerializeField]
-    bool arrived = false;
+    public bool arrived = false;
     [SerializeField]
     bool forceRotate = false;
     [SerializeField]

@@ -68,6 +68,8 @@ public class LoadAssetBundleExample : MonoBehaviour
         fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
         fs.Close();
 
+        Debug.Log(AssetName + " 번들 다운로드 완료");
+
     }
 
 
@@ -158,11 +160,12 @@ public class LoadAssetBundleExample : MonoBehaviour
 
         Debug.Log("개발용 로그인");
         AccountInfo.Login("12341234", "123123");
+        LoadingScene.LoadScene(MapType.Village,0);
     }
     public void LoadScene()
     {
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL3, "Villige_Sence"));
-        Debug.Log("씬 다운로드 완료");
+        
     }
     public void MoveNextScene(string sceneName)
     {

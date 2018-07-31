@@ -13,8 +13,17 @@ public class Named : Monster
         waitBaseTime = 2.0f;
         waitTime = waitBaseTime;
 
-        attackable = new NormalAttack();
+        //test//
+        AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
+
+
+        attackable = new ComboAttack();
         skillUsable = new NamedSkill();
+
+        walkRange = 5;
+        speed = 3;
+
+        
 
     }
     void Update()
