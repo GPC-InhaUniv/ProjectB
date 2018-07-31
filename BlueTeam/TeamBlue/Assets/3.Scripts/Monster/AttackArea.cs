@@ -4,7 +4,7 @@ using UnityEngine;
 using MonsterAI;
 
 
-public abstract class AttackArea : MonoBehaviour {
+public class AttackArea : MonoBehaviour {
 
     [SerializeField]
     Monster monster;
@@ -15,13 +15,15 @@ public abstract class AttackArea : MonoBehaviour {
 	void Start () {
         monster = transform.root.GetComponent<Monster>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-    protected void AttackEnd()
-    {
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //데미지를 입히다//
+            //other.Damage( monster.MonsterPower);
+
+        }
     }
+
 }
