@@ -107,6 +107,7 @@ public class Player : MonoBehaviour
 
     public void AttackDone() //공격 모션이 종료될 때 상태가 바뀝니다.
     {
+        Debug.Log("공격 종료 호출");
         PcState = new PlayerCharacterIdleState(this);
     }
 
