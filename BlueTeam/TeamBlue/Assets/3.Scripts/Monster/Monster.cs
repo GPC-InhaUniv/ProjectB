@@ -4,10 +4,13 @@ using UnityEngine;
 
 namespace MonsterAI
 {
-    //애니메이션 콤보 공격  Attack 불 값 , Integer 값 수정중//
-    [System.Serializable]
+
+    //공격 1번 공격2번 한번에 같은 취소로 하기//
     public abstract class Monster : MonoBehaviour
     {
+        // test //
+        [SerializeField]
+        protected AttackArea[] attackAreas;
         // Monster State//
         protected enum State
         {
@@ -21,7 +24,7 @@ namespace MonsterAI
         protected State state, currentState;
         //Monster Status//
         [SerializeField]
-        protected int monsterHP, monsterMaxHP, monsterPower, walkRange;
+        protected int monsterHP, monsterMaxHP, walkRange;
         [SerializeField]
         protected bool attacking, died, skillUse;
         protected GameObject[] dropItemPrefab;
@@ -44,6 +47,9 @@ namespace MonsterAI
         protected IAttackable attackable;
         protected ISkillUsable skillUsable;
 
+        public int MonsterPower;
+
+
 
         //private void Start()
         //{
@@ -65,8 +71,8 @@ namespace MonsterAI
 
         protected  void AttackTarget()
         {
-            animator.SetInteger("Attack", 1);
-            attackable.Attack();
+          //  animator.SetInteger("Attack", 1);
+            attackable.Attack(animator);
         }
         protected  void UseSkill()
         {
@@ -119,7 +125,8 @@ namespace MonsterAI
                     monsterMove.SetDirection(destinationPosition);
 
                     waitTime = Random.Range(waitBaseTime, waitBaseTime * 2.0f);
-                    //animator.SetInteger("moving", 0);
+
+
                 }
             }
             if (attackTarget)
@@ -157,8 +164,14 @@ namespace MonsterAI
         }
         protected void AttackEnd()
         {
+            StartCoroutine(WaitNextState());
+        }
+        IEnumerator WaitNextState()
+        {
+            yield return new WaitForSeconds(0.5f);
             animator.SetInteger("Attack", 0);
             ChangeState(State.Chasing);
+            Debug.Log("gogogo");
         }
     }
 }
