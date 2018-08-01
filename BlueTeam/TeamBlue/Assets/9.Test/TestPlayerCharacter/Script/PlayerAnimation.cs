@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
     Animator animator;
+    Coroutine animationCoroutine;
 
     void Awake()
     {
@@ -12,7 +13,15 @@ public class PlayerAnimation : MonoBehaviour {
 
     public void AttackAnimation(string attackName)
     {
-        StartCoroutine(AttackCoroutine(attackName));
+        if(animationCoroutine == null)
+        {
+            animationCoroutine = StartCoroutine(AttackCoroutine(attackName));
+        }
+        else
+        {
+            StopCoroutine(animationCoroutine);
+            animationCoroutine = StartCoroutine(AttackCoroutine(attackName));
+        }
     }
 
     public void BackStepAnimation()
