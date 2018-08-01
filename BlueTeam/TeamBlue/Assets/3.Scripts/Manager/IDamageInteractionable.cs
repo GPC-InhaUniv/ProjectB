@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-interface IDamageInteractionable  {
+public interface IDamageInteractionable  {
 
-    void SendDamage(GameObject target, int damage);
+    
+    void SendDamage();
     void ReceiveDamage(int damage);
 }
+
