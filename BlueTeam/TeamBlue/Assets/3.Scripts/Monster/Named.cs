@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Named : Monster
 {
+
+
     void Start()
     {
         monsterMove = GetComponent<MonsterMove>();
@@ -17,7 +19,7 @@ public class Named : Monster
         AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
 
-        attackable = new ComboAttack();
+        attackable = new NormalAttack();
         skillUsable = new NamedSkill();
 
         walkRange = 5;
@@ -61,4 +63,13 @@ public class Named : Monster
 
     }
 
+    protected override IEnumerator WaitNextState()
+    {
+        yield return new WaitForSeconds(0.5f);
+        animator.SetInteger("Attack", 0);
+
+
+        ChangeState(State.Chasing);
+        Debug.Log("gogogo");
+    }
 }

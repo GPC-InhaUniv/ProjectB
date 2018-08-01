@@ -6,7 +6,7 @@ namespace MonsterAI
 {
 
     //공격 1번 공격2번 한번에 같은 취소로 하기//
-    public abstract class Monster : MonoBehaviour
+    public abstract class Monster : MonoBehaviour , IDamageInteractionable
     {
         // test //
         [SerializeField]
@@ -49,7 +49,26 @@ namespace MonsterAI
 
         public int MonsterPower;
 
+        /// <summary>
+        /// interface implement
+        /// </summary>
+        Player player;
 
+        public void SendDamage(GameObject target, int damage)
+        {
+
+            damage = MonsterPower;
+        }
+
+        public void ReceiveDamage(int damage)
+        {
+            monsterHP -= damage;
+            if (monsterHP <= 0)
+            {
+                monsterHP = 0;
+                ChangeState(State.Died);
+            }
+        }
 
         //private void Start()
         //{
@@ -82,12 +101,12 @@ namespace MonsterAI
         protected void Damaged(int damage)
         {
 
-            monsterHP -= damage;
-            if (monsterHP <= 0)
-            {
-                monsterHP = 0;
-                ChangeState(State.Died);
-            }
+            //monsterHP -= damage;
+            //if (monsterHP <= 0)
+            //{
+            //    monsterHP = 0;
+            //    ChangeState(State.Died);
+            //}
         }
         protected void DropItem()
         {
@@ -150,32 +169,28 @@ namespace MonsterAI
                 animator.SetInteger("moving", 0);
             }
         }
-
+        // 일정거리안에 있으면 연속공격//
         protected void AttackCombo()
         {
-            float attackRange = 1.5f;
-            if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
-                animator.SetInteger("Attack", 2);
-            else
-            {
-                animator.SetInteger("Attack", 0);
-                ChangeState(State.Chasing);
-            }
+            //float attackRange = 1.5f;
+            //if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+            //    animator.SetInteger("Attack", 2);
+            //else
+            //{
+            //    animator.SetInteger("Attack", 0);
+            //    ChangeState(State.Chasing);
+            //}
         }
         protected void AttackEnd()
         {
             //애니메이터 파라미터값 확인//
-           // if(animator.parameters==true)
-            StartCoroutine(WaitNextState());
-        }
-        protected IEnumerator WaitNextState()
-        {
-            yield return new WaitForSeconds(0.5f);
-            animator.SetInteger("Attack", 0);
-            animator.SetBool("Combo", false);
 
-            ChangeState(State.Chasing);
-            Debug.Log("gogogo");
+                StartCoroutine(WaitNextState());
+            
         }
+        protected abstract IEnumerator WaitNextState();
+
+
+
     }
 }

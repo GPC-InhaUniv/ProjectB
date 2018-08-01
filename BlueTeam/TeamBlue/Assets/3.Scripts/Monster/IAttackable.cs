@@ -23,7 +23,7 @@ public class NormalAttack : IAttackable
         this.anim = anim;
 
 
-        anim.SetInteger("Attack", 1);
+        anim.SetInteger("Attack", 2);
     }
 
     public override void AttackEnd()
@@ -37,7 +37,6 @@ public class ComboAttack : IAttackable
     {
         this.anim = anim;
         anim.SetInteger("Attack", 1);
-        anim.SetBool("Combo", true);
 
     }
 

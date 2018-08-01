@@ -5,6 +5,7 @@ using MonsterAI;
 
 public class Normal : Monster {
 
+
     void Start()
     {
         monsterMove = GetComponent<MonsterMove>();
@@ -61,4 +62,13 @@ public class Normal : Monster {
 
     }
 
+
+    protected override IEnumerator WaitNextState()
+    {
+        yield return new WaitForSeconds(0.5f);
+        animator.SetInteger("Attack", 0);
+
+        ChangeState(State.Chasing);
+        Debug.Log("gogogo");
+    }
 }
