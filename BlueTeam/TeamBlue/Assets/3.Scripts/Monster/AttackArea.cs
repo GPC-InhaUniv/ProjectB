@@ -8,12 +8,13 @@ public class AttackArea : MonoBehaviour {
 
     [SerializeField]
     Monster monster;
-
+    Collider collider;
 
 
 	// Use this for initialization
 	void Start () {
         monster = transform.root.GetComponent<Monster>();
+        collider = GetComponent<Collider>();
 	}
 
     private void OnTriggerEnter(Collider other)
@@ -22,8 +23,12 @@ public class AttackArea : MonoBehaviour {
         {
             //데미지를 입히다//
             //other.Damage( monster.MonsterPower);
+            //monster.player = other.GetComponent<Player>();
+           // monster.SendDamage(other.GetComponent<IDamageInteractionable>());
 
         }
     }
+
+    
 
 }
