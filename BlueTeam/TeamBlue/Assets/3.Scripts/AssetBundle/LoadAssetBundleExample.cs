@@ -160,8 +160,14 @@ public class LoadAssetBundleExample : MonoBehaviour
 
         Debug.Log("개발용 로그인");
         AccountInfo.Login("12341234", "123123");
-        LoadingScene.LoadScene(MapType.Village,0);
+        LoadingScene.LoadScene(LoadType.VillageCheckDownLoad,0);
     }
+
+    public void LoadDungeon()
+    {
+        LoadingScene.LoadScene(LoadType.WoodDungeon, 1);
+    }
+
     public void LoadScene()
     {
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL3, "Villige_Sence"));

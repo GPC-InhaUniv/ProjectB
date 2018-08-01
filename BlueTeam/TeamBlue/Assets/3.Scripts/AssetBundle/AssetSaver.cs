@@ -52,7 +52,7 @@ public class AssetSaver : MonoBehaviour {
         fs.Close();     
     }
 
-    private void Start()
+    void Start()
     {
         StartCoroutine(SaveAssetBundleOnDisk());
     }
