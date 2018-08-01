@@ -56,10 +56,9 @@ public class Named : Monster
             }
         }
         if (Input.GetKeyDown(KeyCode.F))
-        {
             Died();
-           
-        }
+
 
     }
+
 }

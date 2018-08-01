@@ -164,12 +164,16 @@ namespace MonsterAI
         }
         protected void AttackEnd()
         {
+            //애니메이터 파라미터값 확인//
+           // if(animator.parameters==true)
             StartCoroutine(WaitNextState());
         }
-        IEnumerator WaitNextState()
+        protected IEnumerator WaitNextState()
         {
             yield return new WaitForSeconds(0.5f);
             animator.SetInteger("Attack", 0);
+            animator.SetBool("Combo", false);
+
             ChangeState(State.Chasing);
             Debug.Log("gogogo");
         }
