@@ -6,10 +6,6 @@ using MonsterAI;
 
 public class Boss : Monster
 {
-    protected override IEnumerator WaitNextState()
-    {
-        throw new System.NotImplementedException();
-    }
 
     void Start()
     {

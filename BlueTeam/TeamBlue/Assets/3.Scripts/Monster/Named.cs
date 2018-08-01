@@ -20,7 +20,7 @@ public class Named : Monster
 
 
         attackable = new NormalAttack();
-        skillUsable = new NamedSkill();
+        skillUsable = new NoSkill();
 
         walkRange = 5;
         speed = 3;
@@ -63,13 +63,4 @@ public class Named : Monster
 
     }
 
-    protected override IEnumerator WaitNextState()
-    {
-        yield return new WaitForSeconds(0.5f);
-        animator.SetInteger("Attack", 0);
-
-
-        ChangeState(State.Chasing);
-        Debug.Log("gogogo");
-    }
 }
