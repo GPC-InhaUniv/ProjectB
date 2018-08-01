@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Named : Monster
 {
+
+
     void Start()
     {
         monsterMove = GetComponent<MonsterMove>();
@@ -17,8 +19,8 @@ public class Named : Monster
         AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
 
-        attackable = new ComboAttack();
-        skillUsable = new NamedSkill();
+        attackable = new NormalAttack();
+        skillUsable = new NoSkill();
 
         walkRange = 5;
         speed = 3;
@@ -56,10 +58,9 @@ public class Named : Monster
             }
         }
         if (Input.GetKeyDown(KeyCode.F))
-        {
             Died();
-           
-        }
+
 
     }
+
 }

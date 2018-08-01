@@ -6,13 +6,14 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum MapType
+public enum LoadType
 {
     Village,
     BrickDungeon,
     WoodDungeon,
     SheepDungeon,
     IronDungeon,
+    VillageCheckDownLoad
 }
 public class LoadingScene : MonoBehaviour
 {
@@ -25,9 +26,12 @@ public class LoadingScene : MonoBehaviour
     string BundleURL;
     string BundleURL2;
     string BundleURL3;
+   
 
-    static int totalBundleCount = 4;
-    static int userBundleCount = 0;
+    int totalBundleCount = 4;
+    static int userBundleCount = 4;
+    static LoadType currentType;
+    static int currentDungeonIndex = 0;
 
     int percentage;
 
@@ -37,15 +41,16 @@ public class LoadingScene : MonoBehaviour
     Text progressText;
     [SerializeField]
     Text currentBundleText;
-    
+
     public delegate void LoadInGameScene();
 
     public LoadInGameScene LoadInGameSceneDelegater;
 
     // Use this for initialization
-    private void Awake()
+    void Awake()
     {
-        if (userBundleCount != totalBundleCount - 1)
+        
+        if (currentType.Equals(LoadType.VillageCheckDownLoad) && userBundleCount < totalBundleCount - 1)
         {
             Debug.Log("다운로드 필요");
             currentAssetName = "게임 준비중...";
@@ -63,6 +68,24 @@ public class LoadingScene : MonoBehaviour
             totalBundleCount = 1;
         }
 
+        switch(currentType)
+        {
+            case LoadType.Village:  
+                break;
+            case LoadType.BrickDungeon:
+                break;
+            case LoadType.WoodDungeon:
+                currentAssetName = "나무 던전 로드중..";
+                Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                Test_AssetBundleManager.Instance.LoadObject();
+                break;
+            case LoadType.SheepDungeon:
+                break;
+            case LoadType.IronDungeon:
+                break;
+        }
+
+
         StartCoroutine(LoadScene());
     }
 
@@ -75,7 +98,7 @@ public class LoadingScene : MonoBehaviour
 
         float timer = 0.0f;
         while (!asyncOperation.isDone)  //종료되기 전까지 while문 실행
-        {       
+        {
             yield return null;
 
             timer += Time.deltaTime;
@@ -83,7 +106,7 @@ public class LoadingScene : MonoBehaviour
             if (asyncOperation.progress >= 0.9f)
             {
                 currentBundleText.text = currentAssetName;
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1.0f/totalBundleCount, timer);
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1.0f / totalBundleCount, timer);
                 percentage = Convert.ToInt32(progressBar.fillAmount * 100);
                 progressText.text = percentage.ToString() + "%";
 
@@ -97,11 +120,11 @@ public class LoadingScene : MonoBehaviour
 
                 else
                 {
-                    progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, asyncOperation.progress/ totalBundleCount, timer);
+                    progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, asyncOperation.progress / totalBundleCount, timer);
 
                     if (progressBar.fillAmount > asyncOperation.progress)
                     {
-                       timer = 0.0f;
+                        timer = 0.0f;
                     }
                 }
             }
@@ -115,19 +138,19 @@ public class LoadingScene : MonoBehaviour
 
         //pressAnyKeyText.gameObject.SetActive(true);
         //progressBar.gameObject.SetActive(false);
-      
-            if (Input.anyKeyDown)
-            {
-               
-                asyncOperation.allowSceneActivation = true;
-               
-            }
-        
+
+        if (Input.anyKeyDown)
+        {
+
+            asyncOperation.allowSceneActivation = true;
+
+        }
+
 
     }
 
 
-    public static void LoadScene(MapType mapType,int index)
+    public static void LoadScene(LoadType mapType, int index)
     {
         //if (sceneName == "Main")
         //    IsMainSceneLoading = true;
@@ -136,29 +159,43 @@ public class LoadingScene : MonoBehaviour
 
         switch (mapType)
         {
-            case MapType.Village:
+            case LoadType.Village:
+                currentType = LoadType.Village;
+                NextScene = "Test_Empty";
+                break;
+            case LoadType.BrickDungeon:
+                currentType = LoadType.BrickDungeon;
+                break;
+            case LoadType.WoodDungeon:
+                currentType = LoadType.WoodDungeon;
+                NextScene = "Test_Empty";
+                break;
+            case LoadType.SheepDungeon:
+                currentType = LoadType.SheepDungeon;
+                break;
+            case LoadType.IronDungeon:
+                currentType = LoadType.IronDungeon;
+                break;
+            case LoadType.VillageCheckDownLoad:
+                currentType = LoadType.VillageCheckDownLoad;
                 userBundleCount = CheckDownLoadFile();
                 NextScene = "Test_AssetBundleLoad";
-                SceneManager.LoadScene("Test_LoadingScene");
-                break;
-            case MapType.BrickDungeon:
-                break;
-            case MapType.WoodDungeon:
-                break;
-            case MapType.SheepDungeon:
-                break;
-            case MapType.IronDungeon:
+               
                 break;
             default:
                 break;
         }
-      
-      
-       
+
+        currentDungeonIndex = index;
+        SceneManager.LoadScene("Test_LoadingScene");
+
+
     }
 
 
-    private static int CheckDownLoadFile()
+
+
+    static int CheckDownLoadFile()
     {
         try
         {
@@ -170,7 +207,7 @@ public class LoadingScene : MonoBehaviour
         catch (Exception e)
         {
             Console.WriteLine("The process failed: {0}", e.ToString());
-           
+
         }
 
         return -1;
@@ -192,12 +229,12 @@ public class LoadingScene : MonoBehaviour
 
         // 웹 서버에 요청을 생성한다.
         UnityWebRequest request = UnityWebRequest.Get(uri);
-       
-            yield return request.Send();
-       
-        
-        
-      
+
+        yield return request.Send();
+
+
+
+
         // 에셋 번들을 저장할 경로
 
         assetBundleDirectory = Application.persistentDataPath + "/AssetBundles";
@@ -211,9 +248,9 @@ public class LoadingScene : MonoBehaviour
 
         // 파일 입출력을 통해 받아온 에셋을 저장하는 과정
         FileStream fs = new FileStream(assetBundleDirectory + "/" + AssetName + ".unity3d", System.IO.FileMode.Create);
-        
+
         fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
-       
+
         fs.Close();
 
         totalBundleCount--;
