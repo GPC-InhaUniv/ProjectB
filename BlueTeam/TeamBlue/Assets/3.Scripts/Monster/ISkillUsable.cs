@@ -1,45 +1,92 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MonsterAI;
 
 public interface ISkillUsable  {
 
-    void UseSkill();
+
+    Monster Monster { get; set; }
+
+    void UseSkill(Monster monster , Animator anim);
 
 }
 
 public class NoSkill : ISkillUsable
 {
-    public void UseSkill()
+    Monster monster;
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return monster; }
+        set { monster = value; }
     }
+    public void UseSkill(Monster monster, Animator anim)
+    {
+        Monster= monster;
+        Monster.ChangeState(Monster.State.Chasing);
+
+        anim.SetInteger("Attack", 3);
+
+
+        
+          
+    }
+
 }
 public class NamedSkill : ISkillUsable
 {
-    public void UseSkill()
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return Monster; }
+        set { Monster = value; }
+    }
+
+    public void UseSkill(Monster monster, Animator anim)
+    {
+        this.Monster = monster;
     }
 }
 public class BossSkillFirst : ISkillUsable
 {
-    public void UseSkill()
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return Monster; }
+        set { Monster = value; }
+    }
+
+    public void UseSkill(Monster monster, Animator anim)
+    {
+        this.Monster = monster;
+
+
     }
 }
 public class BossSkillSecond : ISkillUsable
 {
-    public void UseSkill()
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return Monster; }
+        set { Monster = value; }
+    }
+
+    public void UseSkill(Monster monster, Animator anim)
+    {
+        this.Monster = monster;
+
+
     }
 }
 public class BossSkillThird : ISkillUsable
 {
-    public void UseSkill()
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return Monster; }
+        set { Monster = value; }
+    }
+    public void UseSkill(Monster monster, Animator anim)
+    {
+        this.Monster = monster;
+
+
     }
 }
