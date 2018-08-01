@@ -52,12 +52,11 @@ namespace MonsterAI
         /// <summary>
         /// interface implement
         /// </summary>
-        Player player;
+        public IDamageInteractionable player;
 
-        public void SendDamage(GameObject target, int damage)
+        public void SendDamage(IDamageInteractionable target)
         {
-
-            damage = MonsterPower;
+            // Test_Mediator.Instance.SendTarget(target, MonsterPower);
         }
 
         public void ReceiveDamage(int damage)
@@ -186,10 +185,9 @@ namespace MonsterAI
             //애니메이터 파라미터값 확인//
 
                 StartCoroutine(WaitNextState());
-            
+            //ggg
         }
         protected abstract IEnumerator WaitNextState();
-
 
 
     }

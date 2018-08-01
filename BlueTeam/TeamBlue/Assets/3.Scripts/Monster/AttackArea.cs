@@ -24,20 +24,11 @@ public class AttackArea : MonoBehaviour {
             //데미지를 입히다//
             //other.Damage( monster.MonsterPower);
             //monster.player = other.GetComponent<Player>();
-            monster.SendDamage(other.gameObject,monster.MonsterPower);
+           // monster.SendDamage(other.GetComponent<IDamageInteractionable>());
 
         }
     }
 
-    public void SendDamage(GameObject target, int damage)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void ReceiveDamage(int damage)
-    {
-        throw new System.NotImplementedException();
-    }
-
+    
 
 }
