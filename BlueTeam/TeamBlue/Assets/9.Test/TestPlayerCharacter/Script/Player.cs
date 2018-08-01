@@ -7,31 +7,32 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     PlayerAnimation playerAinmaton;
-    Rigidbody PCrigidbody;
-
-    public Vector3 DirectionVector; //플레이의 캐릭터 정면이 바라보는 방향
+    Rigidbody playerRigidbody;
 
     public Vector3 moveVector;
     public bool isRunning;
-    public bool isBackStep;
+
+    public bool isSwapAble;
+
     public int attackNum;
 
-    public PlayerCharacterWeaponState CurrentweaponState;
-    public PlayerCharacterState PcState;
+    public PlayerCharacterWeaponState CurrentWeaponState;
+    public PlayerCharacterState PlayerState;
 
     [SerializeField]
-    Vector3 BackTargetVector;
+    Vector3 backTargetVector;
 
     WeaponSwap weaponSwap;
     void Start()
     {
-        BackTargetVector = new Vector3(0, 0, 1);
+        backTargetVector = new Vector3(0, 0, 1);
 
-        PcState = new PlayerCharacterIdleState(this);
-        CurrentweaponState = PlayerCharacterWeaponState.ShortSword;
+        PlayerState = new PlayerCharacterIdleState(this);
+        CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
+        isSwapAble = true;
 
         playerAinmaton = GetComponent<PlayerAnimation>();
-        PCrigidbody = GetComponent<Rigidbody>();
+        playerRigidbody = GetComponent<Rigidbody>();
         weaponSwap = GetComponent<WeaponSwap>();
 
 
@@ -44,22 +45,22 @@ public class Player : MonoBehaviour
         //뒤로 가는 벡터 방향 저장
         if (moveVector != Vector3.zero)
         {
-            BackTargetVector = moveVector;
+            backTargetVector = moveVector;
         }
 
-        PcState.Tick(moveVector);
-        ActionRun();
+        playerAinmaton.RunAnimation(isRunning);
+        PlayerState.Tick(moveVector);
     }
 
     public void SetState(PlayerCharacterState state)
     {
-        if (PcState == state)
+        if (PlayerState == state)
         {
             return;
         }
         else
         {
-            PcState = state;
+            PlayerState = state;
         }
 
     }
@@ -67,32 +68,29 @@ public class Player : MonoBehaviour
     public void PlayerAttack()
     {
         playerAinmaton.AttackAnimation("Attack" + attackNum.ToString());
+        isSwapAble = false;
     }
 
-    public void RunToPC(Vector3 moveVector)
+    public void Running(Vector3 moveVector)
     {
-        if(PcState.GetType() == typeof(PlayerCharacterAttackState))
+        if(PlayerState.GetType() == typeof(PlayerCharacterAttackState))
         {
             return;
         }
         else
         {
-            PCrigidbody.velocity = moveVector * 450 * Time.deltaTime;
+            playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
         }
     }
-    public void ActionRun()
-    {
-        playerAinmaton.RunAnimation(isRunning);
-    }
 
-    public void TurnToPC(Vector3 moveVector)
+    public void Turn(Vector3 moveVector)
     {
         transform.rotation = Quaternion.LookRotation(moveVector);
     }
     
-    public void BackStepToPC()
+    public void BackStep()
     {
-        if (PcState.GetType() == typeof(PlayerCharacterAttackState))
+        if (PlayerState.GetType() == typeof(PlayerCharacterAttackState))
         {
             return;
         }
@@ -100,7 +98,7 @@ public class Player : MonoBehaviour
         {
             playerAinmaton.BackStepAnimation();
 
-            PCrigidbody.velocity = -BackTargetVector * 250 * Time.deltaTime;
+            playerRigidbody.velocity = -backTargetVector * 250 * Time.deltaTime;
         }
     }
 
@@ -108,30 +106,37 @@ public class Player : MonoBehaviour
     public void AttackDone() //공격 모션이 종료될 때 상태가 바뀝니다.
     {
         Debug.Log("공격 종료 호출");
-        PcState = new PlayerCharacterIdleState(this);
+        PlayerState = new PlayerCharacterIdleState(this);
+        StartCoroutine(SwapWaitTime(2.0f));
     }
 
     public void BackStepDone() //회피 모션이 종료될 때 상태가 바뀝니다.
     {
-        PcState = new PlayerCharacterIdleState(this);
+        PlayerState = new PlayerCharacterIdleState(this);
+
     }
 
     public void WeaponSwitching(PlayerCharacterWeaponState NewWeaponState)
     {
-        if(CurrentweaponState == NewWeaponState)
+        if(CurrentWeaponState == NewWeaponState)
         {
             return;
         }
-        else if(CurrentweaponState != NewWeaponState && PcState.GetType() == typeof(PlayerCharacterIdleState))
+        else if(CurrentWeaponState != NewWeaponState && isSwapAble == true)
         {
             playerAinmaton.WeaponSwap(NewWeaponState);
+            Debug.Log(PlayerState);
+            Debug.Log(isSwapAble);
+            weaponSwap.SetWeapon(true, NewWeaponState, CurrentWeaponState);
 
-            weaponSwap.SetWeapon(true, NewWeaponState, CurrentweaponState);
-
-            CurrentweaponState = NewWeaponState;
+            CurrentWeaponState = NewWeaponState;
         }
     }
-
+    public IEnumerator SwapWaitTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isSwapAble = true;      
+    }
 }
 public enum PlayerCharacterWeaponState
 {

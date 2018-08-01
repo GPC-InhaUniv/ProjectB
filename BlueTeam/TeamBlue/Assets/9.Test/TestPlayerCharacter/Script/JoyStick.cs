@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class IOnclick : MonoBehaviour,IDragHandler,IPointerUpHandler, IPointerDownHandler {
+public class JoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+{
+
     Image bgImg;
     Image joystickImg;
     Vector3 inputVector;
@@ -23,9 +25,9 @@ public class IOnclick : MonoBehaviour,IDragHandler,IPointerUpHandler, IPointerDo
             pos.x = (pos.x / bgImg.rectTransform.sizeDelta.x);
             pos.y = (pos.y / bgImg.rectTransform.sizeDelta.y);
 
-            inputVector = new Vector3(pos.x * 2 + 1, 0, pos.y * 2 +1); //x와 z값
+            inputVector = new Vector3(pos.x * 2 + 1, 0, pos.y * 2 + 1); //x와 z값
             inputVector = (inputVector.magnitude > 1.0f) ? inputVector.normalized : inputVector;
-           
+
             // Move JoyStick img
             joystickImg.rectTransform.anchoredPosition = new Vector3(inputVector.x * (bgImg.rectTransform.sizeDelta.x / 3), inputVector.z * (bgImg.rectTransform.sizeDelta.y / 3));
 

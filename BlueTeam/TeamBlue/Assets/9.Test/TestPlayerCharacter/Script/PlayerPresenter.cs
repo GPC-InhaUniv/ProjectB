@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerPresenter : MonoBehaviour
 {
+    [SerializeField]
+    Button AttackButtons, SkillButtons, BackStepButtons, WeaponSwapButtons;
+
+    [SerializeField]
+    JoyStick joyStick;
+
     Player player;
 
     CommandControll commandControll;
@@ -15,26 +21,22 @@ public class PlayerController : MonoBehaviour
 
     //public static event SkillHandler SkillTouch;
 
-    [SerializeField]
-    Button AttackButtons, SkillButtons, BackStepButtons, WeaponSwapButtons;
 
-    [SerializeField]
-    IOnclick Virtualonclick;
- 
-    Vector3 moveVector;
+    Vector3 inputMoveVector;
 
     int comboResetCount;
 
     int comboRandom;
 
     bool isComboState;
-    float h, v;
+
+    float horizontal, vertical;
 
     Vector3 moverDir;
 
     void Start()
     {
-        moveVector = Vector3.zero;
+        inputMoveVector = Vector3.zero;
 
         comboResetCount = 0;
         comboRandom = Random.Range(1, 2);
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour
         isComboState = false;
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        
+
         commandControll = new CommandControll();
 
         Attack1 = new CommandAttack1();
@@ -65,12 +67,12 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        moveVector = PoolInput();
+        inputMoveVector = PoolInput();
     }
 
     void FixedUpdate()
     {
-        if ((player.PcState.GetType() != typeof(PlayerCharacterAttackState) && player.PcState.GetType() != typeof(PlayerCharacterBackStepState)))
+        if ((player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState)))
         {
             PlayerMove();
         }
@@ -79,21 +81,21 @@ public class PlayerController : MonoBehaviour
 
     Vector3 PoolInput()
     {
-        h = Virtualonclick.Horizontal();
-        v = Virtualonclick.Vertical();
+        horizontal = joyStick.Horizontal();
+        vertical = joyStick.Vertical();
 
-        moverDir = new Vector3(h, 0, v).normalized;
+        moverDir = new Vector3(horizontal, 0, vertical).normalized;
 
         return moverDir;
     }
 
     void InputBackStep()
     {
-        if(player.PcState.GetType() == typeof(PlayerCharacterAttackState))
+        if (player.PlayerState.GetType() == typeof(PlayerCharacterAttackState))
         {
             return;
         }
-        else if(player.PcState.GetType() != typeof(PlayerCharacterRunState))
+        else if (player.PlayerState.GetType() != typeof(PlayerCharacterRunState))
         {
             Debug.Log("백스텝 호출");
             player.isRunning = false;
@@ -103,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMove()
     {
-        if (moveVector == Vector3.zero)
+        if (inputMoveVector == Vector3.zero)
         {
             player.isRunning = false;
             player.moveVector = Vector3.zero;
@@ -112,24 +114,28 @@ public class PlayerController : MonoBehaviour
         else
         {
             player.isRunning = true;
-            player.moveVector = moveVector;
+            player.moveVector = inputMoveVector;
             player.SetState(new PlayerCharacterRunState(player));
         }
-     
+
     }
 
     void WeaponSwapButton()
     {
-        if (player.CurrentweaponState == PlayerCharacterWeaponState.ShortSword)
+        Debug.Log(player.isSwapAble);
+        if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
         {
             player.WeaponSwitching(PlayerCharacterWeaponState.LongSword);
         }
-        else
+        else if(player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+        {
             player.WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
 
-        isComboState = false;
-        commandControll.ClearCommand();
-        comboResetCount = 0;
+            isComboState = false;
+            commandControll.ClearCommand();
+            comboResetCount = 0;
+        }
+
         //무기 바꾸면 콤보 초기화해야됨.
     }
 
@@ -150,7 +156,7 @@ public class PlayerController : MonoBehaviour
     void ComboOne()
     {
         //무기상태 확인
-        if (player.CurrentweaponState == PlayerCharacterWeaponState.ShortSword)
+        if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
         {
             if (comboResetCount == 0)
             {
@@ -159,7 +165,7 @@ public class PlayerController : MonoBehaviour
                 commandControll.TakeCommand(Attack3);
             }
         }
-        else if (player.CurrentweaponState == PlayerCharacterWeaponState.LongSword)
+        else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
         {
             if (comboResetCount == 0)
             {
@@ -172,7 +178,7 @@ public class PlayerController : MonoBehaviour
     void ComboTwo()
     {
         //무기상태 확인
-        if(player.CurrentweaponState == PlayerCharacterWeaponState.ShortSword)
+        if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
         {
             if (comboResetCount == 0)
             {
@@ -181,7 +187,7 @@ public class PlayerController : MonoBehaviour
                 commandControll.TakeCommand(Attack4);
             }
         }
-        else if (player.CurrentweaponState == PlayerCharacterWeaponState.LongSword)
+        else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
         {
             if (comboResetCount == 0)
             {
@@ -195,7 +201,7 @@ public class PlayerController : MonoBehaviour
     void StartCombo()
     {
         player.isRunning = false;
-        
+
         player.SetState(new PlayerCharacterAttackState(player));
 
         isComboState = true;
@@ -240,4 +246,6 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(second);
     }
+
+    //스킬버튼 쿨타임 제어 코루틴 만들자
 }

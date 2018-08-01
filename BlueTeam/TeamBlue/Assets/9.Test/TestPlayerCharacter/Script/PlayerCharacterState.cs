@@ -4,15 +4,14 @@ using UnityEngine;
 
 public abstract class PlayerCharacterState
 {
- 
-    public PlayerCharacterState(Player player)
-    {
-        this.player = player;
-    }
     protected Player player;
 
     public abstract void Tick(Vector3 moveVector);
 
+    public PlayerCharacterState(Player player)
+    {
+        this.player = player;
+    }
 
 }
 public class PlayerCharacterRunState : PlayerCharacterState
@@ -21,8 +20,8 @@ public class PlayerCharacterRunState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.TurnToPC(moveVector);
-        player.RunToPC(moveVector);
+        player.Turn(moveVector);
+        player.Running(moveVector);
     }
 }
 public class PlayerCharacterAttackState : PlayerCharacterState
@@ -49,7 +48,7 @@ public class PlayerCharacterBackStepState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.BackStepToPC();
+        player.BackStep();
     }
 }
 
