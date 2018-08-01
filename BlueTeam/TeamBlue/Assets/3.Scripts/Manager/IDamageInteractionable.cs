@@ -3,7 +3,7 @@
 public interface IDamageInteractionable  {
 
     
-    void SendDamage();
+    void SendDamage(IDamageInteractionable target);
     void ReceiveDamage(int damage);
 }
 
