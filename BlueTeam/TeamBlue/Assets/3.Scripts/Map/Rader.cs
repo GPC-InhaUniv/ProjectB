@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class RaderObject
 {
-    public Image Icon;// { get; set; }
-    public GameObject Owner;// { get; set; }
+    public Image Icon;
+    public GameObject Owner;
 }
 
 public class Rader : MonoBehaviour
