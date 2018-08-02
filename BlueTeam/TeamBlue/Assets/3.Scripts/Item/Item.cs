@@ -22,16 +22,36 @@ public class Item : MonoBehaviour
     int itemIndex;
 
     public int Code;
-    string Name;
-    ItemType ItemType;
-    int Hp;
-    int Attack;
-    int Defence;
-    int RecipeWood;
-    int RecipeIron;
-    int RecipeSheep;
-    int RecipeBrick;
-    string Image;
+
+    string name;
+    public string Name { get { return name; }}
+
+    ItemType itemType;
+    public ItemType ItemType { get { return itemType; } }
+
+    int hp;
+    public int Hp { get { return hp; } }
+
+    int attack;
+    public int Attack { get { return attack; } }
+
+    int defence;
+    public int Defence { get { return defence; } }
+
+    int recipeWood;
+    public int RecipeWood { get { return recipeWood; } }
+
+    int recipeIron;
+    public int RecipeIron { get { return recipeIron; } }
+
+    int recipeSheep;
+    public int RecipeSheep { get { return recipeSheep; } }
+
+    int recipeBrick;
+    public int RecipeBrick { get { return recipeBrick; } }
+
+    string image;
+    public string Image { get { return image; } }
 
     private void Start()
     {
@@ -41,42 +61,43 @@ public class Item : MonoBehaviour
     public void TestMakeItem()
     {
         Code = Convert.ToInt32(testInputField.text);
+       
     }
 
 
     public void SetItem(int code)
     {
-        Code = code;
+     //   Code = code;
         for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
         {
             if (itemtable.sheets[0].list[i].Code == Code)
             {
-                Name = itemtable.sheets[0].list[i].Name;
+                name = itemtable.sheets[0].list[i].Name;
                 switch( itemtable.sheets[0].list[i].Type)
                 {
                     case "Resouece":
-                        ItemType = ItemType.Resouece;
+                        itemType = ItemType.Resouece;
                         break;
                     case "Expandable":
-                        ItemType = ItemType.Exapandable; 
+                        itemType = ItemType.Exapandable; 
                         break;
                     case "Equipment":
-                        ItemType = ItemType.Equipmentable;
+                        itemType = ItemType.Equipmentable;
                         break;
                 }
 
-                Hp = itemtable.sheets[0].list[i].HP;
-                Attack = itemtable.sheets[0].list[i].Attack;
-                RecipeWood = itemtable.sheets[0].list[i].RecipeWood;
-                RecipeSheep = itemtable.sheets[0].list[i].RecipeSheep;
-                RecipeIron = itemtable.sheets[0].list[i].RecipeIron;
-                RecipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
-                Image= itemtable.sheets[0].list[i].Image;
+                hp = itemtable.sheets[0].list[i].HP;
+                attack = itemtable.sheets[0].list[i].Attack;
+                recipeWood = itemtable.sheets[0].list[i].RecipeWood;
+                recipeSheep = itemtable.sheets[0].list[i].RecipeSheep;
+                recipeIron = itemtable.sheets[0].list[i].RecipeIron;
+                recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
+                image= itemtable.sheets[0].list[i].Image;
 
 
 
             }
         }
-
+        GameData.Instance.PlayerGamedata.Add(Code, 100);
     }
 }

@@ -4,13 +4,55 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    List<InventorySlot> slotList;
+
+    Item itemCarrier;
+
+    // Use this for initialization
+    void Start () {
+		itemCarrier = itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Item>();
+
+
+    }
+	/*
+	public void AddItem(Item item)
+    {
+        foreach(InventorySlot slot in slotList)
+        {
+            if (!slot.isEmpty)
+                continue;
+            if(slot.SlotinItem.Peek().itemtype == item.itemtype)
+            {
+                slot.AddItem(item);
+                return;
+            }
+        }
+        foreach (InventorySlot slot in slotList)
+        {
+            if (slot.isEmpty)
+                continue;
+           
+                slot.AddItem(item);
+                return;
+            
+        }
+    }*/
+
+    public void SwapOnclick(InventorySlot NewClickedSlot)
+    {
+        for(int i = 0; i < slotList.Count;i++)
+        {
+            if(slotList[i].isClicked)
+            {
+                slotList[i].isClicked = false;
+                NewClickedSlot.isClicked = true;
+                return;
+            }
+            else
+            {
+                NewClickedSlot.isClicked = true;
+            }
+        }
+    }
 }

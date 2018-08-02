@@ -59,7 +59,7 @@ public class PlayerPresenter : MonoBehaviour
 
         AttackButtons.onClick.AddListener(() => Shuffle());
 
-        //스킬사용할 버튼 SkillButtons.onClick.AddListener(() => );
+        SkillButtons.onClick.AddListener(() => player.Skill1());
 
         BackStepButtons.onClick.AddListener(() => InputBackStep());
 
@@ -91,13 +91,12 @@ public class PlayerPresenter : MonoBehaviour
 
     void InputBackStep()
     {
-        if (player.PlayerState.GetType() == typeof(PlayerCharacterAttackState))
+        if (player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterRunState))
         {
             return;
         }
-        else if (player.PlayerState.GetType() != typeof(PlayerCharacterRunState))
+        else 
         {
-            Debug.Log("백스텝 호출");
             player.isRunning = false;
             player.SetState(new PlayerCharacterBackStepState(player));
         }

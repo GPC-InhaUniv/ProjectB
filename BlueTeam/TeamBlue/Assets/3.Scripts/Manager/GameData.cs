@@ -43,13 +43,31 @@ public struct PlayerInformation
 
     public PlayerInformation(int playerlevel, int playerexp, int portioncount)
     {
-        
+
         PlayerLevel = playerlevel;
         PlayerExp = playerexp;
         PortionCount = portioncount;
-      
+
     }
 }
+
+
+//for Save JsonFile
+[Serializable]
+public struct PlayerInventoryData
+{
+    public int[] Code;
+    public int[] Count;
+}
+
+[Serializable]
+public struct PlayerWareHouseData
+{
+    public int[] Code;
+    public int[] Count;
+}
+
+
 
 
 public class GameData : Singleton<GameData>
@@ -57,10 +75,10 @@ public class GameData : Singleton<GameData>
     public const int MAXDUNGEONCOUNT = 4;
     public const int MAXITEMCOUNT = 5;
     public PlayerInformation PlayerInfomation;
-    public TownInformation AtownInformation;  
+    public TownInformation AtownInformation;
     public TownInformation BtownInformation;
-    public Dictionary<int,int> PlayerGamedata;
-    public Dictionary<int,int> WareHouseGamedata;
+    public Dictionary<int, int> PlayerGamedata;
+    public Dictionary<int, int> WareHouseGamedata;
 
     /*NOTICE*/
     /* For Load String Data*/
@@ -69,10 +87,10 @@ public class GameData : Singleton<GameData>
     string[] inventoryItemArray;
     string[] warehouseItemArray;
     string[] townInformationArray;
-  
+
     void Start()
     {
-        PlayerGamedata = new Dictionary<int, int>();       
+        PlayerGamedata = new Dictionary<int, int>();
         WareHouseGamedata = new Dictionary<int, int>();
         AtownInformation = new TownInformation(0, 0);
         BtownInformation = new TownInformation(0, 0);
@@ -85,7 +103,7 @@ public class GameData : Singleton<GameData>
     {
 
         AtownInformation.RelationsShip++;
-        BtownInformation.LastCleardQuest = 4;  
+        BtownInformation.LastCleardQuest = 4;
 
     }
     public void SetGameDataToServer()
@@ -110,8 +128,8 @@ public class GameData : Singleton<GameData>
         AtownQuest = AtownInformation.LastCleardQuest.ToString();
         BtownRelationship = BtownInformation.RelationsShip.ToString();
         BtownQuest = BtownInformation.LastCleardQuest.ToString();
-       
-        foreach(KeyValuePair<int,int> temp in PlayerGamedata)
+
+        foreach (KeyValuePair<int, int> temp in PlayerGamedata)
         {
             string tempstring = temp.Key.ToString() + "_" + temp.Value.ToString() + "/";
             InventoryItems += tempstring;
@@ -126,7 +144,7 @@ public class GameData : Singleton<GameData>
         Dictionary<string, string> data = new Dictionary<string, string>();
 
         data.Add("PlayerInformation", playerLv + "/" + playerExp + "/" + playerPortionCount);
-        data.Add("TownInformation", AtownRelationship + "/" + AtownQuest+ "/"+BtownRelationship +"/"+BtownQuest);
+        data.Add("TownInformation", AtownRelationship + "/" + AtownQuest + "/" + BtownRelationship + "/" + BtownQuest);
         data.Add("InventroyItem", InventoryItems);
         data.Add("WareHouseItem", WareHouseItems);
 
@@ -157,20 +175,48 @@ public class GameData : Singleton<GameData>
         UserDataRecord userData = new UserDataRecord();
         AccountInfo.Instance.Info.UserData.TryGetValue("PlayerInformation", out userData);
         tempPlayerInformation = userData.Value;
- 
-        AccountInfo.Instance.Info.UserData.TryGetValue("InventoryItems", out userData);
+
+        AccountInfo.Instance.Info.UserData.TryGetValue("InventroyItem", out userData);
         tempInventoryitems = userData.Value;
 
-        AccountInfo.Instance.Info.UserData.TryGetValue("WareHouseItems", out userData);
+        AccountInfo.Instance.Info.UserData.TryGetValue("WareHouseItem", out userData);
         tempWarehouseitems = userData.Value;
 
         AccountInfo.Instance.Info.UserData.TryGetValue("TownInformation", out userData);
         tempTownInformations = userData.Value;
 
-        playerInformationArray = tempPlayerInformation.Split('/');
-        inventoryItemArray = tempInventoryitems.Split('/');
-        warehouseItemArray = tempWarehouseitems.Split('/');
-        townInformationArray = tempTownInformations.Split('/');
+        if (tempPlayerInformation != null)
+            playerInformationArray = tempPlayerInformation.Split('/');
+
+        //itemload
+        if (tempInventoryitems != null)
+        {
+            inventoryItemArray = tempInventoryitems.Split('/');
+
+            for (int i = 0; i < inventoryItemArray.Length - 1; i++)
+            {
+                string[] tempArray = inventoryItemArray[i].Split('_');
+
+                PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
+
+            }
+        }
+
+        if (tempWarehouseitems != null)
+        {
+            warehouseItemArray = tempWarehouseitems.Split('/');
+            for (int i = 0; i < warehouseItemArray.Length - 1; i++)
+            {
+                string[] tempArray = warehouseItemArray[i].Split('_');
+
+                WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
+
+            }
+        }
+
+
+        if (tempTownInformations != null)
+            townInformationArray = tempTownInformations.Split('/');
 
         //playerinfo load
         PlayerInfomation.PlayerLevel = Convert.ToInt32(playerInformationArray[0]);
@@ -178,21 +224,8 @@ public class GameData : Singleton<GameData>
         PlayerInfomation.PortionCount = Convert.ToInt32(playerInformationArray[2]);
 
 
-        //itemload
-        for(int i=0;i< inventoryItemArray.Length;i++)
-        {
-            string[] tempArray = inventoryItemArray[i].Split('_');
 
-            PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
-            
-        }
-        for (int i = 0; i < warehouseItemArray.Length; i++)
-        {
-            string[] tempArray = warehouseItemArray[i].Split('_');
 
-            WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
-
-        }
 
         //Town Relationship and quest load
         AtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[0]);
@@ -200,7 +233,7 @@ public class GameData : Singleton<GameData>
         BtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[2]);
         BtownInformation.LastCleardQuest = Convert.ToInt32(townInformationArray[3]);
 
-      
+
     }
 
 
