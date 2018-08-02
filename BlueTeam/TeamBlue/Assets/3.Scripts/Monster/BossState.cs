@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class State : MonoBehaviour {
+public abstract class BossState  {
 
 	// Use this for initialization
 	void Start () {
