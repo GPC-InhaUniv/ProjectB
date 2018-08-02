@@ -8,12 +8,14 @@ public class WeaponSwap : MonoBehaviour {
     [SerializeField]
     GameObject FakeLongSword, FakeShortSword;
     // Use this for initialization
+    
 
     void Start ()
     {
+
         FakeShortSword.SetActive(false);
         LongSword.SetActive(false);
-	}
+    }
 	
 
     public void SetWeapon(bool isSet, PlayerCharacterWeaponState newState, PlayerCharacterWeaponState preState)
@@ -36,4 +38,6 @@ public class WeaponSwap : MonoBehaviour {
         }
 
     }
+
+
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
-    Animator animator;
 
-    Coroutine attackingCoroutine, backStepCoroutine;
+    public Animator animator;
+
+    Coroutine attackingCoroutine, backStepCoroutine, skillCoroutine;
 
     void Awake()
     {
@@ -21,9 +22,18 @@ public class PlayerAnimation : MonoBehaviour {
         attackingCoroutine = StartCoroutine(AttackCoroutine(attackName));
     }
 
+    public void SkillAnimation(string skillName)
+    {
+        if (skillCoroutine != null)
+        {
+            StopCoroutine(SkillCoroutine(skillName));
+        }
+        skillCoroutine = StartCoroutine(SkillCoroutine(skillName));
+    }
+
     public void BackStepAnimation()
     {
-        if (attackingCoroutine != null)
+        if (backStepCoroutine != null)
         {
             StopCoroutine(BackStepCoroutine());
         }
@@ -44,6 +54,12 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetBool(attackName, false);
     }
 
+    IEnumerator SkillCoroutine(string skillName)
+    {
+        animator.SetBool(skillName, true);
+        yield return new WaitForSeconds(1.0f);
+        animator.SetBool(skillName, false);
+    }
 
     IEnumerator BackStepCoroutine()
     {
@@ -61,10 +77,12 @@ public class PlayerAnimation : MonoBehaviour {
 
         animator.SetBool(weaponState.ToString(), true);
     }
+
+
     IEnumerator PreSwapCoroutine()
     {
         animator.SetBool("Swap", true);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         animator.SetBool("Swap", false);
     }
 
