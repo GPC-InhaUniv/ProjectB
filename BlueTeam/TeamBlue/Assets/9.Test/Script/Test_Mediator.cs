@@ -6,14 +6,10 @@ public class Test_Mediator : Singleton<Test_Mediator>
 {
     protected Test_Mediator() { }
 
-    Object Sender;
-    IModelColleague Recever;
-
-    //IDamageInteractionable DamageSender;
-   IDamageInteractionable DamageReceiver;
-
-
-  //  public IDamageInteractionable target;
+    IDamageInteractionable DamageReceiver;
+    IPositionInteractionable PositionReceiver;
+    IQuestInteractionable QuestReceiver;
+  
     public void SendTarget(IDamageInteractionable target, int damage)
     {
         DamageReceiver = target;
@@ -21,16 +17,20 @@ public class Test_Mediator : Singleton<Test_Mediator>
 
     }
 
-    public void SendPosition()
+//미니맵 Script 및 미니맵의 Tag 필요 
+    public void SendPosition(Vector3 playerPosition)
     {
+        //       if (PositionReceiver == null)
+        //           PositionReceiver = GameObject.FindGameObjectWithTag("MiniMap").GetComponent<Minimap>();
 
+        PositionReceiver.ReceivePosition(playerPosition);
     }
 
     public void SendQuest()
     {
 
     }
-    
-   
-	
+
+
+
 }

@@ -9,7 +9,6 @@ public class Test_Item : MonoBehaviour {
         EquipItem,
         ConsumItem,
         ResourceItem,
-        
     }
 
     public ItemType itemtype;
