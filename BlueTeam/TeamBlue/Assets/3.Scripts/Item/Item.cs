@@ -41,12 +41,13 @@ public class Item : MonoBehaviour
     public void TestMakeItem()
     {
         Code = Convert.ToInt32(testInputField.text);
+       
     }
 
 
     public void SetItem(int code)
     {
-        Code = code;
+     //   Code = code;
         for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
         {
             if (itemtable.sheets[0].list[i].Code == Code)
@@ -77,6 +78,6 @@ public class Item : MonoBehaviour
 
             }
         }
-
+        GameData.Instance.PlayerGamedata.Add(Code, 100);
     }
 }
