@@ -24,8 +24,10 @@ namespace MonsterAI
         public State state, currentState;
         //Monster Status//
         [SerializeField]
-        protected int monsterHP, monsterMaxHP, walkRange , skillCoolTime;
-        
+        protected int monsterHP, monsterMaxHP, walkRange ;
+        [SerializeField]
+        protected float skillCoolTime;
+
         [SerializeField]
         protected bool attacking, died, skillUse;
         protected GameObject[] dropItemPrefab;
@@ -87,7 +89,7 @@ namespace MonsterAI
         }
         protected  void UseSkill()
         {
-            skillUsable.UseSkill(this , animator);
+            skillUsable.UseSkill(gameObject , animator);
         }
 
         protected void Damaged(int damage)
@@ -150,24 +152,31 @@ namespace MonsterAI
             float attackRange = 1.5f;
             float skillRange = 10.0f;
 
-            if (Vector3.Distance(attackTarget.position, transform.position) <= skillRange)
+
+
+            if (Vector3.Distance(attackTarget.position, transform.position) <= skillRange && !skillUse)
             {
-                if (skillCoolTime != 0 && !skillUse)
+                if (skillCoolTime != 0)
                 {
+                    monsterMove.SetDestination(attackTarget.position, 0);
+                   // monsterMove.SetDirection(attackTarget.position);
+
+
+                    StartCoroutine(WaitCoolTime());
                     ChangeState(State.Skilling);
+
                     animator.SetInteger("moving", 0);
-                    //StartCoroutine(WaitCoolTime());
-                    //skillUse = true;
-                    Debug.Log("들어오니?");
                 }
-                else if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+
+            }
+            else
+            {
+                if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
                 {
                     ChangeState(State.Attacking);
                     animator.SetInteger("moving", 0);
-                    Debug.Log("atttttttkig");
                 }
             }
-
         }
         // 일정거리안에 있으면 연속공격//
         protected void AttackCombo()
@@ -193,18 +202,17 @@ namespace MonsterAI
             Debug.Log("gogogo");
         }
 
-        //protected IEnumerator WaitCoolTime()
-        //{
-        //    skillUse = true;
-        //    animator.SetInteger("moving", 0);
+        protected IEnumerator WaitCoolTime()
+        {
+            skillUse = true;
 
-        //    ChangeState(State.Skilling);
-        //    Debug.Log("gogo");
 
-        //    yield return new WaitForSeconds(skillCoolTime);
-        //    skillUse = false;
+            Debug.Log("gogo");
 
-        //}
+            yield return new WaitForSeconds(skillCoolTime);
+            skillUse = false;
+
+        }
 
 
     }
