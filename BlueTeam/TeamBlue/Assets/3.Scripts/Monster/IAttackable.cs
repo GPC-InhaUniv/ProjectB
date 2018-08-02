@@ -18,21 +18,25 @@ public class NormalAttack : IAttackable
 
     public override void Attack(Animator anim)
     {
-     //   this.anim = anim;
-
-
         anim.SetInteger("Attack", 2);
     }
 
 }
-public class ComboAttack : IAttackable
+public class ComboAttack : IAttackable , IDamageInteractionable
 {
     public override void Attack(Animator anim)
     {
-   //     this.anim = anim;
         anim.SetInteger("Attack", 1);
-
     }
 
+    public void ReceiveDamage(int damage)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SendDamage(IDamageInteractionable target)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 

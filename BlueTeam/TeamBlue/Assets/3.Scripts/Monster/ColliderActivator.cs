@@ -19,8 +19,15 @@ public class ColliderActivator : MonoBehaviour {
 
     }
 
-    void StartAttackHit()
+    void StartAttack()
     {
+
+        activeColliders[0].enabled = true;
+
+    }
+    void AttackEnd()
+    {
+        activeColliders[0].enabled = false;
 
     }
 }

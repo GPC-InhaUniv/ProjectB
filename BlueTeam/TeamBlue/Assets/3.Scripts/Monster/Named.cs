@@ -15,16 +15,11 @@ public class Named : Monster
         waitBaseTime = 2.0f;
         waitTime = waitBaseTime;
 
+        attackable = new NormalAttack();
+        skillUsable = new NamedSkill(this, skillprefab);
         //test//
         AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
-
-
-        attackable = new NormalAttack();
-        skillUsable = new NoSkill(this);
-
-
-
-        
+     
 
     }
     void Update()

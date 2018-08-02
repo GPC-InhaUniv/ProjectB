@@ -8,15 +8,12 @@ public class MonsterMove : MonoBehaviour {
     const float ROTATIONSPEED = 100.0f;
 
     //Go To Destination//
-    [SerializeField]
     public bool arrived = false;
     [SerializeField]
     bool forceRotate = false;
     [SerializeField]
     Vector3 destination, forceRotateDirection;
-    [SerializeField]
     float walkSpeed;
-    [SerializeField]
     Rigidbody rigidMove;
 
     // Use this for initialization

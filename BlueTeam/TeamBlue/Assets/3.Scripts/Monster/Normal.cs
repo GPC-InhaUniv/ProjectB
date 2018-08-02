@@ -17,12 +17,8 @@ public class Normal : Monster {
         //test//
         AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
-
         attackable = new ComboAttack();
-        skillUsable = new NamedSkill();
-
-        walkRange = 5;
-        speed = 3;
+        skillUsable = new NoSkill(this);
 
 
 

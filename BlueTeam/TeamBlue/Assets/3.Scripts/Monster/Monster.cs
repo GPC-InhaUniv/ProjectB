@@ -11,6 +11,8 @@ namespace MonsterAI
         // test //
         [SerializeField]
         protected AttackArea[] attackAreas;
+        [SerializeField]
+        protected GameObject skillprefab;
         // Monster State//
         public enum State
         {
@@ -27,7 +29,7 @@ namespace MonsterAI
         protected int monsterHP, monsterMaxHP, walkRange ;
         [SerializeField]
         protected float skillCoolTime;
-
+        
         [SerializeField]
         protected bool attacking, died, skillUse;
         protected GameObject[] dropItemPrefab;
@@ -59,11 +61,12 @@ namespace MonsterAI
 
         public void SendDamage(IDamageInteractionable target)
         {
-            // Test_Mediator.Instance.SendTarget(target, MonsterPower);
+            Test_Mediator.Instance.SendTarget(target, MonsterPower);
         }
 
         public void ReceiveDamage(int damage)
         {
+            animator.SetTrigger("Hitted");
             monsterHP -= damage;
             if (monsterHP <= 0)
             {
@@ -92,10 +95,6 @@ namespace MonsterAI
             skillUsable.UseSkill(animator);
         }
 
-        protected void Damaged(int damage)
-        {
-
-        }
         protected void DropItem()
         {
             //if (dropItemPrefab.Length == 0) { return; }
@@ -150,24 +149,12 @@ namespace MonsterAI
             // 1.5미터 이내로 접근하면 공격
             float attackRange = 1.5f;
             float skillRange = 10.0f;
-
-
-
+            //스킬 사용할 조건//
             if (Vector3.Distance(attackTarget.position, transform.position) <= skillRange && !skillUse)
             {
-                if (skillCoolTime != 0)
-                {
-                    monsterMove.SetDestination(attackTarget.position, 0);
-                    monsterMove.SetDirection(attackTarget.position);
-
-
-                    StartCoroutine(WaitCoolTime());
-                    ChangeState(State.Skilling);
-
-                    animator.SetInteger("moving", 0);
-                }
-
+                StartCoroutine(WaitCoolTime());
             }
+            //공격 조건//
             else
             {
                 if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
@@ -177,18 +164,7 @@ namespace MonsterAI
                 }
             }
         }
-        // 일정거리안에 있으면 연속공격//
-        protected void AttackCombo()
-        {
-            //float attackRange = 1.5f;
-            //if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
-            //    animator.SetInteger("Attack", 2);
-            //else
-            //{
-            //    animator.SetInteger("Attack", 0);
-            //    ChangeState(State.Chasing);
-            //}
-        }
+
         protected void AttackEnd()
         {
             StartCoroutine(WaitNextState());
@@ -198,15 +174,17 @@ namespace MonsterAI
             yield return new WaitForSeconds(0.5f);
             animator.SetInteger("Attack", 0);
             ChangeState(State.Chasing);
-            Debug.Log("gogogo");
         }
 
         protected IEnumerator WaitCoolTime()
         {
             skillUse = true;
+            monsterMove.SetDestination(attackTarget.position, 0);
+            monsterMove.SetDirection(attackTarget.position);
 
+            ChangeState(State.Skilling);
 
-            Debug.Log("gogo");
+            animator.SetInteger("moving", 0);
 
             yield return new WaitForSeconds(skillCoolTime);
             skillUse = false;
@@ -216,3 +194,20 @@ namespace MonsterAI
 
     }
 }
+
+
+
+
+
+//// 일정거리안에 있으면 연속공격//
+//protected void AttackCombo()
+//{
+//    float attackRange = 1.5f;
+//    if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+//        animator.SetInteger("Attack", 2);
+//    else
+//    {
+//        animator.SetInteger("Attack", 0);
+//        ChangeState(State.Chasing);
+//    }
+//}

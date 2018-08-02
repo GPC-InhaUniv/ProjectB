@@ -14,6 +14,7 @@ public class TargetSearch : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
+        
         // Player태그를 타깃으로 한다.
         if (other.tag == "Player")
             monster.SetAttackTarget(other.transform);
