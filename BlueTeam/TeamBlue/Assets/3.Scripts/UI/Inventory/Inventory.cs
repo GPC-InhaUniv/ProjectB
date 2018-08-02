@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    [SerializeField]
+    List<InventorySlot> slotList;
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
