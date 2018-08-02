@@ -160,8 +160,9 @@ public class LoadAssetBundleExample : MonoBehaviour
 
         Debug.Log("개발용 로그인");
         AccountInfo.Login("12341234", "123123");
-        LoadingScene.LoadScene(LoadType.VillageCheckDownLoad,0);
+    
     }
+
 
     public void LoadDungeon()
     {
@@ -170,8 +171,8 @@ public class LoadAssetBundleExample : MonoBehaviour
 
     public void LoadScene()
     {
-        StartCoroutine(SaveAssetBundleOnDisk(BundleURL3, "Villige_Sence"));
-        
+        LoadingScene.LoadScene(LoadType.VillageCheckDownLoad, 0);
+
     }
     public void MoveNextScene(string sceneName)
     {
