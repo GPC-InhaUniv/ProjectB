@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+ 
 public abstract class BossState  {
-
+    
 	// Use this for initialization
 	void Start () {
 		
