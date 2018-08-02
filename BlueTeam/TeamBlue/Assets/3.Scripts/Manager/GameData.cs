@@ -52,6 +52,24 @@ public struct PlayerInformation
 }
 
 
+//for Save JsonFile
+[Serializable]
+public struct PlayerInventoryData
+{
+    public int[] Code;
+    public int[] Count;
+}
+
+[Serializable]
+public struct PlayerWareHouseData
+{
+    public int[] Code;
+    public int[] Count;
+}
+
+
+
+
 public class GameData : Singleton<GameData>
 {
     public const int MAXDUNGEONCOUNT = 4;
@@ -115,7 +133,6 @@ public class GameData : Singleton<GameData>
         {
             string tempstring = temp.Key.ToString() + "_" + temp.Value.ToString() + "/";
             InventoryItems += tempstring;
-            Debug.Log(InventoryItems);
         }
 
         foreach (KeyValuePair<int, int> temp in WareHouseGamedata)
@@ -170,12 +187,12 @@ public class GameData : Singleton<GameData>
 
         if (tempPlayerInformation != null)
             playerInformationArray = tempPlayerInformation.Split('/');
-       
+
         //itemload
         if (tempInventoryitems != null)
         {
             inventoryItemArray = tempInventoryitems.Split('/');
-       
+
             for (int i = 0; i < inventoryItemArray.Length - 1; i++)
             {
                 string[] tempArray = inventoryItemArray[i].Split('_');
@@ -207,9 +224,9 @@ public class GameData : Singleton<GameData>
         PlayerInfomation.PortionCount = Convert.ToInt32(playerInformationArray[2]);
 
 
-      
 
-      
+
+
         //Town Relationship and quest load
         AtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[0]);
         AtownInformation.LastCleardQuest = Convert.ToInt32(townInformationArray[1]);

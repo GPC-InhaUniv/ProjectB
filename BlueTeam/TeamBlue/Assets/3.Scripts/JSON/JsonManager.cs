@@ -80,16 +80,38 @@ public class Data
     public PlayerInformation PlayerInfomation;
     public TownInformation ATownInformation;
     public TownInformation BTownInformation;
-    public Dictionary<int, int> PlayerGamedata;
-    public Dictionary<int, int> WareHouseGamedata;
+    public PlayerInventoryData PlayerInventoryData;
+    public PlayerWareHouseData PlayerWareHouseData;
 
     public Data()
     {
         PlayerInfomation = GameData.Instance.PlayerInfomation;
         ATownInformation = GameData.Instance.AtownInformation;
         BTownInformation = GameData.Instance.BtownInformation;
-        PlayerGamedata = GameData.Instance.PlayerGamedata;
-        WareHouseGamedata = GameData.Instance.WareHouseGamedata;
+        PlayerInventoryData.Code = new int[GameData.Instance.PlayerGamedata.Count];
+        PlayerInventoryData.Count = new int[GameData.Instance.PlayerGamedata.Count];
+        PlayerWareHouseData.Code = new int[GameData.Instance.WareHouseGamedata.Count];
+        PlayerWareHouseData.Count = new int[GameData.Instance.WareHouseGamedata.Count];
+
+        int tempIndex = 0;
+        foreach (KeyValuePair<int, int> temp in GameData.Instance.PlayerGamedata)
+        {
+            PlayerInventoryData.Code[tempIndex] = temp.Key;
+            PlayerInventoryData.Count[tempIndex] = temp.Value;
+            tempIndex++;
+
+
+        }
+        tempIndex = 0;
+        foreach (KeyValuePair<int, int> temp in GameData.Instance.WareHouseGamedata)
+        {
+            PlayerWareHouseData.Code[tempIndex] = temp.Key;
+            PlayerWareHouseData.Count[tempIndex] = temp.Value;
+            tempIndex++;
+
+
+        }
+        
     }
 }
 
