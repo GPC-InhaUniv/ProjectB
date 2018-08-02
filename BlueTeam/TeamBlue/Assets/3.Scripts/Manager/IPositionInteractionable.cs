@@ -2,7 +2,7 @@
 
 interface IPositionInteractionable {
 
-    void SendPosition(Vector3 position);
+    void SendPosition();
     void ReceivePosition(Vector3 position);
 
 }

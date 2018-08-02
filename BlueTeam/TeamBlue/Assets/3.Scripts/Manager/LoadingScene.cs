@@ -67,7 +67,7 @@ public class LoadingScene : MonoBehaviour
             Debug.Log("다운로드 불필요");
             totalBundleCount = 1;
         }
-
+        
         switch(currentType)
         {
             case LoadType.Village:  

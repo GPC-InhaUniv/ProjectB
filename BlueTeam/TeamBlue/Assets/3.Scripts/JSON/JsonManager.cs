@@ -80,25 +80,20 @@ public class Data
     public PlayerInformation PlayerInfomation;
     public TownInformation ATownInformation;
     public TownInformation BTownInformation;
-    public Equipment Equipment;
-    public EquipmentCombination EquipmentCombination;
-    public Item InventoryItems;
-    public Item WareHouseItems;
-    public DevelopmentCard Card;
-    
+    public Dictionary<int, int> PlayerGamedata;
+    public Dictionary<int, int> WareHouseGamedata;
 
     public Data()
     {
-        PlayerInfomation = GameData.Instance.playerInfomation;
+        PlayerInfomation = GameData.Instance.PlayerInfomation;
         ATownInformation = GameData.Instance.AtownInformation;
         BTownInformation = GameData.Instance.BtownInformation;
-        Equipment = GameData.Instance.equipment;
-        InventoryItems = GameData.Instance.inventoryItem;
-        WareHouseItems = GameData.Instance.wareHouseItem;
-        Card = GameData.Instance.card;
-        EquipmentCombination = GameData.Instance.equipmentCombination;
+        PlayerGamedata = GameData.Instance.PlayerGamedata;
+        WareHouseGamedata = GameData.Instance.WareHouseGamedata;
     }
 }
+
+
 
 
 
