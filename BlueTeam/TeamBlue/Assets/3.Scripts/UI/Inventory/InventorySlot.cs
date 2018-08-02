@@ -37,7 +37,11 @@ public class InventorySlot : MonoBehaviour
     {
         if(SlotinItem.Count<=0)
         {
-            SlotinItem = defaltSprite;
+            slotImage.sprite =  defaltSprite;
+        }
+        else
+        {
+           // slotImage.sprite = SlotinItem.Peek().ite
         }
     }
 }
