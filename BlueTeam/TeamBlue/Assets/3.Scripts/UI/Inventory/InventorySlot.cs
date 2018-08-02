@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-
-public class InventorySlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour, IPointerClickHandler
 {
 
     public Stack<Item> SlotinItem;
@@ -18,6 +18,8 @@ public class InventorySlot : MonoBehaviour
     public bool isEmpty;
 
     Image itemCarrier;
+
+    public bool isClicked;
 
     // Use this for initialization
     void Start()
@@ -35,13 +37,18 @@ public class InventorySlot : MonoBehaviour
 
     public void UpdateIamge()
     {
-        if(SlotinItem.Count<=0)
+        if (SlotinItem.Count <= 0)
         {
-            slotImage.sprite =  defaltSprite;
+            slotImage.sprite = defaltSprite;
         }
         else
         {
-           // slotImage.sprite = SlotinItem.Peek().ite
+            // slotImage.sprite = SlotinItem.Peek().item.itemSprite;
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+       inventory.SwapOnclick(this);     
     }
 }
