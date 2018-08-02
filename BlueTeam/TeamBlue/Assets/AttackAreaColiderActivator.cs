@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour {
+public class AttackAreaColiderActivator : MonoBehaviour {
 
-    [SerializeField]
-    List<InventorySlot> slotList;
-
-
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
 		
 	}
 	
@@ -17,4 +13,5 @@ public class Inventory : MonoBehaviour {
 	void Update () {
 		
 	}
+
 }

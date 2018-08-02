@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public bool isSwapAble;
 
     public int attackNum;
-
+    public int skillNum;
     public PlayerCharacterWeaponState CurrentWeaponState;
     public PlayerCharacterState PlayerState;
 
@@ -23,8 +23,14 @@ public class Player : MonoBehaviour
     Vector3 backTargetVector;
 
     WeaponSwap weaponSwap;
+
+    ISkillUsable rangeSkill;
+
+    Coroutine swapCoroutine;
+
     void Start()
     {
+        attackNum = 1;
         backTargetVector = new Vector3(0, 0, 1);
 
         PlayerState = new PlayerCharacterIdleState(this);
@@ -35,6 +41,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         weaponSwap = GetComponent<WeaponSwap>();
 
+        rangeSkill = new MultiAttackRangeSkill(this);
 
         playerAinmaton.InitWeapon();
     }
@@ -67,8 +74,8 @@ public class Player : MonoBehaviour
 
     public void PlayerAttack()
     {
-        playerAinmaton.AttackAnimation("Attack" + attackNum.ToString());
         isSwapAble = false;
+        playerAinmaton.AttackAnimation("Attack" + attackNum.ToString());
     }
 
     public void Running(Vector3 moveVector)
@@ -102,17 +109,43 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Skill1()
+    {
+        isSwapAble = false;
+        rangeSkill.UseSkill(playerAinmaton.animator);
+        playerAinmaton.SkillAnimation("Skill" + skillNum.ToString());
 
-    public void AttackDone() //공격 모션이 종료될 때 상태가 바뀝니다.
+        if (swapCoroutine != null)
+        {
+            StopCoroutine(SwapWaitTime(0.0f));
+        }
+        swapCoroutine = StartCoroutine(SwapWaitTime(3.0f));
+    }
+
+    public void AttackEnd() //공격 모션이 종료될 때 상태가 바뀝니다.
     {
         Debug.Log("공격 종료 호출");
+
         PlayerState = new PlayerCharacterIdleState(this);
-        StartCoroutine(SwapWaitTime(2.0f));
+
+        if (swapCoroutine != null)
+        {
+            StopCoroutine(SwapWaitTime(0.0f));
+        }
+        swapCoroutine = StartCoroutine(SwapWaitTime(3.0f));  
     }
 
     public void BackStepDone() //회피 모션이 종료될 때 상태가 바뀝니다.
     {
+        Debug.Log("백스텝 종료 호출");
+
         PlayerState = new PlayerCharacterIdleState(this);
+
+        if (swapCoroutine != null)
+        {
+            StopCoroutine(SwapWaitTime(0.0f));
+        }
+        swapCoroutine = StartCoroutine(SwapWaitTime(3.0f));
 
     }
 
@@ -137,6 +170,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(time);
         isSwapAble = true;      
     }
+
 }
 public enum PlayerCharacterWeaponState
 {
