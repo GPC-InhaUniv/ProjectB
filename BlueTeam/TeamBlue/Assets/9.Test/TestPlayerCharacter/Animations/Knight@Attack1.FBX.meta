@@ -200,9 +200,17 @@ ModelImporter:
       curves: []
       events:
       - time: 0.8067227
-        functionName: AttackDone
+        functionName: AttackEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.3808933
+        functionName: AttackStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
