@@ -9,7 +9,7 @@ public class FollowCamera : MonoBehaviour {
     Vector3 camRotation;
     [SerializeField]
     Vector3 camPosition;
-    Transform _target = null;
+    Transform target = null;
 
 
 	void Start ()
@@ -18,15 +18,15 @@ public class FollowCamera : MonoBehaviour {
         camPosition = new Vector3(4, 5, -2);
         SetTarget(player);
     }
-	void SetTarget(GameObject target)
+	void SetTarget(GameObject GoalTarget)
     {
-        //_target = target.transform;
+        target = GoalTarget.transform;
     }
     private void LateUpdate()
     {
-        if (_target == null) return;
+        if (target == null) return;
 
-        transform.position = _target.position + camPosition;
+        transform.position = target.position + camPosition;
         transform.localRotation = Quaternion.Euler(camRotation);
     }
 }

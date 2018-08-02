@@ -4,6 +4,8 @@ using UnityEngine;
 
 
 public class PlayerStatus : MonoBehaviour {
+
+
     [SerializeField]
     int playerHp;
     public int PlayerHp
@@ -17,6 +19,13 @@ public class PlayerStatus : MonoBehaviour {
     {
         get { return playerExp; }
         set { playerExp = value; }
+    }
+    [SerializeField]
+    int playerLevel;
+    public int PlayerLevel
+    {
+        get { return playerLevel; }
+        set { playerLevel = value; }
     }
     [SerializeField]
     int playerAttackPower;

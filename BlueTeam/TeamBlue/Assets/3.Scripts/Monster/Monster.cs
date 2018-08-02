@@ -12,7 +12,7 @@ namespace MonsterAI
         [SerializeField]
         protected AttackArea[] attackAreas;
         // Monster State//
-        protected enum State
+        public enum State
         {
             Walking,    // 탐색.
             Chasing,    // 추적.
@@ -21,10 +21,13 @@ namespace MonsterAI
             Died,       // 사망.
         };
         [SerializeField]
-        protected State state, currentState;
+        public State state, currentState;
         //Monster Status//
         [SerializeField]
-        protected int monsterHP, monsterMaxHP, walkRange;
+        protected int monsterHP, monsterMaxHP, walkRange ;
+        [SerializeField]
+        protected float skillCoolTime;
+
         [SerializeField]
         protected bool attacking, died, skillUse;
         protected GameObject[] dropItemPrefab;
@@ -69,15 +72,8 @@ namespace MonsterAI
             }
         }
 
-        //private void Start()
-        //{
-        //    monsterMove = GetComponent<MonsterMove>();
-        //    //animator = GetComponent<Animator>();
-        //    startPosition = transform.position;
 
-        //}
-
-        protected void ChangeState(State currentState)
+        public void ChangeState(State currentState)
         {
             this.currentState = currentState;
         }
@@ -89,23 +85,16 @@ namespace MonsterAI
 
         protected  void AttackTarget()
         {
-          //  animator.SetInteger("Attack", 1);
             attackable.Attack(animator);
         }
         protected  void UseSkill()
         {
-            skillUsable.UseSkill();
+            skillUsable.UseSkill(animator);
         }
 
         protected void Damaged(int damage)
         {
 
-            //monsterHP -= damage;
-            //if (monsterHP <= 0)
-            //{
-            //    monsterHP = 0;
-            //    ChangeState(State.Died);
-            //}
         }
         protected void DropItem()
         {
@@ -115,7 +104,6 @@ namespace MonsterAI
         }
         protected void Died()
         {
-            //ChangeState(State.Died);
             died = true;
             animator.SetInteger("moving", 13);
             monsterMove.StopMove();
@@ -143,8 +131,6 @@ namespace MonsterAI
                     monsterMove.SetDirection(destinationPosition);
 
                     waitTime = Random.Range(waitBaseTime, waitBaseTime * 2.0f);
-
-
                 }
             }
             if (attackTarget)
@@ -153,6 +139,7 @@ namespace MonsterAI
                 ChangeState(State.Chasing);
             }
         }
+
         protected void ChaseTarget()
         {
             //SetDestination to Player
@@ -162,10 +149,32 @@ namespace MonsterAI
 
             // 1.5미터 이내로 접근하면 공격
             float attackRange = 1.5f;
-            if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+            float skillRange = 10.0f;
+
+
+
+            if (Vector3.Distance(attackTarget.position, transform.position) <= skillRange && !skillUse)
             {
-                ChangeState(State.Attacking);
-                animator.SetInteger("moving", 0);
+                if (skillCoolTime != 0)
+                {
+                    monsterMove.SetDestination(attackTarget.position, 0);
+                    monsterMove.SetDirection(attackTarget.position);
+
+
+                    StartCoroutine(WaitCoolTime());
+                    ChangeState(State.Skilling);
+
+                    animator.SetInteger("moving", 0);
+                }
+
+            }
+            else
+            {
+                if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+                {
+                    ChangeState(State.Attacking);
+                    animator.SetInteger("moving", 0);
+                }
             }
         }
         // 일정거리안에 있으면 연속공격//
@@ -182,12 +191,27 @@ namespace MonsterAI
         }
         protected void AttackEnd()
         {
-            //애니메이터 파라미터값 확인//
-
-                StartCoroutine(WaitNextState());
-            //ggg
+            StartCoroutine(WaitNextState());
         }
-        protected abstract IEnumerator WaitNextState();
+        protected IEnumerator WaitNextState()
+        {
+            yield return new WaitForSeconds(0.5f);
+            animator.SetInteger("Attack", 0);
+            ChangeState(State.Chasing);
+            Debug.Log("gogogo");
+        }
+
+        protected IEnumerator WaitCoolTime()
+        {
+            skillUse = true;
+
+
+            Debug.Log("gogo");
+
+            yield return new WaitForSeconds(skillCoolTime);
+            skillUse = false;
+
+        }
 
 
     }

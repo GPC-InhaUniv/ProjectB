@@ -5,71 +5,83 @@ using UnityEngine.UI;
 
 public class Test_Inventory : MonoBehaviour
 {
+    [SerializeField]
+    List<Test_Slot> slotList;
 
-    public List<Test_ItemSlot> AllSlot;
+    Test_Slot temp;
 
-
-    public bool AddItem(ISlotable item)
+    private void Start()
     {
+        temp = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Test_Slot>();
+    }
 
-        foreach (Test_ItemSlot slot in AllSlot)
+    public void AddItem(Test_Item item)
+    {
+        foreach (Test_Slot slot in slotList)
         {
-
             if (!slot.isEmpty)
                 continue;
-            if (slot.item == item)
+            if (slot.slot.Peek().itemtype == item.itemtype)
             {
-
                 slot.AddItem(item);
-                return true;
+                return;
             }
         }
 
-        foreach (Test_ItemSlot slot in AllSlot)
+        foreach (Test_Slot slot in slotList)
         {
-            if (!slot.isEmpty)
+            if (slot.isEmpty)
                 continue;
+
             slot.AddItem(item);
-            return true;
+            return;
         }
-        return false;
     }
 
-    Test_ItemSlot NearDisSlot(Vector3 pos)
+    Test_Slot NearDisSlot(Vector3 pos)
     {
         float min = 10000f;
         int index = -1;
-        for (int i = 0; i < AllSlot.Count; i++)
+
+        for (int i = 0; i < slotList.Count; i++)
         {
-            Vector2 sPos = AllSlot[i].transform.position;
-            float distance = Vector2.Distance(sPos, pos);
+            Vector2 comparePos = slotList[i].transform.position;
+            float distance = Vector2.Distance(comparePos, pos);
             if (distance < min)
             {
                 min = distance;
                 index = i;
             }
+
         }
 
-        return AllSlot[index];
+        return slotList[index];
     }
 
-    public void SwapSlotItem(Test_ItemSlot slot)
+    public void SwapSlot(Test_Slot slot, Vector3 carrierPos)
     {
-        Test_ItemSlot FirstSlot = NearDisSlot(slot.transform.position);
 
-        if (FirstSlot == slot)
+        Test_Slot nearSlot = NearDisSlot(carrierPos);
+
+        if (slot == nearSlot)
             return;
 
-        if(FirstSlot.isEmpty)
+        if (!nearSlot.isEmpty)
         {
-            FirstSlot = slot;
-            slot = null;
+            
+
+            temp.slot = slot.slot;
+            temp.isEmpty = slot.isEmpty;
+
+            slot.slot = nearSlot.slot;
+            slot.isEmpty = nearSlot.isEmpty;
+
+            nearSlot.slot = temp.slot;
+            nearSlot.isEmpty = temp.isEmpty;
+
+            slot.UpdateInfo();
+            nearSlot.UpdateInfo();
         }
-
-
-
     }
-
-
 
 }

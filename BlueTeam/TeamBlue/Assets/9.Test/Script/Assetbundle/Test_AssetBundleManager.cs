@@ -33,7 +33,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        StartCoroutine(LoadedAssetBundles());
+        // StartCoroutine(LoadedAssetBundles());
     }
 
     public void LoadArea(AreaType areaType)

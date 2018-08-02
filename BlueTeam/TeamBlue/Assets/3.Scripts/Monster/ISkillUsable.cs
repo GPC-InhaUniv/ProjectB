@@ -1,45 +1,90 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MonsterAI;
 
-public interface ISkillUsable  {
+public interface ISkillUsable
+{
 
-    void UseSkill();
+
+    //    Monster Monster { get; set; }
+
+    void UseSkill(Animator anim);
 
 }
 
 public class NoSkill : ISkillUsable
 {
-    public void UseSkill()
+    Monster monster;
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return monster; }
+        set { monster = value; }
     }
+    public NoSkill(Monster monster)
+    {
+        Monster = monster;
+    }
+
+    public void UseSkill(Animator anim)
+    {
+
+        this.monster.ChangeState(Monster.State.Chasing);
+    }
+
 }
 public class NamedSkill : ISkillUsable
 {
-    public void UseSkill()
+    //public Monster Monster
+    //{
+    //    get { return Monster; }
+    //    set { Monster = value; }
+    //}
+
+    public void UseSkill(Animator anim)
     {
-        throw new System.NotImplementedException();
+        anim.SetInteger("Attack", 3);
+
     }
 }
 public class BossSkillFirst : ISkillUsable
 {
-    public void UseSkill()
+    //public Monster Monster
+    //{
+    //    get { return Monster; }
+    //    set { Monster = value; }
+    //}
+
+    public void UseSkill(Animator anim)
     {
-        throw new System.NotImplementedException();
+
+
     }
 }
 public class BossSkillSecond : ISkillUsable
 {
-    public void UseSkill()
+    public Monster Monster
     {
-        throw new System.NotImplementedException();
+        get { return Monster; }
+        set { Monster = value; }
+    }
+
+    public void UseSkill(Animator anim)
+    {
+
+
     }
 }
 public class BossSkillThird : ISkillUsable
 {
-    public void UseSkill()
+    //public Monster Monster
+    //{
+    //    get { return Monster; }
+    //    set { Monster = value; }
+    //}
+    public void UseSkill(Animator anim)
     {
-        throw new System.NotImplementedException();
+
+
     }
 }
