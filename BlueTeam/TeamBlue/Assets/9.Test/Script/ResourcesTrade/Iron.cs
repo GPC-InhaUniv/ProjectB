@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class CloudyState : IWeather
+class Iron : MonoBehaviour, IResource
 {
 
-    public void SetWeather()
+    public void TradeResources()
     {
 
     }

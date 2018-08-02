@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum TestItem
-{
-    Brick,
-    Iron,
-    Sheep,
-    Wood,
-}
-
 public class Trade : MonoBehaviour
 {
-    ResourceContext resourceContext;
+    WeatherContext resourceContext;
 
     [SerializeField]
     int receivingResourcesCount;
@@ -34,12 +26,11 @@ public class Trade : MonoBehaviour
 
     bool isTrading = false;
 
-    public TestItem testitem;
-
     int Brick=0;
     int Sheep=0;
     int Wood=0;
     int Iron=0;
+
     public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, int relationShip, GameResources gameResources)
     {
         
@@ -117,19 +108,6 @@ public class Trade : MonoBehaviour
         {
             Debug.Log("교환할 자원 부족");
         }
-    }
-
-    public int CheckWantsOfResources(GameResources gameResources)
-    {
-        // ????
-
-
-
-
-
-
-
-        return 0;
     }
 
     public void CheckTradeProbability(int tradeProbability)

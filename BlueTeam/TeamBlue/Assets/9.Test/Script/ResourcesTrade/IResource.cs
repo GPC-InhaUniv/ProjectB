@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class CloudyState : IWeather
+interface IResource
 {
-
-    public void SetWeather()
-    {
-
-    }
+    void TradeResources();
 }
