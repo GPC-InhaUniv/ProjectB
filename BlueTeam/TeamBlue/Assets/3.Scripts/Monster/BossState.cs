@@ -4,10 +4,12 @@ using UnityEngine;
 
  
 public abstract class BossState  {
-    
+    /// <summary>
+    /// 
+    /// </summary>
 	// Use this for initialization
 	void Start () {
-		
+		///
 	}
 	
 	// Update is called once per frame
