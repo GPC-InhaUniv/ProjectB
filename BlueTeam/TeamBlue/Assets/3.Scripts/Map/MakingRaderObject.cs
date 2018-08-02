@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class MakeRaderObject : MonoBehaviour
+public class MakingRaderObject : MonoBehaviour
 {
     public Image image;
     public Rader rader;
