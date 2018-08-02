@@ -89,7 +89,7 @@ namespace MonsterAI
         }
         protected  void UseSkill()
         {
-            skillUsable.UseSkill(gameObject , animator);
+            skillUsable.UseSkill(animator);
         }
 
         protected void Damaged(int damage)
@@ -140,7 +140,6 @@ namespace MonsterAI
             }
         }
 
-        //스킬 사용  에러 발생//
         protected void ChaseTarget()
         {
             //SetDestination to Player
@@ -159,7 +158,7 @@ namespace MonsterAI
                 if (skillCoolTime != 0)
                 {
                     monsterMove.SetDestination(attackTarget.position, 0);
-                   // monsterMove.SetDirection(attackTarget.position);
+                    monsterMove.SetDirection(attackTarget.position);
 
 
                     StartCoroutine(WaitCoolTime());

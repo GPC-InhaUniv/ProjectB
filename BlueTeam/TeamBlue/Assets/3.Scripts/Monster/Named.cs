@@ -20,10 +20,9 @@ public class Named : Monster
 
 
         attackable = new NormalAttack();
-        skillUsable = new NoSkill();
+        skillUsable = new NoSkill(this);
 
-        walkRange = 5;
-        speed = 3;
+
 
         
 

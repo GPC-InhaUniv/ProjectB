@@ -3,32 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using MonsterAI;
 
-public interface ISkillUsable  {
+public interface ISkillUsable
+{
 
 
-//    Monster Monster { get; set; }
+    //    Monster Monster { get; set; }
 
-    void UseSkill(GameObject monster , Animator anim);
+    void UseSkill(Animator anim);
 
 }
 
 public class NoSkill : ISkillUsable
 {
-    //Monster monster;
-    //public Monster Monster
-    //{
-    //    get { return monster; }
-    //    set { monster = value; }
-    //}
-    public void UseSkill(GameObject monster, Animator anim)
+    Monster monster;
+    public Monster Monster
     {
-        //Monster.ChangeState(Monster.State.Chasing);
+        get { return monster; }
+        set { monster = value; }
+    }
+    public NoSkill(Monster monster)
+    {
+        Monster = monster;
+    }
 
-        anim.SetInteger("Attack", 3);
+    public void UseSkill(Animator anim)
+    {
 
-
-        
-          
+        this.monster.ChangeState(Monster.State.Chasing);
     }
 
 }
@@ -40,8 +41,9 @@ public class NamedSkill : ISkillUsable
     //    set { Monster = value; }
     //}
 
-    public void UseSkill(GameObject monster, Animator anim)
+    public void UseSkill(Animator anim)
     {
+        anim.SetInteger("Attack", 3);
 
     }
 }
@@ -53,7 +55,7 @@ public class BossSkillFirst : ISkillUsable
     //    set { Monster = value; }
     //}
 
-    public void UseSkill(GameObject monster, Animator anim)
+    public void UseSkill(Animator anim)
     {
 
 
@@ -67,7 +69,7 @@ public class BossSkillSecond : ISkillUsable
         set { Monster = value; }
     }
 
-    public void UseSkill(GameObject monster, Animator anim)
+    public void UseSkill(Animator anim)
     {
 
 
@@ -80,7 +82,7 @@ public class BossSkillThird : ISkillUsable
     //    get { return Monster; }
     //    set { Monster = value; }
     //}
-    public void UseSkill(GameObject monster, Animator anim)
+    public void UseSkill(Animator anim)
     {
 
 
