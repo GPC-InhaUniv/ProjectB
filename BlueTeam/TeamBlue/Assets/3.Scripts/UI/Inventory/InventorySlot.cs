@@ -1,21 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour {
 
+public class InventorySlot : MonoBehaviour
+{
+
+    public Stack<Item> SlotinItem;
+    Image slotImage;
     [SerializeField]
-    List<InventorySlot> slotList;
+    Text itemCountText;
+    Sprite defaltSprite;
 
+    Inventory inventory;
 
+    public bool isEmpty;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    Image itemCarrier;
+
+    // Use this for initialization
+    void Start()
+    {
+        itemCountText = GetComponentInChildren<Text>();
+        itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Image>();
+
+    }
+
+    public void AddItem(Item item)
+    {
+        SlotinItem.Push(item);
+        isEmpty = true;
+    }
+
+    public void UpdateIamge()
+    {
+        if(SlotinItem.Count<=0)
+        {
+            SlotinItem = defaltSprite;
+        }
+    }
 }
