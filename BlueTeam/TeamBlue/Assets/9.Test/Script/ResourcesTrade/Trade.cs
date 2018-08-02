@@ -1,76 +1,209 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum TestItem
+{
+    Brick,
+    Iron,
+    Sheep,
+    Wood,
+}
 
 public class Trade : MonoBehaviour
 {
-    WeatherContext weatherContext;
+    ResourceContext resourceContext;
 
-    //[SerializeField]
-    //int resourceRecieveCount;
-    //int resourceSendingCount;
+    [SerializeField]
+    int receivingResourcesCount;
 
-    //int relationship;
+    [SerializeField]
+    int sendingResourcesCount;
 
-    int probability = 100;
+    [SerializeField]
+    int relationShip;
 
-    public void TradeResources(Item playerResources, int resourceRecieveCount, int resourceSendingCount, int relationship, GameResources gameResources)
+    [SerializeField]
+    GameResources tradeGameResources;
+
+    [SerializeField]
+    int tradeProbability = 100; // 기본 확률
+
+    int specRecieveCount;
+
+    bool isTrading = false;
+
+    public TestItem testitem;
+
+    int Brick=0;
+    int Sheep=0;
+    int Wood=0;
+    int Iron=0;
+    public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, int relationShip, GameResources gameResources)
     {
-
-        switch (gameResources)
+        
+        if (Brick >= sendingResourcesCount && Iron >= sendingResourcesCount &&
+            Sheep >= sendingResourcesCount && Wood >= sendingResourcesCount)
         {
-            case GameResources.Brick:
-                playerResources.Brick -= resourceSendingCount;
-                playerResources.Brick += resourceRecieveCount;
-                probability -= resourceRecieveCount;
+            CheckTradeProbability(tradeProbability);
+            CheckRelationShip(relationShip);
 
-                break;
+            if (isTrading == true)
+            {
 
-            case GameResources.Iron:
-                playerResources.Iron -= resourceSendingCount;
-                playerResources.Iron += resourceRecieveCount;
-                probability -= resourceRecieveCount;
+                switch (gameResources)
+                {
+                    case GameResources.Brick:
 
-                break;
+                        Debug.Log("벽돌 교환");
 
-            case GameResources.Sheep:
-                playerResources.Sheep -= resourceSendingCount;
-                playerResources.Sheep += resourceRecieveCount;
-                probability -= resourceRecieveCount;
+                        Brick -= sendingResourcesCount;
+                        Brick += receivingResourcesCount; 
+                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
 
-                break;
 
-            case GameResources.Wood:
-                playerResources.Wood -= resourceSendingCount;
-                playerResources.Wood += resourceRecieveCount;
-                probability -= resourceRecieveCount;
+                        ShowResourcesOnDebugLog();
 
-                break;
+                        break;
 
-            case GameResources.SpecialItem:
-                playerResources.SpecialItem -= resourceSendingCount;
-                playerResources.SpecialItem += resourceRecieveCount;
-                probability -= resourceRecieveCount;
 
-                break;
+
+                    case GameResources.Iron:
+
+                        Debug.Log("철 교환");
+
+                        Iron -= sendingResourcesCount;
+                        Iron += receivingResourcesCount;
+                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
+
+
+                        ShowResourcesOnDebugLog();
+
+                        break;
+
+
+                    case GameResources.Sheep:
+
+                        Debug.Log("양 교환");
+
+                        Sheep -= sendingResourcesCount;
+                        Sheep += receivingResourcesCount;
+                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
+
+
+                        ShowResourcesOnDebugLog();
+
+                        break;
+
+
+                    case GameResources.Wood:
+
+                        Debug.Log("나무 교환");
+
+                        Wood -= sendingResourcesCount;
+                        Wood += receivingResourcesCount; 
+                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
+
+
+                        ShowResourcesOnDebugLog();
+
+                        break;
+                }
+            }
         }
 
-        if (relationship < 10)
+        else
         {
-            resourceRecieveCount -= Random.Range(1, 2);
+            Debug.Log("교환할 자원 부족");
         }
-
-        if (relationship >= 50)
-        {
-            resourceRecieveCount += Random.Range(1, 4);
-        }
-
-
-
-        //Item tempResources = new Item();
-        //tempResources = playerResources;
-
-        //playerResources = otherResources;
-        //otherResources= tempResources;
     }
+
+    public int CheckWantsOfResources(GameResources gameResources)
+    {
+        // ????
+
+
+
+
+
+
+
+        return 0;
+    }
+
+    public void CheckTradeProbability(int tradeProbability)
+    {
+        if (tradeProbability >= Random.Range(1, 100))
+        {
+            isTrading = true;
+
+            Debug.Log("특정 확률로 거래");
+        }
+
+        else if (tradeProbability < Random.Range(1, 100))
+        {
+            isTrading = false;
+
+            Debug.Log("특정 확률로 거래 실패");
+
+            ShowResourcesOnDebugLog();
+        }
+    }
+
+    public void CheckRelationShip(int relationShip)
+    {
+        if (relationShip >= 50)
+        {
+            specRecieveCount = Random.Range(1, 4);
+
+            Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
+
+        }
+
+        else
+        {
+            specRecieveCount = Random.Range(1, 3);
+
+            Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
+
+        }
+    }
+
+
+
+    void Update()
+    {
+        OnClick();
+    }
+
+    public void OnClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("클릭됨");
+
+            TradeResources(this.receivingResourcesCount, this.sendingResourcesCount, this.relationShip, tradeGameResources);
+
+
+        }
+    }
+
+
+
+    public void ShowResourcesOnDebugLog()
+    {
+        Debug.Log("현재 자원");
+
+        Debug.Log("벽돌 " + Brick);
+        Debug.Log("철 " + Iron);
+        Debug.Log("양 " + this.Sheep);
+        Debug.Log("나무 " + this.Wood);
+        Debug.Log("거래 확률 " + tradeProbability + "%");
+        Debug.Log("우호도 " + this.relationShip);
+    }
+
 }
+
+
+
