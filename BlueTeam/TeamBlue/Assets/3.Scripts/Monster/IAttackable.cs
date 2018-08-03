@@ -1,42 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MonsterAI;
 
 //나중에 I  + able 지우기//
-public abstract class IAttackable
+public interface  IAttackable
 {
 
+     Monster Monster { get; set; }
 
-    protected Animator anim;
-
-    public abstract void Attack(Animator anim);
+    void Attack();
 
 
 }
 public class NormalAttack : IAttackable
 {
-
-    public override void Attack(Animator anim)
+    Monster monster;
+    public Monster Monster
     {
-        anim.SetInteger("Attack", 2);
+        get { return monster; }
+        set { monster = value; }
+    }
+    public NormalAttack(Monster monster)
+    {
+        Monster = monster;
+    }
+
+    public  void Attack()
+    {
+        Monster.animator.SetInteger("Attack", 2);
     }
 
 }
-public class ComboAttack : IAttackable , IDamageInteractionable
+public class ComboAttack : IAttackable 
 {
-    public override void Attack(Animator anim)
+    Monster monster;
+    public Monster Monster
     {
-        anim.SetInteger("Attack", 1);
+        get { return monster; }
+        set { monster = value; }
+    }
+    public ComboAttack(Monster monster)
+    {
+        Monster = monster;
+    }
+    public  void Attack()
+    {
+        Monster.animator.SetInteger("Attack", 1);
     }
 
-    public void ReceiveDamage(int damage)
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public void SendDamage(IDamageInteractionable target)
-    {
-        throw new System.NotImplementedException();
-    }
 }
 

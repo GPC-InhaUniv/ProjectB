@@ -15,7 +15,7 @@ public class Boss : Monster
         waitBaseTime = 2.0f;
         waitTime = waitBaseTime;
 
-        attackable = new ComboAttack();
+        attackable = new ComboAttack(this);
         skillUsable = new NamedSkill(this, skillprefab);
 
     }

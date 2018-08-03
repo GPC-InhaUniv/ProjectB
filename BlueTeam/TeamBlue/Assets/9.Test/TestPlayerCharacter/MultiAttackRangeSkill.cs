@@ -11,7 +11,7 @@ public class MultiAttackRangeSkill : ISkillUsable {
         this.player = player;
     }
 
-    public void UseSkill(Animator anim)
+    public void UseSkill()
     {
         player.skillNum = 1;
         //this.player.SetState(new PlayerCharacterAttackState(player));
