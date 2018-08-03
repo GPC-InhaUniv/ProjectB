@@ -31,7 +31,7 @@ public class Item : MonoBehaviour
 
     int hp;
     public int Hp { get { return hp; } }
-
+     
     int attack;
     public int Attack { get { return attack; } }
 

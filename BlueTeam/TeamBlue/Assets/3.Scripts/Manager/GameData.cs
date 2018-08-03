@@ -79,7 +79,7 @@ public class GameData : Singleton<GameData>
     public TownInformation BtownInformation;
     public Dictionary<int, int> PlayerGamedata;
     public Dictionary<int, int> WareHouseGamedata;
-
+     
     /*NOTICE*/
     /* For Load String Data*/
     AccountInfo Info;
@@ -94,7 +94,7 @@ public class GameData : Singleton<GameData>
         WareHouseGamedata = new Dictionary<int, int>();
         AtownInformation = new TownInformation(0, 0);
         BtownInformation = new TownInformation(0, 0);
-
+        
     }
 
 
