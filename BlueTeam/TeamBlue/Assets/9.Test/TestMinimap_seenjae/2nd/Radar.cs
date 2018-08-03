@@ -6,15 +6,20 @@ using UnityEngine.UI;
 public class RadarObject
 {
     public Image Icon;
-    public GameObject Owner; //해당 유닛
+    public GameObject Owner; 
 }
 
 
-public class Radar : MonoBehaviour
+public class Radar : MonoBehaviour ,IPositionInteractionable
 {
-    public Transform PlayerPosition;
-
+    public Vector3 PlayerPosition;
+    
     public List<RadarObject> radarObjects = new List<RadarObject>();
+
+    private void Start()
+    {
+        
+    }
 
     private void Update()
     {
@@ -24,7 +29,7 @@ public class Radar : MonoBehaviour
     public void RegistEnemyIcon(GameObject Character, Image enemyDot)
     {
         Image image = Instantiate(enemyDot);
-        Debug.Log(image.name);
+       
         radarObjects.Add(new RadarObject() { Icon = image, Owner = Character });
         
     }
@@ -33,12 +38,19 @@ public class Radar : MonoBehaviour
     {
         foreach(RadarObject radarObject in radarObjects )
         {
-            Vector3 radarObjectPosition = radarObject.Owner.transform.position - PlayerPosition.transform.position;
-
+            Vector3 radarObjectPosition = radarObject.Owner.transform.position - PlayerPosition;
+            float distanceToObject = Vector3.Distance(radarObjectPosition, PlayerPosition);
+            
             radarObject.Icon.transform.SetParent(this.transform);
             radarObject.Icon.transform.position = new Vector3(radarObjectPosition.x, radarObjectPosition.z, 0) + this.transform.position;
         }
     }
 
-    
+    public void SendPosition()
+    { }
+
+    public void ReceivePosition(Vector3 position)
+    {
+        PlayerPosition = position;
+    }
 }

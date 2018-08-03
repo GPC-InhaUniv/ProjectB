@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class SunnyState : IResource
-{ 
-   
-
-    public void SetWeatherState()
+class SunnyState : IWeather
+{
+    public void SetWeather()
     {
-   
-    }
 
+    }
 }

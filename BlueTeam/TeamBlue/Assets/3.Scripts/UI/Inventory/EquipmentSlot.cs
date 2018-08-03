@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipmentSlot : MonoBehaviour , IEquipSlotable , IPointerClickHandler {
+public class EquipmentSlot : MonoBehaviour, IEquipSlotable, IPointerClickHandler
+{
 
 
     Inventory inventory;
@@ -14,18 +15,22 @@ public class EquipmentSlot : MonoBehaviour , IEquipSlotable , IPointerClickHandl
 
     Image slotImage;
     Sprite defaltSprite;
+    public Sprite itemSprite;
 
     bool isCliecked;
     // Use this for initialization
-    void Start () {
-        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();	
-	}
+    void Start()
+    {
+        slotImage = GetComponent<Image>();
+        inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
+        equipInventory = GameObject.FindGameObjectWithTag("EquipInventory").GetComponent<EquipmentInventory>();
+    }
 
     int index = -1;
     public void CheckItemType()
     {
 
-        for(int i = 0; i< inventory.slotList.Count; i++)
+        for (int i = 0; i < inventory.slotList.Count; i++)
         {
             if (!inventory.slotList[i].isClicked)
             {
@@ -61,16 +66,17 @@ public class EquipmentSlot : MonoBehaviour , IEquipSlotable , IPointerClickHandl
 
     public void EquipItemToSlot()
     {
-        CheckEquipList(inventory.slotList[index].SlotinItem.Pop());
+
+        CheckEquipList(inventory.slotList[index].SlotinItem.Peek());
+        equipItem = inventory.slotList[index].SlotinItem.Pop();
         inventory.slotList[index].isEmpty = false;
+        UpdateIamge();
     }
 
 
-    bool CheckEquipList(Item item)
+    void CheckEquipList(Item item)
     {
-        if (item == null)
-            return false;
-        foreach(EquipmentSlot slot in equipInventory.slotList)
+        foreach (EquipmentSlot slot in equipInventory.slotList)
         {
             if (slot.equipItem == null)
                 continue;
@@ -78,25 +84,28 @@ public class EquipmentSlot : MonoBehaviour , IEquipSlotable , IPointerClickHandl
             {
                 if (slot.equipItem.Code % 10 == equipItem.Code % 10)
                 {
-                    return true;
-                }
-                else
-                {
-                    equipItem = item;
-                    return false;
+                    inventory.AddItem(slot.equipItem);
+                    slot.equipItem = null;
+                    return;
                 }
             }
         }
-        return false;
     }
-
+    public void UpdateIamge()
+    {
+            slotImage.sprite = itemSprite;//SlotinItem.Peek().item.itemSprite;
+        
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!isCliecked)
-            isCliecked = true;
-        else if(index != -1)
-        {
+        
+        if (isCliecked)
             EquipItemToSlot();
+        if (index == -1)
+        {
+            Debug.Log("장비슬롯 클릭");
+            CheckItemType();
         }
+
     }
 }

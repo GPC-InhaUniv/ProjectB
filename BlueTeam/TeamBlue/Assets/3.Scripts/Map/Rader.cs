@@ -46,6 +46,7 @@ public class Rader : MonoBehaviour
             Vector3 raderPos = (raderObject.Owner.transform.position - playerPos.position);
             float distToObject = Vector3.Distance(playerPos.position, raderObject.Owner.transform.position) * mapScale;
             float deltay = Mathf.Atan2(raderPos.x, raderPos.z) * Mathf.Rad2Deg -270 - playerPos.eulerAngles.y;
+            
             raderPos.x = distToObject * Mathf.Cos(deltay * Mathf.Deg2Rad) * -1 ;
             raderPos.z = distToObject * Mathf.Sin(deltay * Mathf.Deg2Rad);
 

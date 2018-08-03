@@ -14,6 +14,7 @@ public abstract class PlayerCharacterState
     }
 
 }
+
 public class PlayerCharacterIdleState : PlayerCharacterState
 {
     public PlayerCharacterIdleState(Player player) : base(player) { }
@@ -25,6 +26,7 @@ public class PlayerCharacterIdleState : PlayerCharacterState
         player.isBackStepping = false;
     }
 }
+
 public class PlayerCharacterRunState : PlayerCharacterState
 {
     public PlayerCharacterRunState(Player player) : base(player) { }
@@ -59,5 +61,18 @@ public class PlayerCharacterBackStepState : PlayerCharacterState
         player.BackStep();
     }
 }
-//죽은 상태 구현
+public class PlayerCharacterDieState : PlayerCharacterState
+{
+    public PlayerCharacterDieState(Player player) : base(player) { }
+
+    public override void Tick(Vector3 moveVector)
+    {
+        player.isAttacking = false;
+        player.isRunning = false;
+        player.isBackStepping = false;
+
+        player.Die(); 
+    }
+}
+
 

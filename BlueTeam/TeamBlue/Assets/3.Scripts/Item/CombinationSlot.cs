@@ -14,7 +14,7 @@ enum CombinationItem
 }
 
 
-public class ItemCombination : MonoBehaviour, IEquipSlotable,IPointerClickHandler
+public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandler
 {
     [SerializeField]
     Inventory inventory;
@@ -37,6 +37,7 @@ public class ItemCombination : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
     public void CheckItemType()
     {
+        
         isRecipeEquiped = true;
 
         EquipItemToSlot();
