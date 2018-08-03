@@ -4,5 +4,6 @@ using UnityEngine;
 
 interface IResource
 {
-    void TradeResources();
+    void SendResources(int sendingResourceCount);
+    void ReceiveResources(int receivingResourceCount);
 }

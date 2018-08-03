@@ -11,8 +11,13 @@ class ResourceContext : MonoBehaviour
         this.resource = resource;
     }
 
-    public void RunTradeResource(GameResources gameResources)
+    public void SendResources(int sendingResourceCount)
     {
-        this.resource.TradeResources();
+        this.resource.SendResources(sendingResourceCount);
+    }
+
+    public void ReceiveReousrces(int receivingResourceCount)
+    {
+        this.resource.ReceiveResources(receivingResourceCount);
     }
 }

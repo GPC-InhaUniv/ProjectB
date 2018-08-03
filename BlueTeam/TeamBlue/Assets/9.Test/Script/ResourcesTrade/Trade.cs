@@ -14,112 +14,27 @@ public class Trade : MonoBehaviour
     int sendingResourcesCount;
 
     [SerializeField]
-    int relationShip;
-
-    [SerializeField]
     GameResources tradeGameResources;
 
     [SerializeField]
-    int tradeProbability = 100; // 기본 확률
+    int relationShip = 100; // 기본 확률
 
     int specRecieveCount;
 
     bool isTrading = false;
 
-    int Brick=0;
-    int Sheep=0;
-    int Wood=0;
-    int Iron=0;
+    
 
-    public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, int relationShip, GameResources gameResources)
+    public void CheckTradeProbability(int relationShip)
     {
-        
-        if (Brick >= sendingResourcesCount && Iron >= sendingResourcesCount &&
-            Sheep >= sendingResourcesCount && Wood >= sendingResourcesCount)
-        {
-            CheckTradeProbability(tradeProbability);
-            CheckRelationShip(relationShip);
-
-            if (isTrading == true)
-            {
-
-                switch (gameResources)
-                {
-                    case GameResources.Brick:
-
-                        Debug.Log("벽돌 교환");
-
-                        Brick -= sendingResourcesCount;
-                        Brick += receivingResourcesCount; 
-                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
-
-
-                        ShowResourcesOnDebugLog();
-
-                        break;
-
-
-
-                    case GameResources.Iron:
-
-                        Debug.Log("철 교환");
-
-                        Iron -= sendingResourcesCount;
-                        Iron += receivingResourcesCount;
-                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
-
-
-                        ShowResourcesOnDebugLog();
-
-                        break;
-
-
-                    case GameResources.Sheep:
-
-                        Debug.Log("양 교환");
-
-                        Sheep -= sendingResourcesCount;
-                        Sheep += receivingResourcesCount;
-                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
-
-
-                        ShowResourcesOnDebugLog();
-
-                        break;
-
-
-                    case GameResources.Wood:
-
-                        Debug.Log("나무 교환");
-
-                        Wood -= sendingResourcesCount;
-                        Wood += receivingResourcesCount; 
-                        tradeProbability -= (receivingResourcesCount - specRecieveCount);
-
-
-                        ShowResourcesOnDebugLog();
-
-                        break;
-                }
-            }
-        }
-
-        else
-        {
-            Debug.Log("교환할 자원 부족");
-        }
-    }
-
-    public void CheckTradeProbability(int tradeProbability)
-    {
-        if (tradeProbability >= Random.Range(1, 100))
+        if (relationShip >= Random.Range(1, 100))
         {
             isTrading = true;
 
             Debug.Log("특정 확률로 거래");
         }
 
-        else if (tradeProbability < Random.Range(1, 100))
+        else if (relationShip < Random.Range(1, 100))
         {
             isTrading = false;
 
@@ -152,20 +67,20 @@ public class Trade : MonoBehaviour
 
     void Update()
     {
-        OnClick();
+        //OnClick();
     }
 
-    public void OnClick()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("클릭됨");
+    //public void OnClick()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        Debug.Log("클릭됨");
 
-            TradeResources(this.receivingResourcesCount, this.sendingResourcesCount, this.relationShip, tradeGameResources);
+    //        TradeResources(this.receivingResourcesCount, this.sendingResourcesCount, this.relationShip, tradeGameResources);
 
 
-        }
-    }
+    //    }
+    //}
 
 
 
@@ -173,11 +88,11 @@ public class Trade : MonoBehaviour
     {
         Debug.Log("현재 자원");
 
-        Debug.Log("벽돌 " + Brick);
-        Debug.Log("철 " + Iron);
-        Debug.Log("양 " + this.Sheep);
-        Debug.Log("나무 " + this.Wood);
-        Debug.Log("거래 확률 " + tradeProbability + "%");
+        Debug.Log("흙 " + GameData.Instance.PlayerGamedata[3002]);
+        Debug.Log("철광석 " + GameData.Instance.PlayerGamedata[3001]);
+        Debug.Log("양 " + GameData.Instance.PlayerGamedata[3003]);
+        Debug.Log("나무 " + GameData.Instance.PlayerGamedata[3000]);
+        //Debug.Log("거래 확률 " + tradeProbability + "%");
         Debug.Log("우호도 " + this.relationShip);
     }
 
