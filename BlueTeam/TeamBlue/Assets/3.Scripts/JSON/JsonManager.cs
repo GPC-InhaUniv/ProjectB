@@ -25,7 +25,6 @@ public class JsonManager : MonoBehaviour
     //제이슨 파일 저장
     public void OnClickSaveJSONBtn()
     {
-        GameData.Instance.SetGameDataToServer();
         Data mydata = new Data();
         string save = JsonUtility.ToJson(mydata, prettyPrint: true);
         Debug.Log(save);
@@ -37,12 +36,9 @@ public class JsonManager : MonoBehaviour
     //제이슨 파일 로드
     public void OnClickLoadJSONBtn()
     {
-       
-        GameData.Instance.GetGameDataFromServer();
-        //string load = ReadStringFromFile("save.json");
-        //var loadData = JsonUtility.FromJson<Data>(load);
-        //for (int i = 0; i < 4; i++)
-        //    Debug.Log(GameData.Instance.equipmentCombination.WeaponCombination[i]);
+        string load = ReadStringFromFile("save.json");
+        var loadData = JsonUtility.FromJson<Data>(load);
+        Debug.Log(loadData);
     }
 
    
