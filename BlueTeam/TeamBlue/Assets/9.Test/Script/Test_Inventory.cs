@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Test_Inventory : MonoBehaviour
 {
+    /*
     [SerializeField]
     List<Test_Slot> slotList;
 
@@ -83,5 +84,5 @@ public class Test_Inventory : MonoBehaviour
             nearSlot.UpdateInfo();
         }
     }
-
+    */
 }
