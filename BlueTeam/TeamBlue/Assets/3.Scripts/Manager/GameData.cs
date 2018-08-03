@@ -79,7 +79,10 @@ public class GameData : Singleton<GameData>
     public TownInformation BtownInformation;
     public Dictionary<int, int> PlayerGamedata;
     public Dictionary<int, int> WareHouseGamedata;
-     
+
+    [SerializeField]
+    ItemTable itemTable;
+
     /*NOTICE*/
     /* For Load String Data*/
     AccountInfo Info;
@@ -92,6 +95,20 @@ public class GameData : Singleton<GameData>
     {
         PlayerGamedata = new Dictionary<int, int>();
         WareHouseGamedata = new Dictionary<int, int>();
+        for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
+        {
+            if (PlayerGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
+                PlayerGamedata[itemTable.sheets[0].list[i].Code] = 0;
+            else
+             PlayerGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
+
+            if (WareHouseGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
+                WareHouseGamedata[itemTable.sheets[0].list[i].Code] = 0;
+            else
+                WareHouseGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
+            
+        }
+
         AtownInformation = new TownInformation(0, 0);
         BtownInformation = new TownInformation(0, 0);
         
