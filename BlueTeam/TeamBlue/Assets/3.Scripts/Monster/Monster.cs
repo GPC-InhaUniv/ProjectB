@@ -43,14 +43,14 @@ namespace MonsterAI
         protected Transform attackTarget;
         //Monster Motion//
         [SerializeField]
-        protected Animator animator;
+        public Animator animator;
         [SerializeField]
         protected MonsterMove monsterMove;
         //Move To Destination//
         [SerializeField]
         protected Vector3 startPosition;
-        protected IAttackable attackable;
-        protected ISkillUsable skillUsable;
+        public IAttackable attackable;
+        public ISkillUsable skillUsable;
 
         public int MonsterPower;
 
@@ -61,7 +61,7 @@ namespace MonsterAI
 
         public void SendDamage(IDamageInteractionable target)
         {
-            Test_Mediator.Instance.SendTarget(target, MonsterPower);
+          //  Test_Mediator.Instance.SendTarget(target, MonsterPower);
         }
 
         public void ReceiveDamage(int damage)
@@ -88,15 +88,16 @@ namespace MonsterAI
 
         protected  void AttackTarget()
         {
-            attackable.Attack(animator);
+            attackable.Attack();
         }
         protected  void UseSkill()
         {
-            skillUsable.UseSkill(animator);
+            skillUsable.UseSkill();
         }
 
         protected void DropItem()
         {
+            
             //if (dropItemPrefab.Length == 0) { return; }
             //GameObject dropItem = dropItemPrefab[Random.Range(0, dropItemPrefab.Length)];
             //Instantiate(dropItem, transform.position, Quaternion.identity);

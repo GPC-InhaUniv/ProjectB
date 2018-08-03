@@ -4,16 +4,48 @@ using UnityEngine;
 
  
 public abstract class BossState  {
-    /// <summary>
-    /// 
-    /// </summary>
-	// Use this for initialization
-	void Start () {
-		///
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    Boss boss;
+    public Boss Boss
+    {
+        get { return boss; }
+        set { boss = value; }
+    }
+    protected GameObject SkillPrefab;
+
+    //protected ISkillUsable 
+    public abstract void Attack();
+    public abstract void Skill();
+
 }
+public class Phase1 : BossState
+{
+    public Phase1(Boss boss , GameObject skillPrefab)
+    {
+        Boss = boss;
+        SkillPrefab = skillPrefab;
+    }
+    public override void Attack()
+    {
+        Boss.attackable = new NormalAttack(Boss);
+    }
+
+    public override void Skill()
+    {
+
+        Boss.skillUsable = new BossSkillFirst(Boss ,SkillPrefab);
+    }
+}
+public class Phase2 : BossState
+{
+    public override void Attack()
+    {
+        Boss.attackable = new ComboAttack(Boss);
+    }
+
+    public override void Skill()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+

@@ -68,11 +68,12 @@ public class Test_Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerD
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
+     
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
 
     }
+    
 }

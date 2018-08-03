@@ -79,7 +79,7 @@ public class GameData : Singleton<GameData>
     public TownInformation BtownInformation;
     public Dictionary<int, int> PlayerGamedata;
     public Dictionary<int, int> WareHouseGamedata;
-
+     
     /*NOTICE*/
     /* For Load String Data*/
     AccountInfo Info;
@@ -94,7 +94,7 @@ public class GameData : Singleton<GameData>
         WareHouseGamedata = new Dictionary<int, int>();
         AtownInformation = new TownInformation(0, 0);
         BtownInformation = new TownInformation(0, 0);
-
+        
     }
 
 
@@ -196,7 +196,9 @@ public class GameData : Singleton<GameData>
             for (int i = 0; i < inventoryItemArray.Length - 1; i++)
             {
                 string[] tempArray = inventoryItemArray[i].Split('_');
-
+                if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
+                    PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
+                else
                 PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
             }
