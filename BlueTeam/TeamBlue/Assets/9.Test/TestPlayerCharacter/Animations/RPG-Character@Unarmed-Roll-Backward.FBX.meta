@@ -278,8 +278,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Unarmed-Roll-Backward
       takeName: Take 001
-      firstFrame: 2
-      lastFrame: 26
+      firstFrame: 4
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -299,8 +299,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.84972674
-        functionName: BackStepDone
+      - time: 0
+        functionName: BackStepStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: BackStepEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
           type: 3}
