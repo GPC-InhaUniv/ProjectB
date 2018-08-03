@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
 
     [SerializeField]
-    List<InventorySlot> slotList;
+    public List<InventorySlot> slotList;
 
     Item itemCarrier;
 
@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour {
         {
             if (!slot.isEmpty)
                 continue;
-            if(slot.SlotinItem.Peek().ItemType == item.ItemType)
+            if(slot.SlotinItem.Peek().Code == item.Code)
             {
                 slot.AddItem(item);
                 return;
