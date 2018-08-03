@@ -86,7 +86,7 @@ namespace MonsterAI
         }
 
 
-        protected  void AttackTarget()
+        protected virtual void AttackTarget()
         {
             attackable.Attack();
         }
