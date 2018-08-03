@@ -19,6 +19,7 @@ public class PoolManager : Singleton<PoolManager> {
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        
     }
     enum ObjectType
     {
@@ -43,7 +44,6 @@ public class PoolManager : Singleton<PoolManager> {
         for (int i = monsterPool.Count; i < monsterPoolSize; i++)
         {
             monsterPool.Add(CreateItem(ObjectType.monster));
-
         }
 
         for (int i = particlePool.Count; i < FXPoolSize; i++)

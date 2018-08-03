@@ -9,7 +9,7 @@ public interface ISkillUsable
 
     //    Monster Monster { get; set; }
 
-    void UseSkill(Animator anim);
+    void UseSkill();
 
 }
 
@@ -26,7 +26,7 @@ public class NoSkill : ISkillUsable
         Monster = monster;
     }
 
-    public void UseSkill(Animator anim)
+    public void UseSkill()
     {
         Monster.ChangeState(Monster.State.Chasing);
     }
@@ -48,14 +48,15 @@ public class NamedSkill : ISkillUsable
         this.skillPrefab = skillPrefab;
     }
 
-    public void UseSkill(Animator anim)
+    public void UseSkill()
     {
         Debug.Log(Monster.transform.position);
         //(공격,소환)스킬 오브젝트 풀에서 받아와서 사용할 예정//
         
         skillPrefab.transform.position = Monster.transform.position;
         skillPrefab.SetActive(true);
-        anim.SetInteger("Attack", 3);
+        Monster.animator.SetInteger("Attack", 3);
+            ///anim.SetInteger("Attack", 3);
 
         
     }
@@ -68,8 +69,12 @@ public class BossSkillFirst : ISkillUsable
     //    get { return Monster; }
     //    set { Monster = value; }
     //}
+    public BossSkillFirst(Boss boss, GameObject skillPrefab)
+    {
+        
 
-    public void UseSkill(Animator anim)
+    }
+    public void UseSkill()
     {
 
 
@@ -83,7 +88,7 @@ public class BossSkillSecond : ISkillUsable
         set { Monster = value; }
     }
 
-    public void UseSkill(Animator anim)
+    public void UseSkill()
     {
 
 
@@ -96,7 +101,7 @@ public class BossSkillThird : ISkillUsable
     //    get { return Monster; }
     //    set { Monster = value; }
     //}
-    public void UseSkill(Animator anim)
+    public void UseSkill()
     {
 
 

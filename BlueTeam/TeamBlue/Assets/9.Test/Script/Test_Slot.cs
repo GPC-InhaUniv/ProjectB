@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+/*
 public class Test_Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-
+    
     public Stack<Test_Item> slot;
     public Image slotImage;
     public Text itemCountText;
@@ -68,7 +69,7 @@ public class Test_Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerD
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
+     
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -76,3 +77,4 @@ public class Test_Slot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerD
 
     }
 }
+*/

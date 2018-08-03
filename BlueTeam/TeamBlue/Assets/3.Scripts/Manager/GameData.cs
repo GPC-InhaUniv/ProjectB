@@ -80,6 +80,9 @@ public class GameData : Singleton<GameData>
     public Dictionary<int, int> PlayerGamedata;
     public Dictionary<int, int> WareHouseGamedata;
 
+    [SerializeField]
+    ItemTable itemTable;
+
     /*NOTICE*/
     /* For Load String Data*/
     AccountInfo Info;
@@ -92,9 +95,23 @@ public class GameData : Singleton<GameData>
     {
         PlayerGamedata = new Dictionary<int, int>();
         WareHouseGamedata = new Dictionary<int, int>();
+        for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
+        {
+            if (PlayerGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
+                PlayerGamedata[itemTable.sheets[0].list[i].Code] = 0;
+            else
+             PlayerGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
+
+            if (WareHouseGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
+                WareHouseGamedata[itemTable.sheets[0].list[i].Code] = 0;
+            else
+                WareHouseGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
+            
+        }
+
         AtownInformation = new TownInformation(0, 0);
         BtownInformation = new TownInformation(0, 0);
-
+        
     }
 
 
@@ -196,7 +213,9 @@ public class GameData : Singleton<GameData>
             for (int i = 0; i < inventoryItemArray.Length - 1; i++)
             {
                 string[] tempArray = inventoryItemArray[i].Split('_');
-
+                if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
+                    PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
+                else
                 PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
             }

@@ -50,7 +50,7 @@ public class PlayerAnimation : MonoBehaviour {
     IEnumerator AttackCoroutine(string attackName)
     {
         animator.SetBool(attackName, true);
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.4f);
         animator.SetBool(attackName, false);
     }
 
@@ -68,6 +68,10 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetBool("Back", false);
     }
 
+    public void HitAnimation()
+    {
+        animator.SetTrigger("Hot");
+    }
 
     public void WeaponSwap(PlayerCharacterWeaponState weaponState)
     {
@@ -82,7 +86,7 @@ public class PlayerAnimation : MonoBehaviour {
     IEnumerator PreSwapCoroutine()
     {
         animator.SetBool("Swap", true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         animator.SetBool("Swap", false);
     }
 
@@ -92,5 +96,11 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetBool("ShortSword", true);
     }
 
+    public void DieAnimation()
+    {
+        animator.SetBool("Die", true);
+    }
+
+    //죽은 메소드
 
 }

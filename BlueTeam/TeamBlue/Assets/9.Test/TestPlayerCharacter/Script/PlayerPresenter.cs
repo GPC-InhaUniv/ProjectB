@@ -47,11 +47,11 @@ public class PlayerPresenter : MonoBehaviour
 
         commandControll = new CommandControll();
 
-        Attack1 = new CommandAttack1();
-        Attack2 = new CommandAttack2();
+        Attack1 = new CommandAttack1(player);
+        Attack2 = new CommandAttack2(player);
 
-        Attack3 = new CommandAttack3();
-        Attack4 = new CommandAttack4();
+        Attack3 = new CommandAttack3(player);
+        Attack4 = new CommandAttack4(player);
 
         AttackButtons.onClick.AddListener(() => RandomCombo());
 
@@ -72,7 +72,11 @@ public class PlayerPresenter : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState)))
+        if ((player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterBackStepState)))
+        {
+            return;
+        }
+        else
         {
             PlayerMove();
         }
@@ -97,7 +101,6 @@ public class PlayerPresenter : MonoBehaviour
         }
         else 
         {
-            player.isRunning = false;
             player.SetState(new PlayerCharacterBackStepState(player));
         }
     }
@@ -106,25 +109,25 @@ public class PlayerPresenter : MonoBehaviour
     {
         if (inputMoveVector == Vector3.zero)
         {
-            player.isRunning = false;
             player.moveVector = Vector3.zero;
             player.SetState(new PlayerCharacterIdleState(player));
         }
         else
         {
-            player.isRunning = true;
-            player.moveVector = inputMoveVector;
             player.SetState(new PlayerCharacterRunState(player));
+            player.moveVector = inputMoveVector;
         }
-
     }
 
     void WeaponSwapButton()
     {
-        Debug.Log(player.isSwapAble);
         if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
         {
             player.WeaponSwitching(PlayerCharacterWeaponState.LongSword);
+
+            isComboState = false;
+            commandControll.ClearCommand();
+            comboResetCount = 0;
         }
         else if(player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
         {
@@ -200,7 +203,6 @@ public class PlayerPresenter : MonoBehaviour
     void StartCombo()
     {
         player.isRunning = false;
-
         player.SetState(new PlayerCharacterAttackState(player));
 
         isComboState = true;

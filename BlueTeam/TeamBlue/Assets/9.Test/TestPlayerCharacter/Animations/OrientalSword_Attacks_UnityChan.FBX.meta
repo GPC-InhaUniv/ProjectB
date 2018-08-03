@@ -1230,7 +1230,10 @@ ModelImporter:
       that will be discarded.\n\t'Character1_RightForeArm' has translation animation
       that will be discarded.\n\t'Character1_RightHand' has translation animation
       that will be discarded.\n\t'Character1_Head' has translation animation that
-      will be discarded.\n"
+      will be discarded.\nEvent AttackEnd has a time (0.266667) outside the clip's
+      valid range (0.033333..0.266666). It will never be firedEvent AttackEnd has
+      a time (0.600000) outside the clip's valid range (0.000000..0.599998). It will
+      never be fired"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 3
@@ -7740,7 +7743,7 @@ ModelImporter:
       name: singleattack02
       takeName: singleattack02
       firstFrame: 631
-      lastFrame: 655
+      lastFrame: 645
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -7768,7 +7771,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.89265895
+      - time: 0.81265897
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -8162,7 +8165,7 @@ ModelImporter:
       name: singleattack03
       takeName: singleattack03
       firstFrame: 656
-      lastFrame: 675
+      lastFrame: 664
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -8182,16 +8185,16 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.9467787
-        functionName: AttackEnd
+      - time: 0.30024785
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
           type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.30024785
-        functionName: AttackStart
+      - time: 1
+        functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
           type: 3}
@@ -9395,8 +9398,8 @@ ModelImporter:
     - serializedVersion: 16
       name: singleattack06
       takeName: singleattack06
-      firstFrame: 780
-      lastFrame: 804
+      firstFrame: 782
+      lastFrame: 795
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -9424,7 +9427,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.96358544
+      - time: 1
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
