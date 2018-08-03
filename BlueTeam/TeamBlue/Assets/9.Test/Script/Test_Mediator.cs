@@ -6,6 +6,7 @@ public class Test_Mediator : Singleton<Test_Mediator>
 {
     protected Test_Mediator() { }
 
+
     IDamageInteractionable DamageReceiver;
     IPositionInteractionable PositionReceiver;
     IQuestInteractionable QuestReceiver;

@@ -11,23 +11,24 @@ public class Inventory : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		itemCarrier = itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Item>();
+	//	itemCarrier = itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Item>();
 
 
     }
-	/*
+	
 	public void AddItem(Item item)
     {
         foreach(InventorySlot slot in slotList)
         {
             if (!slot.isEmpty)
                 continue;
-            if(slot.SlotinItem.Peek().itemtype == item.itemtype)
+            if(slot.SlotinItem.Peek().ItemType == item.ItemType)
             {
                 slot.AddItem(item);
                 return;
             }
         }
+
         foreach (InventorySlot slot in slotList)
         {
             if (slot.isEmpty)
@@ -37,7 +38,7 @@ public class Inventory : MonoBehaviour {
                 return;
             
         }
-    }*/
+    }
 
     public void SwapOnclick(InventorySlot NewClickedSlot)
     {
