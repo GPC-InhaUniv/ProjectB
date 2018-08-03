@@ -196,7 +196,9 @@ public class GameData : Singleton<GameData>
             for (int i = 0; i < inventoryItemArray.Length - 1; i++)
             {
                 string[] tempArray = inventoryItemArray[i].Split('_');
-
+                if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
+                    PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
+                else
                 PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
             }
