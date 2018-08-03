@@ -89,11 +89,17 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
     {
         transform.rotation = Quaternion.LookRotation(moveVector);
     }
-    
+
     public void BackStep()
     {
         playerAinmaton.BackStepAnimation();
         playerRigidbody.velocity = -backTargetVector * 350 * Time.deltaTime;
+    }
+
+    public void Die()
+    {
+        //또 무엇이 필요?
+        playerAinmaton.DieAnimation();
     }
 
     public void Skill1()
@@ -175,21 +181,22 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
     {
         playerAinmaton.HitAnimation();
         playerStatus.PlayerHp -= damage;
+
         if (playerStatus.PlayerHp <= 0)
         {
             playerStatus.PlayerHp = 0;
-            //죽은 상태
+            SetState(new PlayerCharacterDieState(this));
         }
     }
 
     public void SendPosition()
     {
-        throw new NotImplementedException();
+        Test_Mediator.Instance.SendPosition(transform.position);
     }
 
     public void ReceivePosition(Vector3 position)
     {
-        throw new NotImplementedException();
+        
     }
 
 }

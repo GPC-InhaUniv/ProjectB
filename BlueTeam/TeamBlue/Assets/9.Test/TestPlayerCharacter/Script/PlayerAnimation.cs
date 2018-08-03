@@ -96,6 +96,11 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetBool("ShortSword", true);
     }
 
+    public void DieAnimation()
+    {
+        animator.SetBool("Die", true);
+    }
+
     //죽은 메소드
 
 }
