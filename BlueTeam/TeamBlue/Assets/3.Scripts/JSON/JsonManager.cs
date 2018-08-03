@@ -108,7 +108,7 @@ public class Data
             PlayerWareHouseData.Code[tempIndex] = temp.Key;
             PlayerWareHouseData.Count[tempIndex] = temp.Value;
             tempIndex++;
-
+         
 
         }
         

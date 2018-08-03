@@ -8,6 +8,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
 {
 
     public Stack<Item> SlotinItem;
+    [SerializeField]
     Image slotImage;
     [SerializeField]
     Text itemCountText;
@@ -25,7 +26,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         itemCountText = GetComponentInChildren<Text>();
-        itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Image>();
+       // itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Image>();
 
     }
 

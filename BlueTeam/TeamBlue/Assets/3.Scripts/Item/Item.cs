@@ -31,7 +31,7 @@ public class Item : MonoBehaviour
 
     int hp;
     public int Hp { get { return hp; } }
-
+     
     int attack;
     public int Attack { get { return attack; } }
 
@@ -67,7 +67,7 @@ public class Item : MonoBehaviour
 
     public void SetItem(int code)
     {
-     //   Code = code;
+        Code = code;
         for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
         {
             if (itemtable.sheets[0].list[i].Code == Code)
@@ -98,6 +98,9 @@ public class Item : MonoBehaviour
 
             }
         }
-        GameData.Instance.PlayerGamedata.Add(Code, 100);
+        if (GameData.Instance.PlayerGamedata.ContainsKey(code))
+            GameData.Instance.PlayerGamedata[code] = 1;
+        else
+        GameData.Instance.PlayerGamedata.Add(Code, 1);
     }
 }
