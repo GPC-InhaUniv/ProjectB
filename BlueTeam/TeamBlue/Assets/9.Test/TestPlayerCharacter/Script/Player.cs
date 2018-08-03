@@ -100,7 +100,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
     {
         isSwapAble = false;
 
-        rangeSkill.UseSkill(playerAinmaton.animator);
+        rangeSkill.UseSkill();
         playerAinmaton.SkillAnimation("Skill" + skillNum.ToString());
 
         if (swapCoroutine != null)
