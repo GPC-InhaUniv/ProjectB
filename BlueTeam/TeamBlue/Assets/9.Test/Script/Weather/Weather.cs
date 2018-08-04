@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IResource
+interface IWeather
 {
-    void SetWeatherState();
+    void SetWeather();
 }

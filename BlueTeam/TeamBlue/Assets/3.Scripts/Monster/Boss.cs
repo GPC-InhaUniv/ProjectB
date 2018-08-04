@@ -6,6 +6,7 @@ using MonsterAI;
 
 public class Boss : Monster
 {
+    BossState bossState;
 
     void Start()
     {
@@ -16,8 +17,8 @@ public class Boss : Monster
         waitTime = waitBaseTime;
 
         attackable = new ComboAttack(this);
-        skillUsable = new NamedSkill(this, skillprefab);
-
+        skillUsable = new BossSkillFirst(this, skillprefab);
+        bossState = new Phase1(this, skillprefab);
     }
     void Update()
     {
@@ -54,4 +55,27 @@ public class Boss : Monster
 
         }
     }
+    protected override void AttackTarget()
+    {
+        bossState.Attack();
+    }
+
+
+
+    //public void HandleState(string state)
+    //{
+    //    switch (state)
+    //    {
+    //        case "AnnoyedState":
+    //            BossState = new AnnoyedState(rigidbody);
+    //            break;
+
+    //        case "AngerState":
+    //            BossState = new AngerState(rigidbody);
+    //            break;
+
+    //        default:
+    //            break;
+    //    }
+    //}
 }

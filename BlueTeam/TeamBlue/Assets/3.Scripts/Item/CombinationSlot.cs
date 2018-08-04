@@ -28,6 +28,8 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
     bool isRecipeEquiped;
 
+    [SerializeField]
+    Text text;
     private void Start()
     {
         // inventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<Inventory>();
@@ -54,6 +56,7 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
     public void OnPointerClick(PointerEventData eventData)
     {
         currentItem.SetItem(1311);
+        text.text = currentItem.Name;
         CheckItemType();
 
 
