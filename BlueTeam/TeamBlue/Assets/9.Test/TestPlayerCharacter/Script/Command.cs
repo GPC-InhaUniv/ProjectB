@@ -10,9 +10,9 @@ public interface ICommand
 public class CommandAttack1 : ICommand
 {
     Player player = null;
-    public CommandAttack1()
+    public CommandAttack1(Player player)
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        this.player = player;
     }
     public void Execute()
     {
@@ -23,9 +23,9 @@ public class CommandAttack1 : ICommand
 public class CommandAttack2 : ICommand
 {
     Player player = null;
-    public CommandAttack2()
+    public CommandAttack2(Player player)
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        this.player = player;
     }
     public void Execute()
     {
@@ -36,9 +36,9 @@ public class CommandAttack2 : ICommand
 public class CommandAttack3 : ICommand
 {
     Player player = null;
-    public CommandAttack3()
+    public CommandAttack3(Player player)
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        this.player = player;
     }
     public void Execute()
     {
@@ -50,9 +50,9 @@ public class CommandAttack4 : ICommand
 {
     Player player = null;
     
-    public CommandAttack4()
+    public CommandAttack4(Player player)
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        this.player = player;
     }
     public void Execute()
     {

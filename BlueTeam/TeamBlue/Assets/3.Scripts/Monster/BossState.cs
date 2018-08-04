@@ -17,27 +17,39 @@ public abstract class BossState  {
     public abstract void Attack();
     public abstract void Skill();
 
+
 }
 public class Phase1 : BossState
 {
-    public Phase1(Boss boss , GameObject skillPrefab)
+    public Phase1(Boss boss, GameObject skillPrefab)
     {
         Boss = boss;
         SkillPrefab = skillPrefab;
+
+        Boss.attackable = new NormalAttack(Boss);
+
     }
     public override void Attack()
     {
-        Boss.attackable = new NormalAttack(Boss);
+        Boss.attackable.Attack();
     }
 
     public override void Skill()
     {
-
         Boss.skillUsable = new BossSkillFirst(Boss ,SkillPrefab);
     }
 }
 public class Phase2 : BossState
 {
+
+    public Phase2(Boss boss, GameObject skillPrefab)
+    {
+        Boss = boss;
+        SkillPrefab = skillPrefab;
+
+        Boss.attackable = new ComboAttack(Boss);
+
+    }
     public override void Attack()
     {
         Boss.attackable = new ComboAttack(Boss);

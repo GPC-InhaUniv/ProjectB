@@ -10,18 +10,18 @@ enum WeatherState
     Lighting
 }
 
-class ResourceContext : MonoBehaviour
+class WeatherContext : MonoBehaviour
 {
-    IResource resources;
+    IWeather weatherState;
 
-    public void SetWeatherContext(IResource resourceType)
+    public void SetWeatherContext(IWeather weatherState)
     {
-        this.resources = resourceType;
+        this.weatherState = weatherState;
     }
 
     public void RequestSettingWeather()
     {
-
+        this.weatherState.SetWeather();
     }
 
 }

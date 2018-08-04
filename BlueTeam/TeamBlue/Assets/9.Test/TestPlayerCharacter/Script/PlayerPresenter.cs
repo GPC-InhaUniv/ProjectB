@@ -47,11 +47,11 @@ public class PlayerPresenter : MonoBehaviour
 
         commandControll = new CommandControll();
 
-        Attack1 = new CommandAttack1();
-        Attack2 = new CommandAttack2();
+        Attack1 = new CommandAttack1(player);
+        Attack2 = new CommandAttack2(player);
 
-        Attack3 = new CommandAttack3();
-        Attack4 = new CommandAttack4();
+        Attack3 = new CommandAttack3(player);
+        Attack4 = new CommandAttack4(player);
 
         AttackButtons.onClick.AddListener(() => RandomCombo());
 
