@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
 
+    [HideInInspector]
     public Animator animator;
 
     Coroutine attackingCoroutine, backStepCoroutine, skillCoroutine;
@@ -73,7 +73,7 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetTrigger("Hot");
     }
 
-    public void WeaponSwap(PlayerCharacterWeaponState weaponState)
+    public void Weapon(PlayerCharacterWeaponState weaponState)
     {
         StartCoroutine(PreSwapCoroutine());
         animator.SetBool("LongSword", false);

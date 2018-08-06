@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class PlayerCharacterState
 {
@@ -21,9 +19,9 @@ public class PlayerCharacterIdleState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.isAttacking = false;
-        player.isRunning = false;
-        player.isBackStepping = false;
+        player.IsAttacking = false;
+        player.IsRunning = false;
+        player.IsBackStepping = false;
     }
 }
 
@@ -33,7 +31,7 @@ public class PlayerCharacterRunState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.isRunning = true;
+        player.IsRunning = true;
 
         player.Turn(moveVector);
         player.Running(moveVector);
@@ -45,7 +43,7 @@ public class PlayerCharacterAttackState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.isAttacking = true;
+        player.IsAttacking = true;
 
         player.PlayerAttack();
     }
@@ -57,7 +55,7 @@ public class PlayerCharacterBackStepState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.isBackStepping = true;
+        player.IsBackStepping = true;
         player.BackStep();
     }
 }
@@ -67,9 +65,9 @@ public class PlayerCharacterDieState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.isAttacking = false;
-        player.isRunning = false;
-        player.isBackStepping = false;
+        player.IsAttacking = false;
+        player.IsRunning = false;
+        player.IsBackStepping = false;
 
         player.Die(); 
     }

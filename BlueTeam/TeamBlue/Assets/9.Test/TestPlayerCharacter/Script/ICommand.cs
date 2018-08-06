@@ -16,7 +16,7 @@ public class CommandAttack1 : ICommand
     }
     public void Execute()
     {
-        player.attackNum = 1;
+        player.AttackNumber = 1;
         player.PlayerAttack();
     }
 }
@@ -29,7 +29,7 @@ public class CommandAttack2 : ICommand
     }
     public void Execute()
     {
-        player.attackNum = 2;
+        player.AttackNumber = 2;
         player.PlayerAttack();
     }
 }
@@ -42,7 +42,7 @@ public class CommandAttack3 : ICommand
     }
     public void Execute()
     {
-        player.attackNum = 3;
+        player.AttackNumber = 3;
         player.PlayerAttack();
     }
 }
@@ -56,7 +56,7 @@ public class CommandAttack4 : ICommand
     }
     public void Execute()
     {
-        player.attackNum = 4;
+        player.AttackNumber = 4;
         player.PlayerAttack();
     }
 }
