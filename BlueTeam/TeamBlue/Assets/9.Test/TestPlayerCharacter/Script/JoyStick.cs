@@ -34,16 +34,17 @@ public class JoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         }
     }
 
-    public virtual void OnPointerDown(PointerEventData OneventData)
-    {
-        OnDrag(OneventData);
-    }
-
     public virtual void OnPointerUp(PointerEventData OneventData)
     {
         inputVector = Vector3.zero;
         joystickImg.rectTransform.anchoredPosition = Vector3.zero;
     }
+    public virtual void OnPointerDown(PointerEventData OneventData)
+    {
+        OnDrag(OneventData);
+    }
+
+
     public float Horizontal()
     {
         if (inputVector.x != 0)
@@ -53,7 +54,7 @@ public class JoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     }
     public float Vertical()
     {
-        if (inputVector.x != 0)
+        if (inputVector.z != 0)
             return inputVector.z;
         else
             return Input.GetAxisRaw("Vertical");
