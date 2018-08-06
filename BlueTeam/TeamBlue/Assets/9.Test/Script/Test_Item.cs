@@ -5,8 +5,6 @@ using UnityEngine.UI;
 public class Test_Item : MonoBehaviour {
 
     public Inventory inventory;
-
-
     public Item item;
     public void BuyItem()
     {
