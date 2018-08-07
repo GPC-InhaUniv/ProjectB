@@ -8,13 +8,15 @@ public class RadarObjectOwner : MonoBehaviour {
     public Image IconImage;
     public Radar radar;
 
-    void Start()
+    void OnEnable()
     {
         radar.RegistIcon(this.gameObject, IconImage);
     }
 
-    private void Update()
+   
+
+    private void OnDisable()
     {
-        
+        radar.RemoveIcon(this.gameObject);
     }
 }
