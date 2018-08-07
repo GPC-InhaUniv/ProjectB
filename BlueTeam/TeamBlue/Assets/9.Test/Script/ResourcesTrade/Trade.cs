@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class Trade : MonoBehaviour
 {
-    WeatherContext resourceContext;
+    WeatherContext weatherContext;
+    ResourceContext resourceContext;
 
     [SerializeField]
     int receivingResourcesCount;
@@ -75,8 +76,6 @@ public class Trade : MonoBehaviour
     //    if (Input.GetMouseButtonDown(0))
     //    {
     //        Debug.Log("클릭됨");
-
-    //        TradeResources(this.receivingResourcesCount, this.sendingResourcesCount, this.relationShip, tradeGameResources);
 
 
     //    }

@@ -70,7 +70,7 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
                     if (GameData.Instance.PlayerGamedata[3002] >= requiredBrickCount)
                     {
-                        if (GameData.Instance.PlayerGamedata[3003] >= requiredSheepCount)
+                        if (GameData.Instance.PlayerGamedata[3001] >= requiredSheepCount)
                         {
                             Debug.Log("조합 성공!");
                             GameData.Instance.PlayerGamedata[3000] = GameData.Instance.PlayerGamedata[3000] - requiredWoodCount;
@@ -79,7 +79,7 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
                             GameData.Instance.PlayerGamedata[3002] = GameData.Instance.PlayerGamedata[3002] - requiredBrickCount;
 
-                            GameData.Instance.PlayerGamedata[3003] = GameData.Instance.PlayerGamedata[3003] - requiredSheepCount;
+                            GameData.Instance.PlayerGamedata[3001] = GameData.Instance.PlayerGamedata[3001] - requiredSheepCount;
 
                             GameData.Instance.PlayerGamedata[currentItem.Code] -= 1;
 
