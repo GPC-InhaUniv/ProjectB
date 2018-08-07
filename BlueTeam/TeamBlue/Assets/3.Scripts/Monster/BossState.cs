@@ -25,19 +25,19 @@ public class Phase1 : BossState
         Boss = boss;
         SkillPrefab = skillPrefab;
 
-        Boss.attackable = new NormalAttack(Boss);
-        Boss.skillUsable = new BossSkillFirst(Boss, SkillPrefab);
+        Boss.Attackable = new NormalAttack(Boss);
+        Boss.SkillUsable = new BossSkillFirst(Boss, SkillPrefab);
 
 
     }
     public override void Attack()
     {
-        Boss.attackable.Attack();
+        Boss.Attackable.Attack();
     }
 
     public override void UseSkill()
     {
-        Boss.skillUsable.UseSkill();
+        Boss.SkillUsable.UseSkill();
     }
 }
 public class Phase2 : BossState
@@ -47,17 +47,17 @@ public class Phase2 : BossState
         Boss = boss;
         SkillPrefab = skillPrefab;
 
-        Boss.attackable = new ComboAttack(Boss);
-        Boss.skillUsable = new BossSkillFirst(Boss, SkillPrefab);
+        Boss.Attackable = new ComboAttack(Boss);
+        Boss.SkillUsable = new BossSkillFirst(Boss, SkillPrefab);
 
     }
     public override void Attack()
     {
-        Boss.attackable.Attack();
+        Boss.Attackable.Attack();
     }
     public override void UseSkill()
     {
-        Boss.skillUsable.UseSkill();
+        Boss.SkillUsable.UseSkill();
 
     }
 }

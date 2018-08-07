@@ -15,8 +15,8 @@ public class Named : Monster
         waitBaseTime = 2.0f;
         waitTime = waitBaseTime;
 
-        attackable = new NormalAttack(this);
-        skillUsable = new NamedSkill(this, skillprefab);
+        Attackable = new NormalAttack(this);
+        SkillUsable = new NamedSkill(this, skillprefab);
         //test//
         AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
      
@@ -28,7 +28,7 @@ public class Named : Monster
         switch (state)
         {
             case State.Walking:
-                Walkaround();
+                WalkAround();
                 break;
             case State.Chasing:
                 ChaseTarget();
