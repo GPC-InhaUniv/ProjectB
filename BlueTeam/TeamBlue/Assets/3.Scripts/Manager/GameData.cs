@@ -85,7 +85,6 @@ public class GameData : Singleton<GameData>
 
     /*NOTICE*/
     /* For Load String Data*/
-    AccountInfo Info;
     string[] playerInformationArray;
     string[] inventoryItemArray;
     string[] warehouseItemArray;
@@ -93,6 +92,7 @@ public class GameData : Singleton<GameData>
 
     void Start()
     {
+        
         PlayerGamedata = new Dictionary<int, int>();
         WareHouseGamedata = new Dictionary<int, int>();
         for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
@@ -111,7 +111,7 @@ public class GameData : Singleton<GameData>
 
         AtownInformation = new TownInformation(0, 0);
         BtownInformation = new TownInformation(0, 0);
-        
+        DontDestroyOnLoad(gameObject);
     }
 
 
@@ -123,6 +123,7 @@ public class GameData : Singleton<GameData>
         BtownInformation.LastCleardQuest = 4;
 
     }
+
     public void SetGameDataToServer()
     {
         string playerLv = "";
@@ -218,6 +219,8 @@ public class GameData : Singleton<GameData>
                 else
                 PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
+              
+             
             }
         }
 

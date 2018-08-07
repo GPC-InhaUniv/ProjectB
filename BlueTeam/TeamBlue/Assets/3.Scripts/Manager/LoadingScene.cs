@@ -20,7 +20,6 @@ public class LoadingScene : MonoBehaviour
 
 
     public static string NextScene;
-    string nextSceneName;
     string assetBundleDirectory;
     string currentAssetName = "";
     string BundleURL;
@@ -152,11 +151,6 @@ public class LoadingScene : MonoBehaviour
 
     public static void LoadScene(LoadType mapType, int index)
     {
-        //if (sceneName == "Main")
-        //    IsMainSceneLoading = true;
-        //else
-        //    IsMainSceneLoading = false;
-
         switch (mapType)
         {
             case LoadType.Village:
