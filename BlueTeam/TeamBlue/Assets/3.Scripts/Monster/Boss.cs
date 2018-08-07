@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using MonsterAI;
 
-
 public class Boss : Monster
 {
     BossState bossState;
 
     void Start()
     {
+        bossState = new Phase2(this, skillprefab);
+
+
         monsterMove = GetComponent<MonsterMove>();
         animator = GetComponent<Animator>();
         startPosition = transform.position;
         waitBaseTime = 2.0f;
         waitTime = waitBaseTime;
 
-        attackable = new ComboAttack(this);
-        skillUsable = new BossSkillFirst(this, skillprefab);
-        bossState = new Phase1(this, skillprefab);
     }
     void Update()
     {
@@ -26,7 +25,7 @@ public class Boss : Monster
         switch (state)
         {
             case State.Walking:
-                Walkaround();
+                WalkAround();
                 break;
             case State.Chasing:
                 ChaseTarget();
@@ -58,6 +57,10 @@ public class Boss : Monster
     protected override void AttackTarget()
     {
         bossState.Attack();
+    }
+    protected override void UseSkill()
+    {
+        bossState.UseSkill();
     }
 
 

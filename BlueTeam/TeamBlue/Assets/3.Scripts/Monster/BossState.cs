@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
- 
+ [System.Serializable]
 public abstract class BossState  {
 
     Boss boss;
@@ -13,9 +13,8 @@ public abstract class BossState  {
     }
     protected GameObject SkillPrefab;
 
-    //protected ISkillUsable 
     public abstract void Attack();
-    public abstract void Skill();
+    public abstract void UseSkill();
 
 
 }
@@ -26,38 +25,40 @@ public class Phase1 : BossState
         Boss = boss;
         SkillPrefab = skillPrefab;
 
-        Boss.attackable = new NormalAttack(Boss);
+        Boss.Attackable = new NormalAttack(Boss);
+        Boss.SkillUsable = new BossSkillFirst(Boss, SkillPrefab);
+
 
     }
     public override void Attack()
     {
-        Boss.attackable.Attack();
+        Boss.Attackable.Attack();
     }
 
-    public override void Skill()
+    public override void UseSkill()
     {
-        Boss.skillUsable = new BossSkillFirst(Boss ,SkillPrefab);
+        Boss.SkillUsable.UseSkill();
     }
 }
 public class Phase2 : BossState
 {
-
     public Phase2(Boss boss, GameObject skillPrefab)
     {
         Boss = boss;
         SkillPrefab = skillPrefab;
 
-        Boss.attackable = new ComboAttack(Boss);
+        Boss.Attackable = new ComboAttack(Boss);
+        Boss.SkillUsable = new BossSkillFirst(Boss, SkillPrefab);
 
     }
     public override void Attack()
     {
-        Boss.attackable = new ComboAttack(Boss);
+        Boss.Attackable.Attack();
     }
-
-    public override void Skill()
+    public override void UseSkill()
     {
-        throw new System.NotImplementedException();
+        Boss.SkillUsable.UseSkill();
+
     }
 }
 
