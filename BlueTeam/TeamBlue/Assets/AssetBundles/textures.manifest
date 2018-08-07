@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 2315636047
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2134974498fa2cf2077304811dd9dc2f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c1642440719609290a7e09a50a7286f4
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/MRLRockMediumA_DiffuseMobile.png
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/MRLRockMediumB_DiffueMobile.png
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/RHEFCaveTop_Diffuse.png
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/RHEFCave_Albedo.png
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/RHEFGenericCliffB_DiffuseMobile.png
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/RHEFGenericCliffA_DiffuseMobile.png
+- Assets/6.Terrian&Map/Dungeon/Textures/Terrain_Textures/RHEFLowRockMedium_DiffuseMobile.png
+Dependencies: []

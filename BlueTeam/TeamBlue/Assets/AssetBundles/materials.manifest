@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 3933104474
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 67172734ee8bce38c35dc316886e2620
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d1ae6e26fb0b4d11fccd18da598542fa
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_CaveTop.mat
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_RockMediumB_Mobile.mat
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_Cave.mat
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_RockMediumA _Mobile.mat
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_GenericCliffA_DiffuseMobile.mat
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_LowRockMedium_Mobile.mat
+- Assets/6.Terrian&Map/Dungeon/Materials/Terrain_Materials/RHEF_GenericCliffB_Mobile.mat
+Dependencies:
+- C:/32115/ProjectB/BlueTeam/TeamBlue/Assets/AssetBundles/textures
