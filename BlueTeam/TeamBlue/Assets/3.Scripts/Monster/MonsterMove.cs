@@ -8,7 +8,7 @@ public class MonsterMove : MonoBehaviour {
     const float ROTATIONSPEED = 100.0f;
 
     //Go To Destination//
-    public bool arrived = false;
+    bool arrived = false;
     [SerializeField]
     bool forceRotate = false;
     [SerializeField]
@@ -73,11 +73,11 @@ public class MonsterMove : MonoBehaviour {
         Debug.Log(arrived);
     }
 
-    // 목적지에 도착했는지 조사한다(도착했다 true / 도착하지 않았다 false).
-    public bool Arrived()
-    {
-        return arrived;
-    }
+    //// 목적지에 도착했는지 조사한다(도착했다 true / 도착하지 않았다 false).
+    //public bool Arrived()
+    //{
+    //    return arrived;
+    //}
 
 
 }
