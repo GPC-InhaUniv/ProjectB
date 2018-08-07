@@ -4,7 +4,7 @@ using UnityEngine;
 
 class Sheep : MonoBehaviour, IResource
 {
-    int SheepWeightedValue = 5;
+    int SheepWeightedValue = 3;
 
     int BrickWeightedValue = 1;
 
@@ -26,8 +26,33 @@ class Sheep : MonoBehaviour, IResource
 
     }
 
-    public void ReceiveResources(int receivingResourceCount)
+    public void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int relationShip)
     {
-        GameData.Instance.PlayerGamedata[3003] += receivingResourceCount;
+        switch (resourceType)
+        {
+            case GameResources.Brick:
+                GameData.Instance.PlayerGamedata[3003] += (receivingResourceCount + BrickWeightedValue);
+                relationShip -= (int)(relationShip + ((BrickWeightedValue * receivingResourceCount)) * 0.95);
+
+                break;
+
+            case GameResources.Iron:
+                GameData.Instance.PlayerGamedata[3003] += (receivingResourceCount + IronWeightedValue);
+                relationShip -= (int)(relationShip + ((IronWeightedValue * receivingResourceCount)) * 0.95);
+
+                break;
+
+            case GameResources.Sheep:
+                GameData.Instance.PlayerGamedata[3003] += (receivingResourceCount + SheepWeightedValue);
+                relationShip -= (int)(relationShip + ((SheepWeightedValue * receivingResourceCount)) * 0.95);
+
+                break;
+
+            case GameResources.Wood:
+                GameData.Instance.PlayerGamedata[3003] += (receivingResourceCount + WoodWeightedValue);
+                relationShip -= (int)(relationShip + ((WoodWeightedValue * receivingResourceCount)) * 0.95);
+
+                break;
+        }
     }
 }
