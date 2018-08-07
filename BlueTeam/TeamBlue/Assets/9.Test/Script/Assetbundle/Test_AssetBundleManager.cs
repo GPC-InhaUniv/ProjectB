@@ -44,7 +44,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         switch (areaType)
         {
             case AreaType.Town:
-                bundleName = "Riko";
+                bundleName = "Town";
                 break;
             case AreaType.WoodDungeon:
                 bundleName = "wooddungeonbundle";

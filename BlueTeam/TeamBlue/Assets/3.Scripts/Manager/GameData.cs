@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public enum GameResources
 {
     Brick,
@@ -92,7 +90,7 @@ public class GameData : Singleton<GameData>
 
     void Start()
     {
-        
+
         PlayerGamedata = new Dictionary<int, int>();
         WareHouseGamedata = new Dictionary<int, int>();
         for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
@@ -100,13 +98,13 @@ public class GameData : Singleton<GameData>
             if (PlayerGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
                 PlayerGamedata[itemTable.sheets[0].list[i].Code] = 0;
             else
-             PlayerGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
+                PlayerGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
 
             if (WareHouseGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
                 WareHouseGamedata[itemTable.sheets[0].list[i].Code] = 0;
             else
                 WareHouseGamedata.Add(itemTable.sheets[0].list[i].Code, 0);
-            
+
         }
 
         AtownInformation = new TownInformation(0, 0);
@@ -217,10 +215,10 @@ public class GameData : Singleton<GameData>
                 if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
                     PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
                 else
-                PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
+                    PlayerGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
-              
-             
+
+
             }
         }
 
@@ -234,14 +232,13 @@ public class GameData : Singleton<GameData>
                 if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
                     PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
                 else
-                WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
+                    WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
             }
         }
 
 
-        if (tempTownInformations != null)
-            townInformationArray = tempTownInformations.Split('/');
+      
 
         //playerinfo load
         PlayerInfomation.PlayerLevel = Convert.ToInt32(playerInformationArray[0]);
@@ -251,7 +248,8 @@ public class GameData : Singleton<GameData>
 
 
 
-
+        if (tempTownInformations != null)
+            townInformationArray = tempTownInformations.Split('/');
         //Town Relationship and quest load
         AtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[0]);
         AtownInformation.LastCleardQuest = Convert.ToInt32(townInformationArray[1]);

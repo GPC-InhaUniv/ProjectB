@@ -15,22 +15,22 @@ public enum LoadType
     IronDungeon,
     VillageCheckDownLoad
 }
-public class LoadingScene : MonoBehaviour
+public class LoadingScene : Singleton<LoadingScene>
 {
 
 
-    public static string NextScene;
+    public string NextScene;
     string assetBundleDirectory;
     string currentAssetName = "";
     string BundleURL;
     string BundleURL2;
     string BundleURL3;
-   
+    string TownBundle;
 
     int totalBundleCount = 4;
-    static int userBundleCount = 4;
-    static LoadType currentType;
-    static int currentDungeonIndex = 0;
+    int userBundleCount = 4;
+    LoadType currentType;
+    int currentDungeonIndex = 0;
 
     int percentage;
 
@@ -48,28 +48,27 @@ public class LoadingScene : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        
         if (currentType.Equals(LoadType.VillageCheckDownLoad) && userBundleCount < totalBundleCount - 1)
         {
             Debug.Log("다운로드 필요");
             currentAssetName = "게임 준비중...";
             BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
             BundleURL2 = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";  //CUBE URL
-            BundleURL3 = "https://docs.google.com/uc?export=download&id=1xIrOuUIX30HS_Dwq2xrP1nqYSIzOIcrT"; //Town URL
+            TownBundle = "https://docs.google.com/uc?export=download&id=1CceJkvGreptcoZsbS2YMUOpXmCZkjmG7"; //Town URL
 
             StartCoroutine(SaveAssetBundleOnDisk(BundleURL, "Riko"));
             StartCoroutine(SaveAssetBundleOnDisk(BundleURL2, "Cube"));
-            StartCoroutine(SaveAssetBundleOnDisk(BundleURL3, "Villige_Sence"));
+            StartCoroutine(SaveAssetBundleOnDisk(TownBundle, "Town"));
         }
         else
         {
             Debug.Log("다운로드 불필요");
             totalBundleCount = 1;
         }
-        
-        switch(currentType)
+
+        switch (currentType)
         {
-            case LoadType.Village:  
+            case LoadType.Village:
                 break;
             case LoadType.BrickDungeon:
                 break;
@@ -81,6 +80,10 @@ public class LoadingScene : MonoBehaviour
             case LoadType.SheepDungeon:
                 break;
             case LoadType.IronDungeon:
+                break;
+            case LoadType.VillageCheckDownLoad:
+                currentAssetName = "마을 로드중...";
+
                 break;
         }
 
@@ -149,20 +152,20 @@ public class LoadingScene : MonoBehaviour
     }
 
 
-    public static void LoadScene(LoadType mapType, int index)
+    public  void LoadScene(LoadType mapType, int index)
     {
         switch (mapType)
         {
             case LoadType.Village:
                 currentType = LoadType.Village;
-                NextScene = "Test_Empty";
+                NextScene = "Test_Empty2";
                 break;
             case LoadType.BrickDungeon:
                 currentType = LoadType.BrickDungeon;
                 break;
             case LoadType.WoodDungeon:
                 currentType = LoadType.WoodDungeon;
-                NextScene = "Test_Empty";
+                NextScene = "Test_Empty2";
                 break;
             case LoadType.SheepDungeon:
                 currentType = LoadType.SheepDungeon;
@@ -173,8 +176,7 @@ public class LoadingScene : MonoBehaviour
             case LoadType.VillageCheckDownLoad:
                 currentType = LoadType.VillageCheckDownLoad;
                 userBundleCount = CheckDownLoadFile();
-                NextScene = "Test_AssetBundleLoad";
-               
+                NextScene = "Test_Empty2";
                 break;
             default:
                 break;
@@ -251,7 +253,7 @@ public class LoadingScene : MonoBehaviour
         if (totalBundleCount <= 0)
             totalBundleCount = 1;
 
-        currentAssetName = AssetName + " 찾아오는중...";
+        currentAssetName = AssetName + " 다운로드 중...";
 
         Debug.Log(AssetName + " 번들 다운로드 완료 " + totalBundleCount);
     }
