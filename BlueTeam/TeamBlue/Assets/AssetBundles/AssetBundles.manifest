@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 4012148988
+CRC: 1489654316
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -7,4 +7,14 @@ AssetBundleManifest:
       Dependencies: {}
     Info_1:
       Name: brickdungeonbundle
+      Dependencies: {}
+    Info_2:
+      Name: materials
+      Dependencies:
+        Dependency_0: textures
+    Info_3:
+      Name: models
+      Dependencies: {}
+    Info_4:
+      Name: textures
       Dependencies: {}
