@@ -70,7 +70,7 @@ public class PlayerAnimation : MonoBehaviour {
 
     public void HitAnimation()
     {
-        animator.SetTrigger("Hot");
+        animator.SetTrigger("Hit");
     }
 
     public void Weapon(PlayerCharacterWeaponState weaponState)
@@ -100,7 +100,5 @@ public class PlayerAnimation : MonoBehaviour {
     {
         animator.SetBool("Die", true);
     }
-
-    //죽은 메소드
 
 }
