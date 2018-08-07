@@ -5,12 +5,7 @@ using MonsterAI;
 
 public interface ISkillUsable
 {
-
-
-    //    Monster Monster { get; set; }
-
     void UseSkill();
-
 }
 
 public class NoSkill : ISkillUsable
@@ -64,20 +59,22 @@ public class NamedSkill : ISkillUsable
 }
 public class BossSkillFirst : ISkillUsable
 {
-    //public Monster Monster
-    //{
-    //    get { return Monster; }
-    //    set { Monster = value; }
-    //}
+    Boss boss;
+    public Boss Boss
+    {
+        get { return boss; }
+        set { boss = value; }
+    }
     public BossSkillFirst(Boss boss, GameObject skillPrefab)
     {
-        
 
+        Boss = boss;
     }
     public void UseSkill()
     {
+        Boss.ChangeState(Monster.State.Chasing);
 
-
+        Debug.Log("boss state useskill");
     }
 }
 public class BossSkillSecond : ISkillUsable

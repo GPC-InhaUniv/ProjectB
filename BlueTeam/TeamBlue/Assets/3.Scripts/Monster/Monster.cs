@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace MonsterAI
 {
-
-    //공격 1번 공격2번 한번에 같은 취소로 하기//
     public abstract class Monster : MonoBehaviour , IDamageInteractionable
     {
         // test //
@@ -13,25 +11,14 @@ namespace MonsterAI
         protected AttackArea[] attackAreas;
         [SerializeField]
         protected GameObject skillprefab;
-        // Monster State//
-        public enum State
-        {
-            Walking,    // 탐색.
-            Chasing,    // 추적.
-            Attacking,  // 공격.
-            Skilling,   // 스킬.
-            Died,       // 사망.
-        };
-        [SerializeField]
-        public State state, currentState;
         //Monster Status//
         [SerializeField]
         protected int monsterHP, monsterMaxHP, walkRange ;
         [SerializeField]
-        protected float skillCoolTime;
-        
+        protected float skillCoolTime;       
         [SerializeField]
         protected bool attacking, died, skillUse;
+        [SerializeField]
         protected GameObject[] dropItemPrefab;
         //Monster System//
         [SerializeField]
@@ -41,14 +28,25 @@ namespace MonsterAI
         //Set Target//
         [SerializeField]
         protected Transform attackTarget;
-        //Monster Motion//
-        [SerializeField]
-        public Animator animator;
         [SerializeField]
         protected MonsterMove monsterMove;
         //Move To Destination//
         [SerializeField]
         protected Vector3 startPosition;
+
+        // Monster State//
+        public enum State
+        {
+            Walking,    // 탐색.
+            Chasing,    // 추적.
+            Attacking,  // 공격.
+            Skilling,   // 스킬.
+            Died,       // 사망.
+        };
+        public State state, currentState;
+        //Monster Motion//
+        public Animator animator;
+
         public IAttackable attackable;
         public ISkillUsable skillUsable;
 
@@ -90,7 +88,7 @@ namespace MonsterAI
         {
             attackable.Attack();
         }
-        protected  void UseSkill()
+        protected virtual  void UseSkill()
         {
             skillUsable.UseSkill();
         }
