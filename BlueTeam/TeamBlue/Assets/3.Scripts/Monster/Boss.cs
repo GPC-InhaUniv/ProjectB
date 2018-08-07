@@ -25,7 +25,7 @@ public class Boss : Monster
         switch (state)
         {
             case State.Walking:
-                Walkaround();
+                WalkAround();
                 break;
             case State.Chasing:
                 ChaseTarget();

@@ -47,8 +47,8 @@ namespace MonsterAI
         //Monster Motion//
         public Animator animator;
 
-        public IAttackable attackable;
-        public ISkillUsable skillUsable;
+        public IAttackable Attackable;
+        public ISkillUsable SkillUsable;
 
         public int MonsterPower;
 
@@ -59,7 +59,7 @@ namespace MonsterAI
 
         public void SendDamage(IDamageInteractionable target)
         {
-          //  Test_Mediator.Instance.SendTarget(target, MonsterPower);
+           Test_Mediator.Instance.SendTarget(target, MonsterPower);
         }
 
         public void ReceiveDamage(int damage)
@@ -86,11 +86,11 @@ namespace MonsterAI
 
         protected virtual void AttackTarget()
         {
-            attackable.Attack();
+            Attackable.Attack();
         }
         protected virtual  void UseSkill()
         {
-            skillUsable.UseSkill();
+            SkillUsable.UseSkill();
         }
 
         protected void DropItem()
@@ -112,7 +112,7 @@ namespace MonsterAI
             Destroy(gameObject);
         }
 
-        protected void Walkaround()
+        protected void WalkAround()
         {
             //waitTime동안 대기
             if (waitTime > 0.0f)
@@ -145,15 +145,19 @@ namespace MonsterAI
             monsterMove.SetDirection(attackTarget.position);
             animator.SetInteger("moving", 2);
 
-            // 1.5미터 이내로 접근하면 공격
             float attackRange = 1.5f;
             float skillRange = 10.0f;
-            //스킬 사용할 조건//
+            //스킬 사용할 조건
             if (Vector3.Distance(attackTarget.position, transform.position) <= skillRange && !skillUse)
             {
+                skillUse = true;
+                monsterMove.SetDestination(attackTarget.position, 0);
+                monsterMove.SetDirection(attackTarget.position);
+
+                ChangeState(State.Skilling);
+
                 StartCoroutine(WaitCoolTime());
             }
-            //공격 조건//
             else
             {
                 if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
@@ -177,11 +181,6 @@ namespace MonsterAI
 
         protected IEnumerator WaitCoolTime()
         {
-            skillUse = true;
-            monsterMove.SetDestination(attackTarget.position, 0);
-            monsterMove.SetDirection(attackTarget.position);
-
-            ChangeState(State.Skilling);
 
             animator.SetInteger("moving", 0);
 
@@ -189,8 +188,6 @@ namespace MonsterAI
             skillUse = false;
 
         }
-
-
     }
 }
 
