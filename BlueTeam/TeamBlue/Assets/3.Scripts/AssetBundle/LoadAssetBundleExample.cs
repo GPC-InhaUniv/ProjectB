@@ -166,12 +166,12 @@ public class LoadAssetBundleExample : MonoBehaviour
 
     public void LoadDungeon()
     {
-        LoadingScene.Instance.LoadScene(LoadType.WoodDungeon, 1);
+        LoadingSceneManager.Instance.LoadScene(LoadType.WoodDungeon, 1);
     }
 
     public void LoadScene()
     {
-        LoadingScene.Instance.LoadScene(LoadType.VillageCheckDownLoad, 0);
+        LoadingSceneManager.Instance.LoadScene(LoadType.VillageCheckDownLoad, 0);
 
     }
     public void MoveNextScene(string sceneName)

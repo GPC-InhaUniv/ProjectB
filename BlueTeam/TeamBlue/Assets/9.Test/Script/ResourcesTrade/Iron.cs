@@ -14,9 +14,9 @@ class Iron : MonoBehaviour, IResource
 
     public void SendResources(int sendingResourceCount)
     {
-        if(GameData.Instance.PlayerGamedata[3001] >= sendingResourceCount)
+        if(GameDataManager.Instance.PlayerGamedata[3001] >= sendingResourceCount)
         {
-            GameData.Instance.PlayerGamedata[3001] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3001] -= sendingResourceCount;
         }
 
         else
@@ -30,25 +30,25 @@ class Iron : MonoBehaviour, IResource
         switch (resourceType)
         {
             case GameResources.Brick:
-                GameData.Instance.PlayerGamedata[3001] += (receivingResourceCount + BrickWeightedValue);
+                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + BrickWeightedValue);
                 relationShip -= (int)(relationShip + ((BrickWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
 
             case GameResources.Iron:
-                GameData.Instance.PlayerGamedata[3001] += (receivingResourceCount + IronWeightedValue);
+                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + IronWeightedValue);
                 relationShip -= (int)(relationShip + ((IronWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
 
             case GameResources.Sheep:
-                GameData.Instance.PlayerGamedata[3001] += (receivingResourceCount + SheepWeightedValue);
+                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + SheepWeightedValue);
                 relationShip -= (int)(relationShip + ((SheepWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
 
             case GameResources.Wood:
-                GameData.Instance.PlayerGamedata[3001] += (receivingResourceCount + WoodWeightedValue);
+                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + WoodWeightedValue);
                 relationShip -= (int)(relationShip + ((WoodWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;

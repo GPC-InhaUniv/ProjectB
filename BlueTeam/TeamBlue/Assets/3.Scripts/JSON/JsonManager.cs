@@ -77,16 +77,16 @@ public class Data
 
     public Data()
     {
-        PlayerInfomation = GameData.Instance.PlayerInfomation;
-        ATownInformation = GameData.Instance.AtownInformation;
-        BTownInformation = GameData.Instance.BtownInformation;
-        PlayerInventoryData.Code = new int[GameData.Instance.PlayerGamedata.Count];
-        PlayerInventoryData.Count = new int[GameData.Instance.PlayerGamedata.Count];
-        PlayerWareHouseData.Code = new int[GameData.Instance.WareHouseGamedata.Count];
-        PlayerWareHouseData.Count = new int[GameData.Instance.WareHouseGamedata.Count];
+        PlayerInfomation = GameDataManager.Instance.PlayerInfomation;
+        ATownInformation = GameDataManager.Instance.AtownInformation;
+        BTownInformation = GameDataManager.Instance.BtownInformation;
+        PlayerInventoryData.Code = new int[GameDataManager.Instance.PlayerGamedata.Count];
+        PlayerInventoryData.Count = new int[GameDataManager.Instance.PlayerGamedata.Count];
+        PlayerWareHouseData.Code = new int[GameDataManager.Instance.WareHouseGamedata.Count];
+        PlayerWareHouseData.Count = new int[GameDataManager.Instance.WareHouseGamedata.Count];
 
         int tempIndex = 0;
-        foreach (KeyValuePair<int, int> temp in GameData.Instance.PlayerGamedata)
+        foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.PlayerGamedata)
         {
             PlayerInventoryData.Code[tempIndex] = temp.Key;
             PlayerInventoryData.Count[tempIndex] = temp.Value;
@@ -95,7 +95,7 @@ public class Data
 
         }
         tempIndex = 0;
-        foreach (KeyValuePair<int, int> temp in GameData.Instance.WareHouseGamedata)
+        foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.WareHouseGamedata)
         {
             PlayerWareHouseData.Code[tempIndex] = temp.Key;
             PlayerWareHouseData.Count[tempIndex] = temp.Value;

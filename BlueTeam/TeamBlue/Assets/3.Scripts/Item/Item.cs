@@ -96,9 +96,9 @@ public class Item : MonoBehaviour
 
             }
         }
-        if (GameData.Instance.PlayerGamedata.ContainsKey(code))
-            GameData.Instance.PlayerGamedata[code] = 1;
+        if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
+            GameDataManager.Instance.PlayerGamedata[code] = 1;
         else
-        GameData.Instance.PlayerGamedata.Add(Code, 1);
+            GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
     }
 }

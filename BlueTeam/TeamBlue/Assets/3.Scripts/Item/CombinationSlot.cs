@@ -62,28 +62,28 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
         if (isRecipeEquiped)
         {
-            if (GameData.Instance.PlayerGamedata[3000] >= requiredWoodCount)
+            if (GameDataManager.Instance.PlayerGamedata[3000] >= requiredWoodCount)
             {
 
-                if (GameData.Instance.PlayerGamedata[3001] >= requiredIronCount)
+                if (GameDataManager.Instance.PlayerGamedata[3001] >= requiredIronCount)
                 {
 
-                    if (GameData.Instance.PlayerGamedata[3002] >= requiredBrickCount)
+                    if (GameDataManager.Instance.PlayerGamedata[3002] >= requiredBrickCount)
                     {
-                        if (GameData.Instance.PlayerGamedata[3001] >= requiredSheepCount)
+                        if (GameDataManager.Instance.PlayerGamedata[3001] >= requiredSheepCount)
                         {
                             Debug.Log("조합 성공!");
-                            GameData.Instance.PlayerGamedata[3000] = GameData.Instance.PlayerGamedata[3000] - requiredWoodCount;
+                            GameDataManager.Instance.PlayerGamedata[3000] = GameDataManager.Instance.PlayerGamedata[3000] - requiredWoodCount;
 
-                            GameData.Instance.PlayerGamedata[3001] = GameData.Instance.PlayerGamedata[3001] - requiredIronCount;
+                            GameDataManager.Instance.PlayerGamedata[3001] = GameDataManager.Instance.PlayerGamedata[3001] - requiredIronCount;
 
-                            GameData.Instance.PlayerGamedata[3002] = GameData.Instance.PlayerGamedata[3002] - requiredBrickCount;
+                            GameDataManager.Instance.PlayerGamedata[3002] = GameDataManager.Instance.PlayerGamedata[3002] - requiredBrickCount;
 
-                            GameData.Instance.PlayerGamedata[3001] = GameData.Instance.PlayerGamedata[3001] - requiredSheepCount;
+                            GameDataManager.Instance.PlayerGamedata[3001] = GameDataManager.Instance.PlayerGamedata[3001] - requiredSheepCount;
 
-                            GameData.Instance.PlayerGamedata[currentItem.Code] -= 1;
+                            GameDataManager.Instance.PlayerGamedata[currentItem.Code] -= 1;
 
-                            GameData.Instance.SetGameDataToServer();
+                            GameDataManager.Instance.SetGameDataToServer();
                         }
                         else
                         {

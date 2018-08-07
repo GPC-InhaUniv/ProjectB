@@ -87,10 +87,10 @@ public class Trade : MonoBehaviour
     {
         Debug.Log("현재 자원");
 
-        Debug.Log("흙 " + GameData.Instance.PlayerGamedata[3002]);
-        Debug.Log("철광석 " + GameData.Instance.PlayerGamedata[3001]);
-        Debug.Log("양 " + GameData.Instance.PlayerGamedata[3003]);
-        Debug.Log("나무 " + GameData.Instance.PlayerGamedata[3000]);
+        Debug.Log("흙 " + GameDataManager.Instance.PlayerGamedata[3002]);
+        Debug.Log("철광석 " + GameDataManager.Instance.PlayerGamedata[3001]);
+        Debug.Log("양 " + GameDataManager.Instance.PlayerGamedata[3003]);
+        Debug.Log("나무 " + GameDataManager.Instance.PlayerGamedata[3000]);
         //Debug.Log("거래 확률 " + tradeProbability + "%");
         Debug.Log("우호도 " + this.relationShip);
     }

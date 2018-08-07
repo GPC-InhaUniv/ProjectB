@@ -15,7 +15,7 @@ public enum LoadType
     IronDungeon,
     VillageCheckDownLoad
 }
-public class LoadingScene : Singleton<LoadingScene>
+public class LoadingSceneManager : Singleton<LoadingSceneManager>
 {
 
 

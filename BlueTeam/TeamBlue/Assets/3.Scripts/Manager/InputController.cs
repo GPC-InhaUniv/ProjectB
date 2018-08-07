@@ -31,7 +31,7 @@ public class InputController : MonoBehaviour {
         if(userAccountInfo.Id!="" && userAccountInfo.Password!= " ")
         {
             AccountInfo.Login(userAccountInfo.Id, userAccountInfo.Password);
-            LoadingScene.Instance.LoadScene(LoadType.VillageCheckDownLoad, 0);
+            LoadingSceneManager.Instance.LoadScene(LoadType.VillageCheckDownLoad, 0);
 
         }
         else

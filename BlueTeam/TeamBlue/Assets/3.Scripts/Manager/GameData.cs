@@ -68,7 +68,7 @@ public struct PlayerWareHouseData
 
 
 
-public class GameData : Singleton<GameData>
+public class GameDataManager : Singleton<GameDataManager>
 {
     public const int MAXDUNGEONCOUNT = 4;
     public const int MAXITEMCOUNT = 5;

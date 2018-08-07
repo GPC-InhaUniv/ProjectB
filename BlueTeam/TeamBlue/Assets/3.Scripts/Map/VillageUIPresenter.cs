@@ -71,31 +71,31 @@ public class VillageUIPresenter : MonoBehaviour
 
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
-        LoadingScene.Instance.LoadScene(LoadType.WoodDungeon, dungeonNumber);
+        LoadingSceneManager.Instance.LoadScene(LoadType.WoodDungeon, dungeonNumber);
         Debug.Log("나무 던전 입장");
     }
 
     public void OnClickIronDungeonButton(int dungeonNumber)
     {
-        LoadingScene.Instance.LoadScene(LoadType.IronDungeon, dungeonNumber);
+        LoadingSceneManager.Instance.LoadScene(LoadType.IronDungeon, dungeonNumber);
         Debug.Log("철광석 던전 입장");
     }
 
     public void OnClickBrickDungeonButton(int dungeonNumber)
     {
-        LoadingScene.Instance.LoadScene(LoadType.BrickDungeon, dungeonNumber);
+        LoadingSceneManager.Instance.LoadScene(LoadType.BrickDungeon, dungeonNumber);
         Debug.Log("돌 던전 입장");
     }
 
     public void OnClickSheepDungeonButton(int dungeonNumber)
     {
-        LoadingScene.Instance.LoadScene(LoadType.SheepDungeon, dungeonNumber);
+        LoadingSceneManager.Instance.LoadScene(LoadType.SheepDungeon, dungeonNumber);
         Debug.Log("양 던전 입장");
     }
 
     public void OnClickVillageButton(int dungeonNumber)
     {
-        LoadingScene.Instance.LoadScene(LoadType.Village, dungeonNumber);
+        LoadingSceneManager.Instance.LoadScene(LoadType.Village, dungeonNumber);
         Debug.Log("마을 입장");
     }
 
