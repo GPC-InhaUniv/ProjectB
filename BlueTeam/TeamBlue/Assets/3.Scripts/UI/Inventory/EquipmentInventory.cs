@@ -6,8 +6,4 @@ public class EquipmentInventory : MonoBehaviour {
 
 
     public List<EquipmentSlot> slotList;
-
-
-
-
 }

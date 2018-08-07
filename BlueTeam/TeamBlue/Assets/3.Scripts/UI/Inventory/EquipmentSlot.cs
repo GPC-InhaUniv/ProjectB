@@ -29,83 +29,63 @@ public class EquipmentSlot : MonoBehaviour, IEquipSlotable, IPointerClickHandler
     int index = -1;
     public void CheckItemType()
     {
-
-        for (int i = 0; i < inventory.slotList.Count; i++)
+        if (inventory.InventoryType != InventoryType.Equipment)
+            return;
+        for (int i = 0; i < inventory.SlotList.Count; i++)
         {
-            if (!inventory.slotList[i].isClicked)
+            if (!inventory.SlotList[i].isClicked)
             {
                 isCliecked = false;
                 continue;
             }
             else
             {
-                if (inventory.slotList[i].SlotinItem.Peek().Code / 1000 == 2)
+                if (inventory.SlotList[i].SlotinItem.Peek().Code / 1000 == 2)
                 {
                     index = i;
                     isCliecked = true;
                 }
             }
-        }
-        /*
-        foreach(InventorySlot item in inventory.slotList)
-        {
-            if(!item.isClicked)
-                continue;
-            else
-            {
-                if (item.SlotinItem.Peek().Code % 1000 == 2)
-                {
-                    equipItem = item.SlotinItem.Peek();
-             //       EquipItemToSlot();
-                }
-                else
-                    return;
-            }
-        }*/
+        }     
     }
 
     public void EquipItemToSlot()
-    {
-
-        CheckEquipList(inventory.slotList[index].SlotinItem.Peek());
-        equipItem = inventory.slotList[index].SlotinItem.Pop();
-        inventory.slotList[index].isEmpty = false;
+    {   
+        equipItem = CheckEquipList(inventory.GetItem());
         UpdateIamge();
     }
 
 
-    void CheckEquipList(Item item)
+    Item CheckEquipList(Item item)
     {
         foreach (EquipmentSlot slot in equipInventory.slotList)
         {
-            if (slot.equipItem == null)
-                continue;
+            if (slot.equipItem == null)     
+                continue;  
             else
             {
-                if (slot.equipItem.Code % 10 == equipItem.Code % 10)
+                if (slot.equipItem.Code % 10 == item.Code % 10)
                 {
                     inventory.AddItem(slot.equipItem);
                     slot.equipItem = null;
-                    return;
+                    slot.UpdateIamge();
                 }
             }
         }
+        
+        return item;
     }
     public void UpdateIamge()
     {
+        if (equipItem != null)
             slotImage.sprite = itemSprite;//SlotinItem.Peek().item.itemSprite;
+        else
+            slotImage.sprite = defaltSprite;
         
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        
-        if (isCliecked)
-            EquipItemToSlot();
-        if (index == -1)
-        {
-            Debug.Log("장비슬롯 클릭");
-            CheckItemType();
-        }
+        EquipItemToSlot();
 
     }
 }

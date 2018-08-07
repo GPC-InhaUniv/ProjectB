@@ -22,7 +22,7 @@ public enum SoundType
 public class Test_SoundManager : Singleton<Test_SoundManager>{
 
     [SerializeField]
-    int countOfAudioSorce;
+    int countOfAudioSource;
     GameObject bgmObject;
    
     public AudioSource[] audioSource;
@@ -44,12 +44,12 @@ public class Test_SoundManager : Singleton<Test_SoundManager>{
 
     void SetSoundManager()
     {
-        audioSource = new AudioSource[countOfAudioSorce];
-        for (int i = 0; i < countOfAudioSorce; i++)
+        audioSource = new AudioSource[countOfAudioSource];
+        for (int i = 0; i < countOfAudioSource; i++)
         {
             GameObject audioObject;
             audioObject = Instantiate(audioPrefab);
-            audioObject.name = "AudioSorce. " + i.ToString();
+            audioObject.name = "AudioSource. " + i.ToString();
             audioSource[i] = audioObject.GetComponent<AudioSource>();
         }
         bgmObject = Instantiate(audioPrefab);
@@ -62,7 +62,7 @@ public class Test_SoundManager : Singleton<Test_SoundManager>{
         //에셋번들에서 오디오 클립 로드필요
     }
 
-    public AudioClip SetAudio(SoundType soundType)
+    public AudioClip GetAudioClip(SoundType soundType)
     {
         AudioClip clip;
         switch (soundType)
@@ -95,7 +95,7 @@ public class Test_SoundManager : Singleton<Test_SoundManager>{
         {
             if(!audio.isPlaying)
             {
-                audio.clip = SetAudio(soundType);
+                audio.clip = GetAudioClip(soundType);
                 audio.Play();
                 return;
             }

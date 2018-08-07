@@ -2,25 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Inventory Model이 될 예정
+/// </summary>
+
+
+public enum InventoryType
+{
+    Equipment,
+    Resorces,
+    
+    }
+
 public class Inventory : MonoBehaviour {
 
-    [SerializeField]
-    public List<InventorySlot> slotList;
+    
+    public List<InventorySlot> SlotList;    
 
-    Item itemCarrier;
-
-    // Use this for initialization
+    private InventoryType inventoryType = InventoryType.Equipment;
+    public InventoryType InventoryType { get { return inventoryType; } }
     void Start () {
-	//	itemCarrier = itemCarrier = GameObject.FindGameObjectWithTag("DragImage").GetComponent<Item>();
-
+	
 
     }
 	
 	public void AddItem(Item item)
     {
-        foreach(InventorySlot slot in slotList)
+        foreach(InventorySlot slot in SlotList)
         {
-            if (!slot.isEmpty)
+            if (!slot.isNotEmpty)
                 continue;
             if(slot.SlotinItem.Peek().Code == item.Code)
             {
@@ -28,10 +38,9 @@ public class Inventory : MonoBehaviour {
                 return;
             }
         }
-
-        foreach (InventorySlot slot in slotList)
+        foreach (InventorySlot slot in SlotList)
         {
-            if (slot.isEmpty)
+            if (slot.isNotEmpty)
                 continue;
            
                 slot.AddItem(item);
@@ -40,13 +49,23 @@ public class Inventory : MonoBehaviour {
         }
     }
 
-    public void SwapOnclick(InventorySlot NewClickedSlot)
+    public Item GetItem()
     {
-        for(int i = 0; i < slotList.Count;i++)
+        for (int i = 0; i < SlotList.Count; i++)
         {
-            if(slotList[i].isClicked)
+            if (SlotList[i].isClicked)
+                return SlotList[i].UseItem();
+        }
+        return null;
+    }
+    
+    public void SwapOnClick(InventorySlot NewClickedSlot)
+    {
+        for(int i = 0; i < SlotList.Count;i++)
+        {
+            if(SlotList[i].isClicked)
             {
-                slotList[i].isClicked = false;
+                SlotList[i].isClicked = false;
                 NewClickedSlot.isClicked = true;
                 return;
             }

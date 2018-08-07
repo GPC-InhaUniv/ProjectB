@@ -12,9 +12,9 @@ public class RadarObject
 
 public class Radar : MonoBehaviour ,IPositionInteractionable
 {
-    public Vector3 PlayerPosition;
+    private Vector3 PlayerPosition;
     
-    public List<RadarObject> radarObjects = new List<RadarObject>();
+    private List<RadarObject> radarObjects = new List<RadarObject>();
 
     private void Start()
     {
@@ -26,12 +26,17 @@ public class Radar : MonoBehaviour ,IPositionInteractionable
         DrawIcon();
     }
 
-    public void RegistEnemyIcon(GameObject Character, Image enemyDot)
+    public void RegistIcon(GameObject Character, Image Dot)
     {
-        Image image = Instantiate(enemyDot);
+        Image image = Instantiate(Dot);
        
         radarObjects.Add(new RadarObject() { Icon = image, Owner = Character });
         
+    }
+
+    public void RemoveIcon(Image Dot)
+    {
+
     }
 
     public void DrawIcon()
@@ -46,8 +51,7 @@ public class Radar : MonoBehaviour ,IPositionInteractionable
         }
     }
 
-    public void SendPosition()
-    { }
+    public void SendPosition() { }
 
     public void ReceivePosition(Vector3 position)
     {
