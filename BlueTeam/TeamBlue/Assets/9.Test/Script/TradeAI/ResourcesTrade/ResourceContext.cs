@@ -16,8 +16,8 @@ class ResourceContext : MonoBehaviour
         this.resource.SendResources(sendingResourceCount);
     }
 
-    public void ReceiveReousrces(int receivingResourceCount, GameResources resourceType, ref int relationShip)
+    public void ReceiveReousrces(int receivingResourceCount, GameResources resourceType, int tradeProbability)
     {
-        this.resource.ReceiveResources(receivingResourceCount, resourceType, ref relationShip);
+        this.resource.ReceiveResources(receivingResourceCount, resourceType, tradeProbability);
     }
 }

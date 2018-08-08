@@ -28,31 +28,31 @@ class Wood : MonoBehaviour, IResource
 
     }
 
-    public void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int relationShip)
+    public void ReceiveResources(int receivingResourceCount, GameResources resourceType, int tradeProbability)
     {
         switch (resourceType)
         {
             case GameResources.Brick:
                 GameDataManager.Instance.PlayerGamedata[3000] += (receivingResourceCount + BrickWeightedValue);
-                relationShip -= (int)(relationShip + ((BrickWeightedValue * receivingResourceCount)) * 0.95);
+                tradeProbability -= (int)(tradeProbability + ((BrickWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
 
             case GameResources.Iron:
                 GameDataManager.Instance.PlayerGamedata[3000] += (receivingResourceCount + IronWeightedValue);
-                relationShip -= (int)(relationShip + ((IronWeightedValue * receivingResourceCount)) * 0.95);
+                tradeProbability -= (int)(tradeProbability + ((IronWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
 
             case GameResources.Sheep:
                 GameDataManager.Instance.PlayerGamedata[3000] += (receivingResourceCount + SheepWeightedValue);
-                relationShip -= (int)(relationShip + ((SheepWeightedValue * receivingResourceCount)) * 0.95);
+                tradeProbability -= (int)(tradeProbability + ((SheepWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
 
             case GameResources.Wood:
                 GameDataManager.Instance.PlayerGamedata[3000] += (receivingResourceCount + WoodWeightedValue);
-                relationShip -= (int)(relationShip + ((WoodWeightedValue * receivingResourceCount)) * 0.95);
+                tradeProbability -= (int)(tradeProbability + ((WoodWeightedValue * receivingResourceCount)) * 0.95);
 
                 break;
         }

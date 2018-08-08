@@ -10,7 +10,7 @@ public class RadarObject
 }
 
 
-public class Radar : MonoBehaviour//,IPositionInteractionable
+public class Radar : MonoBehaviour
 {
     public Transform CharacterPosition; 
     
@@ -46,7 +46,6 @@ public class Radar : MonoBehaviour//,IPositionInteractionable
         foreach(RadarObject radarObject in radarObjects )
         {
             Vector3 radarObjectPosition = radarObject.Owner.transform.position - CharacterPosition.transform.position;
-            //float distanceToObject = Vector3.Distance(radarObjectPosition, PlayerPosition);
             
             radarObject.Icon.transform.SetParent(this.transform);
             radarObject.Icon.transform.position = new Vector3(radarObjectPosition.x, radarObjectPosition.z, 0) + this.transform.position;
@@ -56,8 +55,5 @@ public class Radar : MonoBehaviour//,IPositionInteractionable
     public void SendPosition() { }
 
    
-    //public void ReceivePosition(Vector3 position)
-    //{
-    //    PlayerPosition = position;
-    //}
+   
 }
