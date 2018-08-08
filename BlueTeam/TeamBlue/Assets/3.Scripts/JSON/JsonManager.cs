@@ -10,7 +10,7 @@ public class JsonManager : MonoBehaviour
     {
 
 #if UNITY_ANDROID
-        assetBundleDirectory = Application.persistentDataPath + "/10.JsonFolder";
+        assetBundleDirectory = Application.persistentDataPath + "/JsonFolder";
 #else
         assetBundleDirectory="Assets/10.JsonFolder";
 #endif

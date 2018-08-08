@@ -15,11 +15,18 @@ public enum LoadType
     IronDungeon,
     VillageCheckDownLoad
 }
-public class LoadingSceneManager : Singleton<LoadingSceneManager>
+
+enum SceneName
+{
+    Test_Login,
+    Test_Loading,
+    Test_Empty2,
+}
+public class LoadingSceneManager : MonoBehaviour
 {
 
 
-    public string NextScene;
+    public static string NextScene;
     string assetBundleDirectory;
     string currentAssetName = "";
     string BundleURL;
@@ -28,9 +35,9 @@ public class LoadingSceneManager : Singleton<LoadingSceneManager>
     string TownBundle;
 
     int totalBundleCount = 4;
-    int userBundleCount = 4;
-    LoadType currentType;
-    int currentDungeonIndex = 0;
+    static int userBundleCount = 4;
+    static LoadType currentType;
+    static int currentDungeonIndex = 0;
 
     int percentage;
 
@@ -83,12 +90,14 @@ public class LoadingSceneManager : Singleton<LoadingSceneManager>
                 break;
             case LoadType.VillageCheckDownLoad:
                 currentAssetName = "마을 로드중...";
-
+                Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                Test_AssetBundleManager.Instance.LoadObject();
                 break;
         }
 
 
         StartCoroutine(LoadScene());
+      
     }
 
     IEnumerator LoadScene()
@@ -152,20 +161,20 @@ public class LoadingSceneManager : Singleton<LoadingSceneManager>
     }
 
 
-    public  void LoadScene(LoadType mapType, int index)
+    public  static void LoadScene(LoadType mapType, int index)
     {
         switch (mapType)
         {
             case LoadType.Village:
                 currentType = LoadType.Village;
-                NextScene = "Test_Empty2";
+                NextScene = SceneName.Test_Empty2.ToString();
                 break;
             case LoadType.BrickDungeon:
                 currentType = LoadType.BrickDungeon;
                 break;
             case LoadType.WoodDungeon:
                 currentType = LoadType.WoodDungeon;
-                NextScene = "Test_Empty2";
+                NextScene = SceneName.Test_Empty2.ToString();
                 break;
             case LoadType.SheepDungeon:
                 currentType = LoadType.SheepDungeon;
@@ -176,14 +185,14 @@ public class LoadingSceneManager : Singleton<LoadingSceneManager>
             case LoadType.VillageCheckDownLoad:
                 currentType = LoadType.VillageCheckDownLoad;
                 userBundleCount = CheckDownLoadFile();
-                NextScene = "Test_Empty2";
+                NextScene = SceneName.Test_Empty2.ToString();
                 break;
             default:
                 break;
         }
 
         currentDungeonIndex = index;
-        SceneManager.LoadScene("Test_LoadingScene");
+        SceneManager.LoadScene(SceneName.Test_Loading.ToString());
 
 
     }
