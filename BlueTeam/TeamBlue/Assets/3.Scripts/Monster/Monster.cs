@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace MonsterAI
 {
-    public abstract class Monster : MonoBehaviour , IDamageInteractionable
+    public abstract class Monster : MonoBehaviour 
     {
+        
+        public TestMonsterInfo testinfo;
+
         // test //
         [SerializeField]
         protected AttackArea[] attackAreas;
@@ -54,13 +57,13 @@ namespace MonsterAI
 
         /// <summary>
         /// interface implement
-        /// </summary>
-        public IDamageInteractionable player;
+        ///// </summary>
+        //public IDamageInteractionable player;
 
-        public void SendDamage(IDamageInteractionable target)
-        {
-           Test_Mediator.Instance.SendTarget(target, MonsterPower);
-        }
+        //public void SendDamage(IDamageInteractionable target)
+        //{
+        //   Test_Mediator.Instance.SendTarget(target, MonsterPower);
+        //}
 
         public void ReceiveDamage(int damage)
         {
