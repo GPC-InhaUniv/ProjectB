@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Trade : MonoBehaviour
 {
-    WeatherContext weatherContext;
+    Weather weather;
     ResourceContext resourceContext;
 
     [SerializeField]
@@ -15,14 +15,22 @@ public class Trade : MonoBehaviour
     int sendingResourcesCount;
 
     [SerializeField]
-    GameResources tradeGameResources;
+    int tradeProbability = 100; // 기본 확률
 
     [SerializeField]
-    int tradeProbability = 100; // 기본 확률
+    GameResources resourceType;
+
+    //[SerializeField]
+    //int relationShip = 0;
 
     bool isTrading = false;
 
-    
+    void Start()
+    {
+        Weather weather = new Weather();
+        resourceContext = new ResourceContext();
+    }
+
 
     public void CheckTradeProbability(int tradeProbability)
     {
@@ -43,43 +51,90 @@ public class Trade : MonoBehaviour
         }
     }
 
-    public void CheckRelationShip(int relationShip)
-    {
-        if (relationShip >= 50)
-        {
-            ////specRecieveCount = Random.Range(1, 4);
 
-            //Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
+    
 
-        }
-
-        else
-        {
-            ////specRecieveCount = Random.Range(1, 3);
-
-            //Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
-
-        }
-    }
-
-
-
-    void Update()
-    {
-        //OnClick();
-    }
-
-    //public void OnClick()
+    //public void CheckRelationShip(int relationShip)
     //{
-    //    if (Input.GetMouseButtonDown(0))
+    //    if (relationShip >= 50)
     //    {
-    //        Debug.Log("클릭됨");
+    //        ////specRecieveCount = Random.Range(1, 4);
 
+    //        //Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
+
+    //    }
+
+    //    else
+    //    {
+    //        ////specRecieveCount = Random.Range(1, 3);
+
+    //        //Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
 
     //    }
     //}
 
+    public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, int tradeProbability, GameResources resourceType)
+    {
+        CheckTradeProbability(tradeProbability);
 
+        if(isTrading)
+        {
+            switch(resourceType)
+            {
+                case GameResources.Brick:
+                    resourceContext.ChangeResourceState(new Brick());
+                    resourceContext.SendResources(sendingResourcesCount);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+
+                    break;
+
+                case GameResources.Iron:
+                    resourceContext.ChangeResourceState(new Iron());
+                    resourceContext.SendResources(sendingResourcesCount);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+
+                    break;
+
+                case GameResources.Sheep:
+                    resourceContext.ChangeResourceState(new Sheep());
+                    resourceContext.SendResources(sendingResourcesCount);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+
+                    break;
+
+                case GameResources.Wood:
+                    resourceContext.ChangeResourceState(new Wood());
+                    resourceContext.SendResources(sendingResourcesCount);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+
+                    break;
+            }
+        }
+
+        else
+        {
+            Debug.Log("거래 취소");
+        }
+    }
+
+    void Update()
+    {
+        OnClick();
+    }
+
+    public void OnClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckTradeProbability(this.tradeProbability);
+
+            //TradeResources(this.receivingResourcesCount, this.sendingResourcesCount, this.tradeProbability, this.resourceType);
+
+            Debug.Log("클릭됨");
+
+
+        }
+    }
 
     public void ShowResourcesOnDebugLog()
     {
@@ -89,9 +144,15 @@ public class Trade : MonoBehaviour
         Debug.Log("철광석 " + GameDataManager.Instance.PlayerGamedata[3001]);
         Debug.Log("양 " + GameDataManager.Instance.PlayerGamedata[3003]);
         Debug.Log("나무 " + GameDataManager.Instance.PlayerGamedata[3000]);
-        //Debug.Log("거래 확률 " + tradeProbability + "%");
-        //Debug.Log("우호도 " + this.relationShip);
+
+        Debug.Log("거래 확률 " + tradeProbability + "%");
+        //Debug.Log("우호도 " + relationShip);
     }
+
+
+
+
+
 
 }
 

@@ -92,6 +92,8 @@ public class Player : MonoBehaviour
     public void Turn(Vector3 MoveVector)
     {
         transform.rotation = Quaternion.LookRotation(MoveVector);
+
+        //보간하기
     }
 
     public void BackStep()
@@ -178,6 +180,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(time);
         SetState(new PlayerCharacterIdleState(this));
     }
+
     /*
     public void SendDamage(IDamageInteractionable target) 
     {

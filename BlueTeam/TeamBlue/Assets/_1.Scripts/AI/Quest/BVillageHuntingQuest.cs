@@ -37,23 +37,25 @@ class BVillageHuntingQuest : HuntingQuest
         return questStateType.ToString();
     }
 
-    public override string ShowContentsOfQuest(QuestType questType, string QuestState)
+    public override string ShowContentsOfQuest(QuestType questType, string questState)
     {
-        string QuestContents = "";
         string MonsterName = "";
         assignmentMonster = defaultMonsterCount + additionMonsterCount;
 
         if (lastQuest < maxQuest)
         {
-            if (lastQuest % 2 != 1)
+            if (questType == QuestType.BVillageQuest && questState == "완료")
             {
-                MonsterName = "돌";
+                if (lastQuest % 2 != 1)
+                {
+                    MonsterName = "돌";
+                }
+                else if (lastQuest % 2 != 0)
+                {
+                    MonsterName = "철광";
+                }
+                QuestContents = "B마을 퀘스트\n" + MonsterName + " 몬스터를" + assignmentMonster + "마리 처치";
             }
-            else if (lastQuest % 2 != 0)
-            {
-                MonsterName = "철광";
-            }
-            QuestContents = "B마을 퀘스트\n" + MonsterName + " 몬스터를" + assignmentMonster + "마리 처치";
         }
         else
         {
@@ -73,7 +75,7 @@ class BVillageHuntingQuest : HuntingQuest
             {
                 if (lastQuest % 2 != 1)
                 {
-                    if (conditionType == ConditionType.Brick)
+                    if (conditionType == ConditionType.BrickMonster)
                     {
                         MonsterName = "돌";
                         disposalMonster++;
@@ -81,7 +83,7 @@ class BVillageHuntingQuest : HuntingQuest
                 }
                 else
                 {
-                    if (conditionType == ConditionType.Iron)
+                    if (conditionType == ConditionType.IronMonster)
                     {
                         MonsterName = "철광";
                         disposalMonster++;

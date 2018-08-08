@@ -65,19 +65,16 @@ public class PlayerPresenter : MonoBehaviour
     void Update()
     {
         inputMoveVector = PoolInput();
-    }
-
-    void FixedUpdate()
-    {
-        if ((player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterBackStepState)))
         {
-            return;
+            if ((player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterBackStepState)))
+            {
+                return;
+            }
+            else
+            {
+                PlayerMove();
+            }
         }
-        else
-        {
-            PlayerMove();
-        }
-
     }
 
     Vector3 PoolInput()
@@ -192,8 +189,6 @@ public class PlayerPresenter : MonoBehaviour
 
     void StartCombo()
     {
-        //player.IsRunning = false;
-
         player.SetState(new PlayerCharacterAttackState(player));
 
         isComboState = true;

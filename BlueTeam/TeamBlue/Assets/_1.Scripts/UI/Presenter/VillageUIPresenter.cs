@@ -50,6 +50,11 @@ public class VillageUIPresenter : MonoBehaviour
         questViewPanel.SetActive(false);
     }
 
+    public void OnClickEntranceDungeonButton()
+    {
+        WorldMapPanel.SetActive(true);
+    }
+
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
         LoadingSceneManager.LoadScene(LoadType.WoodDungeon, dungeonNumber);
@@ -80,31 +85,26 @@ public class VillageUIPresenter : MonoBehaviour
         Debug.Log("마을 입장");
     }
 
-    public void OnClickEntranceDungeonButton()
-    {
-        WorldMapPanel.SetActive(true);
-    }
-
     private void Update()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(ConditionType.Wood);
+            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(ConditionType.WoodMonster);
         }
 
         else if (Input.GetKey(KeyCode.S))
         {
-            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(ConditionType.Sheep);
+            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(ConditionType.SheepMonster);
         }
 
         else if (Input.GetKey(KeyCode.Q))
         {
-            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.Brick);
+            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.BrickMonster);
         }
 
         else if (Input.GetKey(KeyCode.W))
         {
-            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.Iron);
+            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.IronMonster);
         }
     }
 }
