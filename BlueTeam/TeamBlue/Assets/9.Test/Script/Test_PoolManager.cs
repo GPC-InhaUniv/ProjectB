@@ -15,6 +15,11 @@ using UnityEngine;
 public class Test_PoolManager : Singleton<Test_PoolManager>
 {
 
+
+    private void Start()
+    {
+        
+    }
     enum ObjectType
     {
         monster,
@@ -101,9 +106,11 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         {
             case ObjectType.monster:
                 item = Instantiate(monsterPrefab);
+                DontDestroyOnLoad(item);
                 break;
             case ObjectType.particle:
                 item = Instantiate(particlePrefab);
+                DontDestroyOnLoad(item);
                 break;
             default:
                 Debug.Log("잘못된 생성 - PoolManager");
