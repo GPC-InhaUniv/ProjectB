@@ -39,6 +39,8 @@ public class LoadingSceneManager : MonoBehaviour
     static LoadType currentType;
     static int currentDungeonIndex = 0;
 
+    bool IsDownLoadDone = false;
+    bool IsAssetLoadDone = false;
     int percentage;
 
     [SerializeField]
@@ -55,8 +57,10 @@ public class LoadingSceneManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
+
         if (currentType.Equals(LoadType.VillageCheckDownLoad) && userBundleCount < totalBundleCount - 1)
         {
+            IsDownLoadDone = false;
             Debug.Log("다운로드 필요");
             currentAssetName = "게임 준비중...";
             BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
@@ -66,39 +70,62 @@ public class LoadingSceneManager : MonoBehaviour
             StartCoroutine(SaveAssetBundleOnDisk(BundleURL, "Riko"));
             StartCoroutine(SaveAssetBundleOnDisk(BundleURL2, "Cube"));
             StartCoroutine(SaveAssetBundleOnDisk(TownBundle, "Town"));
+          
         }
         else
         {
             Debug.Log("다운로드 불필요");
             totalBundleCount = 1;
+            IsDownLoadDone = true;
+
         }
 
-        switch (currentType)
-        {
-            case LoadType.Village:
-                break;
-            case LoadType.BrickDungeon:
-                break;
-            case LoadType.WoodDungeon:
-                currentAssetName = "나무 던전 로드중..";
-                Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                Test_AssetBundleManager.Instance.LoadObject();
-                break;
-            case LoadType.SheepDungeon:
-                break;
-            case LoadType.IronDungeon:
-                break;
-            case LoadType.VillageCheckDownLoad:
-                currentAssetName = "마을 로드중...";
-                Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                Test_AssetBundleManager.Instance.AssetName = "Village";
-                Test_AssetBundleManager.Instance.LoadObject();
-                break;
-        }
+
+        StartCoroutine(CheckDownLoadDone());
 
 
         StartCoroutine(LoadScene());
       
+    }
+
+    IEnumerator CheckDownLoadDone()
+    {
+        while (!IsAssetLoadDone)
+        {
+            if (IsDownLoadDone)
+            {
+                switch (currentType)
+                {
+                    case LoadType.Village:
+                        break;
+                    case LoadType.BrickDungeon:
+                        break;
+                    case LoadType.WoodDungeon:
+                        currentAssetName = "나무 던전 로드중..";
+                        Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                        Test_AssetBundleManager.Instance.LoadObject();
+                        break;
+                    case LoadType.SheepDungeon:
+                        break;
+                    case LoadType.IronDungeon:
+                        break;
+                    case LoadType.VillageCheckDownLoad:
+                        currentAssetName = "마을 로드중...";
+                        Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                        Test_AssetBundleManager.Instance.AssetName = "Village";
+                        Test_PoolManager.Instance.SetTown(Test_AssetBundleManager.Instance.LoadObject());
+                        break;
+                }
+
+                IsAssetLoadDone = true;
+            }
+
+            else
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+        }
+        yield return null;
     }
 
     IEnumerator LoadScene()
@@ -153,9 +180,11 @@ public class LoadingSceneManager : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-
+            GameObject tempObject = Test_PoolManager.Instance.GetTown();
+            if (tempObject != null)
+                tempObject.SetActive(true);
             asyncOperation.allowSceneActivation = true;
-
+            
         }
 
 
@@ -260,9 +289,18 @@ public class LoadingSceneManager : MonoBehaviour
         fs.Close();
 
         totalBundleCount--;
-        if (totalBundleCount <= 0)
-            totalBundleCount = 1;
 
+        if (totalBundleCount <= 0)
+        {
+            totalBundleCount = 1;
+          
+        }
+
+        if(totalBundleCount==1)
+        {
+            IsDownLoadDone = true;
+            Debug.Log("모든 파일 다운로드 완료");
+        }
         currentAssetName = AssetName + " 다운로드 중...";
 
         Debug.Log(AssetName + " 번들 다운로드 완료 " + totalBundleCount);

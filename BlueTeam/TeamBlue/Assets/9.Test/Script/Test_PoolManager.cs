@@ -18,12 +18,16 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     private void Start()
     {
-        
+        DontDestroyOnLoad(gameObject);
+        monsterPoolSize = 20;
+        FXPoolSize = 20;
+
     }
     enum ObjectType
     {
         monster,
         particle,
+        village,
     }
 
     [SerializeField]
@@ -32,11 +36,21 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     [SerializeField]
     int FXPoolSize;
 
+    
     List<GameObject> monster = new List<GameObject>();
     List<GameObject> particle = new List<GameObject>();
 
+    GameObject town;
+
     public GameObject monsterPrefab;
     public GameObject particlePrefab;
+
+    public void SetTown(GameObject townobject)
+    {
+        town = townobject;
+        town.gameObject.SetActive(false);
+        DontDestroyOnLoad(town);
+    }
 
     public void SetPool()
     {
@@ -51,6 +65,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
             particle.Add(CreateItem(ObjectType.particle));
 
         }
+
     }
 
     public void ClearPool()
@@ -71,6 +86,19 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         return monsterObject;
     }
 
+    public GameObject GetTown()
+    {
+        return town;
+    }
+
+    public void DestroyPoolObject()
+    {
+        if(town!=null)
+        Destroy(town);
+    }
+
+ 
+
 
     public GameObject GetParticleObject()
     {
@@ -83,6 +111,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         particleObject.SetActive(true);
         return particleObject;
     }
+
     public void PutObject(GameObject gameobject)
     {
 
