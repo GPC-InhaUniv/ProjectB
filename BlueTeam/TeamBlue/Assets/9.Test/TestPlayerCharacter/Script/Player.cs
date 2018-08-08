@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteractionable
+public class Player : MonoBehaviour
 {
 
     PlayerAnimation playerAinmaton;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
 
     Coroutine swapCoroutine;   
 
-    public Vector3 MoveVector;
+    Vector3 moveVector;
 
     public bool IsRunning;
     public bool IsAttacking;
@@ -57,13 +57,13 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
     private void FixedUpdate()
     {
         //뒤로 가는 벡터 방향 저장
-        if (MoveVector != Vector3.zero)
+        if (moveVector != Vector3.zero)
         {
-            backTargetVector = MoveVector;
+            backTargetVector = moveVector;
         }
 
         playerAinmaton.RunAnimation(IsRunning);
-        PlayerState.Tick(MoveVector);
+        PlayerState.Tick(moveVector);
     }
 
     public void SetState(PlayerCharacterState state)
@@ -148,6 +148,10 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
         swapCoroutine = StartCoroutine(SwapWaitTime(2.0f));
 
     }
+    public void SetMoveVector(Vector3 inputVector)
+    {
+        moveVector = inputVector;
+    }
 
     public void WeaponSwitching(PlayerCharacterWeaponState NewWeaponState)
     {
@@ -174,7 +178,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
         yield return new WaitForSeconds(time);
         SetState(new PlayerCharacterIdleState(this));
     }
-
+    /*
     public void SendDamage(IDamageInteractionable target) 
     {
         Test_Mediator.Instance.SendTarget(target, playerStatus.PlayerAttackPower);
@@ -191,11 +195,11 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
             SetState(new PlayerCharacterDieState(this));
         }
     }
-
+    
     public void SendPosition()
     {
         Test_Mediator.Instance.SendPosition(transform.position);
-    }
+    }*/
 
     public void ReceivePosition(Vector3 position)
     {

@@ -5,5 +5,5 @@ using UnityEngine;
 interface IResource
 {
     void SendResources(int sendingResourceCount);
-    void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int relationShip);
+    void ReceiveResources(int receivingResourceCount, GameResources resourceType, int tradeProbability);
 }
