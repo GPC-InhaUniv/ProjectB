@@ -7,21 +7,39 @@ enum WeatherState
     Cloudy,
     Rainy,
     Sunny,
-    Lighting
+    Lighting // 날씨 하나 추가(정확히 무슨 날씨인지 모름)
 }
 
-class WeatherContext : MonoBehaviour
+class Weather : MonoBehaviour
 {
-    IWeather weatherState;
+    WeatherState weatherState;
 
-    public void SetWeatherContext(IWeather weatherState)
+    public void ChangeWeatherState(WeatherState weatherState)
     {
-        this.weatherState = weatherState;
+        switch (weatherState)
+        {
+            case WeatherState.Cloudy:
+                weatherState = WeatherState.Cloudy;
+                break;
+
+            case WeatherState.Rainy:
+                weatherState = WeatherState.Rainy;
+                break;
+
+            case WeatherState.Sunny:
+                weatherState = WeatherState.Sunny;
+                break;
+
+            case WeatherState.Lighting:
+                weatherState = WeatherState.Lighting;
+                break;
+        }
+
     }
 
-    public void RequestSettingWeather()
+    public WeatherState GetWeatherState()
     {
-        this.weatherState.SetWeather();
+        return weatherState;
     }
 
 }

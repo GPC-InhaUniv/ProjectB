@@ -10,8 +10,6 @@ class Iron : MonoBehaviour, IResource
 
     int WoodWeightedValue = 2;
 
-    int num;
-
     int IronWeightedValue = 3;
 
     public void SendResources(int sendingResourceCount)
@@ -32,26 +30,26 @@ class Iron : MonoBehaviour, IResource
         switch (resourceType)
         {
             case GameResources.Brick:
-                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + BrickWeightedValue);
-                tradeProbability -= (int)(tradeProbability + ((BrickWeightedValue * receivingResourceCount)) * 0.95);
+                GameDataManager.Instance.PlayerGamedata[3002] += (receivingResourceCount + BrickWeightedValue);
+                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Iron:
                 GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + IronWeightedValue);
-                tradeProbability -= (int)(tradeProbability + ((IronWeightedValue * receivingResourceCount)) * 0.95);
+                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Sheep:
-                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + SheepWeightedValue);
-                tradeProbability -= (int)(tradeProbability + ((SheepWeightedValue * receivingResourceCount)) * 0.95);
+                GameDataManager.Instance.PlayerGamedata[3003] += (receivingResourceCount + SheepWeightedValue);
+                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Wood:
-                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + WoodWeightedValue);
-                tradeProbability -= (int)(tradeProbability + ((WoodWeightedValue * receivingResourceCount)) * 0.95);
+                GameDataManager.Instance.PlayerGamedata[3000] += (receivingResourceCount + WoodWeightedValue);
+                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
         }
