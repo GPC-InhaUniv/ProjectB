@@ -18,7 +18,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        
     }
     enum ObjectType
     {
