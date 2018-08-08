@@ -1,49 +1,53 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 
-public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteractionable
+public class Player : MonoBehaviour
 {
+
     PlayerAnimation playerAinmaton;
     Rigidbody playerRigidbody;
-
-    public Vector3 moveVector;
-
-    public bool isRunning;
-    public bool isAttacking;
-    public bool isBackStepping;
-    public bool isSwapAble;
-
-    public int attackNum;
-    public int skillNum;
-    public PlayerCharacterWeaponState CurrentWeaponState;
-    public PlayerCharacterState PlayerState;
 
     [SerializeField]
     Vector3 backTargetVector;
 
-    WeaponSwap weaponSwap;
+    Weapon Weapon;
+    PlayerStatus playerStatus;
 
     ISkillUsable rangeSkill;
 
-    Coroutine swapCoroutine;
+    Coroutine swapCoroutine;   
 
-    PlayerStatus playerStatus;
+    Vector3 moveVector;
+
+    public bool IsRunning;
+    public bool IsAttacking;
+    public bool IsBackStepping;
+    public bool IsSwapAble;
+
+    public int AttackNumber;
+    public int SkillNumber;
+
+    public PlayerCharacterWeaponState CurrentWeaponState;
+    public PlayerCharacterState PlayerState;
+
+
+
     void Start()
     {
-        attackNum = 1;
+        AttackNumber = 1;
+
         backTargetVector = new Vector3(0, 0, 1);
+
         PlayerState = new PlayerCharacterIdleState(this);
         CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
         
-        isSwapAble = true;
+        IsSwapAble = true;
 
         playerStatus = GetComponent<PlayerStatus>();
         playerAinmaton = GetComponent<PlayerAnimation>();
         playerRigidbody = GetComponent<Rigidbody>();
-        weaponSwap = GetComponent<WeaponSwap>();
+        Weapon = GetComponent<Weapon>();
 
         rangeSkill = new MultiAttackRangeSkill(this);
 
@@ -58,7 +62,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
             backTargetVector = moveVector;
         }
 
-        playerAinmaton.RunAnimation(isRunning);
+        playerAinmaton.RunAnimation(IsRunning);
         PlayerState.Tick(moveVector);
     }
 
@@ -77,17 +81,19 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
 
     public void PlayerAttack()
     {
-        playerAinmaton.AttackAnimation("Attack" + attackNum.ToString());
+        playerAinmaton.AttackAnimation("Attack" + AttackNumber.ToString());
     }
 
-    public void Running(Vector3 moveVector)
+    public void Running(Vector3 MoveVector)
     {
-        playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
+        playerRigidbody.velocity = MoveVector * 450 * Time.deltaTime;
     }
 
-    public void Turn(Vector3 moveVector)
+    public void Turn(Vector3 MoveVector)
     {
-        transform.rotation = Quaternion.LookRotation(moveVector);
+        transform.rotation = Quaternion.LookRotation(MoveVector);
+
+        //보간하기
     }
 
     public void BackStep()
@@ -98,16 +104,15 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
 
     public void Die()
     {
-        //또 무엇이 필요?
         playerAinmaton.DieAnimation();
     }
 
     public void Skill1()
     {
-        isSwapAble = false;
+        IsSwapAble = false;
 
         rangeSkill.UseSkill();
-        playerAinmaton.SkillAnimation("Skill" + skillNum.ToString());
+        playerAinmaton.SkillAnimation("Skill" + SkillNumber.ToString());
 
         if (swapCoroutine != null)
         {
@@ -119,7 +124,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
 
     public void AttackEnd() //공격 모션이 종료될 때 상태가 바뀝니다.
     {
-        isAttacking = false;
+        IsAttacking = false;
 
         SetState(new PlayerCharacterIdleState(this));
 
@@ -145,6 +150,10 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
         swapCoroutine = StartCoroutine(SwapWaitTime(2.0f));
 
     }
+    public void SetMoveVector(Vector3 inputVector)
+    {
+        moveVector = inputVector;
+    }
 
     public void WeaponSwitching(PlayerCharacterWeaponState NewWeaponState)
     {
@@ -152,11 +161,11 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
         {
             return;
         }
-        else if(isSwapAble == true && isAttacking == false && isRunning == false && isBackStepping == false)
+        else if(IsSwapAble == true && IsAttacking == false && IsRunning == false && IsBackStepping == false)
         {
-            playerAinmaton.WeaponSwap(NewWeaponState);
+            playerAinmaton.Weapon(NewWeaponState);
 
-            weaponSwap.SetWeapon(true, NewWeaponState, CurrentWeaponState);
+            Weapon.SetWeapon(true, NewWeaponState, CurrentWeaponState);
 
             CurrentWeaponState = NewWeaponState;
         }
@@ -164,7 +173,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
     public IEnumerator SwapWaitTime(float time)
     {
         yield return new WaitForSeconds(time);
-        isSwapAble = true;      
+        IsSwapAble = true;      
     }
     public IEnumerator ChangeIdleState(float time)
     {
@@ -172,6 +181,7 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
         SetState(new PlayerCharacterIdleState(this));
     }
 
+    /*
     public void SendDamage(IDamageInteractionable target) 
     {
         Test_Mediator.Instance.SendTarget(target, playerStatus.PlayerAttackPower);
@@ -188,11 +198,11 @@ public class Player : MonoBehaviour,IDamageInteractionable, IPositionInteraction
             SetState(new PlayerCharacterDieState(this));
         }
     }
-
+    
     public void SendPosition()
     {
         Test_Mediator.Instance.SendPosition(transform.position);
-    }
+    }*/
 
     public void ReceivePosition(Vector3 position)
     {

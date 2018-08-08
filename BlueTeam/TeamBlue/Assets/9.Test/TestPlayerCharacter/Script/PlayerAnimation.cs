@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour {
 
+    [HideInInspector]
     public Animator animator;
 
     Coroutine attackingCoroutine, backStepCoroutine, skillCoroutine;
@@ -42,7 +42,7 @@ public class PlayerAnimation : MonoBehaviour {
 
     public void RunAnimation(bool isRunning)
     {
-        animator.SetBool("Run", isRunning);
+        animator.SetBool(AnimationState.Run.ToString(), isRunning);
     }
 
 
@@ -52,6 +52,7 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetBool(attackName, true);
         yield return new WaitForSeconds(0.4f);
         animator.SetBool(attackName, false);
+        //스킬 네임 수정해야함. 수정해야함
     }
 
     IEnumerator SkillCoroutine(string skillName)
@@ -59,25 +60,26 @@ public class PlayerAnimation : MonoBehaviour {
         animator.SetBool(skillName, true);
         yield return new WaitForSeconds(1.0f);
         animator.SetBool(skillName, false);
+        //스킬네임 수정해야함. 수정해야함
     }
 
     IEnumerator BackStepCoroutine()
     {
-        animator.SetBool("Back", true);
+        animator.SetBool(AnimationState.BackStep.ToString(), true);
         yield return new WaitForSeconds(0.5f);
-        animator.SetBool("Back", false);
+        animator.SetBool(AnimationState.BackStep.ToString(), false);
     }
 
     public void HitAnimation()
     {
-        animator.SetTrigger("Hot");
+        animator.SetTrigger(AnimationState.Hit.ToString());
     }
 
-    public void WeaponSwap(PlayerCharacterWeaponState weaponState)
+    public void Weapon(PlayerCharacterWeaponState weaponState)
     {
         StartCoroutine(PreSwapCoroutine());
-        animator.SetBool("LongSword", false);
-        animator.SetBool("ShortSword", false);
+        animator.SetBool(AnimationState.LongSword.ToString(), false);
+        animator.SetBool(AnimationState.ShortSword.ToString(), false);
 
         animator.SetBool(weaponState.ToString(), true);
     }
@@ -85,22 +87,31 @@ public class PlayerAnimation : MonoBehaviour {
 
     IEnumerator PreSwapCoroutine()
     {
-        animator.SetBool("Swap", true);
+        animator.SetBool(AnimationState.Swap.ToString(), true);
         yield return new WaitForSeconds(0.2f);
-        animator.SetBool("Swap", false);
+        animator.SetBool(AnimationState.Swap.ToString(), false);
     }
 
 
     public void InitWeapon()
     {
-        animator.SetBool("ShortSword", true);
+        animator.SetBool(AnimationState.ShortSword.ToString(), true);
     }
 
     public void DieAnimation()
     {
-        animator.SetBool("Die", true);
+        animator.SetBool(AnimationState.Die.ToString(), true);
     }
-
-    //죽은 메소드
-
+ 
+}
+public enum AnimationState
+{
+    LongSword,
+    ShortSword,
+    Run,
+    Die,
+    Hit,
+    Swap,
+    BackStep,
+    Attack
 }

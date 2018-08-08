@@ -43,10 +43,7 @@ public class PlayerStatus : MonoBehaviour {
     }
 
     void Start () {
-        playerHp = 300;
-        PlayerExp = 0;
-        playerAttackPower = 10;
-        playerDefensivePower = 10;
+
 	}
 	
 

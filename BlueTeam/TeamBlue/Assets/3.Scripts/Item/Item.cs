@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,8 +21,8 @@ public class Item : MonoBehaviour
 
     public int Code;
 
-    string name;
-    public string Name { get { return name; }}
+    string itemname;
+    public string ItemName { get { return itemname; }}
 
     ItemType itemType;
     public ItemType ItemType { get { return itemType; } }
@@ -98,9 +96,9 @@ public class Item : MonoBehaviour
 
             }
         }
-        if (GameData.Instance.PlayerGamedata.ContainsKey(Code))
-            GameData.Instance.PlayerGamedata[Code] = 1;
+        if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
+            GameDataManager.Instance.PlayerGamedata[code] = 1;
         else
-        GameData.Instance.PlayerGamedata.Add(Code, 1);
+            GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
     }
 }

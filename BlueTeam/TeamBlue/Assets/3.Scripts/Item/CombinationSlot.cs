@@ -55,34 +55,35 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-      
-        text.text = currentItem.Name;
+        currentItem.SetItem(1311);
+        text.text = currentItem.ItemName;
         CheckItemType();
 
 
         if (isRecipeEquiped)
         {
-            if (GameData.Instance.PlayerGamedata[3000] >= requiredWoodCount)
+            if (GameDataManager.Instance.PlayerGamedata[3000] >= requiredWoodCount)
             {
 
-                if (GameData.Instance.PlayerGamedata[3001] >= requiredIronCount)
+                if (GameDataManager.Instance.PlayerGamedata[3001] >= requiredIronCount)
                 {
 
-                    if (GameData.Instance.PlayerGamedata[3002] >= requiredBrickCount)
+                    if (GameDataManager.Instance.PlayerGamedata[3002] >= requiredBrickCount)
                     {
-                        if (GameData.Instance.PlayerGamedata[3003] >= requiredSheepCount)
+                        if (GameDataManager.Instance.PlayerGamedata[3001] >= requiredSheepCount)
                         {
-                            Debug.Log(currentItem.Name + "조합 성공!");
-                            GameData.Instance.PlayerGamedata[3000] = GameData.Instance.PlayerGamedata[3000] - requiredWoodCount;
+                            Debug.Log("조합 성공!");
+                            GameDataManager.Instance.PlayerGamedata[3000] = GameDataManager.Instance.PlayerGamedata[3000] - requiredWoodCount;
 
-                            GameData.Instance.PlayerGamedata[3001] = GameData.Instance.PlayerGamedata[3001] - requiredIronCount;
+                            GameDataManager.Instance.PlayerGamedata[3001] = GameDataManager.Instance.PlayerGamedata[3001] - requiredIronCount;
 
-                            GameData.Instance.PlayerGamedata[3002] = GameData.Instance.PlayerGamedata[3002] - requiredBrickCount;
+                            GameDataManager.Instance.PlayerGamedata[3002] = GameDataManager.Instance.PlayerGamedata[3002] - requiredBrickCount;
 
-                            GameData.Instance.PlayerGamedata[3003] = GameData.Instance.PlayerGamedata[3003] - requiredSheepCount;
+                            GameDataManager.Instance.PlayerGamedata[3001] = GameDataManager.Instance.PlayerGamedata[3001] - requiredSheepCount;
 
-                            GameData.Instance.PlayerGamedata[currentItem.Code] -= 1;
-                            GameData.Instance.SetGameDataToServer();
+                            GameDataManager.Instance.PlayerGamedata[currentItem.Code] -= 1;
+
+                            GameDataManager.Instance.SetGameDataToServer();
                         }
                         else
                         {

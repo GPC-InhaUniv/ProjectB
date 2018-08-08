@@ -1,14 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine.SceneManagement;
-using System;
+using UnityEngine.UI;
 
 public class AccountInfo : MonoBehaviour
 {
-    static AccountInfo instance;  
+    static AccountInfo instance;
+
+    public string Id;
+    public string Password;
+
 
     [SerializeField]
     GetPlayerCombinedInfoResultPayload info;
@@ -73,6 +75,7 @@ public class AccountInfo : MonoBehaviour
         };
 
         PlayFabClientAPI.LoginWithPlayFab(request, OnLogin, GameErrorManager.OnAPIError);
+       
     }
 
    
@@ -112,6 +115,7 @@ public class AccountInfo : MonoBehaviour
     {
         Debug.Log("Update Account Infomation!");
         Instance.info = result.InfoResultPayload;
+        GameDataManager.Instance.GetGameDataFromServer();
     }
 
 
@@ -133,6 +137,11 @@ public class AccountInfo : MonoBehaviour
     {
         Debug.Log("UpdateDataInfo");
       
+    }
+
+    public void UpdateLoginInfo()
+    {
+        
     }
 
 
