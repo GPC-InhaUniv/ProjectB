@@ -21,8 +21,8 @@ public class VillageUIPresenter : MonoBehaviour
     {
         aVillageQuest = new AVillageHuntingQuest();
         bVillageQuest = new BVillageHuntingQuest();
-        aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, );
-        bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest();
+        aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
+        bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest(QuestType.BVillageQuest, "완료");
     }
 
     public void OnClickAcceptButton(int villageType)
@@ -52,31 +52,31 @@ public class VillageUIPresenter : MonoBehaviour
 
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.Instance.LoadScene(LoadType.WoodDungeon, dungeonNumber);
+        LoadingSceneManager.LoadScene(LoadType.WoodDungeon, dungeonNumber);
         Debug.Log("나무 던전 입장");
     }
 
     public void OnClickIronDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.Instance.LoadScene(LoadType.IronDungeon, dungeonNumber);
+        LoadingSceneManager.LoadScene(LoadType.IronDungeon, dungeonNumber);
         Debug.Log("철광석 던전 입장");
     }
 
     public void OnClickBrickDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.Instance.LoadScene(LoadType.BrickDungeon, dungeonNumber);
+        LoadingSceneManager.LoadScene(LoadType.BrickDungeon, dungeonNumber);
         Debug.Log("돌 던전 입장");
     }
 
     public void OnClickSheepDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.Instance.LoadScene(LoadType.SheepDungeon, dungeonNumber);
+        LoadingSceneManager.LoadScene(LoadType.SheepDungeon, dungeonNumber);
         Debug.Log("양 던전 입장");
     }
 
     public void OnClickVillageButton(int dungeonNumber)
     {
-        LoadingSceneManager.Instance.LoadScene(LoadType.Village, dungeonNumber);
+        LoadingSceneManager.LoadScene(LoadType.Village, dungeonNumber);
         Debug.Log("마을 입장");
     }
 
@@ -89,22 +89,22 @@ public class VillageUIPresenter : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(MonsterType.Wood);
+            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(ConditionType.Wood);
         }
 
         else if (Input.GetKey(KeyCode.S))
         {
-            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(MonsterType.Sheep);
+            aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest(ConditionType.Sheep);
         }
 
         else if (Input.GetKey(KeyCode.Q))
         {
-            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(MonsterType.Brick);
+            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.Brick);
         }
 
         else if (Input.GetKey(KeyCode.W))
         {
-            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(MonsterType.Iron);
+            bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.Iron);
         }
     }
 }
