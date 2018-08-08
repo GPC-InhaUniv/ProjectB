@@ -90,7 +90,7 @@ public class Trade : MonoBehaviour
         Debug.Log("양 " + GameDataManager.Instance.PlayerGamedata[3003]);
         Debug.Log("나무 " + GameDataManager.Instance.PlayerGamedata[3000]);
         //Debug.Log("거래 확률 " + tradeProbability + "%");
-        Debug.Log("우호도 " + this.relationShip);
+        //Debug.Log("우호도 " + this.relationShip);
     }
 
 }

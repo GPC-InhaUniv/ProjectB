@@ -10,6 +10,8 @@ class Iron : MonoBehaviour, IResource
 
     int WoodWeightedValue = 2;
 
+    int num;
+
     int IronWeightedValue = 3;
 
     public void SendResources(int sendingResourceCount)
