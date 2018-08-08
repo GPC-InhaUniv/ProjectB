@@ -91,6 +91,7 @@ public class LoadingSceneManager : MonoBehaviour
             case LoadType.VillageCheckDownLoad:
                 currentAssetName = "마을 로드중...";
                 Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                Test_AssetBundleManager.Instance.AssetName = "Village";
                 Test_AssetBundleManager.Instance.LoadObject();
                 break;
         }
