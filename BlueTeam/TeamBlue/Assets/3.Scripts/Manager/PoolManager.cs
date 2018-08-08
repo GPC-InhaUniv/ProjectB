@@ -23,32 +23,32 @@ public class PoolManager : Singleton<PoolManager> {
     }
     enum ObjectType
     {
-        monster,
-        particle,
+        Monster,
+        Particle,
     }
 
     [SerializeField]
     int monsterPoolSize;
 
     [SerializeField]
-    int FXPoolSize;
+    int fxPoolSize;
 
     List<GameObject> monsterPool = new List<GameObject>();
     List<GameObject> particlePool = new List<GameObject>();
 
-    public GameObject monsterPrefab;
-    public GameObject particlePrefab;
+    public GameObject MonsterPrefab;
+    public GameObject ParticlePrefab;
 
     public void SetPool()
     {
         for (int i = monsterPool.Count; i < monsterPoolSize; i++)
         {
-            monsterPool.Add(CreateItem(ObjectType.monster));
+            monsterPool.Add(CreateItem(ObjectType.Monster));
         }
 
-        for (int i = particlePool.Count; i < FXPoolSize; i++)
+        for (int i = particlePool.Count; i < fxPoolSize; i++)
         {
-            particlePool.Add(CreateItem(ObjectType.particle));
+            particlePool.Add(CreateItem(ObjectType.Particle));
 
         }
     }
@@ -62,7 +62,7 @@ public class PoolManager : Singleton<PoolManager> {
     public GameObject GetMonsterObject()
     {
         if (monsterPool.Count == 0)
-            monsterPool.Add(CreateItem(ObjectType.monster));
+            monsterPool.Add(CreateItem(ObjectType.Monster));
         if (monsterPool.Count > monsterPoolSize)
             return null;
         GameObject monsterObject = monsterPool[0];
@@ -75,7 +75,7 @@ public class PoolManager : Singleton<PoolManager> {
     public GameObject GetParticleObject()
     {
         if (particlePool.Count == 0)
-            particlePool.Add(CreateItem(ObjectType.particle));
+            particlePool.Add(CreateItem(ObjectType.Particle));
         if (particlePool.Count > monsterPoolSize)
             return null;
         GameObject particleObject = particlePool[0];
@@ -104,11 +104,11 @@ public class PoolManager : Singleton<PoolManager> {
         GameObject item;
         switch (objectType)
         {
-            case ObjectType.monster:
-                item = Instantiate(monsterPrefab);
+            case ObjectType.Monster:
+                item = Instantiate(MonsterPrefab);
                 break;
-            case ObjectType.particle:
-                item = Instantiate(particlePrefab);
+            case ObjectType.Particle:
+                item = Instantiate(ParticlePrefab);
                 break;
             default:
                 Debug.Log("잘못된 생성 - PoolManager");

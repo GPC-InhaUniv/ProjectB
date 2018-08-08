@@ -1,4 +1,13 @@
-﻿interface IItemable {
+﻿namespace UI
+{
+    interface IItemable
+    {
 
-	
+
+    }
+    public enum Testcode
+    {
+
+    }
+
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IQuestInteractionable{
+public interface IQuestInteractable{
 
     void SendQuest();
     void ReceiveQuest();
