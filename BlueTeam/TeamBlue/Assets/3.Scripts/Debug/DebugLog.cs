@@ -5,7 +5,7 @@ using System;
 public static class DebugLog
 {
 #if UNITY_ANDROID
-    static string assetBundleDirectory = Application.persistentDataPath+"/0.DebugLog";
+    static string assetBundleDirectory = Application.persistentDataPath+"/DebugLog";
 #else
     static string assetBundleDirectory = "Assets/0.DebugLog";
    
