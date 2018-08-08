@@ -21,8 +21,8 @@ public class Item : MonoBehaviour
 
     public int Code;
 
-    string name;
-    public string Name { get { return name; }}
+    string itemname;
+    public string ItemName { get { return itemname; }}
 
     ItemType itemType;
     public ItemType ItemType { get { return itemType; } }

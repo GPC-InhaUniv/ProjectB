@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum GameResources
 {
-    Brick,
+    Brick, 
     Wood,
     Iron,
     Sheep,
