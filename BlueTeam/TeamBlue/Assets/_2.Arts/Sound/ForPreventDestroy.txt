@@ -1,0 +1,2 @@
+Prevent For Destroy Folder... When Folder is empty..
+Later This Text will be Destroied.
