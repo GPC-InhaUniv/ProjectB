@@ -15,9 +15,9 @@ public enum LoadType
     IronDungeon,
     VillageCheckDownLoad
 }
+
 public class LoadingScene : MonoBehaviour
 {
-
 
     public static string NextScene;
     string nextSceneName;
@@ -48,8 +48,8 @@ public class LoadingScene : MonoBehaviour
 
     // Use this for initialization
     void Awake()
-    {
-        
+    {        
+
         if (currentType.Equals(LoadType.VillageCheckDownLoad) && userBundleCount < totalBundleCount - 1)
         {
             Debug.Log("다운로드 필요");
@@ -84,7 +84,6 @@ public class LoadingScene : MonoBehaviour
             case LoadType.IronDungeon:
                 break;
         }
-
 
         StartCoroutine(LoadScene());
     }

@@ -98,8 +98,8 @@ public class Item : MonoBehaviour
 
             }
         }
-        if (GameData.Instance.PlayerGamedata.ContainsKey(code))
-            GameData.Instance.PlayerGamedata[code] = 1;
+        if (GameData.Instance.PlayerGamedata.ContainsKey(Code))
+            GameData.Instance.PlayerGamedata[Code] = 1;
         else
         GameData.Instance.PlayerGamedata.Add(Code, 1);
     }

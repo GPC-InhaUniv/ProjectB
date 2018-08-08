@@ -55,7 +55,7 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        currentItem.SetItem(1311);
+      
         text.text = currentItem.Name;
         CheckItemType();
 
@@ -72,7 +72,7 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
                     {
                         if (GameData.Instance.PlayerGamedata[3003] >= requiredSheepCount)
                         {
-                            Debug.Log("조합 성공!");
+                            Debug.Log(currentItem.Name + "조합 성공!");
                             GameData.Instance.PlayerGamedata[3000] = GameData.Instance.PlayerGamedata[3000] - requiredWoodCount;
 
                             GameData.Instance.PlayerGamedata[3001] = GameData.Instance.PlayerGamedata[3001] - requiredIronCount;
@@ -82,7 +82,6 @@ public class CombinationSlot : MonoBehaviour, IEquipSlotable,IPointerClickHandle
                             GameData.Instance.PlayerGamedata[3003] = GameData.Instance.PlayerGamedata[3003] - requiredSheepCount;
 
                             GameData.Instance.PlayerGamedata[currentItem.Code] -= 1;
-
                             GameData.Instance.SetGameDataToServer();
                         }
                         else
