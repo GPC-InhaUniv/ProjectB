@@ -18,24 +18,22 @@ public class Trade : MonoBehaviour
     GameResources tradeGameResources;
 
     [SerializeField]
-    int relationShip = 100; // 기본 확률
-
-    int specRecieveCount;
+    int tradeProbability = 100; // 기본 확률
 
     bool isTrading = false;
 
     
 
-    public void CheckTradeProbability(int relationShip)
+    public void CheckTradeProbability(int tradeProbability)
     {
-        if (relationShip >= Random.Range(1, 100))
+        if (tradeProbability >= Random.Range(1, 100))
         {
             isTrading = true;
 
             Debug.Log("특정 확률로 거래");
         }
 
-        else if (relationShip < Random.Range(1, 100))
+        else if (tradeProbability < Random.Range(1, 100))
         {
             isTrading = false;
 
@@ -49,17 +47,17 @@ public class Trade : MonoBehaviour
     {
         if (relationShip >= 50)
         {
-            specRecieveCount = Random.Range(1, 4);
+            ////specRecieveCount = Random.Range(1, 4);
 
-            Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
+            //Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
 
         }
 
         else
         {
-            specRecieveCount = Random.Range(1, 3);
+            ////specRecieveCount = Random.Range(1, 3);
 
-            Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
+            //Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
 
         }
     }
@@ -92,7 +90,7 @@ public class Trade : MonoBehaviour
         Debug.Log("양 " + GameDataManager.Instance.PlayerGamedata[3003]);
         Debug.Log("나무 " + GameDataManager.Instance.PlayerGamedata[3000]);
         //Debug.Log("거래 확률 " + tradeProbability + "%");
-        Debug.Log("우호도 " + this.relationShip);
+        //Debug.Log("우호도 " + this.relationShip);
     }
 
 }
