@@ -17,5 +17,6 @@ public class Test_Return : MonoBehaviour {
     public void OnClickBtn()
     {
         LoadingSceneManager.LoadScene(LoadType.Village, 0);
+       
     }
 }
