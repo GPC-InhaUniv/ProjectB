@@ -21,7 +21,7 @@ public class AttackArea : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             //데미지를 입히다//
-           monster.SendDamage(other.GetComponent<IDamageInteractionable>());
+          // monster.SendDamage(other.GetComponent<IDamageInteractionable>());
 
         }
     }
