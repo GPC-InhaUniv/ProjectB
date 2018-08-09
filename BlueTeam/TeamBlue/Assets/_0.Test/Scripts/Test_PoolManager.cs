@@ -18,7 +18,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+      //  DontDestroyOnLoad(gameObject);
         monsterPoolSize = 20;
         FXPoolSize = 20;
 
