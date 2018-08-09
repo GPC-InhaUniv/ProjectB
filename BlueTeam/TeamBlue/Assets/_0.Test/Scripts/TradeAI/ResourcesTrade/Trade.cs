@@ -76,7 +76,7 @@ public class Trade : MonoBehaviour
         }
     }
 
-    public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, int tradeProbability, GameResources resourceType)
+    public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, ref int tradeProbability, GameResources resourceType)
     {
         CheckTradeProbability(tradeProbability);
 
@@ -87,28 +87,28 @@ public class Trade : MonoBehaviour
                 case GameResources.Brick:
                     resourceContext.ChangeResourceState(new Brick());
                     resourceContext.SendResources(sendingResourcesCount);
-                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, ref tradeProbability);
 
                     break;
 
                 case GameResources.Iron:
                     resourceContext.ChangeResourceState(new Iron());
                     resourceContext.SendResources(sendingResourcesCount);
-                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, ref tradeProbability);
 
                     break;
 
                 case GameResources.Sheep:
                     resourceContext.ChangeResourceState(new Sheep());
                     resourceContext.SendResources(sendingResourcesCount);
-                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, ref tradeProbability);
 
                     break;
 
                 case GameResources.Wood:
                     resourceContext.ChangeResourceState(new Wood());
                     resourceContext.SendResources(sendingResourcesCount);
-                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, tradeProbability);
+                    resourceContext.ReceiveReousrces(receivingResourcesCount, resourceType, ref tradeProbability);
 
                     break;
             }

@@ -26,7 +26,7 @@ class Brick : MonoBehaviour, IResource
 
     }
 
-    public void ReceiveResources(int receivingResourceCount, GameResources resourceType, int tradeProbability)
+    public void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int tradeProbability)
     {
         switch (resourceType)
         {
