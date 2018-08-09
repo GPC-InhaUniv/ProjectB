@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using ProjectB.GameManager;
 
 public class JsonManager : MonoBehaviour
 {
