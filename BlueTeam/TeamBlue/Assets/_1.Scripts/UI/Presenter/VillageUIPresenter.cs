@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.Quest;
 
@@ -10,8 +8,10 @@ public class VillageUIPresenter : MonoBehaviour
     [SerializeField] private Text bVillageQuestContentsText;
     [SerializeField] private Text aQuestAcceptanceButtonText;
     [SerializeField] private Text bQuestAcceptanceButtonText;
+    [SerializeField] private Text questSubViewAVillageQuestContentsText;
+    [SerializeField] private Text questSubViewBAvillageQuestContentsText;
     [SerializeField] private GameObject questViewPanel;
-    [SerializeField] private GameObject WorldMapPanel;
+    [SerializeField] private GameObject worldMapPanel;
     [SerializeField] private Button questExitButton;
 
     private IQuestViable aVillageQuest;
@@ -21,14 +21,14 @@ public class VillageUIPresenter : MonoBehaviour
     {
         aVillageQuest = new AVillageHuntingQuest();
         bVillageQuest = new BVillageHuntingQuest();
-        aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
-        bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest(QuestType.BVillageQuest, "완료");
+        questSubViewAVillageQuestContentsText.text = aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
+        questSubViewBAvillageQuestContentsText.text = bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest(QuestType.BVillageQuest, "완료");
     }
 
     public void OnClickAcceptButton(int villageType)
     {
-        aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
-        bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
+        questSubViewAVillageQuestContentsText.text = aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
+        questSubViewBAvillageQuestContentsText.text = bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
 
         aQuestAcceptanceButtonText.text = aVillageQuest.AcceptToQuest((QuestType)villageType);
         bQuestAcceptanceButtonText.text = bVillageQuest.AcceptToQuest((QuestType)villageType);
@@ -52,7 +52,7 @@ public class VillageUIPresenter : MonoBehaviour
 
     public void OnClickEntranceDungeonButton()
     {
-        WorldMapPanel.SetActive(true);
+        worldMapPanel.SetActive(true);
     }
 
     public void OnClickWoodDungeonButton(int dungeonNumber)
