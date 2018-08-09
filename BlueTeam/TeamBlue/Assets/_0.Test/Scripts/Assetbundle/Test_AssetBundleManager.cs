@@ -95,7 +95,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         }
         else
             Debug.Log("Successe");
-    }
+    } 
 
     IEnumerator LoadAssetBundle(string areaType)
     {
