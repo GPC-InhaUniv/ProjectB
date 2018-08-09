@@ -23,6 +23,8 @@ public class Trade : MonoBehaviour
     //[SerializeField]
     //int relationShip = 0;
 
+    int specRecieveCount = 0;
+
     bool isTrading = false;
 
     void Start()
@@ -52,26 +54,27 @@ public class Trade : MonoBehaviour
     }
 
 
-    
 
-    //public void CheckRelationShip(int relationShip)
-    //{
-    //    if (relationShip >= 50)
-    //    {
-    //        ////specRecieveCount = Random.Range(1, 4);
 
-    //        //Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
 
-    //    }
+    public void CheckRelationShip(int relationShip)
+    {
+        if (relationShip >= 50)
+        {
+            specRecieveCount = Random.Range(1, 4);
 
-    //    else
-    //    {
-    //        ////specRecieveCount = Random.Range(1, 3);
+            Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
 
-    //        //Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
+        }
 
-    //    }
-    //}
+        else
+        {
+            specRecieveCount = Random.Range(1, 3);
+
+            Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
+
+        }
+    }
 
     public void TradeResources(int receivingResourcesCount, int sendingResourcesCount, int tradeProbability, GameResources resourceType)
     {
@@ -126,11 +129,9 @@ public class Trade : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            CheckTradeProbability(this.tradeProbability);
+            Debug.Log("클릭됨");
 
             //TradeResources(this.receivingResourcesCount, this.sendingResourcesCount, this.tradeProbability, this.resourceType);
-
-            Debug.Log("클릭됨");
 
 
         }
