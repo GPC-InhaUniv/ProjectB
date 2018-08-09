@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ProjectB.GameManager;
+
 class Sheep : MonoBehaviour, IResource
 {
     int SheepWeightedValue = 3;
@@ -29,29 +30,27 @@ class Sheep : MonoBehaviour, IResource
 
     public void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int tradeProbability)
     {
+        GameDataManager.Instance.PlayerGamedata[3003] += receivingResourceCount;
+
         switch (resourceType)
         {
             case GameResources.Brick:
-                GameDataManager.Instance.PlayerGamedata[3002] += (receivingResourceCount + BrickWeightedValue);
                 tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Iron:
-                GameDataManager.Instance.PlayerGamedata[3001] += (receivingResourceCount + IronWeightedValue);
-                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability -= (int)((IronWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Sheep:
-                GameDataManager.Instance.PlayerGamedata[3003] += (receivingResourceCount + SheepWeightedValue);
-                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability -= (int)((SheepWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Wood:
-                GameDataManager.Instance.PlayerGamedata[3000] += (receivingResourceCount + WoodWeightedValue);
-                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability -= (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
         }
