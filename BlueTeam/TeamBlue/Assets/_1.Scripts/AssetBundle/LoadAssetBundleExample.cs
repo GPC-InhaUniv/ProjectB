@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.IO;
 using UnityEngine.SceneManagement;
+using ProjectB.GameManager;
+using ProjectB.Utility;
 
 public class LoadAssetBundleExample : MonoBehaviour
 {
@@ -186,7 +188,7 @@ public class LoadAssetBundleExample : MonoBehaviour
       //  StartCoroutine(TestLoadAssetBundle_Android(BundleURL3));
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL,"Riko"));
         StartCoroutine(SaveAssetBundleOnDisk(BundleURL2,"Cube"));
-        DebugLog.SaveLog(this, "PlayerID:" + 123123);
+      //  DebugLog.SaveLog(this, "PlayerID:" + 123123);
 #else
         StartCoroutine(LoadAssetBundle());
         DebugLog.SaveLog(this, "PlayerID:" + 123123);

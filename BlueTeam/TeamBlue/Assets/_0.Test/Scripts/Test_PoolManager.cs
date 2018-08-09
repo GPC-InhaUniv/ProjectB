@@ -18,7 +18,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+      //  DontDestroyOnLoad(gameObject);
         monsterPoolSize = 20;
         FXPoolSize = 20;
 
@@ -40,17 +40,27 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     List<GameObject> monster = new List<GameObject>();
     List<GameObject> particle = new List<GameObject>();
 
-    GameObject town;
+    GameObject area;
+    GameObject player;
+    public GameObject MonsterPrefab;
+    public GameObject ParticlePrefab;
 
-    public GameObject monsterPrefab;
-    public GameObject particlePrefab;
-
-    public void SetTown(GameObject townobject)
+    public void SetArea(GameObject areaObject)
     {
-        town = townobject;
-        town.gameObject.SetActive(false);
-        DontDestroyOnLoad(town);
+        area = areaObject;
+        area.gameObject.SetActive(false);
+        DontDestroyOnLoad(area);
     }
+
+
+    public void SetPlayer(GameObject playerobject)
+    {
+        player = Instantiate(playerobject);
+        player.gameObject.SetActive(false);
+        DontDestroyOnLoad(player);
+    }
+
+    
 
     public void SetPool()
     {
@@ -86,15 +96,21 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         return monsterObject;
     }
 
-    public GameObject GetTown()
+    public GameObject GetArea()
     {
-        return town;
+        return area;
     }
+
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
+
 
     public void DestroyPoolObject()
     {
-        if(town!=null)
-        Destroy(town);
+        if(area!=null)
+        Destroy(area);
     }
 
  
@@ -134,11 +150,11 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         switch (objectType)
         {
             case ObjectType.monster:
-                item = Instantiate(monsterPrefab);
+                item = Instantiate(MonsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
             case ObjectType.particle:
-                item = Instantiate(particlePrefab);
+                item = Instantiate(ParticlePrefab);
                 DontDestroyOnLoad(item);
                 break;
             default:
