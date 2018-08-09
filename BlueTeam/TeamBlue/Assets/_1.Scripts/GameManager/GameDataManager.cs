@@ -24,6 +24,9 @@ namespace ProjectB.GameManager
     {
         public int RelationsShip;
         public int LastCleardQuest;
+        //추가하기
+        //public int IsProgress;
+        //public int disposalMonster;
 
         public TownInformation(int relations, int lastclearQuest)
         {

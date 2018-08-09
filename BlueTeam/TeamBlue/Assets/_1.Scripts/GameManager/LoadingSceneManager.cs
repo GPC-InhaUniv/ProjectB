@@ -32,9 +32,9 @@ namespace ProjectB.GameManager
         string assetBundleDirectory;
         string currentAssetName = "";
         string BundleURL;
-        string BundleURL2;
+        string brickDungeonBundle;
         string BundleURL3;
-        string TownBundle;
+        string townBundle;
 
         int totalBundleCount = 4;
         static int userBundleCount = 0;
@@ -59,19 +59,19 @@ namespace ProjectB.GameManager
         // Use this for initialization
         void Awake()
         {
-
+        
             if (currentType.Equals(LoadType.VillageCheckDownLoad) && userBundleCount < totalBundleCount - 1)
             {
                 IsDownLoadDone = false;
                 Debug.Log("다운로드 필요");
                 currentAssetName = "게임 준비중...";
                 BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
-                BundleURL2 = "https://docs.google.com/uc?export=download&id=1faKphTAPWBpx3YovaPE9fVvtEdO2psFW";  //CUBE URL
-                TownBundle = "https://docs.google.com/uc?export=download&id=1CceJkvGreptcoZsbS2YMUOpXmCZkjmG7"; //Town URL
+                brickDungeonBundle = "https://docs.google.com/uc?export=download&id=1zTL1Am6x_hg1VqJXxt1OF-fE-hBin6af";  //BrickDungeon URL
+                townBundle = "https://docs.google.com/uc?export=download&id=1CceJkvGreptcoZsbS2YMUOpXmCZkjmG7"; //Town URL
 
                 StartCoroutine(SaveAssetBundleOnDisk(BundleURL, "Riko"));
-                StartCoroutine(SaveAssetBundleOnDisk(BundleURL2, "Cube"));
-                StartCoroutine(SaveAssetBundleOnDisk(TownBundle, "Town"));
+                StartCoroutine(SaveAssetBundleOnDisk(brickDungeonBundle, "brickdungeonbundle"));
+                StartCoroutine(SaveAssetBundleOnDisk(townBundle, "Town"));
 
             }
             else
@@ -82,9 +82,7 @@ namespace ProjectB.GameManager
 
             }
 
-
             StartCoroutine(CheckDownLoadDone());
-
 
             StartCoroutine(LoadScene());
 
@@ -101,11 +99,18 @@ namespace ProjectB.GameManager
                         case LoadType.Village:
                             break;
                         case LoadType.BrickDungeon:
+                            currentAssetName = "흙 던전 로드중..";
+                            GameObject tempObject = Test_PoolManager.Instance.GetArea();
+                            Destroy(tempObject);
+                          Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
+                            Test_AssetBundleManager.Instance.AssetName = "BrickDungeon1";
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
+                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                            Test_AssetBundleManager.Instance.LoadObject();
+                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
                             break;
                         case LoadType.SheepDungeon:
                             break;
@@ -115,7 +120,7 @@ namespace ProjectB.GameManager
                             currentAssetName = "마을 로드중...";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
                             Test_AssetBundleManager.Instance.AssetName = "Village";
-                            Test_PoolManager.Instance.SetTown(Test_AssetBundleManager.Instance.LoadObject());
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
                             break;
                     }
 
@@ -182,7 +187,7 @@ namespace ProjectB.GameManager
 
             if (Input.anyKeyDown)
             {
-                GameObject tempObject = Test_PoolManager.Instance.GetTown();
+                GameObject tempObject = Test_PoolManager.Instance.GetArea();
                 if (tempObject != null)
                     tempObject.SetActive(true);
                 asyncOperation.allowSceneActivation = true;
@@ -203,6 +208,7 @@ namespace ProjectB.GameManager
                     break;
                 case LoadType.BrickDungeon:
                     currentType = LoadType.BrickDungeon;
+                    NextScene = SceneName.Test_Empty2.ToString();
                     break;
                 case LoadType.WoodDungeon:
                     currentType = LoadType.WoodDungeon;

@@ -1,9 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using UnityEngine.UI;
 using UnityEngine;
 using ProjectB.GameManager;
 
 public class Test_Return : MonoBehaviour {
+
+    [SerializeField]
+    GameObject panel;
+
 
 	// Use this for initialization
 	void Start () {
@@ -15,9 +19,17 @@ public class Test_Return : MonoBehaviour {
 		
 	}
 
-    public void OnClickBtn()
+    public void OnClickWorldMapBtn()
     {
-        LoadingSceneManager.LoadScene(LoadType.Village, 0);
+        if (!panel.activeInHierarchy)
+            panel.SetActive(true);
+        else panel.SetActive(false);
        
+    }
+
+    public void OnClickDungeonBtn()
+    {
+        Debug.Log("던전 입장");
+        LoadingSceneManager.LoadScene(LoadType.BrickDungeon, 0);
     }
 }

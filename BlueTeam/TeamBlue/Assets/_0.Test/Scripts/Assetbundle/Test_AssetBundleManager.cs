@@ -16,8 +16,19 @@ public enum AreaType
     SheepDungeon,
 }
 
+public enum BundleType
+{
+    Player,
+    Common,
+    Area,
+}
+
+
 public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
+    const string PlayerBundleName = "Riko";
+    const string CommonBundleName = "plyaerbundle";
+
 
     protected Test_AssetBundleManager() { }
 
@@ -26,14 +37,14 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     //public string path;
     public Text Log;
     public AssetBundle PlayerBundle;
-    public AssetBundle PublicAssetBundle;
+    public AssetBundle CommonAssetBundle;
     public AssetBundle Area;
     public AreaType currentArea;
 
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        // StartCoroutine(LoadedAssetBundles());
+         StartCoroutine(LoadedAssetBundles());
     }
 
     public void LoadArea(AreaType areaType)
@@ -68,15 +79,15 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     string SetPath(string assetName)
     {
-        return Application.persistentDataPath + "/AssetBundles/" + assetName + "_unity3D";
+        return Application.persistentDataPath + "/AssetBundles/" + assetName + ".unity3D";
     }
     
     IEnumerator LoadedAssetBundles()
     {
-        PlayerBundle = AssetBundle.LoadFromFile(SetPath("plyaerbundle"));
-        
-        PublicAssetBundle = AssetBundle.LoadFromFile(SetPath("publicbundles"));
-        if (PlayerBundle == null ||PublicAssetBundle == null)
+        PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
+
+        //    CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
+        if (PlayerBundle == null ||CommonAssetBundle == null)
         {
             Debug.Log("Fail");
             yield break;
@@ -107,36 +118,31 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
             Debug.Log("Successe");
     }
 
-    public GameObject LoadObject()
+
+
+    public GameObject LoadObject(BundleType bundleType)
     {
+        
         GameObject gameObject;
-        gameObject = Instantiate(Area.LoadAsset(AssetName) as GameObject);
+        switch (bundleType)
+        {
+            case BundleType.Player:
+                gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
+                break;
+            case BundleType.Common:
+                gameObject = Instantiate(CommonAssetBundle.LoadAsset(AssetName) as GameObject);
+                break;
+            case BundleType.Area:
+                gameObject = Instantiate(Area.LoadAsset(AssetName) as GameObject);
+                break;
+            default:
+                gameObject = null;
+                break;
+        }
+        
         return gameObject;
     }
 
-    public void LoadScene()
-    {
-         string[] scene = Area.GetAllScenePaths();
-         string loadScenePath = null;
-
-        Log.text = scene.Length.ToString();
-
-        foreach (string sname in scene)
-        {
-            if(sname.Contains("Villige_Sence"))
-            {
-                loadScenePath = sname;
-            }
-        }
-
-        if (loadScenePath == null)
-            return;
-
-        LoadSceneMode loadmode;
-        loadmode = LoadSceneMode.Single;
-
-
-        SceneManager.LoadScene(loadScenePath,loadmode);
-    }
+    
 
 }

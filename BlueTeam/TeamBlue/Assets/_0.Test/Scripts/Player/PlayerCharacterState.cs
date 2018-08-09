@@ -15,10 +15,15 @@ public abstract class PlayerCharacterState
 
 public class PlayerCharacterIdleState : PlayerCharacterState
 {
-    public PlayerCharacterIdleState(Player player) : base(player) { }
+    public PlayerCharacterIdleState(Player player) : base(player)
+    {
+
+    }
 
     public override void Tick(Vector3 moveVector)
     {
+        player.CharacterAttackPower = 10;
+        player.collider.enabled = true;
         player.IsAttacking = false;
         player.IsRunning = false;
         player.IsBackStepping = false;
@@ -27,7 +32,10 @@ public class PlayerCharacterIdleState : PlayerCharacterState
 
 public class PlayerCharacterRunState : PlayerCharacterState
 {
-    public PlayerCharacterRunState(Player player) : base(player) { }
+    public PlayerCharacterRunState(Player player) : base(player)
+    {
+  
+    }
 
     public override void Tick(Vector3 moveVector)
     {
@@ -39,7 +47,10 @@ public class PlayerCharacterRunState : PlayerCharacterState
 }
 public class PlayerCharacterAttackState : PlayerCharacterState
 {
-    public PlayerCharacterAttackState(Player player) : base(player) { }
+    public PlayerCharacterAttackState(Player player) : base(player)
+    {
+    
+    }
 
     public override void Tick(Vector3 moveVector)
     {
@@ -49,22 +60,50 @@ public class PlayerCharacterAttackState : PlayerCharacterState
     }
 }
 
+public class PlayerCharacterSkillState : PlayerCharacterState
+{
+    public PlayerCharacterSkillState(Player player) : base(player)
+    {
+
+    }
+
+    public override void Tick(Vector3 moveVector)
+    {
+        player.IsAttacking = true;
+
+        player.CharacterAttackPower = 20;
+
+
+        player.Skill();
+    }
+}
+
 public class PlayerCharacterBackStepState : PlayerCharacterState
 {
-    public PlayerCharacterBackStepState(Player player) : base(player) { }
+    public PlayerCharacterBackStepState(Player player) : base(player)
+    {
+
+    }
 
     public override void Tick(Vector3 moveVector)
     {
         player.IsBackStepping = true;
+        player.collider.enabled = false;
+
         player.BackStep();
     }
 }
 public class PlayerCharacterDieState : PlayerCharacterState
 {
-    public PlayerCharacterDieState(Player player) : base(player) { }
+    public PlayerCharacterDieState(Player player) : base(player)
+    {
+
+    }
 
     public override void Tick(Vector3 moveVector)
     {
+        player.CharacterAttackPower = 0;
+        player.collider.enabled = false;
         player.IsAttacking = false;
         player.IsRunning = false;
         player.IsBackStepping = false;

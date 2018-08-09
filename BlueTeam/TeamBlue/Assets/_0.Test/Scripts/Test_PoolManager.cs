@@ -18,7 +18,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+      //  DontDestroyOnLoad(gameObject);
         monsterPoolSize = 20;
         FXPoolSize = 20;
 
@@ -40,17 +40,19 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     List<GameObject> monster = new List<GameObject>();
     List<GameObject> particle = new List<GameObject>();
 
-    GameObject town;
+    GameObject area;
 
     public GameObject monsterPrefab;
     public GameObject particlePrefab;
 
-    public void SetTown(GameObject townobject)
+    public void SetArea(GameObject areaObject)
     {
-        town = townobject;
-        town.gameObject.SetActive(false);
-        DontDestroyOnLoad(town);
+        area = areaObject;
+        area.gameObject.SetActive(false);
+        DontDestroyOnLoad(area);
     }
+
+    
 
     public void SetPool()
     {
@@ -86,15 +88,15 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         return monsterObject;
     }
 
-    public GameObject GetTown()
+    public GameObject GetArea()
     {
-        return town;
+        return area;
     }
 
     public void DestroyPoolObject()
     {
-        if(town!=null)
-        Destroy(town);
+        if(area!=null)
+        Destroy(area);
     }
 
  
