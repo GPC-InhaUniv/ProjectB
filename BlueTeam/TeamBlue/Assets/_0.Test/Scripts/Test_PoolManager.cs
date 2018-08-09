@@ -42,8 +42,8 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     GameObject area;
     GameObject player;
-    public GameObject monsterPrefab;
-    public GameObject particlePrefab;
+    public GameObject MonsterPrefab;
+    public GameObject ParticlePrefab;
 
     public void SetArea(GameObject areaObject)
     {
@@ -150,11 +150,11 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         switch (objectType)
         {
             case ObjectType.monster:
-                item = Instantiate(monsterPrefab);
+                item = Instantiate(MonsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
             case ObjectType.particle:
-                item = Instantiate(particlePrefab);
+                item = Instantiate(ParticlePrefab);
                 DontDestroyOnLoad(item);
                 break;
             default:
