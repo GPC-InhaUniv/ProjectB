@@ -54,7 +54,7 @@ public class PlayerPresenter : MonoBehaviour
 
         AttackButtons.onClick.AddListener(() => Shuffle());
 
-        SkillButtons.onClick.AddListener(() => player.Skill1());
+        SkillButtons.onClick.AddListener(() => player.SetState(new PlayerCharacterSkillState(player)));
 
         BackStepButtons.onClick.AddListener(() => InputBackStep());
 

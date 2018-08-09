@@ -20,13 +20,7 @@ public class PlayerStatus : MonoBehaviour {
         get { return playerExp; }
         set { playerExp = value; }
     }
-    [SerializeField]
-    int playerLevel;
-    public int PlayerLevel
-    {
-        get { return playerLevel; }
-        set { playerLevel = value; }
-    }
+
     [SerializeField]
     int playerAttackPower;
     public int PlayerAttackPower
@@ -34,6 +28,10 @@ public class PlayerStatus : MonoBehaviour {
         get { return playerAttackPower; }
         set { playerAttackPower = value; }
     }
+
+
+
+
     [SerializeField]
     int playerDefensivePower;
     public int PlayerDefensivePower
@@ -42,9 +40,14 @@ public class PlayerStatus : MonoBehaviour {
         set { playerDefensivePower = value; }
     }
 
-    void Start () {
 
-	}
-	
+    [SerializeField]
+    int playerLevel;
+    public int PlayerLevel
+    {
+        get { return playerLevel; }
+        set { playerLevel = value; }
+    }
+
 
 }

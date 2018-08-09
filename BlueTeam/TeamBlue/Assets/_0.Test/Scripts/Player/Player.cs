@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
 
     PlayerAnimation playerAinmaton;
@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     Vector3 backTargetVector;
 
     Weapon Weapon;
-    PlayerStatus playerStatus;
 
     ISkillUsable rangeSkill;
 
@@ -24,7 +23,7 @@ public class Player : MonoBehaviour
     public bool IsAttacking;
     public bool IsBackStepping;
     public bool IsSwapAble;
-
+    public Collider collider;
     public int AttackNumber;
     public int SkillNumber;
 
@@ -35,19 +34,21 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        playerRigidbody = GetComponent<Rigidbody>();
+        Weapon = GetComponent<Weapon>();
+        playerAinmaton = GetComponent<PlayerAnimation>();
+        collider = GetComponent<CapsuleCollider>();
+        PlayerState = new PlayerCharacterIdleState(this);
+
         AttackNumber = 1;
 
         backTargetVector = new Vector3(0, 0, 1);
 
-        PlayerState = new PlayerCharacterIdleState(this);
+
         CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
         
         IsSwapAble = true;
 
-        playerStatus = GetComponent<PlayerStatus>();
-        playerAinmaton = GetComponent<PlayerAnimation>();
-        playerRigidbody = GetComponent<Rigidbody>();
-        Weapon = GetComponent<Weapon>();
 
         rangeSkill = new MultiAttackRangeSkill(this);
 
@@ -107,18 +108,33 @@ public class Player : MonoBehaviour
         playerAinmaton.DieAnimation();
     }
 
-    public void Skill1()
+    public void Skill()
     {
+        //int preAttackPow = CharacterAttackPower;
+        //CharacterAttackPower = CharacterAttackPower + 100;
+         
         IsSwapAble = false;
 
         rangeSkill.UseSkill();
+
+
         playerAinmaton.SkillAnimation("Skill" + SkillNumber.ToString());
+
+
+
+
+
+
+
+
 
         if (swapCoroutine != null)
         {
             StopCoroutine(SwapWaitTime(0.0f));
         }
         swapCoroutine = StartCoroutine(SwapWaitTime(3.0f));
+
+        //CharacterAttackPower = preAttackPow;
     }
 
 
@@ -136,7 +152,7 @@ public class Player : MonoBehaviour
     }
     public void BackStepStart()
     {
-        //무적 처리
+        SetState(new PlayerCharacterBackStepState(this));
     }
 
     public void BackStepEnd() //회피 모션이 종료될 때 상태가 바뀝니다.
@@ -181,34 +197,33 @@ public class Player : MonoBehaviour
         SetState(new PlayerCharacterIdleState(this));
     }
 
-    /*
-    public void SendDamage(IDamageInteractionable target) 
-    {
-        Test_Mediator.Instance.SendTarget(target, playerStatus.PlayerAttackPower);
-    }
-
-    public void ReceiveDamage(int damage)
-    {
-        playerAinmaton.HitAnimation();
-        playerStatus.PlayerHp -= damage;
-
-        if (playerStatus.PlayerHp <= 0)
-        {
-            playerStatus.PlayerHp = 0;
-            SetState(new PlayerCharacterDieState(this));
-        }
-    }
-    
-    public void SendPosition()
-    {
-        Test_Mediator.Instance.SendPosition(transform.position);
-    }*/
 
     public void ReceivePosition(Vector3 position)
     {
-        
+        //미니맵
     }
 
+    public override void ReceiveDamage(int damage)
+    {
+        playerAinmaton.HitAnimation();
+        CharacterHealthPoint -= damage;
+
+        if (CharacterHealthPoint <= 0)
+        {
+            CharacterHealthPoint = 0;
+            SetState(new PlayerCharacterDieState(this));
+        }
+    }
+
+    //public override int SendValue()
+    //{
+    //    return CharacterExp;
+    //}
+
+    public override void SaveValue(int value)
+    {
+        CharacterExp = CharacterExp + value;
+    }
 }
 public enum PlayerCharacterWeaponState
 {

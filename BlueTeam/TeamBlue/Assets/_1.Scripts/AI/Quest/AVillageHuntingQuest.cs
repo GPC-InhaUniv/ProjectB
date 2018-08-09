@@ -8,6 +8,10 @@ namespace ProjectB.Quest
         {
             lastQuest = 0; // GameManager
             isProgress = false;
+            /* 
+             * GameData에서 받은 값이 0이면 false
+             * 1이면 true로 변환해서 사용.
+             */ 
             questStateType = QuestStateType.수락;
         }
 
@@ -62,7 +66,6 @@ namespace ProjectB.Quest
             }
             return QuestContents;
         }
-
 
         public override string ProceedToQuest(ConditionType conditionType)
         {

@@ -22,18 +22,20 @@ public class ColiderActivator : MonoBehaviour {
 
     public void AttackStart()
     {
-        Debug.Log("공격 시작");
         foreach (Collider attackAreaCollider in attackAreaColliders)
         {
             attackAreaCollider.enabled = true;
+            Debug.Log("공격 시작");
         }
     }
+
     public void AttackEnd() 
     {
-        Debug.Log("공격 끝");
+
         foreach (Collider attackAreaCollider in attackAreaColliders)
         {
             attackAreaCollider.enabled = false;
+            Debug.Log("공격 끝");
         }
     }
 }
