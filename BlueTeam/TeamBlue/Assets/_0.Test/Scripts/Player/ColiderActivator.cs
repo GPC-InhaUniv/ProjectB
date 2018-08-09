@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ColiderActivator : MonoBehaviour {
+    [SerializeField]
     Collider[] attackAreaColliders;
+    [SerializeField]
     AttackArea[] attackArea;
 
     // Use this for initialization

@@ -65,16 +65,15 @@ public class PlayerPresenter : MonoBehaviour
     void Update()
     {
         inputMoveVector = PoolInput();
+        if ((player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterBackStepState)))
         {
-            if ((player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterBackStepState)))
-            {
-                return;
-            }
-            else
-            {
-                PlayerMove();
-            }
+            return;
         }
+        else
+        {
+            SetInputVector();
+        }
+  
     }
 
     Vector3 PoolInput()
@@ -87,7 +86,7 @@ public class PlayerPresenter : MonoBehaviour
         return moverDirection;
     }
 
-    void PlayerMove()
+    void SetInputVector()
     {
         if (inputMoveVector == Vector3.zero)
         {
@@ -189,14 +188,16 @@ public class PlayerPresenter : MonoBehaviour
 
     void StartCombo()
     {
-        player.SetState(new PlayerCharacterAttackState(player));
+        if (player.IsRunning != true)
+        {
+            player.SetState(new PlayerCharacterAttackState(player));
+            isComboState = true;
 
-        isComboState = true;
+            comboResetCount++;
 
-        comboResetCount++;
-        commandControll.ExcuteCommand();
-
-        //StartCoroutine(RestCombo());
+            commandControll.ExcuteCommand();
+            //StartCoroutine(RestCombo());
+        }
     }
 
 
