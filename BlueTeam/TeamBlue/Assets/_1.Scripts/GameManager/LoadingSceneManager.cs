@@ -104,13 +104,13 @@ namespace ProjectB.GameManager
                             Destroy(tempObject);
                           Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
                             Test_AssetBundleManager.Instance.AssetName = "BrickDungeon1";
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject());
-                            Test_AssetBundleManager.Instance.LoadObject();
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
+                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                            Test_AssetBundleManager.Instance.LoadObject();
+                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
                             break;
                         case LoadType.SheepDungeon:
                             break;
@@ -120,7 +120,7 @@ namespace ProjectB.GameManager
                             currentAssetName = "마을 로드중...";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
                             Test_AssetBundleManager.Instance.AssetName = "Village";
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject());
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
                             break;
                     }
 
