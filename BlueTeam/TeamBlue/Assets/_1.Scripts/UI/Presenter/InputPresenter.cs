@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ProjectB.GameManager;
 
-public class InputController : MonoBehaviour {
+public class InputPresenter : MonoBehaviour {
 
     [SerializeField]
     AccountInfo userAccountInfo;
