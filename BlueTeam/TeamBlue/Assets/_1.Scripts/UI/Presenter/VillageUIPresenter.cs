@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.Quest;
+using ProjectB.GameManager;
 
 public class VillageUIPresenter : MonoBehaviour
 {

@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using System.IO;
 using UnityEngine.SceneManagement;
 using ProjectB.GameManager;
+using ProjectB.Utility;
 
 public class LoadAssetBundleExample : MonoBehaviour
 {
