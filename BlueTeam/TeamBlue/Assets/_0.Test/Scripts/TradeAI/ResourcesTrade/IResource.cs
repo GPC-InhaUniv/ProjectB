@@ -6,5 +6,5 @@ using ProjectB.GameManager;
 interface IResource
 {
     void SendResources(int sendingResourceCount);
-    void ReceiveResources(int receivingResourceCount, GameResources resourceType, int tradeProbability);
+    void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int tradeProbability);
 }
