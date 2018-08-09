@@ -2,7 +2,7 @@
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine.UI;
+using ProjectB.GameManager;
 
 public class AccountInfo : MonoBehaviour
 {

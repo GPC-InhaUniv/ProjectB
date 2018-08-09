@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ProjectB.GameManager;
 class Sheep : MonoBehaviour, IResource
 {
     int SheepWeightedValue = 3;
