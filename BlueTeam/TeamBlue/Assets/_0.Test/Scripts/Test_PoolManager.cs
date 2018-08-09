@@ -41,7 +41,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     List<GameObject> particle = new List<GameObject>();
 
     GameObject area;
-
+    GameObject player;
     public GameObject monsterPrefab;
     public GameObject particlePrefab;
 
@@ -50,6 +50,14 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         area = areaObject;
         area.gameObject.SetActive(false);
         DontDestroyOnLoad(area);
+    }
+
+
+    public void SetPlayer(GameObject playerobject)
+    {
+        player = Instantiate(playerobject);
+        player.gameObject.SetActive(false);
+        DontDestroyOnLoad(player);
     }
 
     
@@ -92,6 +100,12 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     {
         return area;
     }
+
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
+
 
     public void DestroyPoolObject()
     {

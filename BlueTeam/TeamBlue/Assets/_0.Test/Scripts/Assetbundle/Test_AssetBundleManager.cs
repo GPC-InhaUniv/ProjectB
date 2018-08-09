@@ -43,8 +43,9 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     void Start()
     {
+      
         DontDestroyOnLoad(gameObject);
-         StartCoroutine(LoadedAssetBundles());
+     // StartCoroutine(LoadedAssetBundles());
     }
 
     public void LoadArea(AreaType areaType)
@@ -79,7 +80,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     string SetPath(string assetName)
     {
-        return Application.persistentDataPath + "/AssetBundles/" + assetName + ".unity3D";
+        return Application.persistentDataPath + "/AssetBundles/" + assetName + "_unity3D";
     }
     
     IEnumerator LoadedAssetBundles()
@@ -127,6 +128,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         switch (bundleType)
         {
             case BundleType.Player:
+                PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
                 gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Common:
