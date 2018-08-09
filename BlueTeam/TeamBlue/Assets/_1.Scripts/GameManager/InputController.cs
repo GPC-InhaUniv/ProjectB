@@ -28,7 +28,7 @@ public class InputController : MonoBehaviour {
 
     public void OnClickLoginButton()
     {
-        if(userAccountInfo.Id!="" && userAccountInfo.Password!= " ")
+        if(userAccountInfo.Id!="" && userAccountInfo.Password!= "")
         {
             AccountInfo.Login(userAccountInfo.Id, userAccountInfo.Password);
             LoadingSceneManager.LoadScene(LoadType.VillageCheckDownLoad, 0);

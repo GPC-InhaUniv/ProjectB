@@ -235,7 +235,7 @@ public class LoadingSceneManager : MonoBehaviour
         try
         {
             // Only get files that begin with the letter "c."
-            string[] dirs = Directory.GetFiles(Application.persistentDataPath + "/AssetBundles", "*.unity3D");
+            string[] dirs = Directory.GetFiles(Application.persistentDataPath + "/AssetBundles", "*_unity3D");
             Debug.Log("현재 파일 개수:" + dirs.Length);
             return dirs.Length;
         }
@@ -282,7 +282,7 @@ public class LoadingSceneManager : MonoBehaviour
         }
 
         // 파일 입출력을 통해 받아온 에셋을 저장하는 과정
-        FileStream fs = new FileStream(assetBundleDirectory + "/" + AssetName + ".unity3d", System.IO.FileMode.Create);
+        FileStream fs = new FileStream(assetBundleDirectory + "/" + AssetName + "_unity3D", System.IO.FileMode.Create, FileAccess.Write);
 
         fs.Write(request.downloadHandler.data, 0, (int)request.downloadedBytes);
 
