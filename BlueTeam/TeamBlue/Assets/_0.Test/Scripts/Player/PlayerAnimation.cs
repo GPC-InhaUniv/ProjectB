@@ -102,7 +102,7 @@ public class PlayerAnimation : MonoBehaviour {
     {
         animator.SetBool(AnimationState.Die.ToString(), true);
     }
- 
+
 }
 public enum AnimationState
 {
