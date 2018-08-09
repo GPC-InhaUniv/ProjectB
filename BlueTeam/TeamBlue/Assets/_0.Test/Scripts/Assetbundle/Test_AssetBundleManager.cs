@@ -68,7 +68,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     string SetPath(string assetName)
     {
-        return Application.persistentDataPath + "/AssetBundles/" + assetName + ".unity3d";
+        return Application.persistentDataPath + "/AssetBundles/" + assetName + "_unity3D";
     }
     
     IEnumerator LoadedAssetBundles()
