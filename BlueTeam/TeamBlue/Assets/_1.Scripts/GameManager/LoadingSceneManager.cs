@@ -35,7 +35,7 @@ public class LoadingSceneManager : MonoBehaviour
     string TownBundle;
 
     int totalBundleCount = 4;
-    static int userBundleCount = 4;
+    static int userBundleCount = 0;
     static LoadType currentType;
     static int currentDungeonIndex = 0;
 
