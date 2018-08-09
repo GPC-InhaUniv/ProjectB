@@ -27,7 +27,7 @@ public enum BundleType
 public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
     const string PlayerBundleName = "Riko";
-    const string CommonBundleName = "plyaerbundle";
+    const string CommonBundleName = "townbundle";
 
 
     protected Test_AssetBundleManager() { }
@@ -87,7 +87,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     {
         PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
 
-        //    CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
+        CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
         if (PlayerBundle == null ||CommonAssetBundle == null)
         {
             Debug.Log("Fail");
@@ -132,10 +132,10 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
                 gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Common:
-                gameObject = Instantiate(CommonAssetBundle.LoadAsset(AssetName) as GameObject);
+                gameObject = CommonAssetBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Area:
-                gameObject = Instantiate(Area.LoadAsset(AssetName) as GameObject);
+                gameObject = Area.LoadAsset(AssetName) as GameObject;
                 break;
             default:
                 gameObject = null;
