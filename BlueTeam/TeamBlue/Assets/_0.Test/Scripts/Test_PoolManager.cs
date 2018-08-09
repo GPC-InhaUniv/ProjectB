@@ -25,9 +25,9 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     }
     enum ObjectType
     {
-        monster,
-        particle,
-        village,
+        Monster,
+        Particle,
+        Village,
     }
 
     [SerializeField]
@@ -42,8 +42,9 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     GameObject area;
 
-    public GameObject monsterPrefab;
-    public GameObject particlePrefab;
+    public GameObject PlayerPrefab;
+    public GameObject MonsterPrefab;
+    public GameObject ParticlePrefab;
 
     public void SetArea(GameObject areaObject)
     {
@@ -58,14 +59,13 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     {
         for (int i = monster.Count; i < monsterPoolSize; i++)
         {
-            monster.Add(CreateItem(ObjectType.monster));
+            monster.Add(CreateItem(ObjectType.Monster));
 
         }
 
         for (int i = particle.Count; i < FXPoolSize; i++)
         {
-            particle.Add(CreateItem(ObjectType.particle));
-
+            particle.Add(CreateItem(ObjectType.Particle));
         }
 
     }
@@ -79,7 +79,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     public GameObject GetMonsterObject()
     {
         if (monster.Count == 0)
-            monster.Add(CreateItem(ObjectType.monster));
+            monster.Add(CreateItem(ObjectType.Monster));
         if (monster.Count > monsterPoolSize)
             return null;
         GameObject monsterObject = monster[0];
@@ -105,7 +105,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     public GameObject GetParticleObject()
     {
         if (monster.Count == 0)
-            particle.Add(CreateItem(ObjectType.particle));
+            particle.Add(CreateItem(ObjectType.Particle));
         if (monster.Count > monsterPoolSize)
             return null;
         GameObject particleObject = particle[0];
@@ -135,12 +135,12 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         GameObject item;
         switch (objectType)
         {
-            case ObjectType.monster:
-                item = Instantiate(monsterPrefab);
+            case ObjectType.Monster:
+                item = Instantiate(MonsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
-            case ObjectType.particle:
-                item = Instantiate(particlePrefab);
+            case ObjectType.Particle:
+                item = Instantiate(ParticlePrefab);
                 DontDestroyOnLoad(item);
                 break;
             default:
