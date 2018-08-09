@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:BlueTeam/TeamBlue/Assets/PlayFabEditorExtensions/Editor/Resources.meta
 guid: eff487eb46f33134791495e7e8b0f029
 folderAsset: yes
 timeCreated: 1533774874
+=======
+guid: 63261685de905c64b8884a6ca413b5f2
+folderAsset: yes
+timeCreated: 1533615898
+>>>>>>> 7dccdc49393899a7d86860b20dc237324b490494:BlueTeam/TeamBlue/Assets/PlayFabEditorExtensions/Editor/Resources.meta
 licenseType: Free
 DefaultImporter:
   userData: 
