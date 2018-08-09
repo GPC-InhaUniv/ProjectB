@@ -25,9 +25,9 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     }
     enum ObjectType
     {
-        Monster,
-        Particle,
-        Village,
+        monster,
+        particle,
+        village,
     }
 
     [SerializeField]
@@ -41,10 +41,9 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     List<GameObject> particle = new List<GameObject>();
 
     GameObject area;
-
-    public GameObject PlayerPrefab;
-    public GameObject MonsterPrefab;
-    public GameObject ParticlePrefab;
+    GameObject player;
+    public GameObject monsterPrefab;
+    public GameObject particlePrefab;
 
     public void SetArea(GameObject areaObject)
     {
@@ -53,19 +52,28 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         DontDestroyOnLoad(area);
     }
 
+
+    public void SetPlayer(GameObject playerobject)
+    {
+        player = Instantiate(playerobject);
+        player.gameObject.SetActive(false);
+        DontDestroyOnLoad(player);
+    }
+
     
 
     public void SetPool()
     {
         for (int i = monster.Count; i < monsterPoolSize; i++)
         {
-            monster.Add(CreateItem(ObjectType.Monster));
+            monster.Add(CreateItem(ObjectType.monster));
 
         }
 
         for (int i = particle.Count; i < FXPoolSize; i++)
         {
-            particle.Add(CreateItem(ObjectType.Particle));
+            particle.Add(CreateItem(ObjectType.particle));
+
         }
 
     }
@@ -79,7 +87,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     public GameObject GetMonsterObject()
     {
         if (monster.Count == 0)
-            monster.Add(CreateItem(ObjectType.Monster));
+            monster.Add(CreateItem(ObjectType.monster));
         if (monster.Count > monsterPoolSize)
             return null;
         GameObject monsterObject = monster[0];
@@ -93,6 +101,12 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         return area;
     }
 
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
+
+
     public void DestroyPoolObject()
     {
         if(area!=null)
@@ -105,7 +119,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     public GameObject GetParticleObject()
     {
         if (monster.Count == 0)
-            particle.Add(CreateItem(ObjectType.Particle));
+            particle.Add(CreateItem(ObjectType.particle));
         if (monster.Count > monsterPoolSize)
             return null;
         GameObject particleObject = particle[0];
@@ -135,12 +149,12 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         GameObject item;
         switch (objectType)
         {
-            case ObjectType.Monster:
-                item = Instantiate(MonsterPrefab);
+            case ObjectType.monster:
+                item = Instantiate(monsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
-            case ObjectType.Particle:
-                item = Instantiate(ParticlePrefab);
+            case ObjectType.particle:
+                item = Instantiate(particlePrefab);
                 DontDestroyOnLoad(item);
                 break;
             default:

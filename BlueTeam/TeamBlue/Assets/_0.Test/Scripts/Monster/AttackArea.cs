@@ -7,22 +7,30 @@ using MonsterAI;
 public class AttackArea : MonoBehaviour {
 
     [SerializeField]
-    Monster monster;
+    Character characters;
 
 
     // Use this for initialization
     void Start()
     {
-        monster = transform.root.GetComponent<Monster>();
+        characters = transform.root.GetComponent<Character>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //데미지를 입히다//
-          // monster.SendDamage(other.GetComponent<IDamageInteractionable>());
+            Character player =  other.GetComponent<Character>();
+            player.ReceiveDamage(characters.CharacterAttackPower);
 
+        }
+        else if(other.CompareTag("Monster"))
+        {
+            Character monster = other.GetComponent<Character>();
+            monster.ReceiveDamage(characters.CharacterAttackPower);
+
+           if (monster.CharacterHealthPoint <= 0)
+            characters.SaveValue(monster.SendValue(Character.StatusType.CharacterExp));
         }
     }
 
