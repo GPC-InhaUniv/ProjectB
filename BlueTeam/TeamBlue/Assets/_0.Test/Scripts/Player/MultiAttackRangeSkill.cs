@@ -15,7 +15,5 @@ public class MultiAttackRangeSkill : ISkillUsable {
 
     public void UseSkill()
     {
-        player.SkillNumber = 1;
-        //this.player.SetState(new PlayerCharacterAttackState(player));
     }
 }

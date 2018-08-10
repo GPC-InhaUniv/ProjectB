@@ -5,8 +5,10 @@ using UnityEngine.UI;
 public class PlayerPresenter : MonoBehaviour
 {
     [SerializeField]
-    Button AttackButtons, SkillButtons, BackStepButtons, WeaponButtons;
+    Button AttackButton, SkillButton, BackStepButton, WeaponSwapButton;
 
+    [SerializeField]
+    Image SkillImage, BackStepImage, WeaponSwapImage;
     [SerializeField]
     JoyStick joyStick;
 
@@ -23,20 +25,31 @@ public class PlayerPresenter : MonoBehaviour
 
     int comboRandom;
 
+    float skillCoolDownTime, backStepCoolDownTime, swapCoolDownTime;
+
     bool isComboState;
 
     float horizontal, vertical;
 
     Vector3 moverDirection;
 
+    bool isSwap = false;
+
+    Coroutine coroutine;
     void Start()
     {
+        skillCoolDownTime = 5.0f;
+        backStepCoolDownTime = 3.0f;
+        swapCoolDownTime = 2.0f;
+
         inputMoveVector = Vector3.zero;
 
+        //수정 필요
         comboResetCount = 0;
         comboRandom = Random.Range(1, 2);
-
+        //수정 필요
         isComboState = false;
+        GetImage();
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
@@ -48,33 +61,76 @@ public class PlayerPresenter : MonoBehaviour
         Attack3 = new CommandAttack3(player);
         Attack4 = new CommandAttack4(player);
 
-        AttackButtons.onClick.AddListener(() => RandomCombo());
 
-        AttackButtons.onClick.AddListener(() => StartCombo());
+        AttackButton.onClick.AddListener(() => RandomCombo());
+        AttackButton.onClick.AddListener(() => StartCombo());
+        AttackButton.onClick.AddListener(() => Shuffle());
+        //AttackButton.onClick.AddListener(() => ButtonCoolDown(ButtonName.WeaponSwapButton));
 
-        AttackButtons.onClick.AddListener(() => Shuffle());
+        SkillButton.onClick.AddListener(() => InputSkillButton());
+        //SkillButton.onClick.AddListener(() => ButtonCoolDown(ButtonName.SkillButton));
 
-        SkillButtons.onClick.AddListener(() => player.SetState(new PlayerCharacterSkillState(player)));
+        BackStepButton.onClick.AddListener(() => InputBackStep());
+        //BackStepButton.onClick.AddListener(() => ButtonCoolDown(ButtonName.BackStepButton));
 
-        BackStepButtons.onClick.AddListener(() => InputBackStep());
-
-        WeaponButtons.onClick.AddListener(() => WeaponButton());
+        WeaponSwapButton.onClick.AddListener(() => InputWeaponSwapButton());
+        //WeaponSwapButton.onClick.AddListener(() => ButtonCoolDown(ButtonName.WeaponSwapButton));
     }
-
-
     void Update()
     {
         inputMoveVector = PoolInput();
-        if ((player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterBackStepState)))
-        {
-            return;
-        }
-        else
+        if (PlayerState())
         {
             SetInputVector();
         }
-  
     }
+
+    void GetImage()
+    {
+        SkillImage = SkillButton.GetComponent<Image>();
+        BackStepImage = BackStepButton.GetComponent<Image>();
+        WeaponSwapImage = WeaponSwapButton.GetComponent<Image>();
+    }
+    
+    void ButtonCoolDown(ButtonName name)
+    {
+        switch (name)
+        {
+            case ButtonName.SkillButton:
+
+                break;
+            case ButtonName.BackStepButton:
+
+                break;
+            case ButtonName.WeaponSwapButton:
+
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    IEnumerator ButtonCoolDownCoroutine(float time, Button name)
+    {
+        isSwap = true;
+        name.interactable = false;
+        yield return new WaitForSeconds(time);
+        name.interactable = true;
+        isSwap = false;
+    }
+
+    IEnumerator ImageCoolDown(float time, Image name)
+    {
+
+        while(name.fillAmount > 0)
+        {
+            name.fillAmount -= 1 / time * Time.deltaTime;
+            yield return null;
+        }
+        name.fillAmount = 1;
+    }
+
 
     Vector3 PoolInput()
     {
@@ -88,45 +144,92 @@ public class PlayerPresenter : MonoBehaviour
 
     void SetInputVector()
     {
-        if (inputMoveVector == Vector3.zero)
+        player.MoveVector = inputMoveVector;
+
+        if (inputMoveVector != Vector3.zero)
         {
-            player.SetMoveVector(Vector3.zero);
-            player.SetState(new PlayerCharacterIdleState(player));
+            player.SetState(new PlayerCharacterRunState(player));
         }
         else
         {
-            player.SetMoveVector(inputMoveVector);
-            player.SetState(new PlayerCharacterRunState(player));
+            player.SetState(new PlayerCharacterIdleState(player));
         }
     }
 
     void InputBackStep()
     {
-        if (player.PlayerState.GetType() == typeof(PlayerCharacterAttackState) || player.PlayerState.GetType() == typeof(PlayerCharacterRunState))
+        if (PlayerIdleState())
         {
-            return;
+            player.SetState(new PlayerCharacterBackStepState(player));
+            StartCoroutine(ButtonCoolDownCoroutine(backStepCoolDownTime, BackStepButton));
+            StartCoroutine(ImageCoolDown(backStepCoolDownTime, BackStepImage));
         }
         else
         {
-            player.SetState(new PlayerCharacterBackStepState(player));
+            player.SetState(new PlayerCharacterIdleState(player));
+        }
+
+    }
+
+    bool PlayerState()
+    {
+        if (player.PlayerState.GetType() != typeof(PlayerCharacterAttackState)  && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState) && player.PlayerState.GetType() != typeof(PlayerCharacterSkillState))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-
-    void WeaponButton()
+    bool PlayerIdleState()
     {
-        if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
+        if (player.PlayerState.GetType() == typeof(PlayerCharacterIdleState))
         {
-            player.WeaponSwitching(PlayerCharacterWeaponState.LongSword);
+            return true;
         }
-        else if(player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+        else return false;
+    }
+
+    void InputSkillButton()
+    {
+        //수정필요함
+        if (PlayerIdleState())
         {
-            player.WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
+            player.SetState(new PlayerCharacterSkillState(player));
+
+            StartCoroutine(ButtonCoolDownCoroutine(skillCoolDownTime, SkillButton));
+            StartCoroutine(ImageCoolDown(skillCoolDownTime, SkillImage));
+        }
+        else
+        {
+            player.SetState(new PlayerCharacterIdleState(player));
         }
 
-        isComboState = false;
-        commandControll.ClearCommand();
-        comboResetCount = 0;
+    }
+
+    void InputWeaponSwapButton()
+    {
+        if (PlayerIdleState())
+        {
+            if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
+            {
+                player.WeaponSwitching(PlayerCharacterWeaponState.LongSword);
+            }
+            else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+            {
+                player.WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
+            }
+            if (isSwap == false)
+            {
+                StartCoroutine(ButtonCoolDownCoroutine(swapCoolDownTime, WeaponSwapButton));
+                StartCoroutine(ImageCoolDown(swapCoolDownTime, WeaponSwapImage));
+            }
+            isComboState = false;
+            commandControll.ClearCommand();
+            comboResetCount = 0;
+        }
     }
 
 
@@ -188,15 +291,21 @@ public class PlayerPresenter : MonoBehaviour
 
     void StartCombo()
     {
-        if (player.IsRunning != true)
+        if (PlayerIdleState())
         {
             player.SetState(new PlayerCharacterAttackState(player));
+
             isComboState = true;
 
             comboResetCount++;
 
             commandControll.ExcuteCommand();
             //StartCoroutine(RestCombo());
+            if (isSwap == false)
+            {
+                StartCoroutine(ButtonCoolDownCoroutine(swapCoolDownTime, WeaponSwapButton));
+                StartCoroutine(ImageCoolDown(swapCoolDownTime, WeaponSwapImage));
+            }
         }
     }
 
@@ -204,7 +313,7 @@ public class PlayerPresenter : MonoBehaviour
 
 
 
-
+    //수정 필요함
     IEnumerator RestCombo()
     {
         yield return new WaitForSeconds(5.0f);
@@ -217,8 +326,6 @@ public class PlayerPresenter : MonoBehaviour
             comboResetCount = 0;
         }
     }
-
-
     void Shuffle()
     {
         int temp = 0;
@@ -240,6 +347,13 @@ public class PlayerPresenter : MonoBehaviour
     {
         yield return new WaitForSeconds(second);
     }
+    //수정 필요함
 
-    //스킬버튼 쿨타임 제어 코루틴 만들자
+    enum ButtonName
+    {
+        AttackButton,
+        SkillButton,
+        BackStepButton,
+        WeaponSwapButton
+    }
 }
