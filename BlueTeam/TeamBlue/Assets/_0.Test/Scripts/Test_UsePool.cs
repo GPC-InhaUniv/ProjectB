@@ -1,32 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.GameManager;
 
 public class Test_UsePool : MonoBehaviour {
 
-    GameObject[] monsters = new GameObject[20];
-
-    private void Start()
+    GameObject test;
+    public void SetPool()
     {
-        Test_PoolManager.Instance.SetPool();
-    }
-    int i = 0;
-    public void GetMonster()
-    {
-       
-        if (i< 20)
-        {
-            monsters[i] = Test_PoolManager.Instance.GetMonsterObject();
-            i++;
-        }
+        test = GameObjectsManager.Instance.GetAreaObject();
     }
 
-    public void PutMonster()
-    {
-        if(i !=0)
-        {
-            Test_PoolManager.Instance.PutObject(monsters[i-1]);
-            i--;
-        }
-    }
+ 
 }

@@ -102,14 +102,13 @@ namespace ProjectB.GameManager
                             GameObject tempObject = Test_PoolManager.Instance.GetArea();
                             Destroy(tempObject);
                           Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
-                            Test_AssetBundleManager.Instance.AssetName = "BrickDungeon1";
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
-                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
+            
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BrickDungeon1"));
+                        //    Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
-                            Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
+                            
                             break;
                         case LoadType.SheepDungeon:
                             break;
@@ -118,10 +117,10 @@ namespace ProjectB.GameManager
                         case LoadType.VillageCheckDownLoad:
                             currentAssetName = "마을 로드중...";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                            Test_AssetBundleManager.Instance.AssetName = "Riko";
-                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player));
-                            Test_AssetBundleManager.Instance.AssetName = "Village";
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
+                           
+                           Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player,"Riko"));
+    
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area,"Village"));
                             break;
                     }
 

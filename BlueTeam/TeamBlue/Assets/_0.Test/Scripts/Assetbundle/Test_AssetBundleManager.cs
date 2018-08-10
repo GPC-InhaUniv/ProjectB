@@ -32,8 +32,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     protected Test_AssetBundleManager() { }
 
-    public string AssetName;
-
+  
     //public string path;
     public Text Log;
     public AssetBundle PlayerBundle;
@@ -121,7 +120,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
 
 
-    public GameObject LoadObject(BundleType bundleType)
+    public GameObject LoadObject(BundleType bundleType, string AssetName)
     {
         
         GameObject gameObject;
