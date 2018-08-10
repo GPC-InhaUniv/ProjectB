@@ -22,7 +22,7 @@ namespace ProjectB.GameManager
     {
         Test_Login,
         Test_Loading,
-        Test_Empty2,
+        Test_Empty,
     }
     public class LoadingSceneManager : MonoBehaviour
     {
@@ -188,17 +188,9 @@ namespace ProjectB.GameManager
 
             if (Input.anyKeyDown)
             {
-                GameObject tempObject = Test_PoolManager.Instance.GetArea();
-                if (tempObject != null)
-                    tempObject.SetActive(true);
-
-                tempObject = Test_PoolManager.Instance.GetPlayer();
-                if (tempObject != null)
-                    tempObject.SetActive(true);
+                GameControllManager.Instance.SetObjectPosition();
                 asyncOperation.allowSceneActivation = true;
-
             }
-
 
         }
 
@@ -209,15 +201,15 @@ namespace ProjectB.GameManager
             {
                 case LoadType.Village:
                     currentType = LoadType.Village;
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.BrickDungeon:
                     currentType = LoadType.BrickDungeon;
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.WoodDungeon:
                     currentType = LoadType.WoodDungeon;
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.SheepDungeon:
                     currentType = LoadType.SheepDungeon;
@@ -228,7 +220,7 @@ namespace ProjectB.GameManager
                 case LoadType.VillageCheckDownLoad:
                     currentType = LoadType.VillageCheckDownLoad;
                     userBundleCount = CheckDownLoadFile();
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 default:
                     break;
