@@ -113,5 +113,6 @@ public enum AnimationState
     Hit,
     Swap,
     BackStep,
-    Attack
+    Attack,
+    Skill
 }

@@ -26,7 +26,7 @@ namespace ProjectB.GameManager
         public int LastCleardQuest;
         //추가하기
         //public int IsProgress;
-        //public int disposalMonster;
+        //public int DisposalMonster;
 
         public TownInformation(int relations, int lastclearQuest)
         {

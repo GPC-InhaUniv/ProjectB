@@ -23,10 +23,11 @@ public class PlayerCharacterIdleState : PlayerCharacterState
     public override void Tick(Vector3 moveVector)
     {
         player.CharacterAttackPower = 10;
-        player.collider.enabled = true;
+
         player.IsAttacking = false;
         player.IsRunning = false;
         player.IsBackStepping = false;
+        //player.collider.enabled = true;
     }
 }
 
@@ -41,7 +42,8 @@ public class PlayerCharacterRunState : PlayerCharacterState
     {
         player.IsRunning = true;
 
-        player.Turn(moveVector);
+        player.IsSwapAble = false;     
+
         player.Running(moveVector);
     }
 }
@@ -56,6 +58,10 @@ public class PlayerCharacterAttackState : PlayerCharacterState
     {
         player.IsAttacking = true;
 
+        player.IsSwapAble = false;
+        player.IsRunning = false;
+        player.IsBackStepping = false;
+
         player.PlayerAttack();
     }
 }
@@ -69,7 +75,11 @@ public class PlayerCharacterSkillState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
-        player.IsAttacking = true;
+        player.IsAttacking = true; //스킬로
+
+        player.IsSwapAble = false;
+        player.IsRunning = false;
+        player.IsBackStepping = false;
 
         player.CharacterAttackPower = 20;
 
@@ -88,7 +98,9 @@ public class PlayerCharacterBackStepState : PlayerCharacterState
     public override void Tick(Vector3 moveVector)
     {
         player.IsBackStepping = true;
-        player.collider.enabled = false;
+        player.IsSwapAble = false;
+        player.IsRunning = false;
+        //player.collider.enabled = false;
 
         player.BackStep();
     }
@@ -102,13 +114,14 @@ public class PlayerCharacterDieState : PlayerCharacterState
 
     public override void Tick(Vector3 moveVector)
     {
+        player.Die();
+
         player.CharacterAttackPower = 0;
         player.collider.enabled = false;
         player.IsAttacking = false;
         player.IsRunning = false;
         player.IsBackStepping = false;
 
-        player.Die(); 
     }
 }
 

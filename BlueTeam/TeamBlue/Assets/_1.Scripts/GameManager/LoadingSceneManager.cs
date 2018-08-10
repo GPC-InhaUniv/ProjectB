@@ -119,6 +119,8 @@ namespace ProjectB.GameManager
                         case LoadType.VillageCheckDownLoad:
                             currentAssetName = "마을 로드중...";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                            Test_AssetBundleManager.Instance.AssetName = "Riko";
+                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player));
                             Test_AssetBundleManager.Instance.AssetName = "Village";
                             Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
                             break;
@@ -188,6 +190,10 @@ namespace ProjectB.GameManager
             if (Input.anyKeyDown)
             {
                 GameObject tempObject = Test_PoolManager.Instance.GetArea();
+                if (tempObject != null)
+                    tempObject.SetActive(true);
+
+                tempObject = Test_PoolManager.Instance.GetPlayer();
                 if (tempObject != null)
                     tempObject.SetActive(true);
                 asyncOperation.allowSceneActivation = true;
