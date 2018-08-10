@@ -7,7 +7,7 @@ enum WeatherState
     Cloudy,
     Rainy,
     Sunny,
-    Lighting // 날씨 하나 추가(정확히 무슨 날씨인지 모름)
+    Lighting // 날씨 하나 추가
 }
 
 class Weather : MonoBehaviour

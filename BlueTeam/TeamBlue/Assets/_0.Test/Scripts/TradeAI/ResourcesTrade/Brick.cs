@@ -3,19 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
+// bool형 메서드로 거래 확률 계산
+
 class Brick : MonoBehaviour, IResource
 {
-    int SheepWeightedValue = 0;
+    const int SheepWeightedValue = 3;
 
-    int BrickWeightedValue = 3;
+    const int BrickWeightedValue = 10;
 
-    int WoodWeightedValue = 2;
+    const int WoodWeightedValue = 5;
 
-    int IronWeightedValue = 1;
+    const int IronWeightedValue = 4;
 
-    public void SendResources(int sendingResourceCount)
+
+    public bool CheckTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
     {
-        if(GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
+        if (tradeProbability >= Random.Range(1, 100))
+        {
+            switch (resourceType)
+            {
+                case GameResources.Brick:
+                    tradeProbability += (int)((BrickWeightedValue * sendingResourceCount) * 0.95);
+
+                    break;
+
+                case GameResources.Iron:
+                    tradeProbability -= (int)((IronWeightedValue * sendingResourceCount) * 0.95);
+
+                    break;
+
+                case GameResources.Sheep:
+                    tradeProbability -= (int)((SheepWeightedValue * sendingResourceCount) * 0.95);
+
+                    break;
+
+                case GameResources.Wood:
+                    tradeProbability -= (int)((WoodWeightedValue * sendingResourceCount) * 0.95);
+
+                    break;
+            }
+
+            return true;
+        }
+
+
+        else
+        {
+            return false;
+        }
+    }
+
+    public void ReceiveResources(int receivingResourceCount)
+    {
+        GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
+
+    }
+
+    public void SendResources(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    {
+        if (GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
         {
             GameDataManager.Instance.PlayerGamedata[3002] -= sendingResourceCount;
         }
@@ -23,35 +69,6 @@ class Brick : MonoBehaviour, IResource
         else
         {
             Debug.Log("보낼 흙 부족");
-        }
-
-    }
-
-    public void ReceiveResources(int receivingResourceCount, GameResources resourceType, ref int tradeProbability)
-    {
-        GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
-
-        switch (resourceType)
-        {
-            case GameResources.Brick:
-                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
-
-                break;
-
-            case GameResources.Iron:
-                tradeProbability -= (int)((IronWeightedValue * receivingResourceCount) * 0.95);
-
-                break;
-
-            case GameResources.Sheep:
-                tradeProbability -= (int)((SheepWeightedValue * receivingResourceCount) * 0.95);
-
-                break;
-
-            case GameResources.Wood:
-                tradeProbability -= (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
-
-                break;
         }
     }
 }

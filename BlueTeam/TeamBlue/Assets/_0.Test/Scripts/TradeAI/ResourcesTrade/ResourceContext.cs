@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
-// 나무 : 3000, 양 : 3003, 철광석 : 3001, 벽돌 : 3002
 
 class ResourceContext : MonoBehaviour
 {
@@ -13,13 +12,18 @@ class ResourceContext : MonoBehaviour
         this.resource = resource;
     }
 
-    public void SendResources(int sendingResourceCount)
+    public void ReceiveResources(int receivingResourceCount)
     {
-        this.resource.SendResources(sendingResourceCount);
+        resource.ReceiveResources(receivingResourceCount);
     }
 
-    public void ReceiveReousrces(int receivingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public void SendReousrces(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
     {
-        this.resource.ReceiveResources(receivingResourceCount, resourceType, ref tradeProbability);
+        resource.SendResources(sendingResourceCount, resourceType, ref tradeProbability);
+    }
+
+    public bool CheckTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    {
+        return resource.CheckTradeProbability(sendingResourceCount, resourceType, ref tradeProbability);
     }
 }
