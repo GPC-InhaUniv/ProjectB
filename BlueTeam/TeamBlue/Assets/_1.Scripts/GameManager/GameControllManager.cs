@@ -36,14 +36,11 @@ namespace ProjectB.GameManager
         {
             currentLoadType = loadType;
             currentIndex = index;
+            Debug.Log(currentIndex);
             LoadingSceneManager.LoadScene(currentLoadType, currentIndex);
 
 
-            if (currentIndex != 0)
-            {
-                CheckMonsterAtDungeon();
 
-            }
 
         }
 
@@ -53,16 +50,25 @@ namespace ProjectB.GameManager
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                playerPosition=GameObject.FindGameObjectWithTag("PlayerSpawnPostiion");
-                
+                //playerPosition=GameObject.FindGameObjectWithTag("PlayerSpawnPostiion");
+              
 
             }
             tempObject = Test_PoolManager.Instance.GetPlayer();
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                tempObject.transform.position = playerPosition.transform.position;
+                //   tempObject.transform.position = playerPosition.transform.position;
+                tempObject.transform.position = new Vector3(10, 0, 10);
             }
+
+            if (currentIndex != 0)
+            {
+                CheckMonsterAtDungeon();
+                Debug.Log(totalMonsterCount);
+
+            }
+     
         }
 
     

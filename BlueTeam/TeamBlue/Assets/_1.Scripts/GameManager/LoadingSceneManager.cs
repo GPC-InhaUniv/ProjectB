@@ -39,7 +39,6 @@ namespace ProjectB.GameManager
         int totalBundleCount = 4;
         static int userBundleCount = 0;
         static LoadType currentType;
-        static int currentDungeonIndex = 0;
 
         bool IsDownLoadDone = false;
         bool IsAssetLoadDone = false;
@@ -189,6 +188,7 @@ namespace ProjectB.GameManager
 
             if (Input.anyKeyDown)
             {
+
                 GameControllManager.Instance.SetObjectPosition();
                 asyncOperation.allowSceneActivation = true;
             }
@@ -227,7 +227,6 @@ namespace ProjectB.GameManager
                     break;
             }
 
-            currentDungeonIndex = index;
             SceneManager.LoadScene(SceneName.Test_Loading.ToString());
 
 
