@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MonsterAI
+namespace ProjectB.Character.Monster
 {
     public abstract class Monster : Character 
     {
@@ -17,7 +17,7 @@ namespace MonsterAI
 
         //Monster Status//
         [SerializeField]
-        protected int monsterHP, monsterMaxHP, walkRange ;
+        protected int  walkRange ;
 
         [SerializeField]
         protected float skillCoolTime;       
@@ -54,18 +54,6 @@ namespace MonsterAI
 
         public IAttackable Attackable;
         public ISkillUsable SkillUsable;
-
-        public int MonsterPower;
-
-        /// <summary>
-        /// interface implement
-        ///// </summary>
-        //public IDamageInteractionable player;
-
-        //public void SendDamage(IDamageInteractionable target)
-        //{
-        //   Test_Mediator.Instance.SendTarget(target, MonsterPower);
-        //}
 
         public override void ReceiveDamage(int damage)
         {

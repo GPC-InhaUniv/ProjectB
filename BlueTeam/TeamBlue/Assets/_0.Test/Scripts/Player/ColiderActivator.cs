@@ -2,42 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColiderActivator : MonoBehaviour {
-    [SerializeField]
-    Collider[] attackAreaColliders;
-    [SerializeField]
-    AttackArea[] attackArea;
-
-    // Use this for initialization
-    void Start ()
+namespace ProjectB.Character.Monster
+{
+    public class ColiderActivator : MonoBehaviour
     {
-        attackArea = GetComponentsInChildren<AttackArea>();
-        attackAreaColliders = new Collider[attackArea.Length];
+        Collider[] attackAreaColliders;
+        AttackArea[] attackArea;
 
-        for (int attackAreaCount = 0; attackAreaCount < attackArea.Length; attackAreaCount++)
+        // Use this for initialization
+        void Start()
         {
-            attackAreaColliders[attackAreaCount] = attackArea[attackAreaCount].GetComponent<Collider>();
-            attackAreaColliders[attackAreaCount].enabled = false;
+            attackArea = GetComponentsInChildren<AttackArea>();
+            attackAreaColliders = new Collider[attackArea.Length];
+
+            for (int attackAreaCount = 0; attackAreaCount < attackArea.Length; attackAreaCount++)
+            {
+                attackAreaColliders[attackAreaCount] = attackArea[attackAreaCount].GetComponent<Collider>();
+                attackAreaColliders[attackAreaCount].enabled = false;
+            }
         }
-    }
 
 
-    public void AttackStart()
-    {
-        foreach (Collider attackAreaCollider in attackAreaColliders)
+        public void AttackStart()
         {
-            attackAreaCollider.enabled = true;
-            Debug.Log("공격 시작");
+            foreach (Collider attackAreaCollider in attackAreaColliders)
+            {
+                attackAreaCollider.enabled = true;
+                Debug.Log("공격 시작");
+            }
         }
-    }
 
-    public void AttackEnd() 
-    {
-
-        foreach (Collider attackAreaCollider in attackAreaColliders)
+        public void AttackEnd()
         {
-            attackAreaCollider.enabled = false;
-            Debug.Log("공격 끝");
+
+            foreach (Collider attackAreaCollider in attackAreaColliders)
+            {
+                attackAreaCollider.enabled = false;
+                Debug.Log("공격 끝");
+            }
         }
     }
 }

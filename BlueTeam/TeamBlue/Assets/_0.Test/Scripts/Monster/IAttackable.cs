@@ -1,54 +1,63 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MonsterAI;
 
 //나중에 I  + able 지우기//
-public interface  IAttackable
+namespace ProjectB.Character.Monster
 {
-
-     Monster Monster { get; set; }
-
-    void Attack();
-
-
-}
-public class NormalAttack : IAttackable
-{
-    Monster monster;
-    public Monster Monster
+    public interface IAttackable
     {
-        get { return monster; }
-        set { monster = value; }
-    }
-    public NormalAttack(Monster monster)
-    {
-        Monster = monster;
-    }
 
-    public  void Attack()
-    {
-        Monster.animator.SetInteger("Attack", 2);
-    }
+        Monster Monster { get; set; }
 
-}
-public class ComboAttack : IAttackable 
-{
-    Monster monster;
-    public Monster Monster
-    {
-        get { return monster; }
-        set { monster = value; }
-    }
-    public ComboAttack(Monster monster)
-    {
-        Monster = monster;
-    }
-    public  void Attack()
-    {
-        Monster.animator.SetInteger("Attack", 1);
-    }
+        void Attack();
 
 
+    }
+    public class NormalAttack : IAttackable
+    {
+        Monster monster;
+        private Boss boss;
+
+        public Monster Monster
+        {
+            get { return monster; }
+            set { monster = value; }
+        }
+        public NormalAttack(Monster monster)
+        {
+            Monster = monster;
+        }
+
+        public NormalAttack(Boss boss)
+        {
+            this.boss = boss;
+        }
+
+        public void Attack()
+        {
+            Monster.animator.SetInteger("Attack", 2);
+        }
+
+    }
+    public class ComboAttack : IAttackable
+    {
+        Monster monster;
+        public Monster Monster
+        {
+            get { return monster; }
+            set { monster = value; }
+        }
+        public ComboAttack(Monster monster)
+        {
+            Monster = monster;
+        }
+        public void Attack()
+        {
+            Monster.animator.SetInteger("Attack", 1);
+        }
+
+
+    }
 }
 
