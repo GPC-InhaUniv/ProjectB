@@ -38,7 +38,6 @@ namespace ProjectB.Quest
 
         public override string ShowContentsOfQuest(QuestType questType, string questState)
         {
-            QuestContents = "";
             string MonsterName = "";
             assignmentMonster = defaultMonsterCount + additionMonsterCount;
 
