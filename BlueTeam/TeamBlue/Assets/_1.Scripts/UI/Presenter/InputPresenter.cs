@@ -39,6 +39,6 @@ public class InputPresenter : MonoBehaviour {
         {
             Debug.Log("아이디와 비밀번호 입력 바랍니다.");
         }
-    }
+    } 
 	
 }
