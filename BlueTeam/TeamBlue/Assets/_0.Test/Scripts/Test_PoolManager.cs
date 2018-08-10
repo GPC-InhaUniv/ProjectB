@@ -14,80 +14,95 @@ using UnityEngine;
 
 public class Test_PoolManager : Singleton<Test_PoolManager>
 {
-
-
     private void Start()
     {
-      //  DontDestroyOnLoad(gameObject);
+        //  DontDestroyOnLoad(gameObject);
         monsterPoolSize = 20;
-        FXPoolSize = 20;
-
+        fxPoolSize = 20;
     }
     enum ObjectType
     {
-        monster,
-        particle,
-        village,
+        Monster,
+        Particle,
+        Area,
+        Player,
+
     }
 
     [SerializeField]
     int monsterPoolSize;
 
     [SerializeField]
-    int FXPoolSize;
+    int fxPoolSize;
 
-    
+
     List<GameObject> monster = new List<GameObject>();
     List<GameObject> particle = new List<GameObject>();
 
-    GameObject area;
     GameObject player;
+    GameObject area;
+
+    public GameObject AreaPrefab;
+    public GameObject PlayerPrefab;
     public GameObject MonsterPrefab;
     public GameObject ParticlePrefab;
 
+
     public void SetArea(GameObject areaObject)
     {
-        area = areaObject;
-        area.gameObject.SetActive(false);
-        DontDestroyOnLoad(area);
+        AreaPrefab = areaObject;
+        AreaPrefab.gameObject.SetActive(false);
+        DontDestroyOnLoad(AreaPrefab);
     }
 
 
     public void SetPlayer(GameObject playerobject)
     {
-        player = Instantiate(playerobject);
-        player.gameObject.SetActive(false);
-        DontDestroyOnLoad(player);
+        PlayerPrefab = Instantiate(playerobject);
+        PlayerPrefab.gameObject.SetActive(false);
+        DontDestroyOnLoad(PlayerPrefab);
     }
 
-    
+
 
     public void SetPool()
     {
         for (int i = monster.Count; i < monsterPoolSize; i++)
         {
-            monster.Add(CreateItem(ObjectType.monster));
+            monster.Add(CreateItem(ObjectType.Monster));
 
         }
-
-        for (int i = particle.Count; i < FXPoolSize; i++)
+        for (int i = particle.Count; i < fxPoolSize; i++)
         {
-            particle.Add(CreateItem(ObjectType.particle));
-
+            particle.Add(CreateItem(ObjectType.Particle));
         }
-
+        //    player = CreateItem(ObjectType.Player);
+        //   area = CreateItem(ObjectType.Area);
     }
 
     public void ClearPool()
     {
+        for (int i = 0; i < monster.Count; i++)
+        {
+            Destroy(monster[i]);
+        }
+
+        for (int i = 0; i < particle.Count; i++)
+        {
+            Destroy(particle[i]);
+        }
         monster.Clear();
         particle.Clear();
     }
-
+    public void DestroyArea()
+    {
+        if (area != null)
+            Destroy(area);
+    }
     public GameObject GetMonsterObject()
     {
         if (monster.Count == 0)
-            monster.Add(CreateItem(ObjectType.monster));
+            monster.Add(CreateItem(ObjectType.Monster));
         if (monster.Count > monsterPoolSize)
             return null;
         GameObject monsterObject = monster[0];
@@ -109,17 +124,17 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     public void DestroyPoolObject()
     {
-        if(area!=null)
-        Destroy(area);
+        if (area != null)
+            Destroy(area);
     }
 
- 
+
 
 
     public GameObject GetParticleObject()
     {
         if (monster.Count == 0)
-            particle.Add(CreateItem(ObjectType.particle));
+            particle.Add(CreateItem(ObjectType.Particle));
         if (monster.Count > monsterPoolSize)
             return null;
         GameObject particleObject = particle[0];
@@ -149,12 +164,20 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         GameObject item;
         switch (objectType)
         {
-            case ObjectType.monster:
+            case ObjectType.Monster:
                 item = Instantiate(MonsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
-            case ObjectType.particle:
+            case ObjectType.Particle:
                 item = Instantiate(ParticlePrefab);
+                DontDestroyOnLoad(item);
+                break;
+            case ObjectType.Player:
+                item = Instantiate(PlayerPrefab);
+                DontDestroyOnLoad(item);
+                break;
+            case ObjectType.Area:
+                item = Instantiate(AreaPrefab);
                 DontDestroyOnLoad(item);
                 break;
             default:
@@ -165,9 +188,4 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         item.SetActive(false);
         return item;
     }
-
-
-
-
-
 }
