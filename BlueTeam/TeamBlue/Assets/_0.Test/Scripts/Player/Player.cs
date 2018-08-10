@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using ProjectB.Character;
 
 
 public class Player : Character
@@ -23,13 +24,14 @@ public class Player : Character
     public bool IsAttacking;
     public bool IsBackStepping;
     public bool IsSwapAble;
+
     public Collider collider;
+
     public int AttackNumber;
     public int SkillNumber;
 
     public PlayerCharacterWeaponState CurrentWeaponState;
     public PlayerCharacterState PlayerState;
-
 
 
     void Start()
@@ -62,9 +64,9 @@ public class Player : Character
         {
             backTargetVector = moveVector;
         }
+        else
+            playerAinmaton.RunAnimation(IsRunning);
 
-        playerAinmaton.RunAnimation(IsRunning);
-        PlayerState.Tick(moveVector);
     }
 
     public void SetState(PlayerCharacterState state)
@@ -76,37 +78,33 @@ public class Player : Character
         else
         {
             PlayerState = state;
+            PlayerState.Tick(moveVector);
         }
 
     }
 
     public void PlayerAttack()
     {
-        playerAinmaton.AttackAnimation("Attack" + AttackNumber.ToString());
+        playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + AttackNumber.ToString());
     }
+
 
     public void Running(Vector3 MoveVector)
     {
+        playerAinmaton.RunAnimation(IsRunning);
         playerRigidbody.velocity = MoveVector * 450 * Time.deltaTime;
-    }
-
-    public void Turn(Vector3 MoveVector)
-    {
         transform.rotation = Quaternion.LookRotation(MoveVector);
 
-        //보간하기
     }
 
     public void BackStep()
     {
         playerAinmaton.BackStepAnimation();
-        playerRigidbody.velocity = -backTargetVector * 350 * Time.deltaTime;
+        //playerRigidbody.velocity = -backTargetVector * 350 * Time.deltaTime;
+        playerRigidbody.AddForce(-backTargetVector*450 * Time.deltaTime, ForceMode.Impulse);
     }
 
-    public void Die()
-    {
-        playerAinmaton.DieAnimation();
-    }
+
 
     public void Skill()
     {
@@ -118,15 +116,7 @@ public class Player : Character
         rangeSkill.UseSkill();
 
 
-        playerAinmaton.SkillAnimation("Skill" + SkillNumber.ToString());
-
-
-
-
-
-
-
-
+        playerAinmaton.SkillAnimation(AnimationState.Skill + SkillNumber.ToString());
 
         if (swapCoroutine != null)
         {
@@ -150,9 +140,10 @@ public class Player : Character
         }
         swapCoroutine = StartCoroutine(SwapWaitTime(2.0f));  
     }
+
     public void BackStepStart()
     {
-        SetState(new PlayerCharacterBackStepState(this));
+        //무적 구현
     }
 
     public void BackStepEnd() //회피 모션이 종료될 때 상태가 바뀝니다.
@@ -177,7 +168,7 @@ public class Player : Character
         {
             return;
         }
-        else if(IsSwapAble == true && IsAttacking == false && IsRunning == false && IsBackStepping == false)
+        else if(IsSwapAble == true && IsAttacking != true)
         {
             playerAinmaton.Weapon(NewWeaponState);
 
@@ -207,12 +198,18 @@ public class Player : Character
     {
         playerAinmaton.HitAnimation();
         CharacterHealthPoint -= damage;
-
+        Debug.Log("플레이어 댐지 받음");
         if (CharacterHealthPoint <= 0)
         {
             CharacterHealthPoint = 0;
             SetState(new PlayerCharacterDieState(this));
         }
+    }
+
+    public void Die()
+    {
+        Debug.Log("죽음");
+        playerAinmaton.DieAnimation();
     }
 
     //public override int SendValue()

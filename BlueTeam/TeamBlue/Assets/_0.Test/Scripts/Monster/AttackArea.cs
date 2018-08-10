@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MonsterAI;
-
+using ProjectB.Character;
 
 public class AttackArea : MonoBehaviour {
 
