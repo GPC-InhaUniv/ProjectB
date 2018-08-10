@@ -11,8 +11,5 @@ public class Test_UsePool : MonoBehaviour {
         test = GameObjectsManager.Instance.GetAreaObject();
     }
 
-    public void ClearPool()
-    {
-        GameObjectsManager.Instance.DestroyAreaObject();
-    }
+ 
 }
