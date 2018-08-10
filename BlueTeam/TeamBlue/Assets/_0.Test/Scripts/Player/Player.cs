@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using ProjectB.Character;
 
 
 public class Player : Character

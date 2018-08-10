@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace ProjectB.Character.Monster
-{
+using ProjectB.Character.Monster;
+
     public interface ISkillUsable
     {
         void UseSkill();
@@ -104,4 +104,3 @@ namespace ProjectB.Character.Monster
 
         }
     }
-}
