@@ -32,7 +32,7 @@ public class InputPresenter : MonoBehaviour {
         if(userAccountInfo.Id!="" && userAccountInfo.Password!= "")
         {
             AccountInfo.Login(userAccountInfo.Id, userAccountInfo.Password);
-            LoadingSceneManager.LoadScene(LoadType.VillageCheckDownLoad, 0);
+            GameControllManager.Instance.MoveNextScene(LoadType.VillageCheckDownLoad, 0);
 
         }
         else
