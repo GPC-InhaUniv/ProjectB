@@ -1,60 +1,63 @@
-﻿using MonsterAI;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Named : Monster
+
+namespace ProjectB.Character.Monster
 {
-
-
-    void Start()
-    {
-        monsterMove = GetComponent<MonsterMove>();
-        animator = GetComponent<Animator>();
-        startPosition = transform.position;
-        waitBaseTime = 2.0f;
-        waitTime = waitBaseTime;
-
-        Attackable = new NormalAttack(this);
-        SkillUsable = new NamedSkill(this, skillprefab);
-        //test//
-        AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
-     
-
-    }
-    void Update()
+    public class Named : Monster
     {
 
-        switch (state)
+
+        void Start()
         {
-            case State.Walking:
-                WalkAround();
-                break;
-            case State.Chasing:
-                ChaseTarget();
-                break;
+            monsterMove = GetComponent<MonsterMove>();
+            animator = GetComponent<Animator>();
+            startPosition = transform.position;
+            waitBaseTime = 2.0f;
+            waitTime = waitBaseTime;
+
+            Attackable = new NormalAttack(this);
+            SkillUsable = new NamedSkill(this, skillprefab);
+            //test//
+            AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
+
+
         }
-        
-        if (state != currentState)
+        void Update()
         {
-            state = currentState;
+
             switch (state)
             {
-                case State.Attacking:
-                    AttackTarget();
+                case State.Walking:
+                    WalkAround();
                     break;
-                case State.Skilling:
-                    UseSkill();
-                    break;
-                case State.Died:
-                    Died();
+                case State.Chasing:
+                    ChaseTarget();
                     break;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-            Died();
 
+            if (state != currentState)
+            {
+                state = currentState;
+                switch (state)
+                {
+                    case State.Attacking:
+                        AttackTarget();
+                        break;
+                    case State.Skilling:
+                        UseSkill();
+                        break;
+                    case State.Died:
+                        Died();
+                        break;
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+                Died();
+
+
+        }
 
     }
-
 }
