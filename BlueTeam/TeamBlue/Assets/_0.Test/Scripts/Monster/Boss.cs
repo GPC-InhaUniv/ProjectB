@@ -10,7 +10,8 @@ namespace ProjectB.Character.Monster
 
         void Start()
         {
-            bossState = new PhaseOne(this, skillprefab);
+            //bossState = new PhaseOne(this, skillprefab);
+            bossState = new PhaseTwo(this, skillprefab);
 
             monsterMove = GetComponent<MonsterMove>();
             animator = GetComponent<Animator>();
@@ -69,7 +70,7 @@ namespace ProjectB.Character.Monster
 
             if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
             {
-                bossState = new PhaseTwo(this, skillprefab);
+               // bossState = new PhaseTwo(this, skillprefab);
             }
             else if (CharacterHealthPoint <= 0)
             {

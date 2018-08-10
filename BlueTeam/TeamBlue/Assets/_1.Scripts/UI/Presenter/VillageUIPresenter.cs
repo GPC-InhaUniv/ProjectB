@@ -22,8 +22,8 @@ public class VillageUIPresenter : MonoBehaviour
     {
         aVillageQuest = new AVillageHuntingQuest();
         bVillageQuest = new BVillageHuntingQuest();
-        questSubViewAVillageQuestContentsText.text = aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
-        questSubViewBAvillageQuestContentsText.text = bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest(QuestType.BVillageQuest, "완료");
+/*        questSubViewAVillageQuestContentsText.text = */aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
+/*        questSubViewBAvillageQuestContentsText.text = */bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest(QuestType.BVillageQuest, "완료");
     }
 
     public void OnClickAcceptButton(int villageType)
@@ -58,25 +58,25 @@ public class VillageUIPresenter : MonoBehaviour
 
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.LoadScene(LoadType.WoodDungeon, dungeonNumber);
+        GameControllManager.Instance.MoveNextScene(LoadType.WoodDungeon, dungeonNumber);
         Debug.Log("나무 던전 입장");
     }
 
     public void OnClickIronDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.LoadScene(LoadType.IronDungeon, dungeonNumber);
+        GameControllManager.Instance.MoveNextScene(LoadType.IronDungeon, dungeonNumber);
         Debug.Log("철광석 던전 입장");
     }
 
     public void OnClickBrickDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.LoadScene(LoadType.BrickDungeon, dungeonNumber);
+        GameControllManager.Instance.MoveNextScene(LoadType.BrickDungeon, dungeonNumber);
         Debug.Log("돌 던전 입장");
     }
 
     public void OnClickSheepDungeonButton(int dungeonNumber)
     {
-        LoadingSceneManager.LoadScene(LoadType.SheepDungeon, dungeonNumber);
+        GameControllManager.Instance.MoveNextScene(LoadType.SheepDungeon, dungeonNumber);
         Debug.Log("양 던전 입장");
     }
 

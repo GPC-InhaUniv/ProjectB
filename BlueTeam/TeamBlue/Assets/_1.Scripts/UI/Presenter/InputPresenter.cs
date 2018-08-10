@@ -32,13 +32,13 @@ public class InputPresenter : MonoBehaviour {
         if(userAccountInfo.Id!="" && userAccountInfo.Password!= "")
         {
             AccountInfo.Login(userAccountInfo.Id, userAccountInfo.Password);
-            LoadingSceneManager.LoadScene(LoadType.VillageCheckDownLoad, 0);
+            GameControllManager.Instance.MoveNextScene(LoadType.VillageCheckDownLoad, 0);
 
         }
         else
         {
             Debug.Log("아이디와 비밀번호 입력 바랍니다.");
         }
-    }
+    } 
 	
 }

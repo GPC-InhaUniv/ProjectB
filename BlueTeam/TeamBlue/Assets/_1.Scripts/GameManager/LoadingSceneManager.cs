@@ -22,7 +22,7 @@ namespace ProjectB.GameManager
     {
         Test_Login,
         Test_Loading,
-        Test_Empty2,
+        Test_Empty,
     }
     public class LoadingSceneManager : MonoBehaviour
     {
@@ -39,7 +39,6 @@ namespace ProjectB.GameManager
         int totalBundleCount = 4;
         static int userBundleCount = 0;
         static LoadType currentType;
-        static int currentDungeonIndex = 0;
 
         bool IsDownLoadDone = false;
         bool IsAssetLoadDone = false;
@@ -103,14 +102,13 @@ namespace ProjectB.GameManager
                             GameObject tempObject = Test_PoolManager.Instance.GetArea();
                             Destroy(tempObject);
                           Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
-                            Test_AssetBundleManager.Instance.AssetName = "BrickDungeon1";
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
-                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
+            
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BrickDungeon1"));
+                        //    Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
-                            Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                            Test_AssetBundleManager.Instance.LoadObject(BundleType.Area);
+                            
                             break;
                         case LoadType.SheepDungeon:
                             break;
@@ -119,10 +117,10 @@ namespace ProjectB.GameManager
                         case LoadType.VillageCheckDownLoad:
                             currentAssetName = "마을 로드중...";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-                            Test_AssetBundleManager.Instance.AssetName = "Riko";
-                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player));
-                            Test_AssetBundleManager.Instance.AssetName = "Village";
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area));
+                           
+                           Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player,"Riko"));
+    
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area,"Village"));
                             break;
                     }
 
@@ -189,17 +187,10 @@ namespace ProjectB.GameManager
 
             if (Input.anyKeyDown)
             {
-                GameObject tempObject = Test_PoolManager.Instance.GetArea();
-                if (tempObject != null)
-                    tempObject.SetActive(true);
 
-                tempObject = Test_PoolManager.Instance.GetPlayer();
-                if (tempObject != null)
-                    tempObject.SetActive(true);
+                GameControllManager.Instance.SetObjectPosition();
                 asyncOperation.allowSceneActivation = true;
-
             }
-
 
         }
 
@@ -210,15 +201,15 @@ namespace ProjectB.GameManager
             {
                 case LoadType.Village:
                     currentType = LoadType.Village;
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.BrickDungeon:
                     currentType = LoadType.BrickDungeon;
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.WoodDungeon:
                     currentType = LoadType.WoodDungeon;
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.SheepDungeon:
                     currentType = LoadType.SheepDungeon;
@@ -229,13 +220,12 @@ namespace ProjectB.GameManager
                 case LoadType.VillageCheckDownLoad:
                     currentType = LoadType.VillageCheckDownLoad;
                     userBundleCount = CheckDownLoadFile();
-                    NextScene = SceneName.Test_Empty2.ToString();
+                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 default:
                     break;
             }
 
-            currentDungeonIndex = index;
             SceneManager.LoadScene(SceneName.Test_Loading.ToString());
 
 

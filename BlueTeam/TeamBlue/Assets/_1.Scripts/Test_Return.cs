@@ -27,9 +27,9 @@ public class Test_Return : MonoBehaviour {
        
     }
 
-    public void OnClickDungeonBtn()
+    public void OnClickDungeonBtn(int index)
     {
         Debug.Log("던전 입장");
-        LoadingSceneManager.LoadScene(LoadType.BrickDungeon, 0);
+        GameControllManager.Instance.MoveNextScene(LoadType.BrickDungeon, index);
     }
 }

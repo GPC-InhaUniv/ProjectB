@@ -47,7 +47,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     public void SetArea(GameObject areaObject)
     {
-        area = areaObject;
+        area = Instantiate(areaObject);
         area.gameObject.SetActive(false);
         DontDestroyOnLoad(area);
     }
