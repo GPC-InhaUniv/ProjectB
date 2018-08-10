@@ -50,7 +50,7 @@ public class PhaseTwo : BossState
         SkillPrefab = skillPrefab;
 
         Boss.Attackable = new ComboAttack(Boss);
-        Boss.SkillUsable = new BossSkillFirst(Boss, SkillPrefab);
+        Boss.SkillUsable = new BossSkillSecond(Boss, SkillPrefab);
 
     }
     public override void Attack()
