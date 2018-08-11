@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MonsterAI;
+using ProjectB.Character.Monster;
 
 public interface ISkillUsable
 {
@@ -47,15 +47,15 @@ public class NamedSkill : ISkillUsable
     {
         Debug.Log(Monster.transform.position);
         //(공격,소환)스킬 오브젝트 풀에서 받아와서 사용할 예정//
-        
+
         skillPrefab.transform.position = Monster.transform.position;
         skillPrefab.SetActive(true);
         Monster.animator.SetInteger("Attack", 3);
-            ///anim.SetInteger("Attack", 3);
+        ///anim.SetInteger("Attack", 3);
 
-        
+
     }
-    
+
 }
 public class BossSkillFirst : ISkillUsable
 {
@@ -77,18 +77,25 @@ public class BossSkillFirst : ISkillUsable
         Debug.Log("boss state useskill");
     }
 }
-public class BossSkillSecond : ISkillUsable
+public class BossSkillSecond : MonoBehaviour, ISkillUsable
 {
-    public Monster Monster
+    Boss boss;
+    public Boss Boss
     {
-        get { return Monster; }
-        set { Monster = value; }
+        get { return boss; }
+        set { boss = value; }
     }
-
+    GameObject SkillTest;
+    public BossSkillSecond(Boss boss, GameObject skillPrefab)
+    {
+        Boss = boss;
+        SkillTest = skillPrefab;
+    }
     public void UseSkill()
     {
-
-
+        Instantiate(SkillTest);
+        
+        Debug.Log("boss state useskill");
     }
 }
 public class BossSkillThird : ISkillUsable

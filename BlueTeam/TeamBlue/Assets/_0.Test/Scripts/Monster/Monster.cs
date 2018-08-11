@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MonsterAI
+namespace ProjectB.Character.Monster
 {
-    public abstract class Monster : MonoBehaviour 
+    public abstract class Monster : Character 
     {
         
         public TestMonsterInfo testinfo;
@@ -14,9 +14,11 @@ namespace MonsterAI
         protected AttackArea[] attackAreas;
         [SerializeField]
         protected GameObject skillprefab;
+
         //Monster Status//
         [SerializeField]
-        protected int monsterHP, monsterMaxHP, walkRange ;
+        protected int  walkRange ;
+
         [SerializeField]
         protected float skillCoolTime;       
         [SerializeField]
@@ -53,29 +55,26 @@ namespace MonsterAI
         public IAttackable Attackable;
         public ISkillUsable SkillUsable;
 
-        public int MonsterPower;
-
-        /// <summary>
-        /// interface implement
-        ///// </summary>
-        //public IDamageInteractionable player;
-
-        //public void SendDamage(IDamageInteractionable target)
-        //{
-        //   Test_Mediator.Instance.SendTarget(target, MonsterPower);
-        //}
-
-        public void ReceiveDamage(int damage)
+        public override void ReceiveDamage(int damage)
         {
             animator.SetTrigger("Hitted");
-            monsterHP -= damage;
-            if (monsterHP <= 0)
+            CharacterHealthPoint -= damage;
+
+            if (CharacterHealthPoint <= 0)
             {
-                monsterHP = 0;
+                CharacterHealthPoint = 0;
                 ChangeState(State.Died);
             }
         }
+        //public override int SendValue()
+        //{
+        //    return CharacterExp;
+        //}
 
+        public override void SaveValue(int value)
+        {
+            return;
+        }
 
         public void ChangeState(State currentState)
         {
@@ -108,6 +107,7 @@ namespace MonsterAI
             died = true;
             animator.SetInteger("moving", 13);
             monsterMove.StopMove();
+
             DropItem();
         }
         protected void RemovedFromWorld()

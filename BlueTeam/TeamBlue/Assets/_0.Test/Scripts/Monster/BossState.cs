@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace ProjectB.Character.Monster
+{ 
  [System.Serializable]
 public abstract class BossState  {
 
@@ -18,9 +20,9 @@ public abstract class BossState  {
 
 
 }
-public class Phase1 : BossState
+public class PhaseOne : BossState
 {
-    public Phase1(Boss boss, GameObject skillPrefab)
+    public PhaseOne(Boss boss, GameObject skillPrefab)
     {
         Boss = boss;
         SkillPrefab = skillPrefab;
@@ -40,15 +42,15 @@ public class Phase1 : BossState
         Boss.SkillUsable.UseSkill();
     }
 }
-public class Phase2 : BossState
+public class PhaseTwo : BossState
 {
-    public Phase2(Boss boss, GameObject skillPrefab)
+    public PhaseTwo(Boss boss, GameObject skillPrefab)
     {
         Boss = boss;
         SkillPrefab = skillPrefab;
 
         Boss.Attackable = new ComboAttack(Boss);
-        Boss.SkillUsable = new BossSkillFirst(Boss, SkillPrefab);
+        Boss.SkillUsable = new BossSkillSecond(Boss, SkillPrefab);
 
     }
     public override void Attack()
@@ -60,5 +62,5 @@ public class Phase2 : BossState
         Boss.SkillUsable.UseSkill();
 
     }
-}
+}}
 
