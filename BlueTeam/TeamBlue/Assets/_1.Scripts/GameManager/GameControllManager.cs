@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace ProjectB.GameManager
 {
-    public class GameControllManager : Singleton<GameControllManager> {
+    public class GameControllManager : Singleton<GameControllManager>
+    {
 
         public LoadType CurrentLoadType;
         public int CurrentIndex;
@@ -13,30 +14,30 @@ namespace ProjectB.GameManager
         bool isGameOver;
 
         int totalMonsterCount;
-
+        int cameraOffSetZ = 4;
+        int cameraOffSetY = 3;
+        int cameraOffSetX = 3;
         GameObject playerPosition;
         GameObject[] MonsterPostion;
-        
+
+        private void Start()
+        {
+            MonsterPostion = new GameObject[3];
+        }
         public void CheckMonsterAtDungeon()
         {
             totalMonsterCount = CurrentIndex * 10;
         }
 
-        // Use this for initialization
-        void Start() {
-              
+        public void SetObjectPool()
+        {
+
         }
 
-        // Update is called once per frame
-        void Update() {
-           
-        }
-
-        public void MoveNextScene(LoadType loadType,int index)
+        public void MoveNextScene(LoadType loadType, int index)
         {
             CurrentLoadType = loadType;
             CurrentIndex = index;
-            Debug.Log(CurrentIndex);
             LoadingSceneManager.LoadScene(CurrentLoadType, CurrentIndex);
 
         }
@@ -48,9 +49,9 @@ namespace ProjectB.GameManager
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                playerPosition=GameObject.FindGameObjectWithTag("PlayerSpawnPosition");
+                playerPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPosition");
 
-          
+
 
             }
 
@@ -66,22 +67,37 @@ namespace ProjectB.GameManager
             if (CurrentIndex != 0)
             {
                 CheckMonsterAtDungeon();
-                Debug.Log(totalMonsterCount);
+                Debug.Log("현재 던전 몬스터 수:"+totalMonsterCount);
 
             }
+
+
+            Transform tempCameraTranform;
+
+            tempCameraTranform = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
 
             if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
             {
-                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>().position = new Vector3(2.33f, 2.19f, 0.96f);
-                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>().rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
+                tempCameraTranform.position = new Vector3(2.33f, 2.19f, 0.96f);
+                tempCameraTranform.rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
 
             }
-         
+            else
+            {
+                MonsterPostion[0] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition1");
+                MonsterPostion[1] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition2");
+                MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
+
+
+                tempCameraTranform.LookAt(playerPosition.transform);
+                tempCameraTranform.position = new Vector3(playerPosition.transform.position.x-cameraOffSetX, playerPosition.transform.position.y, playerPosition.transform.position.z - cameraOffSetZ);
+            }
+
 
         }
 
 
-    
+
 
 
     }
