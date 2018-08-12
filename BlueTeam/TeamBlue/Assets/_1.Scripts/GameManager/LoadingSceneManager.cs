@@ -35,9 +35,11 @@ namespace ProjectB.GameManager
         string brickDungeonBundle;
         string BundleURL3;
         string townBundle;
-        string woodDungenBundle;
+        string woodDungeonBundle;
+        string sheepDungeonBundle;
 
-        int totalBundleCount = 4;
+
+        int totalBundleCount = 5;
         static int userBundleCount = 0;
         static LoadType currentType;
 
@@ -65,11 +67,12 @@ namespace ProjectB.GameManager
                 Debug.Log("다운로드 필요");
                 currentAssetName = "게임 준비중...";
                 BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
-                woodDungenBundle = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URL
+                woodDungeonBundle = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URL
                 townBundle = "https://docs.google.com/uc?export=download&id=1t160DBfloJwgtEqFlpw6Yup2x5NhvvTx"; //Town URL
-
+                sheepDungeonBundle = "https://docs.google.com/uc?export=download&id=1NmgES6gjDP_gtOUlJFndGHnS1CRnuXya"; //sheepdungeon URL
                 StartCoroutine(SaveAssetBundleOnDisk(BundleURL, "Riko"));
-                StartCoroutine(SaveAssetBundleOnDisk(woodDungenBundle, "wooddungeonbundle"));
+                StartCoroutine(SaveAssetBundleOnDisk(woodDungeonBundle, "wooddungeonbundle"));
+                StartCoroutine(SaveAssetBundleOnDisk(sheepDungeonBundle, "sheepdungeonbundle"));
                 StartCoroutine(SaveAssetBundleOnDisk(townBundle, "Town"));
 
             }
@@ -117,6 +120,11 @@ namespace ProjectB.GameManager
                             Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.SheepDungeon:
+                            currentAssetName = "양 던전 로드중..";
+
+                            Test_AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
+                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.IronDungeon:
                             break;

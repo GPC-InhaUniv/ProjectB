@@ -33,4 +33,9 @@ public class Test_Return : MonoBehaviour {
         Debug.Log("던전 입장");
         GameControllManager.Instance.MoveNextScene(LoadType.WoodDungeon, index);
     }
+
+    public void OnClickSheepBtn(int index)
+    {
+        GameControllManager.Instance.MoveNextScene(LoadType.SheepDungeon, index);
+    }
 }

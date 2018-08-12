@@ -84,10 +84,12 @@ namespace ProjectB.GameManager
             }
             else
             {
+                
                 MonsterPostion[0] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition1");
                 MonsterPostion[1] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition2");
                 MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
 
+                Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
 
                 tempCameraTranform.LookAt(playerPosition.transform);
                 tempCameraTranform.position = new Vector3(playerPosition.transform.position.x-cameraOffSetX, playerPosition.transform.position.y, playerPosition.transform.position.z - cameraOffSetZ);
