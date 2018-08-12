@@ -11,8 +11,9 @@ public class Test_Return : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        Debug.Log("씬 판별 시작");
+        GameControllManager.Instance.SetObjectPosition();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -30,6 +31,6 @@ public class Test_Return : MonoBehaviour {
     public void OnClickDungeonBtn(int index)
     {
         Debug.Log("던전 입장");
-        GameControllManager.Instance.MoveNextScene(LoadType.BrickDungeon, index);
+        GameControllManager.Instance.MoveNextScene(LoadType.WoodDungeon, index);
     }
 }

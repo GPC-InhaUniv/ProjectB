@@ -6,8 +6,8 @@ namespace ProjectB.GameManager
 {
     public class GameControllManager : Singleton<GameControllManager> {
 
-        LoadType currentLoadType;
-        int currentIndex;
+        public LoadType CurrentLoadType;
+        public int CurrentIndex;
 
         bool isClearDungeon;
         bool isGameOver;
@@ -16,10 +16,10 @@ namespace ProjectB.GameManager
 
         GameObject playerPosition;
         GameObject[] MonsterPostion;
-
+        
         public void CheckMonsterAtDungeon()
         {
-            totalMonsterCount = currentIndex * 10;
+            totalMonsterCount = CurrentIndex * 10;
         }
 
         // Use this for initialization
@@ -29,47 +29,57 @@ namespace ProjectB.GameManager
 
         // Update is called once per frame
         void Update() {
-
+           
         }
 
         public void MoveNextScene(LoadType loadType,int index)
         {
-            currentLoadType = loadType;
-            currentIndex = index;
-            Debug.Log(currentIndex);
-            LoadingSceneManager.LoadScene(currentLoadType, currentIndex);
-
-
-
+            CurrentLoadType = loadType;
+            CurrentIndex = index;
+            Debug.Log(CurrentIndex);
+            LoadingSceneManager.LoadScene(CurrentLoadType, CurrentIndex);
 
         }
 
         public void SetObjectPosition()
         {
             GameObject tempObject = Test_PoolManager.Instance.GetArea();
+
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                //playerPosition=GameObject.FindGameObjectWithTag("PlayerSpawnPostiion");
-              
+                playerPosition=GameObject.FindGameObjectWithTag("PlayerSpawnPosition");
+
+          
 
             }
+
             tempObject = Test_PoolManager.Instance.GetPlayer();
+
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                //   tempObject.transform.position = playerPosition.transform.position;
-                tempObject.transform.position = new Vector3(10, 0, 10);
+                tempObject.transform.position = playerPosition.transform.position;
+
             }
 
-            if (currentIndex != 0)
+            if (CurrentIndex != 0)
             {
                 CheckMonsterAtDungeon();
                 Debug.Log(totalMonsterCount);
 
             }
-     
+
+            if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
+            {
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>().position = new Vector3(2.33f, 2.19f, 0.96f);
+                GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>().rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
+
+            }
+         
+
         }
+
 
     
 
