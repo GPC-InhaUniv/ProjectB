@@ -31,15 +31,16 @@ namespace ProjectB.GameManager
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
-        string BundleURL;
-        string brickDungeonBundle;
-        string BundleURL3;
-        string townBundle;
-        string woodDungeonBundle;
-        string sheepDungeonBundle;
+        string dungeonUIURL;
+        string playerBundleURL;
+        string ironDungeonBundleURL;
+        string brickDungeonBundleURL;
+        string townBundleURL;
+        string woodDungeonBundleURL;
+        string sheepDungeonBundleURL;
 
 
-        int totalBundleCount = 5;
+        int totalBundleCount = 6;
         static int userBundleCount = 0;
         static LoadType currentType;
 
@@ -66,14 +67,16 @@ namespace ProjectB.GameManager
                 IsDownLoadDone = false;
                 Debug.Log("다운로드 필요");
                 currentAssetName = "게임 준비중...";
-                BundleURL = "https://docs.google.com/uc?export=download&id=10KRqu8GtuwEi-ILY9pdlMM3Ppi4vDBkY";  //PLAYER URL
-                woodDungeonBundle = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URL
-                townBundle = "https://docs.google.com/uc?export=download&id=1t160DBfloJwgtEqFlpw6Yup2x5NhvvTx"; //Town URL
-                sheepDungeonBundle = "https://docs.google.com/uc?export=download&id=1NmgES6gjDP_gtOUlJFndGHnS1CRnuXya"; //sheepdungeon URL
-                StartCoroutine(SaveAssetBundleOnDisk(BundleURL, "Riko"));
-                StartCoroutine(SaveAssetBundleOnDisk(woodDungeonBundle, "wooddungeonbundle"));
-                StartCoroutine(SaveAssetBundleOnDisk(sheepDungeonBundle, "sheepdungeonbundle"));
-                StartCoroutine(SaveAssetBundleOnDisk(townBundle, "Town"));
+                playerBundleURL = "https://docs.google.com/uc?export=download&id=1jS8k2MRBk7m_diPWI2vqxvEF6ub1z_wU";  //PLAYER URL
+                woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URL
+                townBundleURL = "https://docs.google.com/uc?export=download&id=1t160DBfloJwgtEqFlpw6Yup2x5NhvvTx"; //Town URL
+                sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1NmgES6gjDP_gtOUlJFndGHnS1CRnuXya"; //sheepdungeon URL
+                dungeonUIURL = "https://docs.google.com/uc?export=download&id=1QPRGJgieB2GdZkU3GU8BRBIO_tbcWI0J"; //dungeonUIURL
+                StartCoroutine(SaveAssetBundleOnDisk(playerBundleURL, "playerbundle"));
+                StartCoroutine(SaveAssetBundleOnDisk(woodDungeonBundleURL, "wooddungeonbundle"));
+                StartCoroutine(SaveAssetBundleOnDisk(sheepDungeonBundleURL, "sheepdungeonbundle"));
+                StartCoroutine(SaveAssetBundleOnDisk(townBundleURL, "Town"));
+                StartCoroutine(SaveAssetBundleOnDisk(dungeonUIURL, "dungeonUIbundle"));
 
             }
             else
@@ -111,12 +114,14 @@ namespace ProjectB.GameManager
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
                             Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.WoodDungeon);
                             Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
                             Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.SheepDungeon:
@@ -124,6 +129,7 @@ namespace ProjectB.GameManager
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
                             Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
                             Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.IronDungeon:
@@ -132,8 +138,8 @@ namespace ProjectB.GameManager
                             currentAssetName = "마을 로드중...";
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
 
-                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "Riko"));
-
+                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter"));
+                         
                             Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village"));
                             break;
                     }
