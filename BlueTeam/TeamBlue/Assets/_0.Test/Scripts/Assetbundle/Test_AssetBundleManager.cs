@@ -27,10 +27,10 @@ public enum BundleType
 
 public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
-    const string PlayerBundleName = "Riko";
-    const string CommonBundleName = "townbundle";
+    const string PlayerBundleName = "playerbundle";
+    const string CommonBundleName = "dungeonUIbundle";
     const string MonsterBundleName = "TestMonster";
-
+    
     protected Test_AssetBundleManager() { }
 
   
@@ -133,6 +133,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
                 gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Common:
+                CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
                 gameObject = CommonAssetBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Area:

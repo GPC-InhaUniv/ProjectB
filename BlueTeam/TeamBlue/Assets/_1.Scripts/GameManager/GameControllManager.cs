@@ -14,9 +14,10 @@ namespace ProjectB.GameManager
         bool isGameOver;
 
         int totalMonsterCount;
-        int cameraOffSetZ = 4;
-        int cameraOffSetY = 3;
+        int cameraOffSetZ = 5;
+        int cameraOffSetY = 2;
         int cameraOffSetX = 3;
+
         GameObject playerPosition;
         GameObject[] MonsterPostion;
 
@@ -40,6 +41,46 @@ namespace ProjectB.GameManager
             CurrentIndex = index;
             LoadingSceneManager.LoadScene(CurrentLoadType, CurrentIndex);
 
+        }
+
+        public void SetUI()
+        {
+            if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
+            {
+                Debug.Log("마을 UI 로드");
+            }
+            else
+            {
+                Debug.Log("인게임 UI 로드");
+                GameObject tempUIObject = Test_PoolManager.Instance.GetInGamePanel();
+                tempUIObject.transform.SetParent(GameObject.Find("Canvas").transform);
+                tempUIObject.transform.position = new Vector3(645, 374, 0);
+
+                tempUIObject.gameObject.SetActive(true);
+            }
+        }
+
+        public void SetCameraPosition()
+        {
+            Transform tempCameraTransform;
+            Transform playerTransform;
+
+            tempCameraTransform = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
+            playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
+            if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
+            {
+                tempCameraTransform.position = new Vector3(2.33f, 2.19f, 0.96f);
+                tempCameraTransform.rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
+
+            }
+
+            else
+            {
+                tempCameraTransform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + cameraOffSetY, playerTransform.position.z - cameraOffSetZ);
+                tempCameraTransform.LookAt(playerPosition.transform);
+                tempCameraTransform.SetParent(playerTransform);
+            }
         }
 
         public void SetObjectPosition()
@@ -71,15 +112,9 @@ namespace ProjectB.GameManager
 
             }
 
-
-            Transform tempCameraTranform;
-
-            tempCameraTranform = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
-
             if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
             {
-                tempCameraTranform.position = new Vector3(2.33f, 2.19f, 0.96f);
-                tempCameraTranform.rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
+              
 
             }
             else
@@ -90,9 +125,8 @@ namespace ProjectB.GameManager
                 MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
 
                 Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
+                Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[1].transform.position;
 
-                tempCameraTranform.LookAt(playerPosition.transform);
-                tempCameraTranform.position = new Vector3(playerPosition.transform.position.x-cameraOffSetX, playerPosition.transform.position.y, playerPosition.transform.position.z - cameraOffSetZ);
             }
 
 

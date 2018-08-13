@@ -42,6 +42,8 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     GameObject area;
     GameObject player;
+    GameObject InGamePanel;
+
     public GameObject MonsterPrefab;
     public GameObject ParticlePrefab;
 
@@ -52,6 +54,12 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         DontDestroyOnLoad(area);
     }
 
+    public void SetPanel(GameObject panelObject)
+    {
+        InGamePanel = Instantiate(panelObject);
+        InGamePanel.gameObject.SetActive(false);
+        DontDestroyOnLoad(InGamePanel);
+    }
 
     public void SetPlayer(GameObject playerobject)
     {
@@ -118,6 +126,11 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     public GameObject GetPlayer()
     {
         return player;
+    }
+
+    public GameObject GetInGamePanel()
+    {
+        return InGamePanel;
     }
 
 
