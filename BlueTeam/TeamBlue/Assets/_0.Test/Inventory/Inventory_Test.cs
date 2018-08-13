@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace ProjectB.Inventory
 {
-    class Recipe
+    class Recipe_Test
     {
         public string recipeName;
         public int code;
@@ -14,7 +14,7 @@ namespace ProjectB.Inventory
         public int sheep;
         public int brick;
 
-        public Recipe()
+        public Recipe_Test()
         {
             this.code = 0;
             this.wood = 0;
@@ -23,7 +23,7 @@ namespace ProjectB.Inventory
             this.brick = 0;
         }
 
-        public Recipe(int code, int wood, int iron, int sheep, int brick)
+        public Recipe_Test(int code, int wood, int iron, int sheep, int brick)
         {
             this.code = code;
             this.wood = wood;
@@ -32,7 +32,7 @@ namespace ProjectB.Inventory
             this.brick = brick;
         }
     }
-    class Item
+    public class Item_Test
     {
         public bool stackable;
         public string itemName;
@@ -41,7 +41,7 @@ namespace ProjectB.Inventory
         public int defence;
         public int hp;
 
-        public Item()
+        public Item_Test()
         {
             this.stackable = true;
             this.code = 0;
@@ -50,7 +50,7 @@ namespace ProjectB.Inventory
             this.hp = 0;
         }
 
-        public Item(int code, int attack, int defence, int hp, bool stackable)
+        public Item_Test(int code, int attack, int defence, int hp, bool stackable)
         {
             this.stackable = stackable;
             this.code = code;
@@ -68,7 +68,7 @@ namespace ProjectB.Inventory
         [SerializeField] Sprite[] sprites;
 
         const int slotAmount = 20;
-        List<Item> items = new List<Item>();
+        List<Item_Test> items = new List<Item_Test>();
         List<GameObject> slots = new List<GameObject>();
 
 
@@ -76,24 +76,16 @@ namespace ProjectB.Inventory
         {
             for (int i = 0; i < slotAmount; i++)
             {
-                items.Add(new Item());
+                items.Add(new Item_Test());
                 slots.Add(Instantiate(inventorySlotPanel));
                 slots[i].transform.SetParent(slotPanel.transform);
             }
             AddItem(0);
-            AddItem(0);
-            AddItem(0);
-            AddItem(0);
-            AddItem(0);
-            AddItem(0);
-            AddItem(0);
-            AddItem(0);
-            AddItem(1);
         }
 
         public void AddItem(int id)
         {
-            Item ItemToAdd = new Item();
+            Item_Test ItemToAdd = new Item_Test();
 
             if(ItemToAdd.stackable && CheckIfItemIsInInventory(ItemToAdd))
             {
@@ -111,22 +103,18 @@ namespace ProjectB.Inventory
 
             for (int i = 0; i < items.Count; i++)
             {
-                if(slots[i].transform.childCount < 1)
-                {
-                    items[i] = ItemToAdd;
-                    GameObject ItemObj = Instantiate(inventoryItemImage);
-                    ItemObj.GetComponent<Image>().sprite = sprites[id];
-                    ItemObj.transform.SetParent(slots[i].transform);
-                    break;
-                }
-                else
-                {
-                    continue;
-                }
+
+                items[i] = ItemToAdd;
+                GameObject ItemObj = Instantiate(inventoryItemImage);
+                ItemObj.GetComponent<ItemData>().item = ItemToAdd;
+                ItemObj.GetComponent<ItemData>().slot = i;
+                ItemObj.GetComponent<Image>().sprite = sprites[id];
+                ItemObj.transform.SetParent(slots[i].transform);
+                break;
             }
         }
 
-        bool CheckIfItemIsInInventory(Item item)
+        bool CheckIfItemIsInInventory(Item_Test item)
         {
             for (int i = 0; i < items.Count; i++)
             {
