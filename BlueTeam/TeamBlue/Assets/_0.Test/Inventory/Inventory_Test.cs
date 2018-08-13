@@ -7,12 +7,12 @@ namespace ProjectB.Inventory
 {
     class Recipe
     {
-        string recipeName;
-        int code;
-        int wood;
-        int iron;
-        int sheep;
-        int brick;
+        public string recipeName;
+        public int code;
+        public int wood;
+        public int iron;
+        public int sheep;
+        public int brick;
 
         public Recipe()
         {
@@ -34,22 +34,25 @@ namespace ProjectB.Inventory
     }
     class Item
     {
-        string itemName;
-        int code;
-        int attack;
-        int defence;
-        int hp;
+        public bool stackable;
+        public string itemName;
+        public int code;
+        public int attack;
+        public int defence;
+        public int hp;
 
         public Item()
         {
+            this.stackable = true;
             this.code = 0;
             this.attack = 0;
             this.defence = 0;
             this.hp = 0;
         }
 
-        public Item(int code, int attack, int defence, int hp)
+        public Item(int code, int attack, int defence, int hp, bool stackable)
         {
+            this.stackable = stackable;
             this.code = code;
             this.attack = attack;
             this.defence = defence;
@@ -60,38 +63,30 @@ namespace ProjectB.Inventory
     {
         [SerializeField] GameObject inventoryPanel;
         [SerializeField] GameObject slotPanel;
-<<<<<<< HEAD
         [SerializeField] GameObject inventorySlotPanel;
         [SerializeField] GameObject inventoryItemImage;
-
-        const int slotAmount = 20;
-        List<Item> Items = new List<Item>();
-        List<GameObject> slots = new List<GameObject>();
-
-        private void Start()
-        {
-            for(int i = 0; i < slotAmount; i++)
-            {
-                slots.Add(Instantiate(inventorySlotPanel));
-                slots[i].transform.SetParent(slotPanel.transform);
-            }
-=======
-        [SerializeField] GameObject itemImage;
-        [SerializeField] GameObject inventorySlot;
         [SerializeField] Sprite[] sprites;
 
         const int slotAmount = 20;
         List<Item> items = new List<Item>();
         List<GameObject> slots = new List<GameObject>();
 
+
         private void Awake()
         {
             for (int i = 0; i < slotAmount; i++)
             {
                 items.Add(new Item());
-                slots.Add(Instantiate(inventorySlot));
+                slots.Add(Instantiate(inventorySlotPanel));
                 slots[i].transform.SetParent(slotPanel.transform);
             }
+            AddItem(0);
+            AddItem(0);
+            AddItem(0);
+            AddItem(0);
+            AddItem(0);
+            AddItem(0);
+            AddItem(0);
             AddItem(0);
             AddItem(1);
         }
@@ -99,12 +94,27 @@ namespace ProjectB.Inventory
         public void AddItem(int id)
         {
             Item ItemToAdd = new Item();
+
+            if(ItemToAdd.stackable && CheckIfItemIsInInventory(ItemToAdd))
+            {
+                for(int i = 0; i < items.Count; i++)
+                {
+                    if(items[i].code == id)
+                    {
+                        ItemData itemData = slots[i].transform.GetChild(0).GetComponent<ItemData>();
+                        itemData.amount++;
+                        itemData.transform.GetChild(0).GetComponent<Text>().text = itemData.amount.ToString();
+                        break;
+                    }
+                }
+            }
+
             for (int i = 0; i < items.Count; i++)
             {
                 if(slots[i].transform.childCount < 1)
                 {
                     items[i] = ItemToAdd;
-                    GameObject ItemObj = Instantiate(itemImage);
+                    GameObject ItemObj = Instantiate(inventoryItemImage);
                     ItemObj.GetComponent<Image>().sprite = sprites[id];
                     ItemObj.transform.SetParent(slots[i].transform);
                     break;
@@ -114,7 +124,17 @@ namespace ProjectB.Inventory
                     continue;
                 }
             }
->>>>>>> 9485cb3a0ecafac901b24162a48539a8e2020441
+        }
+
+        bool CheckIfItemIsInInventory(Item item)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].code == item.code)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
