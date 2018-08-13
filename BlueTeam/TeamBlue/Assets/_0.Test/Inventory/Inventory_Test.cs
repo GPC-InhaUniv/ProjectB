@@ -59,6 +59,22 @@ namespace ProjectB.Inventory
     }
     public class Inventory_Test : MonoBehaviour
     {
+        [SerializeField] GameObject inventoryPanel;
+        [SerializeField] GameObject slotPanel;
+        [SerializeField] GameObject inventorySlotPanel;
+        [SerializeField] GameObject inventoryItemImage;
 
+        const int slotAmount = 20;
+        List<Item> Items = new List<Item>();
+        List<GameObject> slots = new List<GameObject>();
+
+        private void Start()
+        {
+            for(int i = 0; i < slotAmount; i++)
+            {
+                slots.Add(Instantiate(inventorySlotPanel));
+                slots[i].transform.SetParent(slotPanel.transform);
+            }
+        }
     }
 }
