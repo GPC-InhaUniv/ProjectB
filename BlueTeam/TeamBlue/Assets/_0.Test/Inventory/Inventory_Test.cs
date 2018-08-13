@@ -60,6 +60,22 @@ namespace ProjectB.Inventory
     {
         [SerializeField] GameObject inventoryPanel;
         [SerializeField] GameObject slotPanel;
+<<<<<<< HEAD
+        [SerializeField] GameObject inventorySlotPanel;
+        [SerializeField] GameObject inventoryItemImage;
+
+        const int slotAmount = 20;
+        List<Item> Items = new List<Item>();
+        List<GameObject> slots = new List<GameObject>();
+
+        private void Start()
+        {
+            for(int i = 0; i < slotAmount; i++)
+            {
+                slots.Add(Instantiate(inventorySlotPanel));
+                slots[i].transform.SetParent(slotPanel.transform);
+            }
+=======
         [SerializeField] GameObject itemImage;
         [SerializeField] GameObject inventorySlot;
         [SerializeField] Sprite[] sprites;
@@ -98,6 +114,7 @@ namespace ProjectB.Inventory
                     continue;
                 }
             }
+>>>>>>> 9485cb3a0ecafac901b24162a48539a8e2020441
         }
     }
 }
