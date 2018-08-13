@@ -19,6 +19,7 @@ public enum AreaType
 public enum BundleType
 {
     Player,
+    Monster,
     Common,
     Area,
 }
@@ -28,7 +29,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
     const string PlayerBundleName = "Riko";
     const string CommonBundleName = "townbundle";
-
+    const string MonsterBundleName = "TestMonster";
 
     protected Test_AssetBundleManager() { }
 
@@ -38,6 +39,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     public AssetBundle PlayerBundle;
     public AssetBundle CommonAssetBundle;
     public AssetBundle Area;
+    public AssetBundle MonsterBundle;
     public AreaType currentArea;
 
     void Start()
@@ -134,6 +136,9 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
                 gameObject = CommonAssetBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Area:
+                gameObject = Area.LoadAsset(AssetName) as GameObject;
+                break;
+            case BundleType.Monster:
                 gameObject = Area.LoadAsset(AssetName) as GameObject;
                 break;
             default:

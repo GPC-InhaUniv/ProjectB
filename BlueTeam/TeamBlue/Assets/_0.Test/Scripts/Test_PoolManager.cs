@@ -60,6 +60,17 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         DontDestroyOnLoad(player);
     }
 
+    public void SetMonster(GameObject monsterObject)
+    {
+        MonsterPrefab = monsterObject;
+        SetPool();
+      
+    }
+    public void SetFalsePlayer()
+    {
+        player.gameObject.SetActive(false);
+    }
+
     
 
     public void SetPool()
@@ -80,7 +91,10 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     public void ClearPool()
     {
+        if(monster.Count!=0)
         monster.Clear();
+
+        if(particle.Count!=0)
         particle.Clear();
     }
 
@@ -150,10 +164,20 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         switch (objectType)
         {
             case ObjectType.monster:
+                if (MonsterPrefab == null)
+                {
+                    item = null;
+                    break;
+                }
                 item = Instantiate(MonsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
             case ObjectType.particle:
+                if (ParticlePrefab == null)
+                {
+                    item = null;
+                    break;
+                }
                 item = Instantiate(ParticlePrefab);
                 DontDestroyOnLoad(item);
                 break;
@@ -162,6 +186,8 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
                 item = null;
                 break;
         }
+
+        if(item!=null)
         item.SetActive(false);
         return item;
     }

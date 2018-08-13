@@ -4,74 +4,102 @@ using UnityEngine;
 
 namespace ProjectB.GameManager
 {
-    public class GameControllManager : Singleton<GameControllManager> {
+    public class GameControllManager : Singleton<GameControllManager>
+    {
 
-        LoadType currentLoadType;
-        int currentIndex;
+        public LoadType CurrentLoadType;
+        public int CurrentIndex;
 
         bool isClearDungeon;
         bool isGameOver;
 
         int totalMonsterCount;
-
+        int cameraOffSetZ = 4;
+        int cameraOffSetY = 3;
+        int cameraOffSetX = 3;
         GameObject playerPosition;
         GameObject[] MonsterPostion;
 
+        private void Start()
+        {
+            MonsterPostion = new GameObject[3];
+        }
         public void CheckMonsterAtDungeon()
         {
-            totalMonsterCount = currentIndex * 10;
+            totalMonsterCount = CurrentIndex * 10;
         }
 
-        // Use this for initialization
-        void Start() {
-              
-        }
-
-        // Update is called once per frame
-        void Update() {
-
-        }
-
-        public void MoveNextScene(LoadType loadType,int index)
+        public void SetObjectPool()
         {
-            currentLoadType = loadType;
-            currentIndex = index;
-            Debug.Log(currentIndex);
-            LoadingSceneManager.LoadScene(currentLoadType, currentIndex);
 
+        }
 
-
+        public void MoveNextScene(LoadType loadType, int index)
+        {
+            CurrentLoadType = loadType;
+            CurrentIndex = index;
+            LoadingSceneManager.LoadScene(CurrentLoadType, CurrentIndex);
 
         }
 
         public void SetObjectPosition()
         {
             GameObject tempObject = Test_PoolManager.Instance.GetArea();
+
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                //playerPosition=GameObject.FindGameObjectWithTag("PlayerSpawnPostiion");
-              
+                playerPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPosition");
+
+
 
             }
+
             tempObject = Test_PoolManager.Instance.GetPlayer();
+
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
-                //   tempObject.transform.position = playerPosition.transform.position;
-                tempObject.transform.position = new Vector3(10, 0, 10);
+                tempObject.transform.position = playerPosition.transform.position;
+
             }
 
-            if (currentIndex != 0)
+            if (CurrentIndex != 0)
             {
                 CheckMonsterAtDungeon();
-                Debug.Log(totalMonsterCount);
+                Debug.Log("현재 던전 몬스터 수:"+totalMonsterCount);
 
             }
-     
+
+
+            Transform tempCameraTranform;
+
+            tempCameraTranform = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
+
+            if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
+            {
+                tempCameraTranform.position = new Vector3(2.33f, 2.19f, 0.96f);
+                tempCameraTranform.rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
+
+            }
+            else
+            {
+                
+                MonsterPostion[0] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition1");
+                MonsterPostion[1] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition2");
+                MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
+
+                Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
+
+                tempCameraTranform.LookAt(playerPosition.transform);
+                tempCameraTranform.position = new Vector3(playerPosition.transform.position.x-cameraOffSetX, playerPosition.transform.position.y, playerPosition.transform.position.z - cameraOffSetZ);
+            }
+
+
         }
 
-    
+
+
 
 
     }
