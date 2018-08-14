@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectB.Character.Monster
 {
-    public class ColiderActivator : MonoBehaviour
+    public class ColliderActivator : MonoBehaviour
     {
         Collider[] attackAreaColliders;
         AttackArea[] attackArea;

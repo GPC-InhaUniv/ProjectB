@@ -28,8 +28,8 @@ public class AttackArea : MonoBehaviour {
             Character monster = other.GetComponent<Character>();
             monster.ReceiveDamage(characters.CharacterAttackPower);
 
-           if (monster.CharacterHealthPoint <= 0)
-            characters.SaveValue(monster.SendValue(Character.StatusType.CharacterExp));
+           //if (monster.CharacterHealthPoint <= 0)
+           // characters.SaveValue(monster.SendValue(Character.StatusType.CharacterExp));
         }
     }
 
