@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.GameManager;
 
 namespace ProjectB.Character.Monster
 {
     public abstract class Monster : Character 
     {
-        
+
+
         public TestMonsterInfo testinfo;
 
         // test //
@@ -104,9 +106,11 @@ namespace ProjectB.Character.Monster
         }
         protected void Died()
         {
+            GameDataManager.Instance.PlayerInfomation.PlayerExp += CharacterExp;
             died = true;
             animator.SetInteger("moving", 13);
             monsterMove.StopMove();
+            
 
             DropItem();
         }
