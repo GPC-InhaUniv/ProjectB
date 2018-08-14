@@ -83,6 +83,7 @@ namespace ProjectB.GameManager
         public Dictionary<int, int> PlayerGamedata;
         public Dictionary<int, int> WareHouseGamedata;
 
+        
         [SerializeField]
         ItemTable itemTable;
 
@@ -92,10 +93,11 @@ namespace ProjectB.GameManager
         string[] inventoryItemArray;
         string[] warehouseItemArray;
         string[] townInformationArray;
+        Item test;
 
         void Start()
         {
-
+          
             PlayerGamedata = new Dictionary<int, int>();
             WareHouseGamedata = new Dictionary<int, int>();
             for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
@@ -177,8 +179,8 @@ namespace ProjectB.GameManager
             PlayFabClientAPI.UpdateUserData(request, UpdateDataInfo, GameErrorManager.OnAPIError);
 
         }
-
-
+        
+        
 
         void UpdateDataInfo(UpdateUserDataResult result)
         {
