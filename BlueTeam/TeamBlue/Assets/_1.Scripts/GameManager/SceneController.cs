@@ -39,5 +39,6 @@ namespace ProjectB.GameManager
         {
             GameControllManager.Instance.MoveNextScene(LoadType.SheepDungeon, index);
         }
+
     }
 }
