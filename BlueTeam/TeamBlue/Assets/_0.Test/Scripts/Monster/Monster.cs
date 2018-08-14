@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
     public enum AniStateParm
     {
@@ -80,12 +80,6 @@ namespace ProjectB.Character.Monster
             }
         }
 
-
-        public override void SaveValue(int value)
-        {
-            return;
-        }
-
         public void ChangeState(State currentState)
         {
             this.currentState = currentState;
@@ -114,7 +108,7 @@ namespace ProjectB.Character.Monster
         }
         protected void Died()
         {
-            GameDataManager.Instance.PlayerInfomation.PlayerExp += CharacterExp;
+            GameDataManager.Instance.PlayerInfomation.PlayerExp += characterExp;
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();

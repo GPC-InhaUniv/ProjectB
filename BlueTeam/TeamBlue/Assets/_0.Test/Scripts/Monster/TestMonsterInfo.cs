@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
     [Serializable]
     public class TestMonsterInfo

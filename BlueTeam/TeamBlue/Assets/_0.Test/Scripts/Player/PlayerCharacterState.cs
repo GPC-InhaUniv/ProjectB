@@ -1,99 +1,103 @@
 ﻿using UnityEngine;
 
-public abstract class PlayerCharacterState
+namespace ProjectB.Characters.Players
 {
-    protected Player player;
 
-    public abstract void Tick(Vector3 moveVector);
 
-    public PlayerCharacterState(Player player)
+    public abstract class PlayerCharacterState
     {
-        this.player = player;
-    }
+        protected Player player;
 
-}
+        public abstract void Tick(Vector3 moveVector);
 
-public class PlayerCharacterIdleState : PlayerCharacterState
-{
-    public PlayerCharacterIdleState(Player player) : base(player)
-    {
+        public PlayerCharacterState(Player player)
+        {
+            this.player = player;
+        }
 
     }
 
-    public override void Tick(Vector3 moveVector)
+    public class PlayerCharacterIdleState : PlayerCharacterState
     {
-        player.CharacterAttackPower = 10;
-        player.IsRunning = false;
-    }
-}
+        public PlayerCharacterIdleState(Player player) : base(player)
+        {
 
-public class PlayerCharacterRunState : PlayerCharacterState
-{
-    public PlayerCharacterRunState(Player player) : base(player)
-    {
-  
-    }
+        }
 
-    public override void Tick(Vector3 moveVector)
-    {
-        player.IsRunning = true;
-        player.Running(moveVector);
-    }
-}
-public class PlayerCharacterAttackState : PlayerCharacterState
-{
-    public PlayerCharacterAttackState(Player player) : base(player)
-    {
-    
+        public override void Tick(Vector3 moveVector)
+        {
+            //player.CharacterAttackPower = 10;
+            player.IsRunning = false;
+        }
     }
 
-    public override void Tick(Vector3 moveVector)
+    public class PlayerCharacterRunState : PlayerCharacterState
     {
-        player.PlayerAttack();
+        public PlayerCharacterRunState(Player player) : base(player)
+        {
+
+        }
+
+        public override void Tick(Vector3 moveVector)
+        {
+            player.IsRunning = true;
+            player.Running(moveVector);
+        }
     }
-}
-
-public class PlayerCharacterSkillState : PlayerCharacterState
-{
-    public PlayerCharacterSkillState(Player player) : base(player)
+    public class PlayerCharacterAttackState : PlayerCharacterState
     {
+        public PlayerCharacterAttackState(Player player) : base(player)
+        {
 
-    }
+        }
 
-    public override void Tick(Vector3 moveVector)
-    {
-
-        player.CharacterAttackPower = 20;
-
-        player.Skill();
-    }
-}
-
-public class PlayerCharacterBackStepState : PlayerCharacterState
-{
-    public PlayerCharacterBackStepState(Player player) : base(player)
-    {
-
+        public override void Tick(Vector3 moveVector)
+        {
+            player.PlayerAttack();
+        }
     }
 
-    public override void Tick(Vector3 moveVector)
+    public class PlayerCharacterSkillState : PlayerCharacterState
     {
+        public PlayerCharacterSkillState(Player player) : base(player)
+        {
 
-        player.BackStep();
+        }
+
+        public override void Tick(Vector3 moveVector)
+        {
+
+            //player.CharacterAttackPower = 20;
+            //플레이어안에서 함수로 설정
+
+            player.Skill();
+        }
     }
-}
-public class PlayerCharacterDieState : PlayerCharacterState
-{
-    public PlayerCharacterDieState(Player player) : base(player)
-    {
 
+    public class PlayerCharacterBackStepState : PlayerCharacterState
+    {
+        public PlayerCharacterBackStepState(Player player) : base(player)
+        {
+
+        }
+
+        public override void Tick(Vector3 moveVector)
+        {
+
+            player.BackStep();
+        }
     }
-
-    public override void Tick(Vector3 moveVector)
+    public class PlayerCharacterDieState : PlayerCharacterState
     {
-        player.Die();
+        public PlayerCharacterDieState(Player player) : base(player)
+        {
 
-        player.CharacterAttackPower = 0;
+        }
+
+        public override void Tick(Vector3 moveVector)
+        {
+            player.Die();
+        }
     }
 }
 

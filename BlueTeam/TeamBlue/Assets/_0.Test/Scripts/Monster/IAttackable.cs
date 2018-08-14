@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //나중에 I  + able 지우기//
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
     public interface IAttackable
     {
