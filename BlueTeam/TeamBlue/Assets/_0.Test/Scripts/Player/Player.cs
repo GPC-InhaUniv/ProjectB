@@ -1,204 +1,178 @@
 ﻿using System.Collections;
 using UnityEngine;
-using ProjectB.Character;
+using ProjectB.GameManager;
 
-
-public class Player : Character
+namespace ProjectB.Characters.Players
 {
 
-    PlayerAnimation playerAinmaton;
-    Rigidbody playerRigidbody;
-
-    [SerializeField]
-    Vector3 targetVector;
-
-    Weapon Weapon;
-
-    Coroutine swapCoroutine;   
-
-    public Vector3 MoveVector;
-
-    public bool IsRunning;
-    public bool IsSwapAble;
-
-    public Collider collider;
-
-    public int AttackNumber;
-
-    public PlayerCharacterWeaponState CurrentWeaponState;
-    public PlayerCharacterState PlayerState;
-
-    private void Awake()
-    {
-        playerRigidbody = GetComponent<Rigidbody>();
-        Weapon = GetComponent<Weapon>();
-        playerAinmaton = GetComponent<PlayerAnimation>();
-        collider = GetComponent<CapsuleCollider>();
-        PlayerState = new PlayerCharacterIdleState(this);
-
-    }
-    void Start()
+    public class Player : Character
     {
 
-        AttackNumber = 1;
+        PlayerAnimation playerAinmaton;
+        Rigidbody playerRigidbody;
 
-        targetVector = new Vector3(0, 0, 1);
+        [SerializeField]
+        Vector3 targetVector;
 
-        CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
-        
-        IsSwapAble = true;
+        Weapon Weapon;
 
-        playerAinmaton.InitWeapon();
-    }
+        public Vector3 MoveVector;
 
-    private void FixedUpdate()
-    {       
-        playerAinmaton.RunAnimation(IsRunning);
-        if (MoveVector != Vector3.zero)
+        public bool IsRunning;
+
+        public Collider collider;
+
+        public int attackNumber;
+
+        public PlayerCharacterWeaponState CurrentWeaponState;
+        public PlayerCharacterState PlayerState;
+
+
+        private void Awake()
         {
-            targetVector = MoveVector;
-        }        
-    }
+            playerRigidbody = GetComponent<Rigidbody>();
+            Weapon = GetComponent<Weapon>();
+            playerAinmaton = GetComponent<PlayerAnimation>();
+            collider = GetComponent<CapsuleCollider>();
 
-    public void SetState(PlayerCharacterState state)
-    {
-        if (PlayerState == state)
-        {
-            return;
+            PlayerState = new PlayerCharacterIdleState(this);
         }
-        else
+        void Start()
         {
-            PlayerState = state;
-            PlayerState.Tick(MoveVector);
+            targetVector = new Vector3(0, 0, 1);
+
+            CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
+
+            playerAinmaton.InitWeapon();
+        }
+        private void Update()
+        {
+            playerAinmaton.RunAnimation(IsRunning);
+
+            if (MoveVector != Vector3.zero)
+            {
+                targetVector = MoveVector;
+            }
         }
 
-    }
-
-    public void PlayerAttack()
-    {
-        playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + AttackNumber.ToString());
-    }
-
-
-    public void Running(Vector3 MoveVector)
-    {
-        if(MoveVector != Vector3.zero)
+        public void SetState(PlayerCharacterState state)
         {
-            playerRigidbody.velocity = MoveVector * 450 * Time.deltaTime;
-            transform.rotation = Quaternion.LookRotation(MoveVector);
+            if (PlayerState == state)
+            {
+                return;
+            }
+            else
+            {
+                PlayerState = state;
+                PlayerState.Tick(MoveVector);
+            }
         }
-    }
 
-    public void BackStep()
-    {
-        playerAinmaton.BackStepAnimation();
-        playerRigidbody.AddForce(-targetVector * 500 * Time.deltaTime, ForceMode.Impulse);
-    }
-
-
-
-    public void Skill()
-    {
-        //스킬 수치 어떻게 전달?
-
-        //int preAttackPow = CharacterAttackPower;
-        //CharacterAttackPower = CharacterAttackPower + 100;
-         
-        IsSwapAble = false;
-        //스킬 끝나고 idle 돌아오게 하기
-        playerRigidbody.AddForce(targetVector * 800 * Time.deltaTime, ForceMode.Impulse);
-        playerAinmaton.SkillAnimation(AnimationState.Skill + 1.ToString());
-
-        if (swapCoroutine != null)
+        public void PlayerAttack()
         {
-            StopCoroutine(SwapWaitTime(0.0f));
+            playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + attackNumber.ToString());
         }
-        swapCoroutine = StartCoroutine(SwapWaitTime(3.0f));
 
-        //CharacterAttackPower = preAttackPow;
-    }
-
-    public void WeaponSwitching(PlayerCharacterWeaponState NewWeaponState)
-    {
-        if(CurrentWeaponState == NewWeaponState)
+        public void Running(Vector3 MoveVector)
         {
-            return;
+            if (MoveVector != Vector3.zero)
+            {
+                playerRigidbody.velocity = MoveVector * 450 * Time.deltaTime;
+                transform.rotation = Quaternion.LookRotation(MoveVector); //보간필요
+            }
         }
-        else if(IsSwapAble == true &&IsRunning == false)
+
+        public void BackStep()
         {
-            playerAinmaton.Weapon(NewWeaponState);
-
-            Weapon.SetWeapon(true, NewWeaponState, CurrentWeaponState);
-
-            CurrentWeaponState = NewWeaponState;
+            playerAinmaton.BackStepAnimation();
+            playerRigidbody.AddForce(-targetVector * 500 * Time.deltaTime, ForceMode.Impulse);
         }
-    }
 
-    public IEnumerator SwapWaitTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        IsSwapAble = true;      
-    }
-
-    public void Die()
-    {
-        Debug.Log("죽음");
-        playerAinmaton.DieAnimation();
-    }
-
-    public override void ReceiveDamage(int damage)
-    {
-        playerAinmaton.HitAnimation();
-        CharacterHealthPoint -= damage;
-        Debug.Log("플레이어 댐지 받음");
-
-        if (CharacterHealthPoint <= 0)
+        public void Skill()
         {
-            CharacterHealthPoint = 0;
-            SetState(new PlayerCharacterDieState(this));
+            //스킬 수치 어떻게 전달?
+
+            //int preAttackPow = CharacterAttackPower;
+            //CharacterAttackPower = CharacterAttackPower + 100;
+
+            //스킬 끝나고 idle 돌아오게 하기
+            playerRigidbody.AddForce(targetVector * 800 * Time.deltaTime, ForceMode.Impulse);
+            playerAinmaton.SkillAnimation(AnimationState.Skill + 1.ToString());
+            //CharacterAttackPower = preAttackPow;
         }
-    }
 
-    public override void SaveValue(int value)
-    {
-        CharacterExp = CharacterExp + value;
-    }
-
-    ////////////////////////애니메이션 이벤트
-    public void AttackEnd()
-    {
-        SetState(new PlayerCharacterIdleState(this));
-
-        if (swapCoroutine != null)
+        public void WeaponSwitching(PlayerCharacterWeaponState NewWeaponState)
         {
-            StopCoroutine(SwapWaitTime(0.0f));
+            if (CurrentWeaponState == NewWeaponState)
+            {
+                return;
+            }
+            else if (IsRunning == false)
+            {
+                playerAinmaton.Weapon(NewWeaponState);
+
+                Weapon.SetWeapon(true, NewWeaponState, CurrentWeaponState);
+
+                CurrentWeaponState = NewWeaponState;
+            }
         }
-        swapCoroutine = StartCoroutine(SwapWaitTime(2.0f));
-    }
-
-    public void BackStepStart()
-    {
-        //무적 구현
-    }
-
-    public void BackStepEnd()
-    {
-        SetState(new PlayerCharacterIdleState(this));
-
-        if (swapCoroutine != null)
+        public void SetAttackNumber(int number)
         {
-            StopCoroutine(SwapWaitTime(0.0f));
+            attackNumber = number;
         }
-        swapCoroutine = StartCoroutine(SwapWaitTime(2.0f));
+        public void Die()
+        {
+            Debug.Log("플레이어 사망");
+            playerAinmaton.DieAnimation();
+        }
 
+        public override void ReceiveDamage(int damage)
+        {
+            playerAinmaton.HitAnimation();
+            CharacterHealthPoint -= damage;
+            Debug.Log("플레이어 데미지 받음");
+
+            if (CharacterHealthPoint <= 0)
+            {
+                CharacterHealthPoint = 0;
+                SetState(new PlayerCharacterDieState(this));
+            }
+        }
+
+        //데이터 불러오기 및 정리하기
+        void GetCharacterStatusFromDataManager()
+        {
+            characterExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
+            characterLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+        }
+        void SetCharacterStatus()
+        {
+
+        }
+
+        ////////////////////////애니메이션 이벤트
+        public void AttackEnd()
+        {
+            SetState(new PlayerCharacterIdleState(this));
+        }
+
+        public void BackStepStart()
+        {
+            collider.enabled = false;
+        }
+
+        public void BackStepEnd()
+        {
+            collider.enabled = true;
+            SetState(new PlayerCharacterIdleState(this));
+        }
+        ////////////////////////애니메이션 이벤트
     }
 
+    public enum PlayerCharacterWeaponState
+    {
+        ShortSword,
+        LongSword,
+    }
 }
-
-public enum PlayerCharacterWeaponState
-{
-    ShortSword,
-    LongSword,
-}
-
 

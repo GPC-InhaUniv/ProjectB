@@ -9,7 +9,6 @@ public enum ItemType
     Resouece,
     Exapandable,
     Equipmentable,
-
 }
 
 public class Item : MonoBehaviour
@@ -55,13 +54,12 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
-     
+
     }
 
     public void TestMakeItem()
     {
         Code = Convert.ToInt32(testInputField.text);
-       
     }
 
 
@@ -72,8 +70,8 @@ public class Item : MonoBehaviour
         {
             if (itemtable.sheets[0].list[i].Code == Code)
             {
-                name = itemtable.sheets[0].list[i].Name;
-                switch( itemtable.sheets[0].list[i].Type)
+                itemname = itemtable.sheets[0].list[i].Name;
+                switch(itemtable.sheets[0].list[i].Type)
                 {
                     case "Resouece":
                         itemType = ItemType.Resouece;
@@ -93,14 +91,11 @@ public class Item : MonoBehaviour
                 recipeIron = itemtable.sheets[0].list[i].RecipeIron;
                 recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                 image= itemtable.sheets[0].list[i].Image;
-
-
-
             }
         }
-        if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
-            GameDataManager.Instance.PlayerGamedata[code] = 1;
-        else
-            GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
+        //if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
+        //    GameDataManager.Instance.PlayerGamedata[code] = 1;
+        //else
+        //    GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
     }
 }

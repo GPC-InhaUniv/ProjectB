@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //나중에 I  + able 지우기//
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
     public interface IAttackable
     {
@@ -36,7 +36,7 @@ namespace ProjectB.Character.Monster
 
         public void Attack()
         {
-            Monster.animator.SetInteger("Attack", 2);
+            Monster.animator.SetInteger(AniStateParm.Attack.ToString(), 2);
         }
 
     }
@@ -54,7 +54,7 @@ namespace ProjectB.Character.Monster
         }
         public void Attack()
         {
-            Monster.animator.SetInteger("Attack", 1);
+            Monster.animator.SetInteger(AniStateParm.Attack.ToString(), 1);
         }
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
     public class Named : Monster
     {

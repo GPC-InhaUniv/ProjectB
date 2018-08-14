@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ProjectB.Character;
+using ProjectB.Characters;
 
 public class Test_Check : MonoBehaviour {
 

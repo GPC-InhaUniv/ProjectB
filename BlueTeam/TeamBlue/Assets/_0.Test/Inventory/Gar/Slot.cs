@@ -6,6 +6,7 @@ using ProjectB.Inventory;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
+    public int id;
     private Inventory_Test inv;
 
     void Start()
