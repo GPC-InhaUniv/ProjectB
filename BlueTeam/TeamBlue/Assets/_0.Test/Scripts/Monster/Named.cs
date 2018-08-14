@@ -22,7 +22,6 @@ namespace ProjectB.Characters.Monsters
             //test//
             AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
-
         }
         void Update()
         {

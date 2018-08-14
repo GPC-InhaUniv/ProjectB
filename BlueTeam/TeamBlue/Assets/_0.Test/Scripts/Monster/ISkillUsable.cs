@@ -15,7 +15,7 @@ namespace ProjectB.Characters.Monsters
         public Monster Monster
         {
             get { return monster; }
-            set { monster = value; }
+            private set { monster = value; }
         }
         public NoSkill(Monster monster)
         {
@@ -34,7 +34,7 @@ namespace ProjectB.Characters.Monsters
         public Monster Monster
         {
             get { return monster; }
-            set { monster = value; }
+            private set { monster = value; }
         }
         GameObject skillPrefab;
 
@@ -52,11 +52,7 @@ namespace ProjectB.Characters.Monsters
             skillPrefab.transform.position = Monster.transform.position;
             skillPrefab.SetActive(true);
             //Monster.animator.SetInteger("Attack", 3);
-
             Monster.animator.SetBool(AniStateParm.Skill.ToString(),true);
-            ///anim.SetInteger("Attack", 3);
-
-
         }
 
     }
@@ -66,7 +62,7 @@ namespace ProjectB.Characters.Monsters
         public Boss Boss
         {
             get { return boss; }
-            set { boss = value; }
+            private set { boss = value; }
         }
         public BossSkillFirst(Boss boss, GameObject skillPrefab)
         {
@@ -86,7 +82,7 @@ namespace ProjectB.Characters.Monsters
         public Boss Boss
         {
             get { return boss; }
-            set { boss = value; }
+            private set { boss = value; }
         }
         GameObject SkillTest;
         public BossSkillSecond(Boss boss, GameObject skillPrefab)
