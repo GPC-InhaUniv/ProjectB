@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.GameManager;
-using ProjectB.Inventory;
 
 public enum ItemType
 {
@@ -17,7 +16,19 @@ public class Item : MonoBehaviour
     ItemTable itemtable;
 
     [SerializeField]
-    InputField testInputField;
+    Text text_Test;
+    public Text Text_Test
+    {
+        get { return text_Test; }
+    }
+
+    [SerializeField]
+    Image image_Test;
+    public Image Image_Test
+    {
+        get { return image_Test; }
+    }
+
     int itemIndex;
 
     public int Code;
@@ -56,12 +67,6 @@ public class Item : MonoBehaviour
     {
 
     }
-
-    public void TestMakeItem()
-    {
-        Code = Convert.ToInt32(testInputField.text);
-    }
-
 
     public void SetItem(int code)
     {

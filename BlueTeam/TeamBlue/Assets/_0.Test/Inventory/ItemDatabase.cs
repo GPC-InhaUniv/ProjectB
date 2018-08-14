@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDatabase : MonoBehaviour
+namespace ProjectB.Inventory
 {
-    public Item Item;
-
-    private void Start()
+    public class ItemDatabase : MonoBehaviour
     {
-        Item.SetItem(3000);
-        Debug.Log(Item.ItemName);
+        [SerializeField] private List<Item> database = new List<Item>();
+
+        private void Start()
+        {
+        }
     }
 }
