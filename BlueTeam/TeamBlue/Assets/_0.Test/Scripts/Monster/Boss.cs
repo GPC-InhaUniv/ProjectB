@@ -66,7 +66,7 @@ namespace ProjectB.Characters.Monsters
         public override void ReceiveDamage(int damage)
         {
             animator.SetTrigger(AniStateParm.Hitted.ToString());
-            CharacterHealthPoint -= damage;
+            characterHealthPoint -= damage;
 
             if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
             {
@@ -74,7 +74,7 @@ namespace ProjectB.Characters.Monsters
             }
             else if (CharacterHealthPoint <= 0)
             {
-                CharacterHealthPoint = 0;
+                characterHealthPoint = 0;
                 ChangeState(State.Died);
             }
         }

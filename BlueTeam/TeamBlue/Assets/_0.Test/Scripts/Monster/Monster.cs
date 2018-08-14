@@ -71,11 +71,11 @@ namespace ProjectB.Characters.Monsters
         public override void ReceiveDamage(int damage)
         {
             animator.SetTrigger(AniStateParm.Hitted.ToString());
-            CharacterHealthPoint -= damage;
+            characterHealthPoint -= damage;
 
             if (CharacterHealthPoint <= 0)
             {
-                CharacterHealthPoint = 0;
+                characterHealthPoint = 0;
                 ChangeState(State.Died);
             }
         }
@@ -181,12 +181,12 @@ namespace ProjectB.Characters.Monsters
 
         protected void AttackEnd()
         {
-
-            StartCoroutine(WaitNextState());
             if (animator.GetBool(AniStateParm.Skill.ToString()))
             {
                 animator.SetBool(AniStateParm.Skill.ToString(), false);
             }
+            StartCoroutine(WaitNextState());
+  
             attacking = false;
 
         }
