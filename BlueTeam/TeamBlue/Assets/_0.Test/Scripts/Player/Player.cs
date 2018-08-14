@@ -20,9 +20,9 @@ namespace ProjectB.Characters.Players
 
         public bool IsRunning;
 
-        public Collider collider;
+        Collider collider;
 
-        public int attackNumber;
+        int attackNumber;
 
         public PlayerCharacterWeaponState CurrentWeaponState;
         public PlayerCharacterState PlayerState;
@@ -36,9 +36,12 @@ namespace ProjectB.Characters.Players
             collider = GetComponent<CapsuleCollider>();
 
             PlayerState = new PlayerCharacterIdleState(this);
+            GetCharacterStatusFromDataManager();
         }
         void Start()
         {
+            SetCharacterStatus();
+
             targetVector = new Vector3(0, 0, 1);
 
             CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
@@ -124,14 +127,14 @@ namespace ProjectB.Characters.Players
         {
             Debug.Log("플레이어 사망");
             playerAinmaton.DieAnimation();
+            collider.enabled = false;
         }
 
         public override void ReceiveDamage(int damage)
         {
             playerAinmaton.HitAnimation();
-            characterHealthPoint -= damage;
-            Debug.Log("플레이어 데미지 받음");
-
+            characterHealthPoint -= CalDamage(damage);
+            Debug.Log(characterHealthPoint.ToString());
             if (CharacterHealthPoint <= 0)
             {
                 characterHealthPoint = 0;
@@ -139,18 +142,37 @@ namespace ProjectB.Characters.Players
             }
         }
 
+        int CalDamage(int damage)
+        {
+            if (0 < damage - characterDefensivePower / 10)
+            {
+                return damage - characterDefensivePower / 10;
+            }
+            else return 0;
+        }
+
         //데이터 불러오기 및 정리하기
         void GetCharacterStatusFromDataManager()
         {
-            characterExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
-            characterLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+            //test
+            characterExp = 0;
+            characterLevel = 1;
+            characterDefensivePower = 100;
+            //test
+
+            //characterExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
+            //characterLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
         }
+
         void SetCharacterStatus()
         {
-
+            characterMaxHealthPoint = characterLevel * 100;
+            characterHealthPoint = characterMaxHealthPoint;
+            characterAttackPower = characterLevel * 10;
         }
+        //데이터 불러오기 및 정리하기
 
-        ////////////////////////애니메이션 이벤트
+        //애니메이션 이벤트
         public void AttackEnd()
         {
             SetState(new PlayerCharacterIdleState(this));
@@ -166,7 +188,7 @@ namespace ProjectB.Characters.Players
             collider.enabled = true;
             SetState(new PlayerCharacterIdleState(this));
         }
-        ////////////////////////애니메이션 이벤트
+        //애니메이션 이벤트
     }
 
     public enum PlayerCharacterWeaponState

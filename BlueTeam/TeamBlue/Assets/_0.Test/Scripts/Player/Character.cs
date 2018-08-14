@@ -9,19 +9,22 @@ namespace ProjectB.Characters
         protected int characterHealthPoint;
         public int CharacterHealthPoint { get { return characterHealthPoint; } private set { } }
 
+        [SerializeField]
         protected int characterMaxHealthPoint;
         public int CharacterMaxHealthPoint { get { return characterMaxHealthPoint; } private set { } }
 
         [SerializeField]
-        protected int characterLevel { get { return characterExp / 100; } set { } }
+        protected int characterLevel;
         public int CharacterLevel { get { return characterLevel; } private set { } }
 
         [SerializeField]
         protected int characterExp;
+        public int CharacterExp { get { return characterExp; } set { } }
 
         [SerializeField]
         protected int characterDefensivePower;
 
+        [SerializeField]
         protected int characterAttackPower;
         public int CharacterAttackPower { get { return characterAttackPower; } private set { } }
 

@@ -27,7 +27,4 @@ public class AttackArea : MonoBehaviour {
             monster.ReceiveDamage(characters.CharacterAttackPower);
         }
     }
-
-    
-
 }
