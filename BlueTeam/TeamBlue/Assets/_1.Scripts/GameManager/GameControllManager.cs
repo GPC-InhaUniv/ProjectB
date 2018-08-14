@@ -77,9 +77,9 @@ namespace ProjectB.GameManager
 
             else
             {
-                tempCameraTransform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + cameraOffSetY, playerTransform.position.z - cameraOffSetZ);
-                tempCameraTransform.LookAt(playerPosition.transform);
-                tempCameraTransform.SetParent(playerTransform);
+                GameObject tempCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                tempCamera.AddComponent<FollowCamera>();
+                tempCamera.GetComponent<Camera>().fieldOfView = 80;
             }
         }
 

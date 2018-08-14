@@ -15,6 +15,10 @@ public class FollowCamera : MonoBehaviour {
 
 	void Start ()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        
+        target = player.transform;
+
         camRotation = new Vector3(45, -45, 0);
         camPosition = new Vector3(4, 5, -2);
         SetTarget(player);
