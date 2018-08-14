@@ -6,12 +6,15 @@ namespace ProjectB.Characters
     public abstract class Character : MonoBehaviour
     {
         [SerializeField]
-        public int CharacterHealthPoint;
+        protected int characterHealthPoint;
+        public int CharacterHealthPoint { get { return characterHealthPoint; } private set { } }
+
         protected int characterMaxHealthPoint;
         public int CharacterMaxHealthPoint { get { return characterMaxHealthPoint; } private set { } }
 
         [SerializeField]
         protected int characterLevel { get { return characterExp / 100; } set { } }
+        public int CharacterLevel { get { return characterLevel; } private set { } }
 
         [SerializeField]
         protected int characterExp;

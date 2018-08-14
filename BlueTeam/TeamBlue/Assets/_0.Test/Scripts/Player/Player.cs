@@ -129,12 +129,12 @@ namespace ProjectB.Characters.Players
         public override void ReceiveDamage(int damage)
         {
             playerAinmaton.HitAnimation();
-            CharacterHealthPoint -= damage;
+            characterHealthPoint -= damage;
             Debug.Log("플레이어 데미지 받음");
 
             if (CharacterHealthPoint <= 0)
             {
-                CharacterHealthPoint = 0;
+                characterHealthPoint = 0;
                 SetState(new PlayerCharacterDieState(this));
             }
         }
