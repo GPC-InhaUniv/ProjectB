@@ -65,7 +65,7 @@ namespace ProjectB.Character.Monster
         }
         public override void ReceiveDamage(int damage)
         {
-            animator.SetTrigger("Hitted");
+            animator.SetTrigger(AniStateParm.Hitted.ToString());
             CharacterHealthPoint -= damage;
 
             if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
@@ -79,23 +79,5 @@ namespace ProjectB.Character.Monster
             }
         }
 
-
-
-        //public void HandleState(string state)
-        //{
-        //    switch (state)
-        //    {
-        //        case "AnnoyedState":
-        //            BossState = new AnnoyedState(rigidbody);
-        //            break;
-
-        //        case "AngerState":
-        //            BossState = new AngerState(rigidbody);
-        //            break;
-
-        //        default:
-        //            break;
-        //    }
-        //}
     }
 }

@@ -757,7 +757,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.3793859
-        functionName: StartAttack
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -889,7 +889,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.389842
-        functionName: StartAttack
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -1019,7 +1019,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.24365464
+        functionName: AttackStart
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6577034
+        functionName: AttackEnd
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -1257,7 +1271,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.48324051
-        functionName: StartAttack
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -1388,8 +1402,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.65364516
-        functionName: NewEvent
+      - time: 0.71087897
+        functionName: AttackEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

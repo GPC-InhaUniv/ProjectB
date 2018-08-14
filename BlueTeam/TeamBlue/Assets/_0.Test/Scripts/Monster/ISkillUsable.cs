@@ -51,7 +51,9 @@ namespace ProjectB.Character.Monster
 
             skillPrefab.transform.position = Monster.transform.position;
             skillPrefab.SetActive(true);
-            Monster.animator.SetInteger("Attack", 3);
+            //Monster.animator.SetInteger("Attack", 3);
+
+            Monster.animator.SetBool(AniStateParm.Skill.ToString(),true);
             ///anim.SetInteger("Attack", 3);
 
 
