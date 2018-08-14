@@ -69,6 +69,7 @@ namespace ProjectB.Inventory
 
         const int slotAmount = 20;
         List<Item_Test> items = new List<Item_Test>();
+        public List<Item_Test> Items = new List<Item_Test>();
         List<GameObject> slots = new List<GameObject>();
 
 
