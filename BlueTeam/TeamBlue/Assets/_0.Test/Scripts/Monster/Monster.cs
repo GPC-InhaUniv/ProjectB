@@ -70,13 +70,22 @@ namespace ProjectB.Characters.Monsters
 
         public override void ReceiveDamage(int damage)
         {
-            animator.SetTrigger(AniStateParm.Hitted.ToString());
-            characterHealthPoint -= damage;
-
-            if (CharacterHealthPoint <= 0)
+            int defencepossibility = Random.Range(1, 5);
+            if (defencepossibility == 1)
             {
-                characterHealthPoint = 0;
-                ChangeState(State.Died);
+                animator.SetTrigger(AniStateParm.Defence.ToString());
+
+            }
+            else
+            {
+                animator.SetTrigger(AniStateParm.Hitted.ToString());
+                characterHealthPoint -= damage;
+
+                if (CharacterHealthPoint <= 0)
+                {
+                    characterHealthPoint = 0;
+                    ChangeState(State.Died);
+                }
             }
         }
 

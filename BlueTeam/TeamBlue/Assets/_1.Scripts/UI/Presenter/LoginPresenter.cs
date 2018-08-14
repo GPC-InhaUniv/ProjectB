@@ -30,7 +30,7 @@ namespace ProjectB.UI.Presenter
         void Start()
         {
             //개발용으로 로그인 버튼 누를시 자동 로그인 됩니다.
-            AccountInfo.Instance.Id = "12341234";
+            AccountInfo.Instance.Id = "123123";
             AccountInfo.Instance.Password = "123123";
         }
 

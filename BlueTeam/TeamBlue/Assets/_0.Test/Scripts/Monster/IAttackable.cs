@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//나중에 I  + able 지우기//
 namespace ProjectB.Characters.Monsters
 {
     public interface IAttackable
@@ -17,7 +16,6 @@ namespace ProjectB.Characters.Monsters
     public class NormalAttack : IAttackable
     {
         Monster monster;
-        private Boss boss;
 
         public Monster Monster
         {
@@ -28,17 +26,16 @@ namespace ProjectB.Characters.Monsters
         {
             Monster = monster;
         }
-
-        public NormalAttack(Boss boss)
-        {
-            this.boss = boss;
-        }
-
         public void Attack()
         {
-            Monster.animator.SetInteger(AniStateParm.Attack.ToString(), 2);
+            Monster.animator.SetInteger(AniStateParm.Attack.ToString(), 1);
         }
 
+        //private Boss boss;
+        //public NormalAttack(Boss boss)
+        //{
+        //    this.boss = boss;
+        //}
     }
     public class ComboAttack : IAttackable
     {
@@ -54,7 +51,7 @@ namespace ProjectB.Characters.Monsters
         }
         public void Attack()
         {
-            Monster.animator.SetInteger(AniStateParm.Attack.ToString(), 1);
+            Monster.animator.SetInteger(AniStateParm.Attack.ToString(), 2);
         }
 
 
