@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.GameManager;
+using ProjectB.Inventory;
 
 public enum ItemType
 {

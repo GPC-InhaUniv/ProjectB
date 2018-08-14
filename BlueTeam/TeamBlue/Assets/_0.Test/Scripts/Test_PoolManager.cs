@@ -42,6 +42,8 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     GameObject area;
     GameObject player;
+    GameObject InGamePanel;
+
     public GameObject MonsterPrefab;
     public GameObject ParticlePrefab;
 
@@ -52,12 +54,29 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         DontDestroyOnLoad(area);
     }
 
+    public void SetPanel(GameObject panelObject)
+    {
+        InGamePanel = Instantiate(panelObject);
+        InGamePanel.gameObject.SetActive(false);
+        DontDestroyOnLoad(InGamePanel);
+    }
 
     public void SetPlayer(GameObject playerobject)
     {
         player = Instantiate(playerobject);
         player.gameObject.SetActive(false);
         DontDestroyOnLoad(player);
+    }
+
+    public void SetMonster(GameObject monsterObject)
+    {
+        MonsterPrefab = monsterObject;
+        SetPool();
+      
+    }
+    public void SetFalsePlayer()
+    {
+        player.gameObject.SetActive(false);
     }
 
     
@@ -80,7 +99,10 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
 
     public void ClearPool()
     {
+        if(monster.Count!=0)
         monster.Clear();
+
+        if(particle.Count!=0)
         particle.Clear();
     }
 
@@ -104,6 +126,11 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
     public GameObject GetPlayer()
     {
         return player;
+    }
+
+    public GameObject GetInGamePanel()
+    {
+        return InGamePanel;
     }
 
 
@@ -150,10 +177,20 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         switch (objectType)
         {
             case ObjectType.monster:
+                if (MonsterPrefab == null)
+                {
+                    item = null;
+                    break;
+                }
                 item = Instantiate(MonsterPrefab);
                 DontDestroyOnLoad(item);
                 break;
             case ObjectType.particle:
+                if (ParticlePrefab == null)
+                {
+                    item = null;
+                    break;
+                }
                 item = Instantiate(ParticlePrefab);
                 DontDestroyOnLoad(item);
                 break;
@@ -162,6 +199,8 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
                 item = null;
                 break;
         }
+
+        if(item!=null)
         item.SetActive(false);
         return item;
     }
