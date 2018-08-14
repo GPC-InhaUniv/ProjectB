@@ -2,28 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CommandControll
+namespace ProjectB.Characters.Players
 {
-    //Invoker
-
-    Queue<ICommand> commandQueue = new Queue<ICommand>();
-
-    public void TakeCommand(ICommand command)
+    public class CommandControll
     {
-        commandQueue.Enqueue(command);
-    }
+        //Invoker
 
-    public void ExcuteCommand()
-    {
-        foreach (ICommand command in commandQueue)
+        Queue<ICommand> commandQueue = new Queue<ICommand>();
+
+        public void TakeCommand(ICommand command)
         {
-            command.Execute(); //명령 발동
-            commandQueue.Dequeue();
-            break;          
+            commandQueue.Enqueue(command);
+        }
+
+        public void ExcuteCommand()
+        {
+            foreach (ICommand command in commandQueue)
+            {
+                command.Execute(); //명령 발동
+                commandQueue.Dequeue();
+                break;
+            }
+        }
+        public void ClearCommand()
+        {
+            commandQueue.Clear();
         }
     }
-    public void ClearCommand()
-    {
-        commandQueue.Clear();
-    }
 }
+

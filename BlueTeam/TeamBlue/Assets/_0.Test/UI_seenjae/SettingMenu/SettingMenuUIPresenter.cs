@@ -1,7 +1,8 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
+using UnityEngine.EventSystems;
 namespace ProjectB.UI.SettingMenu
 {
     //이 프레젠터는 각각 큰 패널들만 관리한다.
@@ -13,66 +14,81 @@ namespace ProjectB.UI.SettingMenu
         [Header("Panels")]
         [SerializeField]
         GameObject villageSettingMenu;
-        [SerializeField]
-        GameObject dungeonSettingMenu;
+
         [SerializeField]
         GameObject soundControllWindow;
         [SerializeField]
         GameObject messageWindow;
 
-        //이 프레젠터에서 모든 메뉴의 버튼을 관리해야 될 때 다시 활성화
-        //[Header("Buttons")]
-        //[SerializeField]
-        //Button soundButton;
+
+
+        [Header("Buttons")]
+        [SerializeField]
+        Button soundButton;
         //[SerializeField]
         //Button restartButton;
         //[SerializeField]
         //Button returnToVillageButton;
-        //[SerializeField]
-        //Button reternButton;
-        
+        [SerializeField]
+        Button returnToGameButton;
+        [SerializeField]
+        Button returnButton;
 
-        bool isPaused;
+
+        bool isGamePaused;
 
         void Start()
         {
-            settingButton = settingButton.GetComponent<Button>();
             villageSettingMenu.SetActive(false);
-            dungeonSettingMenu.SetActive(false);
             soundControllWindow.SetActive(false);
             messageWindow.SetActive(false);
 
-            
-        }
-
-        //던전메뉴와 마을메뉴가 달라야함
-        //하지만 씬은 하나임
-       
-        void Update()
-        {
-            //village 필드가 활성이 되어 있다면 (조건)
-            //setting button클릭했을 때 AddListener가 계속호출되는 문제
-            //https://www.youtube.com/watch?v=JivuXdrIHK0 UI 팝업, 패널관련 영상
-            settingButton.onClick.AddListener(delegate { popSettingMenu(isPaused, villageSettingMenu); } );
+            settingButton.onClick.AddListener(delegate { PopMenu(isGamePaused, villageSettingMenu); });
+            returnToGameButton.onClick.AddListener(delegate { PullMenu(isGamePaused, villageSettingMenu); });
+            soundButton.onClick.AddListener(delegate { PopMenu(villageSettingMenu, soundControllWindow); });
+            returnButton.onClick.AddListener(delegate { PullMenu(villageSettingMenu, soundControllWindow); });
         }
         
-        //SettingButton의 OnClick으로 들어가는 메소드
-        //인스펙터에서 OnClick으로 넣어주느냐 스크립트에서 처리하느냐 결정해야 함
-        public void popSettingMenu(bool isPaused, GameObject MenuUI)
+        public void PopMenu(bool IsGamePaused, GameObject menuUI)
         {
-            villageSettingMenu.SetActive(true);
-            Time.timeScale = 0f;
-            isPaused = true;
-            Debug.Log(Time.timeScale);
-        }
-        
-        public void pullSettingMenu(bool isPaused, GameObject MenuUI)
-        {
-            villageSettingMenu.SetActive(false);
-            Time.timeScale = 1f;
-            isPaused = false;
-            Debug.Log(Time.timeScale);
+            menuUI.SetActive(true);
+            isGamePaused = !IsGamePaused;
+            settingButton.enabled = IsGamePaused;
+            PauseGame(IsGamePaused);
         }
 
+        public void PopMenu(GameObject menuUI, GameObject popUI)
+        {
+            menuUI.SetActive(false);
+            popUI.SetActive(true);
+        }
+        
+        public void PullMenu(bool IsGamePaused, GameObject menuUI)
+        {
+            menuUI.SetActive(false);
+            isGamePaused = !IsGamePaused;
+            settingButton.enabled = IsGamePaused;
+            PauseGame(IsGamePaused);
+        }
+
+        public void PullMenu(GameObject menuUI, GameObject pullUI)
+        {
+            menuUI.SetActive(true);
+            pullUI.SetActive(false);
+        }
+
+        void PauseGame(bool isGamePaused)
+        {
+            switch(isGamePaused)
+            {
+                case true:
+                    Time.timeScale = 0.0f;
+                    break;
+
+                case false:
+                    Time.timeScale = 1.0f;
+                    break;
+            }
+        }
     }
 }

@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ProjectB.Character;
+using ProjectB.Characters;
 
 public class AttackArea : MonoBehaviour {
 
     [SerializeField]
     Character characters;
 
-
-    // Use this for initialization
     void Start()
     {
         characters = transform.root.GetComponent<Character>();
@@ -27,12 +25,6 @@ public class AttackArea : MonoBehaviour {
         {
             Character monster = other.GetComponent<Character>();
             monster.ReceiveDamage(characters.CharacterAttackPower);
-
-           //if (monster.CharacterHealthPoint <= 0)
-           // characters.SaveValue(monster.SendValue(Character.StatusType.CharacterExp));
         }
     }
-
-    
-
 }

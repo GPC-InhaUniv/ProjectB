@@ -2,61 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICommand
+namespace ProjectB.Characters.Players
 {
-    void Execute();
-}
+    public interface ICommand
+    {
+        void Execute();
+    }
 
-public class CommandAttack1 : ICommand
-{
-    Player player = null;
-    public CommandAttack1(Player player)
+    public class CommandAttack1 : ICommand
     {
-        this.player = player;
+        Player player = null;
+        public CommandAttack1(Player player)
+        {
+            this.player = player;
+        }
+        public void Execute()
+        {
+            player.SetAttackNumber((int)AttackNumber.Attack1);
+        }
     }
-    public void Execute()
+    public class CommandAttack2 : ICommand
     {
-        player.AttackNumber = 1;
-        player.PlayerAttack();
+        Player player = null;
+        public CommandAttack2(Player player)
+        {
+            this.player = player;
+        }
+        public void Execute()
+        {
+            player.SetAttackNumber((int)AttackNumber.Attack2);
+        }
     }
-}
-public class CommandAttack2 : ICommand
-{
-    Player player = null;
-    public CommandAttack2(Player player)
+    public class CommandAttack3 : ICommand
     {
-        this.player = player;
+        Player player = null;
+        public CommandAttack3(Player player)
+        {
+            this.player = player;
+        }
+        public void Execute()
+        {
+            player.SetAttackNumber((int)AttackNumber.Attack3);
+        }
     }
-    public void Execute()
+    public class CommandAttack4 : ICommand
     {
-        player.AttackNumber = 2;
-        player.PlayerAttack();
+        Player player = null;
+        public CommandAttack4(Player player)
+        {
+            this.player = player;
+        }
+        public void Execute()
+        {
+            player.SetAttackNumber((int)AttackNumber.Attack4);
+        }
     }
-}
-public class CommandAttack3 : ICommand
-{
-    Player player = null;
-    public CommandAttack3(Player player)
+    public enum AttackNumber
     {
-        this.player = player;
-    }
-    public void Execute()
-    {
-        player.AttackNumber = 3;
-        player.PlayerAttack();
-    }
-}
-public class CommandAttack4 : ICommand
-{
-    Player player = null;
-    
-    public CommandAttack4(Player player)
-    {
-        this.player = player;
-    }
-    public void Execute()
-    {
-        player.AttackNumber = 4;
-        player.PlayerAttack();
+        Attack1 = 1,
+        Attack2 = 2,
+        Attack3 = 3,
+        Attack4 = 4
     }
 }

@@ -1232,7 +1232,7 @@ ModelImporter:
       that will be discarded.\n\t'Character1_Head' has translation animation that
       will be discarded.\nEvent AttackEnd has a time (0.266667) outside the clip's
       valid range (0.033333..0.266666). It will never be firedEvent AttackEnd has
-      a time (0.600000) outside the clip's valid range (0.000000..0.599998). It will
+      a time (0.433333) outside the clip's valid range (0.000000..0.433332). It will
       never be fired"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
@@ -9427,7 +9427,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.9236641
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
