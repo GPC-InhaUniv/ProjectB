@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 namespace ProjectB.UI.SettingMenu
 {
     //이 프레젠터는 각각 큰 패널들만 관리한다.
-    public class SettingMenuUIPresenter : MonoBehaviour
+    public class VillageSettingMenuUIPresenter : MonoBehaviour
     {
         [SerializeField]
         Button settingButton;
@@ -48,6 +48,7 @@ namespace ProjectB.UI.SettingMenu
             soundButton.onClick.AddListener(delegate { PopMenu(villageSettingMenu, soundControllWindow); });
             returnButton.onClick.AddListener(delegate { PullMenu(villageSettingMenu, soundControllWindow); });
         }
+
         
         public void PopMenu(bool IsGamePaused, GameObject menuUI)
         {
@@ -90,5 +91,6 @@ namespace ProjectB.UI.SettingMenu
                     break;
             }
         }
+        
     }
 }
