@@ -4,18 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using ProjectB.Inventory;
 
-/*IPointerDownHandler*/
-//IPointerEnterHandler
-
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
     bool isClicked;
     public bool IsClicked
     {
         get { return isClicked; }
-        set { isClicked = false; }
+        set { isClicked = value; }
     }
-    [SerializeField] Inventory_Test inventory_Test;
+    [SerializeField] VillageUIPresenter villageUIPresenter;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -27,6 +24,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             isClicked = false;
         }
-        inventory_Test.SwapOnClick(this);
+        villageUIPresenter.SwapOnClick(this);
     }
 }

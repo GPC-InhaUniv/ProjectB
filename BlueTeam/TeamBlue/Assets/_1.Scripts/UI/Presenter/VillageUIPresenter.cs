@@ -2,21 +2,28 @@
 using UnityEngine.UI;
 using ProjectB.Quest;
 using ProjectB.GameManager;
+using System.Collections.Generic;
 
 public class VillageUIPresenter : MonoBehaviour
 {
-    [SerializeField] private Text aVillageQuestContentsText;
-    [SerializeField] private Text bVillageQuestContentsText;
-    [SerializeField] private Text aQuestAcceptanceButtonText;
-    [SerializeField] private Text bQuestAcceptanceButtonText;
-    [SerializeField] private Text questSubViewAVillageQuestContentsText;
-    [SerializeField] private Text questSubViewBAvillageQuestContentsText;
-    [SerializeField] private GameObject questViewPanel;
-    [SerializeField] private GameObject worldMapPanel;
-    [SerializeField] private Button questExitButton;
+    [SerializeField] Text aVillageQuestContentsText;
+    [SerializeField] Text bVillageQuestContentsText;
+    [SerializeField] Text aQuestAcceptanceButtonText;
+    [SerializeField] Text bQuestAcceptanceButtonText;
+    [SerializeField] Text questSubViewAVillageQuestContentsText;
+    [SerializeField] Text questSubViewBAvillageQuestContentsText;
+    [SerializeField] GameObject questViewPanel;
+    [SerializeField] GameObject worldMapPanel;
+    [SerializeField] GameObject inventoryPanel;
+    [SerializeField] GameObject combinationStorePanel;
+    [SerializeField] Button questExitButton;
 
-    private IQuestViable aVillageQuest;
-    private IQuestViable bVillageQuest;
+    [SerializeField] List<Item> items = new List<Item>();
+    [SerializeField] List<Slot> slots = new List<Slot>();
+    
+    IQuestViable aVillageQuest;
+    IQuestViable bVillageQuest;
+    string inventoryRelatedName;
 
     private void Awake()
     {
@@ -54,6 +61,43 @@ public class VillageUIPresenter : MonoBehaviour
     public void OnClickEntranceDungeonButton()
     {
         worldMapPanel.SetActive(true);
+    }
+
+    public void OnClickInventoryRelatedButton(string name)
+    {
+        if (name == "Inventory")
+        {
+
+        }
+
+        else if (name == "Combination")
+        {
+            combinationStorePanel.SetActive(true);
+        }
+
+        else if (name == "Trade")
+        {
+            // 트레이드 창을 닫는다.
+        }
+
+        inventoryRelatedName = name;
+        inventoryPanel.SetActive(true);
+    }
+
+    public void OnClickInventoryRelatedExitButton()
+    {
+        if (inventoryRelatedName == "Combination")
+        {
+            combinationStorePanel.SetActive(false);
+        }
+
+        else if (inventoryRelatedName == "Trade")
+        {
+            // 트레이드 창을 닫는다.
+        }
+
+        inventoryPanel.SetActive(false);
+        inventoryRelatedName = "";
     }
 
     public void OnClickWoodDungeonButton(int dungeonNumber)
@@ -106,6 +150,59 @@ public class VillageUIPresenter : MonoBehaviour
         else if (Input.GetKey(KeyCode.W))
         {
             bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.IronMonster);
+        }
+    }
+
+    public void AddItem(int code)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].Code == code)
+            {
+                if (items[i].ItemType != ItemType.Equipmentable)
+                {
+                    Debug.Log("갯수 증가");
+                }
+                else
+                {
+                    continue;
+                }
+                break;
+            }
+
+            else if (items[i].Code == 0)
+            {
+                items[i].SetItem(code);
+                items[i].Text_Test.text = items[i].ItemName;
+
+                break;
+            }
+        }
+    }
+
+    public void SwapOnClick(Slot slot)
+    {
+        int SlotIndex;
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slot.IsClicked && slots[i].IsClicked)
+            {
+                if (slot == slots[i])
+                {
+                    continue;
+                }
+                SlotIndex = slot.transform.GetSiblingIndex();
+                slot.transform.SetSiblingIndex(slots[i].transform.GetSiblingIndex());
+                slots[i].transform.SetSiblingIndex(SlotIndex);
+                slot.IsClicked = false;
+                slots[i].IsClicked = false;
+                break;
+            }
+            else
+            {
+                continue;
+            }
         }
     }
 }

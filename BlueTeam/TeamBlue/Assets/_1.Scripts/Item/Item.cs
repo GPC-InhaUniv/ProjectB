@@ -17,17 +17,11 @@ public class Item : MonoBehaviour
 
     [SerializeField]
     Text text_Test;
-    public Text Text_Test
-    {
-        get { return text_Test; }
-    }
+    public Text Text_Test {get { return text_Test; }}
 
     [SerializeField]
     Image image_Test;
-    public Image Image_Test
-    {
-        get { return image_Test; }
-    }
+    public Image Image_Test {get { return image_Test; }}
 
     int itemIndex;
 

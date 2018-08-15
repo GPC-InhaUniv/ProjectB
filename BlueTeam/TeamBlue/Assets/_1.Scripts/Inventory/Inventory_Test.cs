@@ -6,11 +6,8 @@ namespace ProjectB.Inventory
 {
     public class Inventory_Test : MonoBehaviour
     {
-        const int slotAmount = 35;
         [SerializeField] List<Item> items = new List<Item>();
         [SerializeField] List<Slot> slots = new List<Slot>();
-        [SerializeField] GameObject inventorySlot;
-
 
         public void AddItem(int code)
         {
@@ -33,6 +30,7 @@ namespace ProjectB.Inventory
                 {
                     items[i].SetItem(code);
                     items[i].Text_Test.text = items[i].ItemName;
+                    
                     break;
                 }
             }
@@ -40,6 +38,8 @@ namespace ProjectB.Inventory
 
         public void SwapOnClick(Slot slot)
         {
+            int SlotIndex;
+
             for(int i = 0; i < slots.Count; i++)
             {
                 if (slot.IsClicked && slots[i].IsClicked)
@@ -48,10 +48,11 @@ namespace ProjectB.Inventory
                     {
                         continue;
                     }
-                    Transform Parent = slot.gameObject.transform.parent;
-                    //Destroy(slot.gameObject.transform.parent);
-                    slot.transform.SetParent(slots[i].transform.parent);
-                    slots[i].transform.SetParent(Parent);
+                    SlotIndex = slot.transform.GetSiblingIndex();
+                    slot.transform.SetSiblingIndex(slots[i].transform.GetSiblingIndex());
+                    slots[i].transform.SetSiblingIndex(SlotIndex);
+                    slot.IsClicked = false;
+                    slots[i].IsClicked = false;
                     break;
                 }
                 else
