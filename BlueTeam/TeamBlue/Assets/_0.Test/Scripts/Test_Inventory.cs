@@ -85,4 +85,7 @@ public class Test_Inventory : MonoBehaviour
         }
     }
     */
+    public Test_Inventory()
+    {
+    }
 }

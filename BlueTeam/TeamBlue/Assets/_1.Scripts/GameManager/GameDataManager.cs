@@ -82,6 +82,7 @@ namespace ProjectB.GameManager
         public TownInformation BtownInformation;
         public Dictionary<int, int> PlayerGamedata;
         public Dictionary<int, int> WareHouseGamedata;
+        public int[] EquipmentItem;
 
         [SerializeField]
         ItemTable itemTable;
@@ -92,10 +93,12 @@ namespace ProjectB.GameManager
         string[] inventoryItemArray;
         string[] warehouseItemArray;
         string[] townInformationArray;
+        string[] equipmentItemArray;
+        Item test;
 
         void Start()
         {
-
+            EquipmentItem = new int[3];
             PlayerGamedata = new Dictionary<int, int>();
             WareHouseGamedata = new Dictionary<int, int>();
             for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
@@ -140,7 +143,7 @@ namespace ProjectB.GameManager
 
             string InventoryItems = "";
             string WareHouseItems = "";
-
+            string EquipmentItems = "";
 
             playerLv = PlayerInfomation.PlayerLevel.ToString();
             playerExp = PlayerInfomation.PlayerExp.ToString();
@@ -149,7 +152,12 @@ namespace ProjectB.GameManager
             AtownQuest = AtownInformation.LastCleardQuest.ToString();
             BtownRelationship = BtownInformation.RelationsShip.ToString();
             BtownQuest = BtownInformation.LastCleardQuest.ToString();
-
+            
+            for(int i=0;i<EquipmentItem.Length;i++)
+            {
+                EquipmentItems += EquipmentItem[i] + "/";
+            }
+               
             foreach (KeyValuePair<int, int> temp in PlayerGamedata)
             {
                 string tempstring = temp.Key.ToString() + "_" + temp.Value.ToString() + "/";
@@ -168,7 +176,7 @@ namespace ProjectB.GameManager
             data.Add("TownInformation", AtownRelationship + "/" + AtownQuest + "/" + BtownRelationship + "/" + BtownQuest);
             data.Add("InventroyItem", InventoryItems);
             data.Add("WareHouseItem", WareHouseItems);
-
+            data.Add("EquipmentItem", EquipmentItems);
             UpdateUserDataRequest request = new UpdateUserDataRequest()
             {
                 Data = data,
@@ -177,8 +185,8 @@ namespace ProjectB.GameManager
             PlayFabClientAPI.UpdateUserData(request, UpdateDataInfo, GameErrorManager.OnAPIError);
 
         }
-
-
+        
+        
 
         void UpdateDataInfo(UpdateUserDataResult result)
         {
@@ -192,6 +200,7 @@ namespace ProjectB.GameManager
             string tempInventoryitems = "";
             string tempWarehouseitems = "";
             string tempTownInformations = "";
+            string tempEquipmentItems = "";
 
             UserDataRecord userData = new UserDataRecord();
             AccountInfo.Instance.Info.UserData.TryGetValue("PlayerInformation", out userData);
@@ -205,6 +214,10 @@ namespace ProjectB.GameManager
 
             AccountInfo.Instance.Info.UserData.TryGetValue("TownInformation", out userData);
             tempTownInformations = userData.Value;
+
+            AccountInfo.Instance.Info.UserData.TryGetValue("EquipmentItem", out userData);
+            tempEquipmentItems = userData.Value;
+
 
             if (tempPlayerInformation != null)
                 playerInformationArray = tempPlayerInformation.Split('/');
@@ -239,6 +252,15 @@ namespace ProjectB.GameManager
                     else
                         WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
+                }
+            }
+
+            if(tempEquipmentItems!=null)
+            {
+                equipmentItemArray = tempEquipmentItems.Split('/');
+                for(int i=0;i<equipmentItemArray.Length-1;i++)
+                {
+                    EquipmentItem[i] = Convert.ToInt32(equipmentItemArray[i]);
                 }
             }
 

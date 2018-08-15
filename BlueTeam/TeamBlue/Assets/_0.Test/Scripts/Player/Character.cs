@@ -1,56 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace ProjectB.Character
+namespace ProjectB.Characters
 {
     public abstract class Character : MonoBehaviour
     {
-
-        public int CharacterHealthPoint;
-        protected int CharacterMaxHealthPoint;
+        [SerializeField]
+        protected int characterHealthPoint;
+        public int CharacterHealthPoint { get { return characterHealthPoint; } private set { } }
 
         [SerializeField]
-        protected int CharacterDefensivePower;
-
+        protected int characterMaxHealthPoint;
+        public int CharacterMaxHealthPoint { get { return characterMaxHealthPoint; } private set { } }
 
         [SerializeField]
-        protected int CharacterLevel;
+        protected int characterLevel;
+        public int CharacterLevel { get { return characterLevel; } private set { } }
 
+        [SerializeField]
+        protected int characterExp;
+        public int CharacterExp { get { return characterExp; } set { } }
 
-        public int CharacterAttackPower;
+        [SerializeField]
+        protected int characterDefensivePower;
 
-        public int CharacterExp;
-
-        int temp;
-        //플레이어는 레벨을 서버에서 받아오며 공식으로 hp 저장
-
+        [SerializeField]
+        protected int characterAttackPower;
+        public int CharacterAttackPower { get { return characterAttackPower; } private set { } }
 
         public abstract void ReceiveDamage(int damage);
-
-        public virtual int SendValue(StatusType statusType)
-        {
-
-            switch (statusType)
-            {
-                case (StatusType.CharacterExp):
-                    return temp = CharacterExp;
-                case (StatusType.CharacterHealthPoint):
-                    return temp = CharacterHealthPoint;
-
-            }
-            return temp;
-
-        }
-
-        public abstract void SaveValue(int vlaue);
-
-        public enum StatusType
-        {
-            CharacterHealthPoint,
-            CharacterDefensivePower,
-            CharacterLevel,
-            CharacterAttackPower,
-            CharacterExp
-        }
     }
 }

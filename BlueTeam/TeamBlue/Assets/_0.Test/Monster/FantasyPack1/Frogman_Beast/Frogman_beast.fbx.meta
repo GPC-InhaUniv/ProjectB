@@ -2769,7 +2769,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.13535069
-        functionName: StartAttack
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -2944,7 +2944,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.17070618
-        functionName: StartAttack
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -3112,7 +3112,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.11239132
-        functionName: StartAttack
+        functionName: AttackStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

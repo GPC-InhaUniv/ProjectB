@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 { 
  [System.Serializable]
 public abstract class BossState  {

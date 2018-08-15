@@ -1,12 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.GameManager;
 
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
+    public enum AniStateParm
+    {
+        Moving,
+        Battle,
+        Hitted,
+        Attack,
+        Skill,
+        Defence,
+        Died,
+    }
+
     public abstract class Monster : Character 
     {
-        
+
+
         public TestMonsterInfo testinfo;
 
         // test //
@@ -57,23 +70,23 @@ namespace ProjectB.Character.Monster
 
         public override void ReceiveDamage(int damage)
         {
-            animator.SetTrigger("Hitted");
-            CharacterHealthPoint -= damage;
-
-            if (CharacterHealthPoint <= 0)
+            int defencepossibility = Random.Range(1, 5);
+            if (defencepossibility == 1)
             {
-                CharacterHealthPoint = 0;
-                ChangeState(State.Died);
-            }
-        }
-        //public override int SendValue()
-        //{
-        //    return CharacterExp;
-        //}
+                animator.SetTrigger(AniStateParm.Defence.ToString());
 
-        public override void SaveValue(int value)
-        {
-            return;
+            }
+            else
+            {
+                animator.SetTrigger(AniStateParm.Hitted.ToString());
+                characterHealthPoint -= damage;
+
+                if (CharacterHealthPoint <= 0)
+                {
+                    characterHealthPoint = 0;
+                    ChangeState(State.Died);
+                }
+            }
         }
 
         public void ChangeState(State currentState)
@@ -104,9 +117,11 @@ namespace ProjectB.Character.Monster
         }
         protected void Died()
         {
+            GameDataManager.Instance.PlayerInfomation.PlayerExp += characterExp;
             died = true;
-            animator.SetInteger("moving", 13);
+            animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
+            
 
             DropItem();
         }
@@ -126,7 +141,7 @@ namespace ProjectB.Character.Monster
                     Vector2 randomValue = Random.insideUnitCircle * walkRange;
                     // 이동할 곳을 설정한다.
                     Vector3 destinationPosition = startPosition + new Vector3(randomValue.x, 0.0f, randomValue.y);
-                    animator.SetInteger("moving", 1);
+                    animator.SetInteger(AniStateParm.Moving.ToString(), 1);
 
                     monsterMove.SetDestination(destinationPosition, speed);
                     monsterMove.SetDirection(destinationPosition);
@@ -136,7 +151,7 @@ namespace ProjectB.Character.Monster
             }
             if (attackTarget)
             {
-                animator.SetInteger("battle", 1);
+                animator.SetInteger(AniStateParm.Battle.ToString(), 1);
                 ChangeState(State.Chasing);
             }
         }
@@ -146,12 +161,13 @@ namespace ProjectB.Character.Monster
             //SetDestination to Player
             monsterMove.SetDestination(attackTarget.position, speed + 3);
             monsterMove.SetDirection(attackTarget.position);
-            animator.SetInteger("moving", 2);
+            animator.SetInteger(AniStateParm.Moving.ToString(), 2);
 
             float attackRange = 1.5f;
             float skillRange = 10.0f;
             //스킬 사용할 조건
-            if (Vector3.Distance(attackTarget.position, transform.position) <= skillRange && !skillUse)
+            float skillDistance = Vector3.Distance(attackTarget.position, transform.position);
+            if (skillDistance <= skillRange && skillDistance > attackRange && !skillUse) 
             {
                 skillUse = true;
                 monsterMove.SetDestination(attackTarget.position, 0);
@@ -166,26 +182,34 @@ namespace ProjectB.Character.Monster
                 if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
                 {
                     ChangeState(State.Attacking);
-                    animator.SetInteger("moving", 0);
+                    attacking = true;
+                    animator.SetInteger(AniStateParm.Moving.ToString(), 0);
                 }
             }
         }
 
         protected void AttackEnd()
         {
+            if (animator.GetBool(AniStateParm.Skill.ToString()))
+            {
+                animator.SetBool(AniStateParm.Skill.ToString(), false);
+            }
             StartCoroutine(WaitNextState());
+  
+            attacking = false;
+
         }
         protected IEnumerator WaitNextState()
         {
             yield return new WaitForSeconds(0.5f);
-            animator.SetInteger("Attack", 0);
+            animator.SetInteger(AniStateParm.Attack.ToString(), 0);
             ChangeState(State.Chasing);
         }
 
         protected IEnumerator WaitCoolTime()
         {
 
-            animator.SetInteger("moving", 0);
+            animator.SetInteger(AniStateParm.Moving.ToString(), 0);
 
             yield return new WaitForSeconds(skillCoolTime);
             skillUse = false;

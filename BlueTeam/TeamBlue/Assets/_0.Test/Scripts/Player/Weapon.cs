@@ -1,41 +1,39 @@
 ﻿using UnityEngine;
 
-public class Weapon : MonoBehaviour {
-    [SerializeField]
-    GameObject longSword, shortSword;
-    [SerializeField]
-    GameObject fakeLongSword, fakeShortSword;
-    // Use this for initialization
-    
-
-    void Start ()
+namespace ProjectB.Characters.Players
+{
+    public class Weapon : MonoBehaviour
     {
+        [SerializeField]
+        GameObject longSword, shortSword;
+        [SerializeField]
+        GameObject fakeLongSword, fakeShortSword;
 
-        fakeShortSword.SetActive(false);
-        longSword.SetActive(false);
-    }
-	
-
-    public void SetWeapon(bool isSet, PlayerCharacterWeaponState newState, PlayerCharacterWeaponState preState)
-    {
-        if(newState == PlayerCharacterWeaponState.LongSword && preState == PlayerCharacterWeaponState.ShortSword)
+        void Start()
         {
-            shortSword.SetActive(!isSet);
-            fakeLongSword.SetActive(!isSet);
-
-            fakeShortSword.SetActive(isSet);
-            longSword.SetActive(isSet);
-        }
-        else
-        {
-            longSword.SetActive(!isSet);
-            fakeShortSword.SetActive(!isSet);
-
-            fakeLongSword.SetActive(isSet);
-            shortSword.SetActive(isSet);
+            fakeShortSword.SetActive(false);
+            longSword.SetActive(false);
         }
 
+        public void SetWeapon(bool isSet, PlayerCharacterWeaponState newState, PlayerCharacterWeaponState preState)
+        {
+            if (newState == PlayerCharacterWeaponState.LongSword && preState == PlayerCharacterWeaponState.ShortSword)
+            {
+                shortSword.SetActive(!isSet);
+                fakeLongSword.SetActive(!isSet);
+
+                fakeShortSword.SetActive(isSet);
+                longSword.SetActive(isSet);
+            }
+            else
+            {
+                longSword.SetActive(!isSet);
+                fakeShortSword.SetActive(!isSet);
+
+                fakeLongSword.SetActive(isSet);
+                shortSword.SetActive(isSet);
+            }
+        }
     }
-
-
 }
+

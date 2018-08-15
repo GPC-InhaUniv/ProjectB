@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProjectB.Character.Monster
+namespace ProjectB.Characters.Monsters
 {
     public class Boss : Monster
     {
@@ -65,8 +65,8 @@ namespace ProjectB.Character.Monster
         }
         public override void ReceiveDamage(int damage)
         {
-            animator.SetTrigger("Hitted");
-            CharacterHealthPoint -= damage;
+            animator.SetTrigger(AniStateParm.Hitted.ToString());
+            characterHealthPoint -= damage;
 
             if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
             {
@@ -74,28 +74,10 @@ namespace ProjectB.Character.Monster
             }
             else if (CharacterHealthPoint <= 0)
             {
-                CharacterHealthPoint = 0;
+                characterHealthPoint = 0;
                 ChangeState(State.Died);
             }
         }
 
-
-
-        //public void HandleState(string state)
-        //{
-        //    switch (state)
-        //    {
-        //        case "AnnoyedState":
-        //            BossState = new AnnoyedState(rigidbody);
-        //            break;
-
-        //        case "AngerState":
-        //            BossState = new AngerState(rigidbody);
-        //            break;
-
-        //        default:
-        //            break;
-        //    }
-        //}
     }
 }
