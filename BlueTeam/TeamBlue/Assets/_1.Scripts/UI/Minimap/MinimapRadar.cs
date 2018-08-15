@@ -21,29 +21,23 @@ namespace ProjectB.UI.Minimaps
         Vector2 playerPosition;
         Vector2 enemyPosition;
 
-        void Start()
+        private void Start()
         {
-
+          
         }
-
         void Update()
         {
-            DrawIcons();
+            drawIcons();
         }
 
         void OnTriggerEnter(Collider other)
         {
-            //Radar collider에 적이 들어오면 적 리스트에 들어온 적을 추가한다.
             if (!enemys.Contains(other.gameObject))
             {
                 enemys.Add(other.gameObject);
             }
         }
-        void RegistIcons()
-        {
-
-        }
-
+      
         void OnTriggerExit(Collider other)
         {
             //Radar collider에서 사라지면 적 리스트에 들어온 적을 제거한다.
@@ -52,8 +46,9 @@ namespace ProjectB.UI.Minimaps
                 enemys.Remove(other.gameObject);
             }
         }
+       
 
-        void DrawIcons()
+        void drawIcons()
         {
             playerPosition = new Vector2(player.transform.position.x, player.transform.position.z);
 
