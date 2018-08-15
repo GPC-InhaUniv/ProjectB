@@ -1,16 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
+//좀더 구조화를 할 수 없을까 중복되는부분이 많다.
+namespace ProjectB.UI.SettingMenu
+{
+    public class DungeonSettingMenuUIPresenter : SettingMenuUI
+    {
+        [Header("Windows")]
+        [SerializeField]
+        GameObject messageWindow;
+        
+        bool isGamePaused;
 
-public class DungeonSettingMenuUIPresenter : MonoBehaviour {
+        void Start()
+        {
+            settingMenu.SetActive(false);
+            soundControlWindow.SetActive(false);
+            messageWindow.SetActive(false);
+        }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public void PopWindow()
+        {
+
+        }
+
+        public void PullWindow()
+        {
+
+        }
+    }
 }
