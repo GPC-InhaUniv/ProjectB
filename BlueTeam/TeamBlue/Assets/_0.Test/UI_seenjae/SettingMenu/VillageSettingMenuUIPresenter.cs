@@ -1,86 +1,70 @@
 ﻿
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.EventSystems;
+
 namespace ProjectB.UI.SettingMenu
 {
-    //이 프레젠터는 각각 큰 패널들만 관리한다.
+    //중복되는 부분이 많다. Abstract parent class를 만들어 관리하자
     public class VillageSettingMenuUIPresenter : MonoBehaviour
     {
         [SerializeField]
         Button settingButton;
 
-        [Header("Panels")]
+        [Header("Windows")]
         [SerializeField]
         GameObject villageSettingMenu;
-
         [SerializeField]
-        GameObject soundControllWindow;
-        [SerializeField]
-        GameObject messageWindow;
-
-
+        GameObject soundControlWindow;
+       
 
         [Header("Buttons")]
         [SerializeField]
         Button soundButton;
-        //[SerializeField]
-        //Button restartButton;
-        //[SerializeField]
-        //Button returnToVillageButton;
         [SerializeField]
         Button returnToGameButton;
         [SerializeField]
-        Button returnButton;
-
-
-        bool isGamePaused;
+        Button returnToMenuButton;
+       
+       // bool isGamePaused;
+        bool activatedMenu;
 
         void Start()
         {
             villageSettingMenu.SetActive(false);
-            soundControllWindow.SetActive(false);
-            messageWindow.SetActive(false);
+            soundControlWindow.SetActive(false);
+            
+            settingButton.onClick.AddListener(delegate { ControlMenu(activatedMenu, villageSettingMenu); });
+            returnToGameButton.onClick.AddListener(delegate { ControlMenu(activatedMenu, villageSettingMenu); });
+            soundButton.onClick.AddListener(delegate { ControlMenu(activatedMenu, villageSettingMenu, soundControlWindow); });
+            returnToMenuButton.onClick.AddListener(delegate { ControlMenu(activatedMenu, villageSettingMenu, soundControlWindow); });
+            
+        }
 
-            settingButton.onClick.AddListener(delegate { PopMenu(isGamePaused, villageSettingMenu); });
-            returnToGameButton.onClick.AddListener(delegate { PullMenu(isGamePaused, villageSettingMenu); });
-            soundButton.onClick.AddListener(delegate { PopMenu(villageSettingMenu, soundControllWindow); });
-            returnButton.onClick.AddListener(delegate { PullMenu(villageSettingMenu, soundControllWindow); });
+        void RegistButtonListener(Button button)
+        {
+        }
+
+        //setting메뉴 활성관리
+        public void ControlMenu(bool ActivatedMenu, GameObject menuUI)
+        {
+            menuUI.SetActive(!ActivatedMenu);
+            activatedMenu = !ActivatedMenu;
+            settingButton.enabled = ActivatedMenu;
+            PauseGame(activatedMenu);
+        }
+
+        //그 외 메뉴관련 팝업창 관리
+        public void ControlMenu(bool ActivatedMenu, GameObject menuUI, GameObject popUI)
+        {
+            menuUI.SetActive(!ActivatedMenu);
+            popUI.SetActive(ActivatedMenu);
+            activatedMenu = !ActivatedMenu;
         }
 
         
-        public void PopMenu(bool IsGamePaused, GameObject menuUI)
+        void PauseGame(bool ActivatedMenu)
         {
-            menuUI.SetActive(true);
-            isGamePaused = !IsGamePaused;
-            settingButton.enabled = IsGamePaused;
-            PauseGame(IsGamePaused);
-        }
-
-        public void PopMenu(GameObject menuUI, GameObject popUI)
-        {
-            menuUI.SetActive(false);
-            popUI.SetActive(true);
-        }
-        
-        public void PullMenu(bool IsGamePaused, GameObject menuUI)
-        {
-            menuUI.SetActive(false);
-            isGamePaused = !IsGamePaused;
-            settingButton.enabled = IsGamePaused;
-            PauseGame(IsGamePaused);
-        }
-
-        public void PullMenu(GameObject menuUI, GameObject pullUI)
-        {
-            menuUI.SetActive(true);
-            pullUI.SetActive(false);
-        }
-
-        void PauseGame(bool isGamePaused)
-        {
-            switch(isGamePaused)
+            switch(ActivatedMenu)
             {
                 case true:
                     Time.timeScale = 0.0f;
@@ -91,6 +75,5 @@ namespace ProjectB.UI.SettingMenu
                     break;
             }
         }
-        
     }
 }
