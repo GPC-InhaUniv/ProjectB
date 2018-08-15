@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ProjectB.UI.SettingMenu
@@ -8,28 +6,19 @@ namespace ProjectB.UI.SettingMenu
     public class DungeonSettingMenuUIPresenter : SettingMenuUI
     {
 
-        [SerializeField]
-        Button settingButton;
-
-        [Header("Windows")]
-        [SerializeField]
-        GameObject settingWindowUI;
-        [SerializeField]
-        GameObject soundControlWindowUI;
+        [Header("DungeonOnly")]
         [SerializeField]
         GameObject messageWindowUI;
-
-        [Header("Buttons")]
         [SerializeField]
-        Button soundButton;
+        Button returnToVillageButton;
         [SerializeField]
-        Button returnToGameButton;
+        Button yesButton;
         [SerializeField]
-        Button returnToMenuButton;
-
-        bool activatedMenu;
-
-        private void Start()
+        Button noButton;
+        [SerializeField]
+        Text messageText;
+        
+        void Start()
         {
 
             InActivateWindows(activatedMenu, settingWindowUI);
@@ -40,45 +29,25 @@ namespace ProjectB.UI.SettingMenu
             settingButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, settingButton); });
             returnToGameButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, settingButton); });
             soundButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, soundControlWindowUI); });
-            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, soundControlWindowUI); });
-
+            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, soundControlWindowUI, settingWindowUI); });
+            returnToVillageButton.onClick.AddListener(delegate { PopupMessage(activatedMenu, messageWindowUI, messageText, "마을로 돌아가시겠습니까?"); });
+            noButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, messageWindowUI, settingWindowUI); });
+            yesButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, yesButton);
+                ControlWindows(activatedMenu, messageWindowUI, messageWindowUI);//같은 필드가 두개들어가도 관계없나.....
+                ReturnToVillage();
+            });
         }
 
-        protected override void InActivateWindows(bool ActivatedMenu, GameObject menuWindowUI)
+        public void PopupMessage(bool ActivateMenu, GameObject popupWindowUI, Text text, string message)
         {
-            menuWindowUI.SetActive(ActivatedMenu);
+            popupWindowUI.SetActive(ActivateMenu);
+            text.text = message;
+        }
+
+        public void ReturnToVillage()
+        {
+            Debug.Log("마을로 귀환성공");
         }
         
-        public override void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, Button button)
-        {
-            menuWindowUI.SetActive(!ActivatedMenu);
-            activatedMenu = !ActivatedMenu;
-            button.enabled = ActivatedMenu;
-            PauseGame(activatedMenu);
-            Debug.Log("윈도우 컨트롤러 호출됨: 던전");
-            Debug.Log("던전: " + activatedMenu);
-        }
-
-
-        public override void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, GameObject popUPWindowUI)
-        {
-            menuWindowUI.SetActive(!ActivatedMenu);
-            popUPWindowUI.SetActive(ActivatedMenu);
-            activatedMenu = !ActivatedMenu;
-        }
-
-        protected override void PauseGame(bool ActivatedMenu)
-        {
-            switch (ActivatedMenu)
-            {
-                case true:
-                    Time.timeScale = 0.0f;
-                    break;
-
-                case false:
-                    Time.timeScale = 1.0f;
-                    break;
-            }
-        }
     }
 }

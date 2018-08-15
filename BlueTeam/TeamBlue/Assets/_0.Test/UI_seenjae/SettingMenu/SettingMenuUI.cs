@@ -3,15 +3,62 @@ using UnityEngine.UI;
 
 namespace ProjectB.UI.SettingMenu
 {
-    public abstract class SettingMenuUI : MonoBehaviour
+    public class SettingMenuUI : MonoBehaviour
     {
-        protected abstract void InActivateWindows(bool ActivatedMenu, GameObject menuWindowUI);
+        [SerializeField]
+        protected Button settingButton;
+
+        [Header("Windows")]
+        [SerializeField]
+        protected GameObject settingWindowUI;
+        [SerializeField]
+        protected GameObject soundControlWindowUI;
+
+
+        [Header("Buttons")]
+        [SerializeField]
+        protected Button soundButton;
+        [SerializeField]
+        protected Button returnToGameButton;
+        [SerializeField]
+        protected Button returnToMenuButton;
+        //사운드조절 슬라이더 추가하기
+
+        protected bool activatedMenu;
         
-        public abstract void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, Button button);
+        protected void InActivateWindows(bool ActivatedMenu, GameObject menuWindowUI)
+        {
+            menuWindowUI.SetActive(ActivatedMenu);
+        }
         
-        public abstract void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, GameObject popUPWindowUI);
-        
-        protected abstract void PauseGame(bool ActivatedMenu);
-       
+        public void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, Button button)
+        {
+            menuWindowUI.SetActive(!ActivatedMenu);
+            activatedMenu = !ActivatedMenu;
+            button.enabled = ActivatedMenu;
+            PauseGame(activatedMenu);
+        }
+
+
+        public void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, GameObject popUPWindowUI)
+        {
+            menuWindowUI.SetActive(!ActivatedMenu);
+            popUPWindowUI.SetActive(ActivatedMenu);
+        }
+
+        protected void PauseGame(bool ActivatedMenu)
+        {
+            switch (ActivatedMenu)
+            {
+                case true:
+                    Time.timeScale = 0.0f;
+                    break;
+
+                case false:
+                    Time.timeScale = 1.0f;
+                    break;
+            }
+        }
+
     }
 }
