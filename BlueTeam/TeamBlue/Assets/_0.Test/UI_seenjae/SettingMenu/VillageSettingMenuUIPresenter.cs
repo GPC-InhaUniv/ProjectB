@@ -8,13 +8,14 @@ namespace ProjectB.UI.SettingMenu
     {
         private void Start()
         {
-            inActivateWindows(settingMenu, activatedMenu);
-            inActivateWindows(soundControlWindow, activatedMenu);
+            //리스트 적용 할 수 있는 방법이 없으려나
+            inActivateWindows(activatedMenu, settingWindowUI);
+            inActivateWindows(activatedMenu, soundControlWindowUI);
 
-            settingButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingMenu); });
-            returnToGameButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingMenu); });
-            soundButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingMenu, soundControlWindow); });
-            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingMenu, soundControlWindow); });
+            registbuttonListener(activatedMenu, settingButton, settingWindowUI);
+            registbuttonListener(activatedMenu, returnToGameButton, settingWindowUI);
+            registbuttonListener(activatedMenu, soundButton, settingWindowUI, soundControlWindowUI);
+            registbuttonListener(activatedMenu, returnToMenuButton, settingWindowUI, soundControlWindowUI);
         }
     }
 }

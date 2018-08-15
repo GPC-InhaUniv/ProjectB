@@ -13,19 +13,9 @@ namespace ProjectB.UI.SettingMenu
 
         void Start()
         {
-            settingMenu.SetActive(false);
-            soundControlWindow.SetActive(false);
-            messageWindow.SetActive(false);
+            
         }
 
-        public void PopWindow()
-        {
-
-        }
-
-        public void PullWindow()
-        {
-
-        }
+       
     }
 }
