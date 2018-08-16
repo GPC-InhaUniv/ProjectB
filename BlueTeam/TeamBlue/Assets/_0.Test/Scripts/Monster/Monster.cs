@@ -71,7 +71,7 @@ namespace ProjectB.Characters.Monsters
         public ISkillUsableBridge SkillUsable;
         protected bool isInvincibility;
 
-        public override void ReceiveDamage(int damage)
+        public override void ReceiveDamage(float damage)
         {
             if (!isInvincibility)
             {

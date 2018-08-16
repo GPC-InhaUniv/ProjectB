@@ -64,7 +64,7 @@ namespace ProjectB.Characters.Monsters
         {
             bossState.UseSkill();
         }
-        public override void ReceiveDamage(int damage)
+        public override void ReceiveDamage(float damage)
         {
             if (!isInvincibility)
             {
