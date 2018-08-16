@@ -8,6 +8,9 @@ namespace ProjectB.Characters.Monsters
     {
         BossState bossState;
         public ISkillUsableBridge DefencSkillUsable;
+        public ISkillUsableBridge EntangleSkillUsable;
+        float stateHandleNum;
+
 
         void Start()
         {
@@ -19,11 +22,9 @@ namespace ProjectB.Characters.Monsters
             startPosition = transform.position;
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
-
         }
         void Update()
         {
-
             switch (state)
             {
                 case State.Walking:
@@ -33,7 +34,6 @@ namespace ProjectB.Characters.Monsters
                     ChaseTarget();
                     break;
             }
-
             if (state != currentState)
             {
                 state = currentState;
@@ -54,7 +54,6 @@ namespace ProjectB.Characters.Monsters
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Died();
-
             }
         }
         protected override void AttackTarget()
@@ -67,36 +66,41 @@ namespace ProjectB.Characters.Monsters
         }
         public override void ReceiveDamage(int damage)
         {
-            int defencepossibility = Random.Range(1, 8);
-            if (defencepossibility == 1)
+            if (!isInvincibility)
             {
-                animator.SetTrigger(AniStateParm.Defence.ToString());
-
-            }
-            else if(defencepossibility == 2)
-            {
-                bossState.UseDefenceSkill();
-                animator.SetTrigger(AniStateParm.Defence.ToString());
-
-            }
-            else
-            {
-                animator.SetTrigger(AniStateParm.Hitted.ToString());
-                characterHealthPoint -= damage;
-
-                if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
+                int defencePossibility = Random.Range(1, 9);
+                if (defencePossibility == 1)
                 {
-                    // bossState = new PhaseTwo(this, skillprefab);
+                    animator.SetTrigger(AniStateParm.Defence.ToString());
                 }
-                else if (CharacterHealthPoint <= 0)
+                else if (defencePossibility == 2)
                 {
-                    characterHealthPoint = 0;
-                    ChangeState(State.Died);
+                    animator.SetTrigger(AniStateParm.Defence.ToString());
+                    bossState.UseDefenceSkill();
                 }
+                else
+                {
+                    animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    characterHealthPoint -= damage;
+
+                    if (CharacterHealthPoint <= CharacterMaxHealthPoint * (2 / 3) && stateHandleNum == 0)
+                    {
+                        bossState = new PhaseTwo(this, skillprefab);
+                        stateHandleNum++;
+                    }
+                    else if (CharacterHealthPoint <= CharacterMaxHealthPoint * (1 / 3) && stateHandleNum == 1)
+                    {
+                        bossState = new PhaseThree(this, skillprefab);
+                        stateHandleNum++;
+                    }
+                    else if (CharacterHealthPoint <= 0)
+                    {
+                        characterHealthPoint = 0;
+                        ChangeState(State.Died);
+                    }
+                }
+
             }
-
-
         }
-
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
+
 namespace ProjectB.Characters.Monsters
 {
     public enum AniStateParm
@@ -11,7 +12,8 @@ namespace ProjectB.Characters.Monsters
         Battle,
         Hitted,
         Attack,
-        Skill,
+        SkillOne,
+        SkillTwo,
         Defence,
         Died,
     }
@@ -67,27 +69,41 @@ namespace ProjectB.Characters.Monsters
 
         public IAttackableBridge Attackable;
         public ISkillUsableBridge SkillUsable;
+        protected bool isInvincibility;
 
         public override void ReceiveDamage(int damage)
         {
-            int defencepossibility = Random.Range(1, 5);
-            if (defencepossibility == 1)
+            if (!isInvincibility)
             {
-                animator.SetTrigger(AniStateParm.Defence.ToString());
-
-            }
-            else
-            {
-                animator.SetTrigger(AniStateParm.Hitted.ToString());
-                characterHealthPoint -= damage;
-
-                if (CharacterHealthPoint <= 0)
+                int defencepossibility = Random.Range(1, 5);
+                if (defencepossibility == 1)
                 {
-                    characterHealthPoint = 0;
-                    ChangeState(State.Died);
+                    animator.SetTrigger(AniStateParm.Defence.ToString());
+
                 }
+                else
+                {
+                    animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    characterHealthPoint -= damage;
+
+                    if (CharacterHealthPoint <= 0)
+                    {
+                        characterHealthPoint = 0;
+                        ChangeState(State.Died);
+                    }
+                }
+                StartCoroutine(AvoidAttac());
             }
         }
+        //1초무적//
+        protected IEnumerator AvoidAttac()
+        {
+            isInvincibility = true;
+            yield return new WaitForSeconds(1.0f);
+            isInvincibility = false;
+
+        }
+
 
         public void ChangeState(State currentState)
         {
@@ -120,7 +136,8 @@ namespace ProjectB.Characters.Monsters
         }
         protected void Died()
         {
-
+            GameControllManager.Instance.CheckGameOver();
+            
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
@@ -166,7 +183,7 @@ namespace ProjectB.Characters.Monsters
             monsterMove.SetDirection(attackTarget.position);
             animator.SetInteger(AniStateParm.Moving.ToString(), 2);
 
-            float attackRange = 1.5f;
+            float attackRange = 3.0f;
             float skillRange = 10.0f;
             //스킬 사용할 조건
             float skillDistance = Vector3.Distance(attackTarget.position, transform.position);
@@ -193,9 +210,13 @@ namespace ProjectB.Characters.Monsters
 
         protected void AttackEnd()
         {
-            if (animator.GetBool(AniStateParm.Skill.ToString()))
+            if (animator.GetBool(AniStateParm.SkillOne.ToString()))
             {
-                animator.SetBool(AniStateParm.Skill.ToString(), false);
+                animator.SetBool(AniStateParm.SkillOne.ToString(), false);
+            }
+            else if (animator.GetBool(AniStateParm.SkillTwo.ToString()))
+            {
+                animator.SetBool(AniStateParm.SkillTwo.ToString(), false);
             }
             StartCoroutine(WaitNextState());
   
@@ -220,20 +241,3 @@ namespace ProjectB.Characters.Monsters
         }
     }
 }
-
-
-
-
-
-//// 일정거리안에 있으면 연속공격//
-//protected void AttackCombo()
-//{
-//    float attackRange = 1.5f;
-//    if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
-//        animator.SetInteger("Attack", 2);
-//    else
-//    {
-//        animator.SetInteger("Attack", 0);
-//        ChangeState(State.Chasing);
-//    }
-//}

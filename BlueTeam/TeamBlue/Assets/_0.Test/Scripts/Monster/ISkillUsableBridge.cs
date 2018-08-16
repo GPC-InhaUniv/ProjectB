@@ -4,9 +4,16 @@ using UnityEngine;
 
 namespace ProjectB.Characters.Monsters
 {
+    enum Bossskill
+    {
+        SkillFireRain,
+        SkillHemiSphere,
+        SkillFireEntangle,
+    }
     public interface ISkillUsableBridge
     {
         void UseSkill();
+
     }
 
     public class NoSkill : ISkillUsableBridge
@@ -51,8 +58,8 @@ namespace ProjectB.Characters.Monsters
 
             skillPrefab.transform.position = Monster.transform.position;
             skillPrefab.SetActive(true);
-            //Monster.animator.SetInteger("Attack", 3);
-            Monster.animator.SetBool(AniStateParm.Skill.ToString(),true);
+
+            Monster.animator.SetBool(AniStateParm.SkillOne.ToString(),true);
         }
 
     }
@@ -88,16 +95,18 @@ namespace ProjectB.Characters.Monsters
         public BossSkillSecond(Boss boss, GameObject[] skillPrefab)
         {
             Boss = boss;
-            SkillTest = skillPrefab[2];
+            SkillTest = skillPrefab[(int)Bossskill.SkillFireRain];
         }
         public void UseSkill()
         {
-            Instantiate(SkillTest,Boss.attackTarget);
+            Boss.animator.SetBool(AniStateParm.SkillOne.ToString(), true);
+
+            Instantiate(SkillTest,Boss.transform);
 
             Debug.Log("boss state useskill");
         }
     }
-    public class BossSkillDefence: ISkillUsableBridge
+    public class BossSkillDefence : ISkillUsableBridge
     {
         Boss boss;
         public Boss Boss
@@ -109,7 +118,7 @@ namespace ProjectB.Characters.Monsters
         public BossSkillDefence(Boss boss, GameObject[] skillPrefab)
         {
             Boss = boss;
-            SkillTest = skillPrefab[1];
+            SkillTest = skillPrefab[(int)Bossskill.SkillHemiSphere];
         }
         public void UseSkill()
         {
@@ -118,4 +127,26 @@ namespace ProjectB.Characters.Monsters
             Debug.Log("boss state useskill");
         }
     }
+    public class BossSkillThird : MonoBehaviour, ISkillUsableBridge
+    {
+        Boss boss;
+        public Boss Boss
+        {
+            get { return boss; }
+            private set { boss = value; }
+        }
+        GameObject SkillTest;
+        public BossSkillThird(Boss boss, GameObject[] skillPrefab)
+        {
+            Boss = boss;
+            SkillTest = skillPrefab[(int)Bossskill.SkillFireEntangle];
+        }
+        public void UseSkill()
+        {
+            Instantiate(SkillTest, Boss.attackTarget);
+
+            Debug.Log("boss state useskill");
+        }
+    }
+
 }
