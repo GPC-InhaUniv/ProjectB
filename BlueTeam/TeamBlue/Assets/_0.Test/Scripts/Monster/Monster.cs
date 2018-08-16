@@ -120,7 +120,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected void Died()
         {
-            GameDataManager.Instance.PlayerInfomation.PlayerExp += characterExp;
+
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
