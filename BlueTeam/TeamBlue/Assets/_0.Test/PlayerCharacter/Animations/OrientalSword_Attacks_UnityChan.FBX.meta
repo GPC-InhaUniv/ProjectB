@@ -7777,7 +7777,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.9270073
         functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -8199,7 +8199,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.94699645
+      - time: 0.89590156
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -8207,7 +8207,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.9781022
         functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -9449,7 +9449,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.95255476
         functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,

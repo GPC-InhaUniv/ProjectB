@@ -27,6 +27,7 @@ namespace ProjectB.Characters.Monsters
         {
             foreach (Collider attackAreaCollider in attackAreaColliders)
             {
+                Debug.Log(attackAreaCollider.ToString() );
                 attackAreaCollider.enabled = true;
                 Debug.Log("공격 시작");
             }
