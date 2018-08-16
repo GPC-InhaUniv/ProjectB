@@ -6,28 +6,28 @@ namespace ProjectB.Characters
     public abstract class Character : MonoBehaviour
     {
         [SerializeField]
-        protected int characterHealthPoint;
-        public int CharacterHealthPoint { get { return characterHealthPoint; } private set { } }
+        protected float characterHealthPoint;
+        public float CharacterHealthPoint { get { return characterHealthPoint; } private set { } }
 
         [SerializeField]
-        protected int characterMaxHealthPoint;
-        public int CharacterMaxHealthPoint { get { return characterMaxHealthPoint; } private set { } }
+        protected float characterMaxHealthPoint;
+        public float CharacterMaxHealthPoint { get { return characterMaxHealthPoint; } private set { } }
 
         [SerializeField]
         protected int characterLevel;
         public int CharacterLevel { get { return characterLevel; } private set { } }
 
         [SerializeField]
-        protected int characterExp;
-        public int CharacterExp { get { return characterExp; } set { } }
+        protected float characterExp;
+        public float CharacterExp { get { return characterExp; } set { } }
 
         [SerializeField]
-        protected int characterDefensivePower;
+        protected float characterDefensivePower;
 
         [SerializeField]
-        protected int characterAttackPower;
-        public int CharacterAttackPower { get { return characterAttackPower; } private set { } }
+        protected float characterAttackPower;
+        public float CharacterAttackPower { get { return characterAttackPower; }  set { } }
 
-        public abstract void ReceiveDamage(int damage);
+        public abstract void ReceiveDamage(float damage);
     }
 }
