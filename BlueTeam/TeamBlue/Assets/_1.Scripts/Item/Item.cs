@@ -23,8 +23,6 @@ public class Item : MonoBehaviour
     Image image_Test;
     public Image Image_Test {get { return image_Test; }}
 
-    int itemIndex;
-
     public int Code;
 
     string itemname;
@@ -65,6 +63,12 @@ public class Item : MonoBehaviour
     public void SetItem(int code)
     {
         Code = code;
+
+        if(code == 0)
+        {
+            initializationItem();
+            return;
+        }
         for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
         {
             if (itemtable.sheets[0].list[i].Code == Code)
@@ -96,5 +100,26 @@ public class Item : MonoBehaviour
         //    GameDataManager.Instance.PlayerGamedata[code] = 1;
         //else
         //    GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
+    }
+
+    public void SwapItem(Item item)
+    {
+        int i = this.Code;
+        int j = item.Code;
+
+        this.SetItem(j);
+        item.SetItem(i);
+    }
+
+    public void initializationItem()
+    {
+        hp = 0;
+        attack = 0;
+        recipeWood = 0;
+        recipeSheep = 0;
+        recipeIron = 0;
+        recipeBrick = 0;
+        image = "";
+        itemname = "";
     }
 }

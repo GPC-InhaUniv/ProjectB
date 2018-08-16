@@ -16,7 +16,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!isClicked) 
+        if (!isClicked) 
         {
             isClicked = true;
         }
@@ -24,6 +24,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             isClicked = false;
         }
-        villageUIPresenter.SwapOnClick(this);
+
+        if(eventData.pointerEnter.gameObject.tag == "InventorySlot" && villageUIPresenter.lastPress == "InventorySlot")
+            villageUIPresenter.SwapOnClick(this);
+        else if((eventData.pointerEnter.gameObject.tag == "CombinationSlot" && villageUIPresenter.lastPress == "InventorySlot") || (eventData.pointerEnter.gameObject.tag == "InventorySlot" && villageUIPresenter.lastPress == "CombinationSlot"))
+            villageUIPresenter.SwapOnCombination(this);
+
+        villageUIPresenter.lastPress = eventData.pointerEnter.gameObject.tag;
     }
 }
