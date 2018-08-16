@@ -80,5 +80,41 @@ namespace ProjectB.Characters.Monsters
             Boss.SkillUsable.UseSkill();
         }
     }
+    public class PhaseThree : BossState
+    {
+        public PhaseThree(Boss boss, GameObject[] skillPrefab)
+        {
+            Boss = boss;
+            SkillPrefab = skillPrefab;
+
+            Boss.Attackable = new ComboAttack(Boss);
+            Boss.SkillUsable = new BossSkillSecond(Boss, SkillPrefab);
+            Boss.DefencSkillUsable = new BossSkillDefence(Boss, SkillPrefab);
+            Boss.EntangleSkillUsable = new BossSkillThird(Boss, SkillPrefab);
+
+        }
+        public override void Attack()
+        {
+            Boss.Attackable.Attack();
+        }
+
+        public override void UseDefenceSkill()
+        {
+            Boss.DefencSkillUsable.UseSkill();
+        }
+
+        public override void UseSkill()
+        {
+            int probability = Random.Range(1, 4);
+            if (probability == 1)
+            {
+                Boss.SkillUsable.UseSkill();
+            }
+            else
+            {
+                Boss.EntangleSkillUsable.UseSkill();
+            }
+        }
+    }
 }
 
