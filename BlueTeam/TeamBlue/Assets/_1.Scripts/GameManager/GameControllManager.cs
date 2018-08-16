@@ -30,6 +30,19 @@ namespace ProjectB.GameManager
             totalMonsterCount = CurrentIndex * 10;
         }
 
+        public void CheckGameOver()
+        {
+            isGameOver = true;
+        }
+        public void CheckGameClear()
+        {
+            totalMonsterCount--;
+            if(totalMonsterCount<=0)
+            {
+                isClearDungeon = true;
+            }
+        }
+
         public void SetObjectPool()
         {
 

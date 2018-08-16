@@ -1,10 +1,11 @@
 ﻿
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace ProjectB.GameManager
 {
-    public class SceneController : MonoBehaviour
+    public class SceneController : MonoBehaviour,IPointerClickHandler
     {
 
         [SerializeField]
@@ -40,5 +41,11 @@ namespace ProjectB.GameManager
             GameControllManager.Instance.MoveNextScene(LoadType.SheepDungeon, index);
         }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log(eventData.pointerCurrentRaycast.gameObject);
+            
+          
+        }
     }
 }
