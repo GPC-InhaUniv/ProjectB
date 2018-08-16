@@ -8,13 +8,12 @@ namespace ProjectB.Characters.Players
     {
         protected Player player;
 
-        public abstract void Tick(Vector3 moveVector);
-
         public PlayerCharacterState(Player player)
         {
             this.player = player;
         }
 
+        public abstract void Tick(Vector3 moveVector);
     }
 
     public class PlayerCharacterIdleState : PlayerCharacterState
@@ -53,6 +52,8 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
+            player.SetAttackPower(10.0f);
+
             player.PlayerAttack();
         }
     }
@@ -67,8 +68,7 @@ namespace ProjectB.Characters.Players
         public override void Tick(Vector3 moveVector)
         {
 
-            //player.CharacterAttackPower = 20;
-            //플레이어안에서 함수로 설정
+            player.SetAttackPower(30.0f);
 
             player.Skill();
         }
@@ -83,7 +83,6 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
-
             player.BackStep();
         }
     }
@@ -96,6 +95,9 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
+            player.IsDied = true;
+            player.IsRunning = false;
+
             player.Die();
         }
     }

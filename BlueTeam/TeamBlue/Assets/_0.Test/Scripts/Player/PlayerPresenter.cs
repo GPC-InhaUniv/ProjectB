@@ -9,9 +9,14 @@ namespace ProjectB.UI.Presenter
     {
         [SerializeField]
         Button AttackButton, SkillButton, BackStepButton, WeaponSwapButton;
-
         [SerializeField]
         Image SkillImage, BackStepImage, WeaponSwapImage;
+
+        [SerializeField]
+        Image hpBar;
+        [SerializeField]
+        Text levelText;
+
         [SerializeField]
         JoyStick joyStick;
 
@@ -169,12 +174,14 @@ namespace ProjectB.UI.Presenter
                 player.SetState(new PlayerCharacterBackStepState(player));
                 StartCoroutine(ButtonCoolDownCoroutine(backStepCoolDownTime, BackStepButton));
                 StartCoroutine(ImageCoolDown(backStepCoolDownTime, BackStepImage));
+
+                SwapWeaponCoolDown();
             }
             else
             {
                 player.SetState(new PlayerCharacterIdleState(player));
             }
-            SwapWeaponCoolDown();
+
         }
 
         bool PlayerState()
@@ -207,13 +214,13 @@ namespace ProjectB.UI.Presenter
 
                 StartCoroutine(ButtonCoolDownCoroutine(skillCoolDownTime, SkillButton));
                 StartCoroutine(ImageCoolDown(skillCoolDownTime, SkillImage));
+
+                SwapWeaponCoolDown();
             }
             else
             {
                 player.SetState(new PlayerCharacterIdleState(player));
             }
-
-            SwapWeaponCoolDown();
         }
 
         void InputWeaponSwapButton()
@@ -352,6 +359,12 @@ namespace ProjectB.UI.Presenter
                 comboResetCount = 0;
             }
             else return;
+        }
+
+        public void ShowHUD()
+        {
+            hpBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
+            levelText.text = "Level\n" + player.CharacterLevel.ToString();
         }
 
         enum ButtonName

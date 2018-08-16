@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
 using ProjectB.GameManager;
+using ProjectB.UI.Presenter;
 
 namespace ProjectB.Characters.Players
 {
 
     public class Player : Character
     {
-
+        PlayerPresenter playerPresenter;
         PlayerAnimation playerAinmaton;
         Rigidbody playerRigidbody;
 
@@ -19,7 +20,7 @@ namespace ProjectB.Characters.Players
         public Vector3 MoveVector;
 
         public bool IsRunning;
-
+        public bool IsDied;
         Collider collider;
 
         int attackNumber;
@@ -30,6 +31,7 @@ namespace ProjectB.Characters.Players
 
         private void Awake()
         {
+            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
             playerRigidbody = GetComponent<Rigidbody>();
             Weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
@@ -41,6 +43,7 @@ namespace ProjectB.Characters.Players
         void Start()
         {
             SetCharacterStatus();
+            playerPresenter.ShowHUD();
 
             targetVector = new Vector3(0, 0, 1);
 
@@ -60,6 +63,10 @@ namespace ProjectB.Characters.Players
 
         public void SetState(PlayerCharacterState state)
         {
+            if(IsDied == true)
+            {
+                return;
+            }
             if (PlayerState == state)
             {
                 return;
@@ -88,7 +95,7 @@ namespace ProjectB.Characters.Players
         public void BackStep()
         {
             playerAinmaton.BackStepAnimation();
-            playerRigidbody.AddForce(-targetVector * 500 * Time.deltaTime, ForceMode.Impulse);
+            playerRigidbody.AddForce(-targetVector * 700 * Time.deltaTime, ForceMode.Impulse);
         }
 
         public void Skill()
@@ -99,7 +106,8 @@ namespace ProjectB.Characters.Players
             //CharacterAttackPower = CharacterAttackPower + 100;
 
             //스킬 끝나고 idle 돌아오게 하기
-            playerRigidbody.AddForce(targetVector * 800 * Time.deltaTime, ForceMode.Impulse);
+
+            //playerRigidbody.AddForce(targetVector * 800 * Time.deltaTime, ForceMode.Impulse);
             playerAinmaton.SkillAnimation(AnimationState.Skill + 1.ToString());
             //CharacterAttackPower = preAttackPow;
         }
@@ -123,30 +131,42 @@ namespace ProjectB.Characters.Players
         {
             attackNumber = number;
         }
+
+        public void SetAttackPower(float power) 
+        {
+            CharacterAttackPower = power;
+        }
+
         public void Die()
         {
             Debug.Log("플레이어 사망");
-            playerAinmaton.DieAnimation();
+               playerAinmaton.DieAnimation();
             collider.enabled = false;
         }
 
-        public override void ReceiveDamage(int damage)
+        public override void ReceiveDamage(float damage)
         {
-            playerAinmaton.HitAnimation();
-            characterHealthPoint -= CalDamage(damage);
-            Debug.Log(characterHealthPoint.ToString());
+            if(IsDied == false)
+            {
+                StartCoroutine(AttackCo());
+                playerAinmaton.HitAnimation();
+                characterHealthPoint -= CalDamage(damage);
+                playerPresenter.ShowHUD();
+            }
+
             if (CharacterHealthPoint <= 0)
             {
                 characterHealthPoint = 0;
                 SetState(new PlayerCharacterDieState(this));
+                //게임 컨트롤러에 게임 오버 요청할 것
             }
         }
 
-        int CalDamage(int damage)
+        float CalDamage(float damage)
         {
             if (0 < damage - characterDefensivePower / 10)
             {
-                return damage - characterDefensivePower / 10;
+                return damage - characterDefensivePower * 0.1f;
             }
             else return 0;
         }
@@ -173,8 +193,9 @@ namespace ProjectB.Characters.Players
         //데이터 불러오기 및 정리하기
 
         //애니메이션 이벤트
-        public void AttackEnd()
+        public void AttackDone()
         {
+            Debug.Log("불림?");
             SetState(new PlayerCharacterIdleState(this));
         }
 
@@ -189,6 +210,12 @@ namespace ProjectB.Characters.Players
             SetState(new PlayerCharacterIdleState(this));
         }
         //애니메이션 이벤트
+        IEnumerator AttackCo()
+        {
+            collider.enabled = false;
+            yield return new WaitForSeconds(1.0f);
+            collider.enabled = true;
+        }
     }
 
     public enum PlayerCharacterWeaponState
