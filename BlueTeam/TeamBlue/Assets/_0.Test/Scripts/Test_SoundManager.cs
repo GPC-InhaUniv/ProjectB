@@ -97,6 +97,7 @@ public class Test_SoundManager : Singleton<Test_SoundManager>{
             {
                 audio.clip = GetAudioClip(soundType);
                 audio.Play();
+                audio.volume = 0.1f;
                 return;
             }
         }

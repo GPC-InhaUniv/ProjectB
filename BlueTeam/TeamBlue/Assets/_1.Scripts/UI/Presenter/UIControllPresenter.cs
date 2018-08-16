@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.GameManager;
+using System;
 
-namespace ProjectB.UI
+namespace ProjectB.UI.Presenter
 {
 
-    public class VillageMenuPresenter : MonoBehaviour
+    public class UIControllPresenter : MonoBehaviour
     {
-        
+        LoadType loadtype;
         [SerializeField, Tooltip("UIType Number : 0")]
         GameObject inventoryUI;
         [SerializeField, Tooltip("UIType Number : 1")]
@@ -20,6 +22,24 @@ namespace ProjectB.UI
         GameObject dungeonUI;
         [SerializeField, Tooltip("UIType Number : 5")]
         GameObject questUI;
+        [SerializeField]
+        GameObject storageButton;
+        [SerializeField]
+        GameObject combinationStoreButton;
+        [SerializeField]
+        GameObject tradeButton;
+        [SerializeField]
+        GameObject dungeonButton;
+        [SerializeField]
+        GameObject minimapUI;
+        [SerializeField]
+        GameObject winUI;
+        [SerializeField]
+        GameObject loseUI;
+        [SerializeField]
+        GameObject playerController;
+        [SerializeField]
+        GameObject playerHUD;
 
         bool isOpenedInventoryUI;
         bool isOpenedStorageUI;
@@ -27,12 +47,14 @@ namespace ProjectB.UI
         bool isOpenedTradeUI;
         bool isOpenedDungeonUI;
         bool isOpenedQuestUI;
+        bool isOpenedMinimapUI;
+        bool isOpenedWinUI;
+        bool isOpenedLoseUI;
 
-        bool isInstalledUI;
 
         private void Start()
         {
-            CheckEquipUI();
+            loadtype = GameControllManager.Instance.CurrentLoadType;
             SetActiveUI();
         }
 
@@ -83,54 +105,55 @@ namespace ProjectB.UI
             SetActiveUI();
         }
 
-        void CheckEquipUI()
+        void EndStage(bool isWin)
         {
-            if (inventoryUI == null)
+            if(isWin)
             {
-                return;
-            }
-            else if (storageUI == null)
-            {
-                return;
-            }
-            else if (combinationStoreUI == null)
-            {
-                return;
-            }
-            else if (tradeUI == null)
-            {
-                return;
-            }
-            else if (dungeonUI == null)
-            {
-                return;
-            }
-            else if (questUI == null)
-            {
-                return;
+                winUI.SetActive(false);
+                loseUI.SetActive(true);
             }
             else
             {
-                isInstalledUI = true;
+                loseUI.SetActive(false);
+                winUI.SetActive(true);
             }
-                
         }
 
         void SetActiveUI()
         {
-            if (isInstalledUI)
+            try
             {
+                if (loadtype == LoadType.Village)
+                {
+                    storageButton.SetActive(true);
+                    combinationStoreButton.SetActive(true);
+                    tradeButton.SetActive(true);
+                    dungeonButton.SetActive(true);
+                    minimapUI.SetActive(false);
+                    playerController.SetActive(false);
+                    storageUI.SetActive(isOpenedStorageUI);
+                    combinationStoreUI.SetActive(isOpenedCombinationUI);
+                    tradeUI.SetActive(isOpenedTradeUI);
+                    dungeonUI.SetActive(isOpenedDungeonUI);
+                }
+                else
+                {
+                    dungeonButton.SetActive(false);
+                    storageButton.SetActive(false);
+                    combinationStoreButton.SetActive(false);
+                    tradeButton.SetActive(false);
+                    minimapUI.SetActive(true);
+                    playerController.SetActive(true);
+                }
+                playerHUD.SetActive(true);
                 inventoryUI.SetActive(isOpenedInventoryUI);
-                storageUI.SetActive(isOpenedStorageUI);
-                combinationStoreUI.SetActive(isOpenedCombinationUI);
-                tradeUI.SetActive(isOpenedTradeUI);
-                dungeonUI.SetActive(isOpenedDungeonUI);
                 questUI.SetActive(isOpenedQuestUI);
             }
-            else
+            catch
             {
                 Debug.Log("필요한 UI가 장착되지 않았습니다.");
             }
+  
         }
 
     }
