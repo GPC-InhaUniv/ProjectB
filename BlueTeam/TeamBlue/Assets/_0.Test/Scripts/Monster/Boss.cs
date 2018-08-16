@@ -7,6 +7,7 @@ namespace ProjectB.Characters.Monsters
     public class Boss : Monster
     {
         BossState bossState;
+        public ISkillUsableBridge DefencSkillUsable;
 
         void Start()
         {
@@ -44,6 +45,7 @@ namespace ProjectB.Characters.Monsters
                     case State.Skilling:
                         UseSkill();
                         break;
+
                     case State.Died:
                         Died();
                         break;
@@ -65,18 +67,35 @@ namespace ProjectB.Characters.Monsters
         }
         public override void ReceiveDamage(int damage)
         {
-            animator.SetTrigger(AniStateParm.Hitted.ToString());
-            characterHealthPoint -= damage;
+            int defencepossibility = Random.Range(1, 8);
+            if (defencepossibility == 1)
+            {
+                animator.SetTrigger(AniStateParm.Defence.ToString());
 
-            if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
-            {
-               // bossState = new PhaseTwo(this, skillprefab);
             }
-            else if (CharacterHealthPoint <= 0)
+            else if(defencepossibility == 2)
             {
-                characterHealthPoint = 0;
-                ChangeState(State.Died);
+                bossState.UseDefenceSkill();
+                animator.SetTrigger(AniStateParm.Defence.ToString());
+
             }
+            else
+            {
+                animator.SetTrigger(AniStateParm.Hitted.ToString());
+                characterHealthPoint -= damage;
+
+                if (CharacterHealthPoint <= CharacterMaxHealthPoint * 0.5)
+                {
+                    // bossState = new PhaseTwo(this, skillprefab);
+                }
+                else if (CharacterHealthPoint <= 0)
+                {
+                    characterHealthPoint = 0;
+                    ChangeState(State.Died);
+                }
+            }
+
+
         }
 
     }

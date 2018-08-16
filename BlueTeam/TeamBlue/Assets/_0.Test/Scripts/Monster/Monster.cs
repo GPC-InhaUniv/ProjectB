@@ -26,7 +26,7 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         protected AttackArea[] attackAreas;
         [SerializeField]
-        protected GameObject skillprefab;
+        protected GameObject[] skillprefab;
 
         //Monster Status//
         [SerializeField]
@@ -45,7 +45,7 @@ namespace ProjectB.Characters.Monsters
         protected float waitTime, speed;
         //Set Target//
         [SerializeField]
-        protected Transform attackTarget;
+        public Transform attackTarget;
         [SerializeField]
         protected MonsterMove monsterMove;
         //Move To Destination//
@@ -65,8 +65,8 @@ namespace ProjectB.Characters.Monsters
         //Monster Motion//
         public Animator animator;
 
-        public IAttackable Attackable;
-        public ISkillUsable SkillUsable;
+        public IAttackableBridge Attackable;
+        public ISkillUsableBridge SkillUsable;
 
         public override void ReceiveDamage(int damage)
         {
@@ -101,7 +101,10 @@ namespace ProjectB.Characters.Monsters
 
         protected virtual void AttackTarget()
         {
-            Attackable.Attack();
+            if (attackTarget != null)
+            {
+                Attackable.Attack();
+            }
         }
         protected virtual  void UseSkill()
         {

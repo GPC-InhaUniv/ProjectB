@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace ProjectB.Characters.Monsters
 {
-    public interface ISkillUsable
+    public interface ISkillUsableBridge
     {
         void UseSkill();
     }
 
-    public class NoSkill : ISkillUsable
+    public class NoSkill : ISkillUsableBridge
     {
         Monster monster;
         public Monster Monster
@@ -28,7 +28,7 @@ namespace ProjectB.Characters.Monsters
         }
 
     }
-    public class NamedSkill : ISkillUsable
+    public class NamedSkill : ISkillUsableBridge
     {
         Monster monster;
         public Monster Monster
@@ -38,10 +38,10 @@ namespace ProjectB.Characters.Monsters
         }
         GameObject skillPrefab;
 
-        public NamedSkill(Monster monster, GameObject skillPrefab)
+        public NamedSkill(Monster monster, GameObject[] skillPrefab)
         {
             Monster = monster;
-            this.skillPrefab = skillPrefab;
+            this.skillPrefab = skillPrefab[0];
         }
 
         public void UseSkill()
@@ -56,7 +56,7 @@ namespace ProjectB.Characters.Monsters
         }
 
     }
-    public class BossSkillFirst : ISkillUsable
+    public class BossSkillFirst : ISkillUsableBridge
     {
         Boss boss;
         public Boss Boss
@@ -64,7 +64,7 @@ namespace ProjectB.Characters.Monsters
             get { return boss; }
             private set { boss = value; }
         }
-        public BossSkillFirst(Boss boss, GameObject skillPrefab)
+        public BossSkillFirst(Boss boss, GameObject[] skillPrefab)
         {
 
             Boss = boss;
@@ -76,7 +76,7 @@ namespace ProjectB.Characters.Monsters
             Debug.Log("boss state useskill");
         }
     }
-    public class BossSkillSecond : MonoBehaviour, ISkillUsable
+    public class BossSkillSecond : MonoBehaviour, ISkillUsableBridge
     {
         Boss boss;
         public Boss Boss
@@ -85,29 +85,37 @@ namespace ProjectB.Characters.Monsters
             private set { boss = value; }
         }
         GameObject SkillTest;
-        public BossSkillSecond(Boss boss, GameObject skillPrefab)
+        public BossSkillSecond(Boss boss, GameObject[] skillPrefab)
         {
             Boss = boss;
-            SkillTest = skillPrefab;
+            SkillTest = skillPrefab[2];
         }
         public void UseSkill()
         {
-            Instantiate(SkillTest);
+            Instantiate(SkillTest,Boss.attackTarget);
 
             Debug.Log("boss state useskill");
         }
     }
-    public class BossSkillThird : ISkillUsable
+    public class BossSkillDefence: ISkillUsableBridge
     {
-        //public Monster Monster
-        //{
-        //    get { return Monster; }
-        //    set { Monster = value; }
-        //}
+        Boss boss;
+        public Boss Boss
+        {
+            get { return boss; }
+            private set { boss = value; }
+        }
+        GameObject SkillTest;
+        public BossSkillDefence(Boss boss, GameObject[] skillPrefab)
+        {
+            Boss = boss;
+            SkillTest = skillPrefab[1];
+        }
         public void UseSkill()
         {
+            //Instantiate(SkillTest);
 
-
+            Debug.Log("boss state useskill");
         }
     }
 }
