@@ -17,13 +17,13 @@ class ResourceContext : MonoBehaviour
         resource.ReceiveResources(receivingResourceCount);
     }
 
-    public void SendReousrces(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public void SendReousrces(int sendingResourceCount)
     {
-        resource.SendResources(sendingResourceCount, resourceType, ref tradeProbability);
+        resource.SendResources(sendingResourceCount);
     }
 
-    public bool CheckTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public void CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
     {
-        return resource.CheckTradeProbability(sendingResourceCount, resourceType, ref tradeProbability);
+        resource.CalculateTradeProbability(sendingResourceCount, resourceType, ref tradeProbability);
     }
 }
