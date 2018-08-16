@@ -31,7 +31,7 @@ namespace ProjectB.UI.SettingMenu
             menuWindowUI.SetActive(ActivatedMenu);
         }
         
-        public void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, Button button)
+        public void ControlMenuWindow(bool ActivatedMenu, GameObject menuWindowUI, Button button)
         {
             menuWindowUI.SetActive(!ActivatedMenu);
             activatedMenu = !ActivatedMenu;

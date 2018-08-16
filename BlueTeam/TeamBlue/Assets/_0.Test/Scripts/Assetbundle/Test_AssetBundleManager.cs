@@ -128,6 +128,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         GameObject gameObject;
         switch (bundleType)
         {
+            
             case BundleType.Player:
                 PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
                 gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
