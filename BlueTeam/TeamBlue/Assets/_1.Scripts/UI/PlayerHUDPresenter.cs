@@ -15,13 +15,16 @@ namespace ProjectB.UI
        private Image hPBar;
         [SerializeField]
         private Text levelText;
-       
 
+        private void Update()
+        {
+            ShowHUD();
+        }
         public void ShowHUD()
         {
             hPBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
             levelText.text = "Level\n"+player.CharacterLevel.ToString();
-            
+        
         }
 
 
