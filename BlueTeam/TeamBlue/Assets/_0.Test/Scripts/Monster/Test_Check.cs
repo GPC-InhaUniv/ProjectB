@@ -5,34 +5,44 @@ using ProjectB.Characters;
 
 public class Test_Check : MonoBehaviour {
 
+    [SerializeField]
+    Collider collider;
     
 
     enum KindOfSkill
     {
-        IceRain,
+        FireHemiSphere = 15,
+        FireRain = 30,
+        FireEntangle = 55,
+
 
     }
+    [SerializeField]
+    KindOfSkill kindOfSkill;
 
     // Use this for initialization
     void Start () {
-
+        collider = GetComponent<Collider>();
+        collider.enabled = true;
+        
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
     private void OnParticleCollision(GameObject other)
     {
-
-
         if (other.CompareTag("Player"))
         {
             Debug.Log("gogogo");
             Character player = other.GetComponent<Character>();
-            player.ReceiveDamage(MonsterDefines.BossIceRainSkill);
+            player.ReceiveDamage((int)kindOfSkill);
         }
-
-
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("gogogo");
+            Character player = other.GetComponent<Character>();
+            player.ReceiveDamage((int)kindOfSkill);
+        }
+    }
+
 }

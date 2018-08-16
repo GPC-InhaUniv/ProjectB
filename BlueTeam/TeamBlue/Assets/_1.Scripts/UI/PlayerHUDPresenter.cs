@@ -8,20 +8,23 @@ namespace ProjectB.UI
 {
     public class PlayerHUDPresenter : MonoBehaviour
     {
+        [SerializeField]
         Character player;
         
+        [SerializeField]
+       private Image hPBar;
+        [SerializeField]
+        private Text levelText;
 
-        public Image HPBar;
-        public Text LevelText;
         private void Update()
         {
-           
+            ShowHUD();
         }
-
         public void ShowHUD()
         {
-            HPBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
-            
+            hPBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
+            levelText.text = "Level\n"+player.CharacterLevel.ToString();
+        
         }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProjectB.Characters.Monsters
 {
-    public interface IAttackable
+    public interface IAttackableBridge
     {
 
         Monster Monster { get; set; }
@@ -13,7 +13,7 @@ namespace ProjectB.Characters.Monsters
 
 
     }
-    public class NormalAttack : IAttackable
+    public class NormalAttack : IAttackableBridge
     {
         Monster monster;
 
@@ -37,7 +37,7 @@ namespace ProjectB.Characters.Monsters
         //    this.boss = boss;
         //}
     }
-    public class ComboAttack : IAttackable
+    public class ComboAttack : IAttackableBridge
     {
         Monster monster;
         public Monster Monster
