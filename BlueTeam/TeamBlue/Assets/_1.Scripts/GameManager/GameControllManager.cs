@@ -13,6 +13,7 @@ namespace ProjectB.GameManager
         bool isClearDungeon;
         bool isGameOver;
 
+        int totalExp;
         int totalMonsterCount;
         int cameraOffSetZ = 5;
         int cameraOffSetY = 2;
@@ -20,19 +21,23 @@ namespace ProjectB.GameManager
 
         GameObject playerPosition;
         GameObject[] MonsterPostion;
+        public Dictionary<int, int> ObtainedItemDic = new Dictionary<int, int>();
 
         private void Start()
         {
             MonsterPostion = new GameObject[3];
+            
         }
         public void CheckMonsterAtDungeon()
         {
             totalMonsterCount = CurrentIndex * 10;
+            totalExp = 1200 * CurrentIndex;
         }
 
         public void CheckGameOver()
         {
             isGameOver = true;
+            //경험치 까기
         }
         public void CheckGameClear()
         {
@@ -40,6 +45,16 @@ namespace ProjectB.GameManager
             if(totalMonsterCount<=0)
             {
                 isClearDungeon = true;
+                GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
+                
+                foreach(KeyValuePair<int,int> temp in ObtainedItemDic)
+                {
+                    GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
+                }
+
+                totalExp = 0;
+                ObtainedItemDic.Clear();
+                GameDataManager.Instance.SetGameDataToServer();
             }
         }
 
@@ -121,6 +136,7 @@ namespace ProjectB.GameManager
             if (CurrentIndex != 0)
             {
                 CheckMonsterAtDungeon();
+                
                 Debug.Log("현재 던전 몬스터 수:"+totalMonsterCount);
 
             }

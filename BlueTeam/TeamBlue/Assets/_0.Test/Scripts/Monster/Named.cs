@@ -17,8 +17,8 @@ namespace ProjectB.Characters.Monsters
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
 
-            Attackable = new ComboAttack(this);
-            SkillUsable = new NamedSkill(this, skillprefab);
+            attackable = new ComboAttack(animator);
+            skillUsable = new NamedSkill(animator, skillprefab);
             //test//
             AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 

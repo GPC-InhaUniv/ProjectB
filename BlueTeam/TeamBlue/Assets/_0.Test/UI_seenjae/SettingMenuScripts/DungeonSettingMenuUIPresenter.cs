@@ -20,20 +20,19 @@ namespace ProjectB.UI.SettingMenu
         
         void Start()
         {
-
             InActivateWindows(activatedMenu, settingWindowUI);
             InActivateWindows(activatedMenu, soundControlWindowUI);
             InActivateWindows(activatedMenu, messageWindowUI);
 
            
-            settingButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, settingButton); });
-            returnToGameButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, settingButton); });
+            settingButton.onClick.AddListener(delegate { ControlMenuWindow(activatedMenu, settingWindowUI, settingButton); });
+            returnToGameButton.onClick.AddListener(delegate { ControlMenuWindow(activatedMenu, settingWindowUI, settingButton); });
             soundButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, soundControlWindowUI); });
             returnToMenuButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, soundControlWindowUI, settingWindowUI); });
             returnToVillageButton.onClick.AddListener(delegate { PopupMessage(activatedMenu, messageWindowUI, messageText, "마을로 돌아가시겠습니까?"); });
             noButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, messageWindowUI, settingWindowUI); });
-            yesButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, yesButton);
-                ControlWindows(activatedMenu, messageWindowUI, messageWindowUI);//같은 필드가 두개들어가도 관계없나.....
+            yesButton.onClick.AddListener(delegate { ControlMenuWindow(activatedMenu, settingWindowUI, settingButton);
+                ControlWindows(activatedMenu, messageWindowUI, messageWindowUI);
                 ReturnToVillage();
             });
         }
