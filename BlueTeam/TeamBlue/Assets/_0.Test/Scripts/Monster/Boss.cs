@@ -14,14 +14,19 @@ namespace ProjectB.Characters.Monsters
 
         void Start()
         {
-           // bossState = new PhaseOne(animator, skillprefab,attackable,defencSkillUsable,skillUsable);
-            bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
-
+        
             monsterMove = GetComponent<MonsterMove>();
             animator = GetComponent<Animator>();
             startPosition = transform.position;
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
+
+            // bossState = new PhaseOne(animator, skillprefab,attackable,defencSkillUsable,skillUsable);
+            bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
+            //bossState = new PhaseThree(animator, skillprefab, attackable, defencSkillUsable, skillUsable, entangleSkillUsable);
+
+
+
         }
         void Update()
         {
@@ -50,7 +55,7 @@ namespace ProjectB.Characters.Monsters
                         break;
                 }
             }
-            Debug.Log(animator.GetInteger(AniStateParm.Attack.ToString()));
+            //Debug.Log(animator.GetInteger(AniStateParm.Attack.ToString()));
 
             if (Input.GetKeyDown(KeyCode.F))
             {

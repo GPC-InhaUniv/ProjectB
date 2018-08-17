@@ -154,13 +154,10 @@ namespace ProjectB.Characters.Monsters
                     break;
             }
             if(GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
-            {
                 GameControllManager.Instance.ObtainedItemDic[itemCode]++;
-            }
             else
-            {
                 GameControllManager.Instance.ObtainedItemDic.Add(itemCode, 1);
-            }
+
         }
         protected void Died()
         {
@@ -255,9 +252,8 @@ namespace ProjectB.Characters.Monsters
             yield return new WaitForSeconds(0.5f);
             animator.SetInteger(AniStateParm.Attack.ToString(), 0);
             attacking = false;
-            attackTarget = null;
 
-            ChangeState(State.Walking);
+            ChangeState(State.Chasing);
         }
 
         protected IEnumerator WaitCoolTime()

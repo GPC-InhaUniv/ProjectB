@@ -29,8 +29,11 @@ namespace ProjectB.Characters.Monsters
             SkillPrefab = skillPrefab;
 
             attackable = new NormalAttack(this.animator);
+            this.attackable = attackable;
             defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
+            this.defencSkillUsable = defencSkillUsable;
             skillUsable = new BossSkillFirst(this.animator, SkillPrefab);
+            this.skillUsable = skillUsable;
 
             attackable.Attack();
 
@@ -60,11 +63,14 @@ namespace ProjectB.Characters.Monsters
             SkillPrefab = skillPrefab;
 
             attackable = new NormalAttack(this.animator);
+            this.attackable = attackable;
             defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
-            skillUsable = new BossSkillFirst(this.animator, SkillPrefab);
+            this.defencSkillUsable = defencSkillUsable;
+            skillUsable = new BossSkillSecond(this.animator, SkillPrefab);
+            this.skillUsable = skillUsable;
 
-            attackable.Attack();
 
+            Debug.Log(skillUsable);
 
         }
         public override void Attack()
@@ -79,7 +85,9 @@ namespace ProjectB.Characters.Monsters
 
         public override void UseSkill()
         {
-            skillUsable.UseSkill();
+          //  skillUsable.UseSkill();
+            defencSkillUsable.UseSkill();
+
         }
     }
     public class PhaseThree : BossState
@@ -91,9 +99,17 @@ namespace ProjectB.Characters.Monsters
             SkillPrefab = skillPrefab;
 
             attackable = new NormalAttack(this.animator);
+            this.attackable = attackable;
+
             defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
-            skillUsable = new BossSkillFirst(this.animator, SkillPrefab);
+            this.defencSkillUsable = defencSkillUsable;
+
+            skillUsable = new BossSkillSecond(this.animator, SkillPrefab);
+            this.skillUsable = skillUsable;
+
             entangleSkillUsable = new BossSkillThird(this.animator, SkillPrefab);
+            this.entangleSkillUsable = entangleSkillUsable;
+
             attackable.Attack();
 
 

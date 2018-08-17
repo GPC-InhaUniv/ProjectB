@@ -81,13 +81,14 @@ namespace ProjectB.Characters.Monsters
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.SkillOne.ToString(), true);
+            Debug.Log(animator.GetBool(AniStateParm.SkillOne.ToString()));
 
-           // Instantiate(SkillTest,Boss.transform);
+            Instantiate(SkillTest);
 
             Debug.Log("boss state useskill");
         }
     }
-    public class BossSkillDefence : ISkillUsableBridge
+    public class BossSkillDefence : MonoBehaviour, ISkillUsableBridge
     {
         Animator animator;
         GameObject SkillTest;
@@ -100,7 +101,9 @@ namespace ProjectB.Characters.Monsters
         }
         public void UseSkill()
         {
-            //Instantiate(SkillTest);
+            animator.SetBool(AniStateParm.Defence.ToString(), true);
+
+            Instantiate(SkillTest);
 
             Debug.Log("boss state useskill");
         }
