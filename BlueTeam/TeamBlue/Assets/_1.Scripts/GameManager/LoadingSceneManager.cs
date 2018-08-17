@@ -214,14 +214,14 @@ namespace ProjectB.GameManager
             }
 
         }
-
+         
 
         public static void LoadScene(LoadType mapType, int index)
         {
             switch (mapType)
             {
                 case LoadType.Village:
-                    currentType = LoadType.Village;
+                     currentType = LoadType.Village;
                     NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.BrickDungeon:

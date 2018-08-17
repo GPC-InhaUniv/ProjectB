@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.Item;
 
 /// <summary>
 /// Inventory Model이 될 예정
