@@ -21,13 +21,12 @@ namespace ProjectB.GameManager
 
         GameObject playerPosition;
         GameObject[] MonsterPostion;
-        //Dictionary<int,int> obtainedItemDic = new Dictionary<int,int>();
         public Dictionary<int, int> ObtainedItemDic = new Dictionary<int, int>();
 
         private void Start()
         {
             MonsterPostion = new GameObject[3];
-            //ObtainedItemDic.ad
+            
         }
         public void CheckMonsterAtDungeon()
         {
@@ -47,6 +46,15 @@ namespace ProjectB.GameManager
             {
                 isClearDungeon = true;
                 GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
+                
+                foreach(KeyValuePair<int,int> temp in ObtainedItemDic)
+                {
+                    GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
+                }
+
+                totalExp = 0;
+                ObtainedItemDic.Clear();
+                GameDataManager.Instance.SetGameDataToServer();
             }
         }
 

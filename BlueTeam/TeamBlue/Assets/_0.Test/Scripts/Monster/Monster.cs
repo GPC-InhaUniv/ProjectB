@@ -153,9 +153,12 @@ namespace ProjectB.Characters.Monsters
                 default:
                     break;
             }
-            foreach (KeyValuePair<int,int> temp in GameControllManager.Instance.ObtainedItemDic)
+            if(GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
             {
-
+                GameControllManager.Instance.ObtainedItemDic[itemCode]++;
+            }
+            else
+            {
                 GameControllManager.Instance.ObtainedItemDic.Add(itemCode, 1);
             }
         }
