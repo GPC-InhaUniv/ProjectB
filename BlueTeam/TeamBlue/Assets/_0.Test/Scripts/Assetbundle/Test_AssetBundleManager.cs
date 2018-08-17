@@ -121,7 +121,14 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     }
 
 
+    public AudioClip LoadTest(BundleType bundleType,string AssetName)
+    {
+        AudioClip temp;
+        CommonAssetBundle = AssetBundle.LoadFromFile(SetPath("soundbundle"));
+        temp = CommonAssetBundle.LoadAsset(AssetName) as AudioClip;
 
+        return temp;
+    }
     public GameObject LoadObject(BundleType bundleType, string AssetName)
     {
         

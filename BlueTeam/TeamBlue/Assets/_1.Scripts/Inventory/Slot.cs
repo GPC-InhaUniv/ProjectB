@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿#define InventorySlot
+#define CombinationSlot
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using ProjectB.Inventory;
 
 public class Slot : MonoBehaviour, IPointerClickHandler
 {
@@ -12,7 +14,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         get { return isClicked; }
         set { isClicked = value; }
     }
-    [SerializeField] VillageUIPresenter villageUIPresenter;
+    [SerializeField] InventoryUIPresenter InventoryUIPresenter;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -25,11 +27,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             isClicked = false;
         }
 
-        if(eventData.pointerEnter.gameObject.tag == "InventorySlot" && villageUIPresenter.lastPress == "InventorySlot")
-            villageUIPresenter.SwapOnClick(this);
-        else if((eventData.pointerEnter.gameObject.tag == "CombinationSlot" && villageUIPresenter.lastPress == "InventorySlot") || (eventData.pointerEnter.gameObject.tag == "InventorySlot" && villageUIPresenter.lastPress == "CombinationSlot"))
-            villageUIPresenter.SwapOnCombination(this);
+    //    if (eventData.pointerEnter.gameObject.tag == "InventorySlot" && InventoryUIPresenter.lastPress == "InventorySlot")
+    //        InventoryUIPresenter.SwapOnInventoryItem(this);
+    //    else if ((eventData.pointerEnter.gameObject.tag == "CombinationSlot" && InventoryUIPresenter.lastPress == "InventorySlot") || (eventData.pointerEnter.gameObject.tag == "InventorySlot" && villageUIPresenter.lastPress == "CombinationSlot"))
+    //        InventoryUIPresenter.SwapOnCombination(this);
 
-        villageUIPresenter.lastPress = eventData.pointerEnter.gameObject.tag;
+    //    villageUIPresenter.lastPress = eventData.pointerEnter.gameObject.tag;
     }
 }

@@ -19,8 +19,8 @@ namespace ProjectB.Characters.Monsters
             //test//
             AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
-            Attackable = new ComboAttack(this);
-            SkillUsable = new NoSkill(this);
+            attackable = new ComboAttack(animator);
+            skillUsable = new NoSkill(animator);
 
 
 

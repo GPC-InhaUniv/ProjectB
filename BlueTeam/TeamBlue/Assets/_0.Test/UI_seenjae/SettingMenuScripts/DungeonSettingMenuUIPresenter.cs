@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using ProjectB.GameManager;
 
 namespace ProjectB.UI.SettingMenu
 {
@@ -45,7 +46,7 @@ namespace ProjectB.UI.SettingMenu
 
         public void ReturnToVillage()
         {
-            Debug.Log("마을로 귀환성공");
+            GameControllManager.Instance.MoveNextScene(LoadType.Village,0);
         }
         
     }

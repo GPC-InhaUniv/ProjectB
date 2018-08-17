@@ -39,7 +39,6 @@ namespace ProjectB.UI.SettingMenu
             PauseGame(activatedMenu);
         }
 
-
         public void ControlWindows(bool ActivatedMenu, GameObject menuWindowUI, GameObject popUPWindowUI)
         {
             menuWindowUI.SetActive(!ActivatedMenu);
@@ -59,6 +58,5 @@ namespace ProjectB.UI.SettingMenu
                     break;
             }
         }
-
     }
 }

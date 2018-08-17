@@ -79,6 +79,7 @@ namespace ProjectB.UI.Presenter
                     break;
                 case (int)UIType.CombinationStore:
                     isOpenedCombinationUI = true;
+                    isOpenedInventoryUI = true;
                     break;
                 case (int)UIType.Trade:
                     isOpenedTradeUI = true;
@@ -107,6 +108,7 @@ namespace ProjectB.UI.Presenter
 
         void EndStage(bool isWin)
         {
+            
             if(isWin)
             {
                 winUI.SetActive(false);

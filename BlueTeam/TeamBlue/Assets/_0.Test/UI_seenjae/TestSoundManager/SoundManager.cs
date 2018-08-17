@@ -6,93 +6,102 @@ using System;
 namespace ProjectB.GameManager
 {
     //SoundManager
-    public enum SoundFXType
+    public enum SoundType
     {
         ButtonClick,
         PlayerAttack,
         PlayerHit,
         EnemyAttack,
         EnemyHit,
-
     }
-
+    
     public class SoundManager : Singleton<SoundManager>
     {
-        [Header("SoundClips")]
-        public AudioClip[] SFXClips;
-        //public AudioClip PlayerAttackClip;
-        //public AudioClip PlayerHitClip;
-        //public AudioClip EnemyAttackClip;
-        //public AudioClip EnemyHitClip;
-        //public AudioClip BGMClipClip;
-
         
-        [HideInInspector]
-        public AudioSource[] SFXSource;
-        [HideInInspector]
-        public AudioSource BGMSource;
-
-        [Header("Volume")]
+        public AudioClip[] sfxClips;
+        public AudioClip bgmClip;
         
-        private float SFXVolume;
-       
-        private float BGMVolume;
+        public AudioSource[] sfxSources;
+        public AudioSource bgmSource;
+
+        int numberOfSFX;
+        public float sfxVolume;
+        public float bgmVolume;
 
         void Awake()
         {
-            //LoadSound();
+            numberOfSFX = 5;
+            sfxClips = new AudioClip[numberOfSFX];
+            sfxSources = new AudioSource[numberOfSFX];
+            LoadSoundClips();
+            //RegistSFXSource(sfxClips);
             //RegistSound(SFXClips);
         }
 
-        public void LoadSound()
+        void LoadSoundClips()//리턴값 정하고 하는게 나으려나
         {
-            //에셋번들에서 로드
+            //추가하는 것 수정/추가하기 좋게 하려면 ??
+            sfxClips[0] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "Test1");//각각 사운드 파일들 로드
+
         }
 
-        //public void RegistSound(AudioClip[] audioClips)
+        AudioClip[] RegistSFXSource(AudioClip[] audioClips)
+        {
+            for(int i = 0; i<audioClips.Length; i++)
+           {
+                sfxSources[i].clip = audioClips[i];
+            }
+            return audioClips;
+        }
+
+        //AudioClip RegistBGMSource(AudioClip audioClip)
         //{
-        //    for(int i = 0; i<audioClips.Length; i++)
-        //    {
-        //        SFXSource[i].clip = audioClips[i];
 
-
-        //    }
+        //    return null;
         //}
 
-        public void PlayBGM(string name)
+        //호출되는 메서드
+        public void PlayBGM(SoundType soundName)
         {
             
         }
 
+        //호출되는 메서드
         public void PlaySFX()
         {
-
+            
+            AudioClip soundclip = SetSFXType(SoundType.ButtonClick);
+            
+            AudioSource SFXsource = new AudioSource();
+            SFXsource.clip = soundclip;
+            // source.volume =sfxVolume;
+            SFXsource.Play();
         }
 
-        public AudioClip GetSoundFX(SoundFXType soundName)
+        public AudioClip SetSFXType(SoundType soundName)
         {
             //SFXVolume 적용
             AudioClip audioClip;
             switch (soundName)
             {
-                case SoundFXType.ButtonClick:
-                    audioClip = SFXClips[0];
+                case SoundType.ButtonClick:
+                    audioClip = sfxClips[0];
                     break;
 
-                case SoundFXType.PlayerHit:
-                    audioClip = SFXClips[1];
+                case SoundType.PlayerAttack:
+                    audioClip = sfxClips[1];
                     break;
 
-                case SoundFXType.PlayerAttack:
-                    audioClip = SFXClips[2];
+                case SoundType.PlayerHit:
+                    audioClip = sfxClips[2];
                     break;
 
-                case SoundFXType.EnemyAttack:
-                    audioClip = SFXClips[3];
+                case SoundType.EnemyAttack:
+                    audioClip = sfxClips[3];
                     break;
 
-                case SoundFXType.EnemyHit:
-                    audioClip = SFXClips[4];
+                case SoundType.EnemyHit:
+                    audioClip = sfxClips[4];
                     break;
 
                 default:
@@ -104,14 +113,15 @@ namespace ProjectB.GameManager
         }
 
         //볼륨 적용은 Play()가 들어가는 시점에 해보자
-        public void ReceiveBGMVolume(float bgmVolume)
+        public void SetBGMVolume(float bgmVolume)
         {
-            BGMVolume = bgmVolume;
+            this.bgmVolume = bgmVolume;
+            
         }
         
-        public void ReceiveSFXVolume(float sfxVolume)
+        public void SetSFXVolume(float sfxVolume)
         {
-            SFXVolume = sfxVolume;
+            this.sfxVolume = sfxVolume;
         }
         
     }
