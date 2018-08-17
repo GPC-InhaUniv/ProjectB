@@ -21,12 +21,13 @@ namespace ProjectB.GameManager
 
         GameObject playerPosition;
         GameObject[] MonsterPostion;
-        List<Item> obtainedItemList = new List<Item>();
-        public List<Item> ObtainedItemList { get { return obtainedItemList; } private set { } }
+        //Dictionary<int,int> obtainedItemDic = new Dictionary<int,int>();
+        public Dictionary<int, int> ObtainedItemDic = new Dictionary<int, int>();
 
         private void Start()
         {
             MonsterPostion = new GameObject[3];
+            //ObtainedItemDic.ad
         }
         public void CheckMonsterAtDungeon()
         {
