@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using ProjectB.Item;
 
 /// <summary>
 /// Inventory View part가 될 예정

@@ -22,7 +22,7 @@ namespace ProjectB.UI
         }
         public void ShowHUD()
         {
-            hPBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
+            hPBar.fillAmount = player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
             levelText.text = "Level\n"+player.CharacterLevel.ToString();
         
         }
