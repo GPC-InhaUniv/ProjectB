@@ -7,21 +7,26 @@ namespace ProjectB.Characters.Monsters
     public class Boss : Monster
     {
         BossState bossState;
-        public ISkillUsableBridge DefencSkillUsable;
-        public ISkillUsableBridge EntangleSkillUsable;
+        ISkillUsableBridge defencSkillUsable;
+        ISkillUsableBridge entangleSkillUsable;
         float stateHandleNum;
 
 
         void Start()
         {
-            //bossState = new PhaseOne(this, skillprefab);
-            bossState = new PhaseTwo(this, skillprefab);
-
+        
             monsterMove = GetComponent<MonsterMove>();
             animator = GetComponent<Animator>();
             startPosition = transform.position;
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
+
+            // bossState = new PhaseOne(animator, skillprefab,attackable,defencSkillUsable,skillUsable);
+            bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
+            //bossState = new PhaseThree(animator, skillprefab, attackable, defencSkillUsable, skillUsable, entangleSkillUsable);
+
+
+
         }
         void Update()
         {
@@ -45,12 +50,13 @@ namespace ProjectB.Characters.Monsters
                     case State.Skilling:
                         UseSkill();
                         break;
-
                     case State.Died:
                         Died();
                         break;
                 }
             }
+            //Debug.Log(animator.GetInteger(AniStateParm.Attack.ToString()));
+
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Died();
@@ -85,12 +91,13 @@ namespace ProjectB.Characters.Monsters
 
                     if (CharacterHealthPoint <= CharacterMaxHealthPoint * (2 / 3) && stateHandleNum == 0)
                     {
-                        bossState = new PhaseTwo(this, skillprefab);
+                        bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
+
                         stateHandleNum++;
                     }
                     else if (CharacterHealthPoint <= CharacterMaxHealthPoint * (1 / 3) && stateHandleNum == 1)
                     {
-                        bossState = new PhaseThree(this, skillprefab);
+                        bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
                         stateHandleNum++;
                     }
                     else if (CharacterHealthPoint <= 0)

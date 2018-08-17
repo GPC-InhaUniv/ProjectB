@@ -3,9 +3,11 @@ using UnityEngine.UI;
 using ProjectB.Quest;
 using ProjectB.GameManager;
 using System.Collections.Generic;
+using ProjectB.Item;
 
 public class VillageUIPresenter : MonoBehaviour
 {
+    // 퀘스트
     [SerializeField] Text aVillageQuestContentsText;
     [SerializeField] Text bVillageQuestContentsText;
     [SerializeField] Text aQuestAcceptanceButtonText;
@@ -14,6 +16,8 @@ public class VillageUIPresenter : MonoBehaviour
     [SerializeField] Text questSubViewBAvillageQuestContentsText;
     [SerializeField] GameObject questViewPanel;
     [SerializeField] GameObject worldMapPanel;
+
+    // 인벤토리
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] GameObject combinationStorePanel;
     [SerializeField] Button questExitButton;
@@ -23,11 +27,13 @@ public class VillageUIPresenter : MonoBehaviour
     [SerializeField] List<Slot> combinationSlots = new List<Slot>();
     [SerializeField] List<Item> combinationItems = new List<Item>();
     [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
-
     int[] requirematerials;
 
+    // 퀘스트
     IQuestViable aVillageQuest;
     IQuestViable bVillageQuest;
+
+    //인벤토리
     string inventoryRelatedName;
     public string lastPress;
 
@@ -49,12 +55,6 @@ public class VillageUIPresenter : MonoBehaviour
         bQuestAcceptanceButtonText.text = bVillageQuest.AcceptToQuest((QuestType)villageType);
     }
 
-    public void OnClickKillAMonster(int monsterType)
-    {
-        aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest((ConditionType)monsterType);
-        bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest((ConditionType)monsterType);
-    }
-
     public void OnClickQuestButton()
     {
         questViewPanel.SetActive(true);
@@ -65,11 +65,13 @@ public class VillageUIPresenter : MonoBehaviour
         questViewPanel.SetActive(false);
     }
 
+    // 월드맵
     public void OnClickEntranceDungeonButton()
     {
         worldMapPanel.SetActive(true);
     }
 
+    // 인벤토리
     public void OnClickInventoryRelatedButton(string name)
     {
         if (name == "Inventory")
@@ -91,6 +93,7 @@ public class VillageUIPresenter : MonoBehaviour
         inventoryPanel.SetActive(true);
     }
 
+    // 인벤토리
     public void OnClickInventoryRelatedExitButton()
     {
         if (inventoryRelatedName == "Combination")
@@ -107,6 +110,7 @@ public class VillageUIPresenter : MonoBehaviour
         inventoryRelatedName = "";
     }
 
+    // 월드맵
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
         GameControllManager.Instance.MoveNextScene(LoadType.WoodDungeon, dungeonNumber);
@@ -137,6 +141,7 @@ public class VillageUIPresenter : MonoBehaviour
         Debug.Log("마을 입장");
     }
 
+    // 삭제 예정
     private void Update()
     {
         if (Input.GetKey(KeyCode.A))
@@ -160,6 +165,7 @@ public class VillageUIPresenter : MonoBehaviour
         }
     }
 
+    // 인벤토리
     public void AddItem(int code)
     {
         for (int i = 0; i < items.Count; i++)
@@ -185,7 +191,8 @@ public class VillageUIPresenter : MonoBehaviour
             }
         }
     }
-
+     
+    // 인벤토리
     public void SwapOnClick(Slot slot)
     {
         int SlotIndex;
@@ -211,7 +218,8 @@ public class VillageUIPresenter : MonoBehaviour
             }
         }
     }
-
+    
+    // 인벤토리
     public void SwapOnCombination(Slot slot)
     {
         if(lastPress == "InventorySlot")
@@ -232,7 +240,7 @@ public class VillageUIPresenter : MonoBehaviour
                             slot.GetComponent<Item>().SwapItem(slots[i].GetComponent<Item>());
                             slot.GetComponent<Item>().Text_Test.text = slot.GetComponent<Item>().ItemName;
                             slots[i].GetComponent<Item>().Text_Test.text = slots[i].GetComponent<Item>().ItemName;
-                            DisplayToResourcesSlot();
+                            DisplayToCombinationResourcesSlot();
                             slot.IsClicked = false;
                             slots[i].IsClicked = false;
                         }
@@ -253,7 +261,7 @@ public class VillageUIPresenter : MonoBehaviour
                     slot.gameObject.GetComponent<Item>().SwapItem(combinationSlots[i].gameObject.GetComponent<Item>());
                     slot.GetComponent<Item>().Text_Test.text = slot.GetComponent<Item>().ItemName;
                     combinationSlots[i].GetComponent<Item>().Text_Test.text = combinationSlots[i].GetComponent<Item>().ItemName;
-                    DisplayToResourcesSlot();
+                    DisplayToCombinationResourcesSlot();
                     slot.IsClicked = false;
                     combinationSlots[i].IsClicked = false;
                 }
@@ -262,7 +270,8 @@ public class VillageUIPresenter : MonoBehaviour
         }
     }
 
-    public void DisplayToResourcesSlot()
+    // 인벤토리
+    public void DisplayToCombinationResourcesSlot()
     {
         combinationResourcesItems[0].Text_Test.text = combinationItems[0].RecipeBrick.ToString();
         combinationResourcesItems[1].Text_Test.text = combinationItems[0].RecipeWood.ToString();
@@ -275,6 +284,7 @@ public class VillageUIPresenter : MonoBehaviour
         requirematerials[3] = combinationItems[0].RecipeSheep;
     }
 
+    // 인벤토리
     public void OnClickCombinationItemButton()
     {
         bool isCombination = false;
