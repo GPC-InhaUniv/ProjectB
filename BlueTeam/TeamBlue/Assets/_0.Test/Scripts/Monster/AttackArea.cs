@@ -19,7 +19,6 @@ public class AttackArea : MonoBehaviour {
         {
             Character player =  other.GetComponent<Character>();
             player.ReceiveDamage(characters.CharacterAttackPower);
-
         }
         else if(other.CompareTag("Monster"))
         {

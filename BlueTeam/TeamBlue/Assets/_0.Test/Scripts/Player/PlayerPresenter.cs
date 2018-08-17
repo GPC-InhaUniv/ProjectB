@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.Characters.Players;
@@ -53,6 +54,21 @@ namespace ProjectB.UI.Presenter
 
         Coroutine coroutine;
 
+        MinimapRadar minimap;
+
+        [SerializeField]
+        public List<RectTransform> enemyIconPositions;
+
+        const float minimapScale = 5.0f;
+
+        Vector2 playerPosition;
+        Vector2 enemyPosition;
+
+        public RectTransform IconsParent;
+
+        [SerializeField]
+        RectTransform enemyIcon;
+
         void Start()
         {
             skillCoolDownTime = 5.0f;
@@ -60,17 +76,19 @@ namespace ProjectB.UI.Presenter
             swapCoolDownTime = 2.0f;
 
             inputMoveVector = Vector3.zero;
-
+            
             //수정 필요
             comboResetCount = 0;
             comboRandom = Random.Range(1, 2);
             //수정 필요
-
+            
             isComboState = false;
 
             GetImage();
 
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+            minimap = player.GetComponentInChildren<MinimapRadar>();
 
             commandControll = new CommandControll();
 
@@ -92,11 +110,13 @@ namespace ProjectB.UI.Presenter
 
 
             WeaponSwapButton.onClick.AddListener(() => InputWeaponSwapButton());
-
         }
 
+
         void Update()
-        {
+        {        
+            DrawIcons(); //수정 필요
+
             inputMoveVector = PoolInput();
 
             if (PlayerNormalState())
@@ -110,6 +130,33 @@ namespace ProjectB.UI.Presenter
             SkillImage = SkillButton.GetComponent<Image>();
             BackStepImage = BackStepButton.GetComponent<Image>();
             WeaponSwapImage = WeaponSwapButton.GetComponent<Image>();
+        }
+
+        void RegistIcons()
+        {
+            enemyIconPositions[minimap.Enemys.Count-1] = Instantiate(enemyIcon, IconsParent.rect.position, Quaternion.identity);      
+        }
+
+        void DrawIcons()
+        {
+            //RegistIcons();
+
+            playerPosition = new Vector2(player.transform.position.x, player.transform.position.z);
+
+            for (int i = 0; i < minimap.Enemys.Count; i++)
+            {
+                enemyPosition = new Vector2(minimap.Enemys[i].transform.position.x, minimap.Enemys[i].transform.position.z);
+                Vector2 playerToEnemy = enemyPosition - playerPosition;
+                enemyIconPositions[i].localPosition = playerToEnemy * minimapScale;
+            }
+
+            if (minimap.Enemys.Count < enemyIconPositions.Count)
+            {
+                for (int i = minimap.Enemys.Count; i < enemyIconPositions.Count; i++)
+                {
+                    enemyIconPositions[i].localPosition = new Vector3(100f, 0, 0);
+                }
+            }
         }
 
         IEnumerator ButtonCoolDownCoroutine(float time, Button button)
