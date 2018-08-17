@@ -1,5 +1,4 @@
-﻿
-using PlayFab;
+﻿using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections.Generic;
@@ -94,7 +93,7 @@ namespace ProjectB.GameManager
         string[] warehouseItemArray;
         string[] townInformationArray;
         string[] equipmentItemArray;
-        Item test;
+        ProjectB.Item.Item test;
 
         void Start()
         {
