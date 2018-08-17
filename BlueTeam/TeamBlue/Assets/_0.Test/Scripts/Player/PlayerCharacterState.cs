@@ -6,11 +6,26 @@ namespace ProjectB.Characters.Players
 
     public abstract class PlayerCharacterState
     {
-        protected Player player;
+        protected PlayerAnimation playerAinmaton;
 
-        public PlayerCharacterState(Player player)
+        protected Rigidbody playerRigidbody;
+
+        protected Transform playerTransform;
+
+        protected Collider playerCollider;
+
+        protected int AttackNumber;
+
+        protected Vector3 targetVector;
+
+        public PlayerCharacterState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
         {
-            this.player = player;
+            this.playerAinmaton = playerAinmaton;
+            this.playerRigidbody = playerRigidbody;
+            this.playerTransform = playerTransform;
+            this.playerCollider = playerCollider;
+            this.AttackNumber = AttackNumber;
+            this.targetVector = targetVector;
         }
 
         public abstract void Tick(Vector3 moveVector);
@@ -18,87 +33,92 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterIdleState : PlayerCharacterState
     {
-        public PlayerCharacterIdleState(Player player) : base(player)
+        public PlayerCharacterIdleState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector) 
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
-            //player.CharacterAttackPower = 10;
-            player.IsRunning = false;
+            playerCollider.enabled = true;
         }
     }
 
-    public class PlayerCharacterRunState : PlayerCharacterState
-    {
-        public PlayerCharacterRunState(Player player) : base(player)
-        {
-
-        }
-
-        public override void Tick(Vector3 moveVector)
-        {
-            player.IsRunning = true;
-            player.Running(moveVector);
-        }
-    }
     public class PlayerCharacterAttackState : PlayerCharacterState
     {
-        public PlayerCharacterAttackState(Player player) : base(player)
+        public PlayerCharacterAttackState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
-            player.SetAttackPower(10.0f);
-
-            player.PlayerAttack();
+            playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + AttackNumber.ToString());
         }
     }
 
     public class PlayerCharacterSkillState : PlayerCharacterState
     {
-        public PlayerCharacterSkillState(Player player) : base(player)
+        public PlayerCharacterSkillState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
+            playerAinmaton.SkillAnimation(AnimationState.Skill.ToString());
+        }
+    }
 
-            player.SetAttackPower(30.0f);
+    public class PlayerCharacterRunState : PlayerCharacterState
+    {
+        public PlayerCharacterRunState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        {
 
-            player.Skill();
+        }
+
+        public override void Tick(Vector3 moveVector)
+        {
+            if (moveVector != Vector3.zero)
+            {
+                playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
+                playerTransform.rotation = Quaternion.LookRotation(moveVector); //보간필요
+            }
         }
     }
 
     public class PlayerCharacterBackStepState : PlayerCharacterState
     {
-        public PlayerCharacterBackStepState(Player player) : base(player)
+        public PlayerCharacterBackStepState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
-            player.BackStep();
+            playerCollider.enabled = false;
+            playerAinmaton.BackStepAnimation();
+            playerRigidbody.AddForce(-targetVector * 700 * Time.deltaTime, ForceMode.Impulse);
         }
     }
+
     public class PlayerCharacterDieState : PlayerCharacterState
     {
-        public PlayerCharacterDieState(Player player) : base(player)
+        public PlayerCharacterDieState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
-            player.IsDied = true;
-            player.IsRunning = false;
-
-            player.Die();
+            playerCollider.enabled = false;
+            playerAinmaton.DieAnimation();
         }
     }
 }

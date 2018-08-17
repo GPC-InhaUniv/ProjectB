@@ -5,6 +5,14 @@ using ProjectB.Characters.Players;
 
 namespace ProjectB.UI.Presenter
 {
+    enum ButtonName
+    {
+        AttackButton,
+        SkillButton,
+        BackStepButton,
+        WeaponSwapButton
+    }
+
     public class PlayerPresenter : MonoBehaviour
     {
         [SerializeField]
@@ -13,9 +21,9 @@ namespace ProjectB.UI.Presenter
         Image SkillImage, BackStepImage, WeaponSwapImage;
 
         [SerializeField]
-        Image hpBar;
+        Image hpBar,expBar;
         [SerializeField]
-        Text levelText;
+        Text levelText,hpText,expText;
 
         [SerializeField]
         JoyStick joyStick;
@@ -57,7 +65,9 @@ namespace ProjectB.UI.Presenter
             comboResetCount = 0;
             comboRandom = Random.Range(1, 2);
             //수정 필요
+
             isComboState = false;
+
             GetImage();
 
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -73,6 +83,7 @@ namespace ProjectB.UI.Presenter
 
             AttackButton.onClick.AddListener(() => RandomCombo());
             AttackButton.onClick.AddListener(() => StartCombo());
+
             AttackButton.onClick.AddListener(() => Shuffle());
 
             SkillButton.onClick.AddListener(() => InputSkillButton());
@@ -83,10 +94,12 @@ namespace ProjectB.UI.Presenter
             WeaponSwapButton.onClick.AddListener(() => InputWeaponSwapButton());
 
         }
+
         void Update()
         {
             inputMoveVector = PoolInput();
-            if (PlayerState())
+
+            if (PlayerNormalState())
             {
                 SetInputVector();
             }
@@ -98,22 +111,6 @@ namespace ProjectB.UI.Presenter
             BackStepImage = BackStepButton.GetComponent<Image>();
             WeaponSwapImage = WeaponSwapButton.GetComponent<Image>();
         }
-
-        //void ButtonCoolDown(ButtonName name)
-        //{
-        //    switch (name)
-        //    {
-        //        case ButtonName.SkillButton:
-        //            break;
-        //        case ButtonName.BackStepButton:
-
-        //            break;
-        //        case ButtonName.WeaponSwapButton:
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
 
         IEnumerator ButtonCoolDownCoroutine(float time, Button button)
         {
@@ -159,11 +156,13 @@ namespace ProjectB.UI.Presenter
 
             if (inputMoveVector != Vector3.zero)
             {
-                player.SetState(new PlayerCharacterRunState(player));
+                player.IsRunning = true;
+                player.ChangeState(PlayerStates.PlayerCharacterRunState);
             }
             else
             {
-                player.SetState(new PlayerCharacterIdleState(player));
+                player.IsRunning = false;
+                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 
@@ -171,7 +170,7 @@ namespace ProjectB.UI.Presenter
         {
             if (PlayerIdleState())
             {
-                player.SetState(new PlayerCharacterBackStepState(player));
+                player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
                 StartCoroutine(ButtonCoolDownCoroutine(backStepCoolDownTime, BackStepButton));
                 StartCoroutine(ImageCoolDown(backStepCoolDownTime, BackStepImage));
 
@@ -179,12 +178,12 @@ namespace ProjectB.UI.Presenter
             }
             else
             {
-                player.SetState(new PlayerCharacterIdleState(player));
+                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
 
         }
 
-        bool PlayerState()
+        bool PlayerNormalState()
         {
             if (player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState) && player.PlayerState.GetType() != typeof(PlayerCharacterSkillState))
             {
@@ -207,10 +206,9 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            //수정필요함
             if (PlayerIdleState())
             {
-                player.SetState(new PlayerCharacterSkillState(player));
+                player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
                 StartCoroutine(ButtonCoolDownCoroutine(skillCoolDownTime, SkillButton));
                 StartCoroutine(ImageCoolDown(skillCoolDownTime, SkillImage));
@@ -219,7 +217,7 @@ namespace ProjectB.UI.Presenter
             }
             else
             {
-                player.SetState(new PlayerCharacterIdleState(player));
+                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 
@@ -306,16 +304,19 @@ namespace ProjectB.UI.Presenter
             if (PlayerIdleState())
             {
                 commandControll.ExcuteCommand();
-                player.SetState(new PlayerCharacterAttackState(player));
+                player.ChangeState(PlayerStates.PlayerCharacterAttackState);
 
                 isComboState = true;
 
                 comboResetCount++;
 
-
                 //StartCoroutine(RestCombo());
 
                 SwapWeaponCoolDown();
+            }
+            else
+            {
+                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 
@@ -364,15 +365,12 @@ namespace ProjectB.UI.Presenter
         public void ShowHUD()
         {
             hpBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
+
             levelText.text = "Level\n" + player.CharacterLevel.ToString();
+
+
         }
 
-        enum ButtonName
-        {
-            AttackButton,
-            SkillButton,
-            BackStepButton,
-            WeaponSwapButton
-        }
+
     }
 }

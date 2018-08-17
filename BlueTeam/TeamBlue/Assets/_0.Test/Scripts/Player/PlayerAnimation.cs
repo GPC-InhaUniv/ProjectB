@@ -2,6 +2,18 @@
 using UnityEngine;
 namespace ProjectB.Characters.Players
 {
+    public enum AnimationState
+    {
+        LongSword,
+        ShortSword,
+        Run,
+        Die,
+        Hit,
+        Swap,
+        BackStep,
+        Attack,
+        Skill
+    }
 
     public class PlayerAnimation : MonoBehaviour
     {
@@ -48,14 +60,11 @@ namespace ProjectB.Characters.Players
             animator.SetBool(AnimationState.Run.ToString(), isRunning);
         }
 
-
-
         IEnumerator AttackCoroutine(string attackName)
         {
             animator.SetBool(attackName, true);
             yield return new WaitForSeconds(1.0f);
             animator.SetBool(attackName, false);
-            //스킬 네임 수정해야함. 수정해야함
         }
 
         IEnumerator SkillCoroutine(string skillName)
@@ -63,7 +72,6 @@ namespace ProjectB.Characters.Players
             animator.SetBool(skillName, true);
             yield return new WaitForSeconds(2.0f);
             animator.SetBool(skillName, false);
-            //스킬네임 수정해야함. 수정해야함
         }
 
         IEnumerator BackStepCoroutine()
@@ -103,22 +111,11 @@ namespace ProjectB.Characters.Players
 
         public void DieAnimation()
         {
-            animator.SetBool("Died", true);
+            animator.SetBool(AnimationState.Die.ToString(), true);
             animator.SetTrigger(AnimationState.Die.ToString());
         }
 
     }
-    public enum AnimationState
-    {
-        LongSword,
-        ShortSword,
-        Run,
-        Die,
-        Hit,
-        Swap,
-        BackStep,
-        Attack,
-        Skill
-    }
+
 }
 

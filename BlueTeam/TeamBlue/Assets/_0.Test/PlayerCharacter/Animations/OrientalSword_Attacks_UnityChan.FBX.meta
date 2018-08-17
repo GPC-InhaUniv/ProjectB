@@ -1230,8 +1230,7 @@ ModelImporter:
       that will be discarded.\n\t'Character1_RightForeArm' has translation animation
       that will be discarded.\n\t'Character1_RightHand' has translation animation
       that will be discarded.\n\t'Character1_Head' has translation animation that
-      will be discarded.\nEvent AttackDone has a time (0.266667) outside the clip's
-      valid range (0.033333..0.266666). It will never be fired"
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 3
@@ -9422,7 +9421,7 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 1
+      loopBlendOrientation: 0
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
