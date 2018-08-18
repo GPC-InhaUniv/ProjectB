@@ -24,6 +24,7 @@ public class AttackArea : MonoBehaviour {
         {
             Character monster = other.GetComponent<Character>();
             monster.ReceiveDamage(characters.CharacterAttackPower);
+            characters.transform.LookAt(other.transform);
         }
     }
 }

@@ -14,8 +14,8 @@ namespace ProjectB.Characters
         public float CharacterMaxHealthPoint { get { return characterMaxHealthPoint; } private set { } }
 
         [SerializeField]
-        protected int characterLevel;
-        public int CharacterLevel { get { return characterLevel; } private set { } }
+        protected float characterLevel;
+        public float CharacterLevel { get { return characterLevel; } private set { } }
 
         [SerializeField]
         protected float characterExp;

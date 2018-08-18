@@ -7,11 +7,16 @@ namespace ProjectB.Characters.Players
 {
     public class MinimapRadar : MonoBehaviour
     {
-
+        //Transform playerTransform;
+            
         public List<GameObject> Enemys { get { return enemys; } private set { } }
         [SerializeField]
         List<GameObject> enemys;
 
+        //private void Start()
+        //{
+        //    playerTransform = GetComponentInParent<Player>().transform;
+        //}
 
         void OnTriggerEnter(Collider other)
         {

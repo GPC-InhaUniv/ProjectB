@@ -54,6 +54,9 @@ namespace ProjectB.Characters.Players
 
         Weapon Weapon;
 
+        public float PlayerMaxExp { get { return playerMaxExp; } private set { } }
+        float playerMaxExp;
+
         private void Awake()
         {
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
@@ -191,7 +194,7 @@ namespace ProjectB.Characters.Players
         void GetCharacterStatusFromDataManager()
         {
             //test
-            characterExp = 57.2f;
+            characterExp = 500.0f;
             characterLevel = 1;
             characterDefensivePower = 50;
             //test
@@ -209,6 +212,8 @@ namespace ProjectB.Characters.Players
             characterMaxHealthPoint = characterLevel * 100;
             characterHealthPoint = characterMaxHealthPoint;
             characterAttackPower = characterLevel * 10;
+
+            playerMaxExp = (1000 * 1.2f * CharacterLevel);
 
             preAttckPower = characterAttackPower;
         }

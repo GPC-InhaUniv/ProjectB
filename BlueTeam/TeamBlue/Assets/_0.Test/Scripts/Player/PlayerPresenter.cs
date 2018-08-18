@@ -24,7 +24,7 @@ namespace ProjectB.UI.Presenter
         [SerializeField]
         Image hpBar,expBar;
         [SerializeField]
-        Text levelText,hpText,expText;
+        Text levelText,hpValueText,expValueText;
 
         [SerializeField]
         JoyStick joyStick;
@@ -44,16 +44,19 @@ namespace ProjectB.UI.Presenter
 
         float skillCoolDownTime, backStepCoolDownTime, swapCoolDownTime;
 
+        float horizontal, vertical;
+
+        float expValue;
+
         bool isComboState;
 
-        float horizontal, vertical;
+        bool isSwap;
 
         Vector3 moverDirection;
 
-        bool isSwap = false;
 
-        Coroutine coroutine;
 
+        //minimap
         MinimapRadar minimap;
 
         [SerializeField]
@@ -68,6 +71,8 @@ namespace ProjectB.UI.Presenter
 
         [SerializeField]
         RectTransform enemyIcon;
+        //minimap
+
 
         void Start()
         {
@@ -81,7 +86,7 @@ namespace ProjectB.UI.Presenter
             comboResetCount = 0;
             comboRandom = Random.Range(1, 2);
             //수정 필요
-            
+            isSwap = false;
             isComboState = false;
 
             GetImage();
@@ -118,10 +123,15 @@ namespace ProjectB.UI.Presenter
 
 
         void Update()
-        {   
+        {
             //minimap     
-            DrawIcons();
+            //DrawIcons();
             //minimap
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ShowHUD();
+            }
+
 
             inputMoveVector = PoolInput();
 
@@ -422,14 +432,16 @@ namespace ProjectB.UI.Presenter
 
         public void ShowHUD()
         {
-            if(minimap.Enemys.Count > 0)
-            {
-                RegistIcons();
-            }
+            expValue = player.CharacterExp / player.PlayerMaxExp * 100;
 
-            hpBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
+            hpBar.fillAmount = player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
+            hpValueText.text = player.CharacterHealthPoint / player.CharacterMaxHealthPoint * 100 + "%";
 
-            levelText.text = "Level\n" + player.CharacterLevel.ToString();
+            levelText.text = "Level\n" + player.CharacterLevel.ToString();       
+
+            expBar.fillAmount = player.CharacterExp / player.PlayerMaxExp;
+
+            expValueText.text = expValue.ToString("N1") + "%";
         }
 
 
