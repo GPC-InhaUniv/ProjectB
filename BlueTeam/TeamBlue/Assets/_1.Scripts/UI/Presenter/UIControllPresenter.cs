@@ -33,9 +33,7 @@ namespace ProjectB.UI.Presenter
         [SerializeField]
         GameObject minimapUI;
         [SerializeField]
-        GameObject winUI;
-        [SerializeField]
-        GameObject loseUI;
+        GameObject resultUI;
         [SerializeField]
         GameObject playerController;
         [SerializeField]
@@ -106,19 +104,9 @@ namespace ProjectB.UI.Presenter
             SetActiveUI();
         }
 
-        void EndStage(bool isWin)
+        void EndStage()
         {
-            
-            if(isWin)
-            {
-                winUI.SetActive(false);
-                loseUI.SetActive(true);
-            }
-            else
-            {
-                loseUI.SetActive(false);
-                winUI.SetActive(true);
-            }
+            resultUI.SetActive(true);
         }
 
         void SetActiveUI()

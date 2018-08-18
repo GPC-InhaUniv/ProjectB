@@ -74,10 +74,7 @@ public class Test_PoolManager : Singleton<Test_PoolManager>
         SetPool();
       
     }
-    public void SetFalsePlayer()
-    {
-        player.gameObject.SetActive(false);
-    }
+
 
     
 
