@@ -110,12 +110,18 @@ namespace ProjectB.UI.Presenter
 
 
             WeaponSwapButton.onClick.AddListener(() => InputWeaponSwapButton());
+
+            //minimap
+            RegistIcons();//수정 필요
+            //minimap
         }
 
 
         void Update()
-        {        
-            DrawIcons(); //수정 필요
+        {   
+            //minimap     
+            DrawIcons();
+            //minimap
 
             inputMoveVector = PoolInput();
 
@@ -132,15 +138,19 @@ namespace ProjectB.UI.Presenter
             WeaponSwapImage = WeaponSwapButton.GetComponent<Image>();
         }
 
+        //minimap
         void RegistIcons()
         {
-            enemyIconPositions[minimap.Enemys.Count-1] = Instantiate(enemyIcon, IconsParent.rect.position, Quaternion.identity);      
+            for (int i = 0; i < 20; i++)
+            {
+                enemyIconPositions[i] = Instantiate(enemyIcon, IconsParent.rect.position, Quaternion.identity);
+                enemyIconPositions[i].transform.parent = enemyIcon.parent;
+            }
+           
         }
 
         void DrawIcons()
         {
-            //RegistIcons();
-
             playerPosition = new Vector2(player.transform.position.x, player.transform.position.z);
 
             for (int i = 0; i < minimap.Enemys.Count; i++)
@@ -158,6 +168,7 @@ namespace ProjectB.UI.Presenter
                 }
             }
         }
+        //minimap
 
         IEnumerator ButtonCoolDownCoroutine(float time, Button button)
         {
@@ -411,11 +422,14 @@ namespace ProjectB.UI.Presenter
 
         public void ShowHUD()
         {
+            if(minimap.Enemys.Count > 0)
+            {
+                RegistIcons();
+            }
+
             hpBar.fillAmount = (float)player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
 
             levelText.text = "Level\n" + player.CharacterLevel.ToString();
-
-
         }
 
 

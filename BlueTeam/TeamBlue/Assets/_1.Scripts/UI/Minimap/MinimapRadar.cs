@@ -7,17 +7,18 @@ namespace ProjectB.Characters.Players
 {
     public class MinimapRadar : MonoBehaviour
     {
+
         public List<GameObject> Enemys { get { return enemys; } private set { } }
         [SerializeField]
         List<GameObject> enemys;
+
 
         void OnTriggerEnter(Collider other)
         {
             if(other.tag == "Monster")
             {
                 if (!enemys.Contains(other.gameObject))
-                {
-
+                {                    
                     enemys.Add(other.gameObject);
                 }
             }

@@ -178,7 +178,6 @@ namespace ProjectB.Characters.Players
                 //게임 컨트롤러에 게임 오버 요청할 것
             }
         }
-
         float CalDamage(float damage)
         {
             if (0 < damage - characterDefensivePower / 10)
