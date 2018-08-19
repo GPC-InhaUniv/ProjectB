@@ -198,8 +198,8 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
-    optimizeGameObjects: 1
+    resampleCurves: 0
+    optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -218,7 +218,7 @@ ModelImporter:
       name: 02_Frank_RPG_Sword_Draw
       takeName: Take 001
       firstFrame: 350
-      lastFrame: 370
+      lastFrame: 400
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

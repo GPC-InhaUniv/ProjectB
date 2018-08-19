@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using ProjectB.GameManager;
+using ProjectB.Item;
 
 enum CombinationItem
 {

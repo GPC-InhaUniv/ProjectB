@@ -1,5 +1,4 @@
-﻿
-using PlayFab;
+﻿using PlayFab;
 using PlayFab.ClientModels;
 using System;
 using System.Collections.Generic;
@@ -41,33 +40,14 @@ namespace ProjectB.GameManager
     public struct PlayerInformation
     {
         public int PlayerLevel;
-        public int PlayerExp;
-        public int PortionCount;
+        public float PlayerExp;
 
-        public PlayerInformation(int playerlevel, int playerexp, int portioncount)
+        public PlayerInformation(int playerlevel, float playerexp)
         {
 
             PlayerLevel = playerlevel;
-            PlayerExp = playerexp;
-            PortionCount = portioncount;
-
+            PlayerExp = playerexp;    
         }
-    }
-
-
-    //for Save JsonFile
-    [Serializable]
-    public struct PlayerInventoryData
-    {
-        public int[] Code;
-        public int[] Count;
-    }
-
-    [Serializable]
-    public struct PlayerWareHouseData
-    {
-        public int[] Code;
-        public int[] Count;
     }
 
 
@@ -75,8 +55,6 @@ namespace ProjectB.GameManager
 
     public class GameDataManager : Singleton<GameDataManager>
     {
-        public const int MAXDUNGEONCOUNT = 4;
-        public const int MAXITEMCOUNT = 5;
         public PlayerInformation PlayerInfomation;
         public TownInformation AtownInformation;
         public TownInformation BtownInformation;
@@ -94,7 +72,6 @@ namespace ProjectB.GameManager
         string[] warehouseItemArray;
         string[] townInformationArray;
         string[] equipmentItemArray;
-        Item test;
 
         void Start()
         {
@@ -120,21 +97,10 @@ namespace ProjectB.GameManager
             DontDestroyOnLoad(gameObject);
         }
 
-
-
-        public void PlusPortion()
-        {
-
-            AtownInformation.RelationsShip++;
-            BtownInformation.LastCleardQuest = 4;
-
-        }
-
         public void SetGameDataToServer()
         {
             string playerLv = "";
             string playerExp = "";
-            string playerPortionCount = "";
 
             string AtownRelationship = "";
             string AtownQuest = "";
@@ -147,7 +113,6 @@ namespace ProjectB.GameManager
 
             playerLv = PlayerInfomation.PlayerLevel.ToString();
             playerExp = PlayerInfomation.PlayerExp.ToString();
-            playerPortionCount = PlayerInfomation.PortionCount.ToString();
             AtownRelationship = AtownInformation.RelationsShip.ToString();
             AtownQuest = AtownInformation.LastCleardQuest.ToString();
             BtownRelationship = BtownInformation.RelationsShip.ToString();
@@ -172,11 +137,12 @@ namespace ProjectB.GameManager
 
             Dictionary<string, string> data = new Dictionary<string, string>();
 
-            data.Add("PlayerInformation", playerLv + "/" + playerExp + "/" + playerPortionCount);
+            data.Add("PlayerInformation", playerLv + "/" + playerExp);
             data.Add("TownInformation", AtownRelationship + "/" + AtownQuest + "/" + BtownRelationship + "/" + BtownQuest);
             data.Add("InventroyItem", InventoryItems);
             data.Add("WareHouseItem", WareHouseItems);
             data.Add("EquipmentItem", EquipmentItems);
+
             UpdateUserDataRequest request = new UpdateUserDataRequest()
             {
                 Data = data,
@@ -269,8 +235,7 @@ namespace ProjectB.GameManager
 
             //playerinfo load
             PlayerInfomation.PlayerLevel = Convert.ToInt32(playerInformationArray[0]);
-            PlayerInfomation.PlayerExp = Convert.ToInt32(playerInformationArray[1]);
-            PlayerInfomation.PortionCount = Convert.ToInt32(playerInformationArray[2]);
+            PlayerInfomation.PlayerExp =float.Parse(playerInformationArray[1]);
 
 
 

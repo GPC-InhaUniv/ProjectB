@@ -2,24 +2,44 @@
 using UnityEngine.UI;
 using ProjectB.Quest;
 using ProjectB.GameManager;
+using System.Collections.Generic;
+using ProjectB.Item;
 
 public class VillageUIPresenter : MonoBehaviour
 {
-    [SerializeField] private Text aVillageQuestContentsText;
-    [SerializeField] private Text bVillageQuestContentsText;
-    [SerializeField] private Text aQuestAcceptanceButtonText;
-    [SerializeField] private Text bQuestAcceptanceButtonText;
-    [SerializeField] private Text questSubViewAVillageQuestContentsText;
-    [SerializeField] private Text questSubViewBAvillageQuestContentsText;
-    [SerializeField] private GameObject questViewPanel;
-    [SerializeField] private GameObject worldMapPanel;
-    [SerializeField] private Button questExitButton;
+    // 퀘스트
+    [SerializeField] Text aVillageQuestContentsText;
+    [SerializeField] Text bVillageQuestContentsText;
+    [SerializeField] Text aQuestAcceptanceButtonText;
+    [SerializeField] Text bQuestAcceptanceButtonText;
+    [SerializeField] Text questSubViewAVillageQuestContentsText;
+    [SerializeField] Text questSubViewBAvillageQuestContentsText;
+    [SerializeField] GameObject questViewPanel;
+    [SerializeField] GameObject worldMapPanel;
 
-    private IQuestViable aVillageQuest;
-    private IQuestViable bVillageQuest;
+    // 인벤토리
+    [SerializeField] GameObject inventoryPanel;
+    [SerializeField] GameObject combinationStorePanel;
+    [SerializeField] Button questExitButton;
+
+    [SerializeField] List<Item> items = new List<Item>();
+    [SerializeField] List<Slot> slots = new List<Slot>();
+    [SerializeField] List<Slot> combinationSlots = new List<Slot>();
+    [SerializeField] List<Item> combinationItems = new List<Item>();
+    [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
+    int[] requirematerials;
+
+    // 퀘스트
+    IQuestViable aVillageQuest;
+    IQuestViable bVillageQuest;
+
+    //인벤토리
+    string inventoryRelatedName;
+    public string lastPress;
 
     private void Awake()
     {
+        requirematerials = new int[4];
         aVillageQuest = new AVillageHuntingQuest();
         bVillageQuest = new BVillageHuntingQuest();
 /*        questSubViewAVillageQuestContentsText.text = */aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
@@ -35,12 +55,6 @@ public class VillageUIPresenter : MonoBehaviour
         bQuestAcceptanceButtonText.text = bVillageQuest.AcceptToQuest((QuestType)villageType);
     }
 
-    public void OnClickKillAMonster(int monsterType)
-    {
-        aQuestAcceptanceButtonText.text = aVillageQuest.ProceedToQuest((ConditionType)monsterType);
-        bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest((ConditionType)monsterType);
-    }
-
     public void OnClickQuestButton()
     {
         questViewPanel.SetActive(true);
@@ -51,11 +65,52 @@ public class VillageUIPresenter : MonoBehaviour
         questViewPanel.SetActive(false);
     }
 
+    // 월드맵
     public void OnClickEntranceDungeonButton()
     {
         worldMapPanel.SetActive(true);
     }
 
+    // 인벤토리
+    public void OnClickInventoryRelatedButton(string name)
+    {
+        if (name == "Inventory")
+        {
+
+        }
+
+        else if (name == "Combination")
+        {
+            combinationStorePanel.SetActive(true);
+        }
+
+        else if (name == "Trade")
+        {
+            // 트레이드 창을 닫는다.
+        }
+
+        inventoryRelatedName = name;
+        inventoryPanel.SetActive(true);
+    }
+
+    // 인벤토리
+    public void OnClickInventoryRelatedExitButton()
+    {
+        if (inventoryRelatedName == "Combination")
+        {
+            combinationStorePanel.SetActive(false);
+        }
+
+        else if (inventoryRelatedName == "Trade")
+        {
+            // 트레이드 창을 닫는다.
+        }
+
+        inventoryPanel.SetActive(false);
+        inventoryRelatedName = "";
+    }
+
+    // 월드맵
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
         GameControllManager.Instance.MoveNextScene(LoadType.WoodDungeon, dungeonNumber);
@@ -86,6 +141,7 @@ public class VillageUIPresenter : MonoBehaviour
         Debug.Log("마을 입장");
     }
 
+    // 삭제 예정
     private void Update()
     {
         if (Input.GetKey(KeyCode.A))
@@ -106,6 +162,146 @@ public class VillageUIPresenter : MonoBehaviour
         else if (Input.GetKey(KeyCode.W))
         {
             bQuestAcceptanceButtonText.text = bVillageQuest.ProceedToQuest(ConditionType.IronMonster);
+        }
+    }
+
+    // 인벤토리
+    public void AddItem(int code)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].Code == code)
+            {
+                if (items[i].ItemType != ItemType.Equipmentable)
+                {
+                    Debug.Log("갯수 증가");
+                }
+                else
+                {
+                    continue;
+                }
+                break;
+            }
+
+            else if (items[i].Code == 0)
+            {
+                items[i].SetItem(code);
+                items[i].Text_Test.text = items[i].ItemName;
+                break;
+            }
+        }
+    }
+     
+    // 인벤토리
+    public void SwapOnClick(Slot slot)
+    {
+        int SlotIndex;
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slot.IsClicked && slots[i].IsClicked)
+            {
+                if (slot == slots[i])
+                {
+                    continue;
+                }
+                SlotIndex = slot.transform.GetSiblingIndex();
+                slot.transform.SetSiblingIndex(slots[i].transform.GetSiblingIndex());
+                slots[i].transform.SetSiblingIndex(SlotIndex);
+                slot.IsClicked = false;
+                slots[i].IsClicked = false;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
+    
+    // 인벤토리
+    public void SwapOnCombination(Slot slot)
+    {
+        if(lastPress == "InventorySlot")
+        {
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (slot.IsClicked && slots[i].IsClicked)
+                {
+                    if (slot == slots[i])
+                    {
+                        continue;
+                    }
+
+                    if (slots[i].GetComponent<Item>().ItemType == ItemType.Exapandable)
+                    {
+                        if (slots[i].GetComponent<Item>().Code % 100 > 10)
+                        {
+                            slot.GetComponent<Item>().SwapItem(slots[i].GetComponent<Item>());
+                            slot.GetComponent<Item>().Text_Test.text = slot.GetComponent<Item>().ItemName;
+                            slots[i].GetComponent<Item>().Text_Test.text = slots[i].GetComponent<Item>().ItemName;
+                            DisplayToCombinationResourcesSlot();
+                            slot.IsClicked = false;
+                            slots[i].IsClicked = false;
+                        }
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+        if (lastPress == "CombinationSlot")
+        {
+            for (int i = 0; i < combinationSlots.Count; i++)
+            {
+                if(slot.IsClicked && combinationSlots[i].IsClicked)
+                {
+                    slot.gameObject.GetComponent<Item>().SwapItem(combinationSlots[i].gameObject.GetComponent<Item>());
+                    slot.GetComponent<Item>().Text_Test.text = slot.GetComponent<Item>().ItemName;
+                    combinationSlots[i].GetComponent<Item>().Text_Test.text = combinationSlots[i].GetComponent<Item>().ItemName;
+                    DisplayToCombinationResourcesSlot();
+                    slot.IsClicked = false;
+                    combinationSlots[i].IsClicked = false;
+                }
+                break;
+            }
+        }
+    }
+
+    // 인벤토리
+    public void DisplayToCombinationResourcesSlot()
+    {
+        combinationResourcesItems[0].Text_Test.text = combinationItems[0].RecipeBrick.ToString();
+        combinationResourcesItems[1].Text_Test.text = combinationItems[0].RecipeWood.ToString();
+        combinationResourcesItems[2].Text_Test.text = combinationItems[0].RecipeIron.ToString();
+        combinationResourcesItems[3].Text_Test.text = combinationItems[0].RecipeSheep.ToString();
+
+        requirematerials[0] = combinationItems[0].RecipeWood;
+        requirematerials[1] = combinationItems[0].RecipeIron;
+        requirematerials[2] = combinationItems[0].RecipeBrick;
+        requirematerials[3] = combinationItems[0].RecipeSheep;
+    }
+
+    // 인벤토리
+    public void OnClickCombinationItemButton()
+    {
+        bool isCombination = false;
+        for(int i=0;i<4;i++)
+        {
+            if (GameDataManager.Instance.PlayerGamedata[3000 + i] < requirematerials[i])
+                isCombination = false;
+        }
+
+        if(isCombination)
+        {
+            AddItem(combinationItems[0].Code);
+            Debug.Log("조합성공");
+        }
+        else
+        {
+            Debug.Log("실패");
         }
     }
 }

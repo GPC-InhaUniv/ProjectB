@@ -1230,10 +1230,7 @@ ModelImporter:
       that will be discarded.\n\t'Character1_RightForeArm' has translation animation
       that will be discarded.\n\t'Character1_RightHand' has translation animation
       that will be discarded.\n\t'Character1_Head' has translation animation that
-      will be discarded.\nEvent AttackEnd has a time (0.266667) outside the clip's
-      valid range (0.033333..0.266666). It will never be firedEvent AttackEnd has
-      a time (0.433333) outside the clip's valid range (0.000000..0.433332). It will
-      never be fired"
+      will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 3
@@ -7752,18 +7749,18 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.19726963
+      - time: 0.35628024
         functionName: AttackStart
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -7773,6 +7770,14 @@ ModelImporter:
         messageOptions: 0
       - time: 0.81265897
         functionName: AttackEnd
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9270073
+        functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
           type: 3}
@@ -8174,18 +8179,18 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.30024785
+      - time: 0.6041348
         functionName: AttackStart
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -8193,8 +8198,16 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.89590156
         functionName: AttackEnd
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9781022
+        functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
           type: 3}
@@ -9399,7 +9412,7 @@ ModelImporter:
       name: singleattack06
       takeName: singleattack06
       firstFrame: 782
-      lastFrame: 795
+      lastFrame: 801
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -9409,12 +9422,12 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -9427,8 +9440,16 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9236641
+      - time: 0.744832
         functionName: AttackEnd
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.95255476
+        functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
           type: 3}

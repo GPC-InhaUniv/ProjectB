@@ -27,7 +27,7 @@ namespace ProjectB.UI
                 pos.x = (pos.x / bgImg.rectTransform.sizeDelta.x);
                 pos.y = (pos.y / bgImg.rectTransform.sizeDelta.y);
 
-                inputVector = new Vector3(pos.x * 2 + 1, 0, pos.y * 2 + 1); //x와 z값
+                inputVector = new Vector3(pos.x, 0, pos.y); //x와 z값
                 inputVector = (inputVector.magnitude > 1.0f) ? inputVector.normalized : inputVector;
 
                 // Move JoyStick img

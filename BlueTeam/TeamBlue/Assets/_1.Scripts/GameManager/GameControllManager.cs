@@ -11,7 +11,10 @@ namespace ProjectB.GameManager
         public int CurrentIndex;
 
         bool isClearDungeon;
-        bool isGameOver;
+        public bool IsClearDungeon { get { return isClearDungeon; } private set { } }
+  
+        int totalExp;
+        public int TotalExp { get { return totalExp; } private set { } }
 
         int totalMonsterCount;
         int cameraOffSetZ = 5;
@@ -20,14 +23,40 @@ namespace ProjectB.GameManager
 
         GameObject playerPosition;
         GameObject[] MonsterPostion;
+        public Dictionary<int, int> ObtainedItemDic = new Dictionary<int, int>();
 
         private void Start()
         {
             MonsterPostion = new GameObject[3];
+            
         }
         public void CheckMonsterAtDungeon()
         {
             totalMonsterCount = CurrentIndex * 10;
+            totalExp = 1200 * CurrentIndex;
+        }
+
+        public void CheckGameOver()
+        {
+            isClearDungeon = false;
+        }
+        public void CheckGameClear()
+        {
+            totalMonsterCount--;
+            if(totalMonsterCount<=0)
+            {
+                isClearDungeon = true;
+                GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
+                
+                foreach(KeyValuePair<int,int> temp in ObtainedItemDic)
+                {
+                    GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
+                }
+                isClearDungeon = true;
+                totalExp = 0;
+                ObtainedItemDic.Clear();
+                GameDataManager.Instance.SetGameDataToServer();
+            }
         }
 
         public void SetObjectPool()
@@ -108,6 +137,7 @@ namespace ProjectB.GameManager
             if (CurrentIndex != 0)
             {
                 CheckMonsterAtDungeon();
+                
                 Debug.Log("현재 던전 몬스터 수:"+totalMonsterCount);
 
             }

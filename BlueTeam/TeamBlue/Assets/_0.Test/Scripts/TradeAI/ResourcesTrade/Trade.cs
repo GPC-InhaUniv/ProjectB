@@ -30,9 +30,9 @@ public class Trade : MonoBehaviour
 
     GameResources checkingWantsOfResources;
 
-    int specRecieveCount = 0;
-
     bool isAbleToTrade = false;
+
+    int additionResource = 0;
 
 
 
@@ -43,20 +43,15 @@ public class Trade : MonoBehaviour
         resourceContext = new ResourceContext();
     }
 
-    void Update()
-    {
-
-    }
-
     public void ShowPlayerResourcesOnDebugLog()
     {
         Debug.Log("현재 자원");
         Debug.Log("");
 
-        Debug.Log("흙 " + GameDataManager.Instance.PlayerGamedata[3002]);
-        Debug.Log("철광석 " + GameDataManager.Instance.PlayerGamedata[3001]);
-        Debug.Log("양 " + GameDataManager.Instance.PlayerGamedata[3003]);
-        Debug.Log("나무 " + GameDataManager.Instance.PlayerGamedata[3000]);
+        Debug.Log("흙 " + TestResource.Instance.testDictionary["Brick"]);
+        Debug.Log("철광석 " + TestResource.Instance.testDictionary["Iron"]);
+        Debug.Log("양 " + TestResource.Instance.testDictionary["Sheep"]);
+        Debug.Log("나무 " + TestResource.Instance.testDictionary["Wood"]);
 
         Debug.Log("");
         Debug.Log("거래 확률 " + tradeProbability + "%");
@@ -81,58 +76,77 @@ public class Trade : MonoBehaviour
         }
     }
 
-    public void CheckRelationShip(int relationShip)
+    public int CheckRelationShip(int relationShip)
     {
-        int tempReceiveCount = 0;
+        int specRecieveCount = 0;
 
-        if (relationShip >= 50)
+        if (relationShip >= 70)
         {
-            tempReceiveCount = Random.Range(1, 4);
-            specRecieveCount = tempReceiveCount;
-            tempReceiveCount = 0;
+            specRecieveCount = Random.Range(1, 4);
 
-            Debug.Log("우호도가 높음, 1 ~ 4 사이의 자원 개수 중 " + specRecieveCount + "추가");
+            Debug.Log("우호도가 높음, 얻는 자원" + specRecieveCount + "추가");
 
         }
 
-        else if (relationShip < 50)
+        else if(relationShip >= 40)
         {
-            tempReceiveCount = Random.Range(1, 3);
-            specRecieveCount = tempReceiveCount;
-            tempReceiveCount = 0;
+            Debug.Log("우호도 보통");
+        }
 
-            Debug.Log("우호도가 낮음, 1 ~ 3 사이의 받을 자원 개수 중 " + specRecieveCount + "감소");
+        else if (relationShip < 40)
+        {
+            specRecieveCount = Random.Range(-1, -3);
+           
+
+            Debug.Log("우호도가 낮음, 얻는 자원 " + specRecieveCount + "감소");
 
         }
+
+        return specRecieveCount;
     }
 
-    public void ReceiveResources(int receivingResourceCount, GameResources receivingResourceType)
+    public void RunReceiveResource()
     {
+        ReceiveResources(receivingResourcesCount, receivingResourceType, tradeProbability);
+    }
+
+    public void RunSendResource()
+    {
+        SendResource(sendingResourcesCount, sendingResourceType, ref tradeProbability);
+    }
+
+    public void ReceiveResources(int receivingResourceCount, GameResources receivingResourceType, int tradeProbability)
+    {
+        int additionResource = 0;
+
+        CheckTradeProbability(tradeProbability);
+        additionResource = CheckRelationShip(relationShip);
+
         if (isAbleToTrade == true)
         {
             switch (receivingResourceType)
             {
                 case GameResources.Brick:
                     resourceContext.ChangeResourceState(new Brick());
-                    resourceContext.ReceiveResources(receivingResourceCount);
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     break;
 
                 case GameResources.Iron:
                     resourceContext.ChangeResourceState(new Iron());
-                    resourceContext.ReceiveResources(receivingResourceCount);
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     break;
 
                 case GameResources.Sheep:
                     resourceContext.ChangeResourceState(new Sheep());
-                    resourceContext.ReceiveResources(receivingResourceCount);
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     break;
 
                 case GameResources.Wood:
                     resourceContext.ChangeResourceState(new Wood());
-                    resourceContext.ReceiveResources(receivingResourceCount);
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     break;
 
@@ -146,19 +160,23 @@ public class Trade : MonoBehaviour
             switch (receivingResourceType)
             {
                 case GameResources.Brick:
-                    GameDataManager.Instance.PlayerGamedata[3002] -= receivingResourceCount;
+                    //GameDataManager.Instance.PlayerGamedata[3002] -= receivingResourceCount;
+                    TestResource.Instance.testDictionary["Brick"] -= receivingResourceCount;
                     break;
 
                 case GameResources.Iron:
-                    GameDataManager.Instance.PlayerGamedata[3001] -= receivingResourceCount;
+                    //GameDataManager.Instance.PlayerGamedata[3001] -= receivingResourceCount;
+                    TestResource.Instance.testDictionary["Iron"] -= receivingResourceCount;
                     break;
 
                 case GameResources.Sheep:
-                    GameDataManager.Instance.PlayerGamedata[3003] -= receivingResourceCount;
+                    //GameDataManager.Instance.PlayerGamedata[3003] -= receivingResourceCount;
+                    TestResource.Instance.testDictionary["Sheep"] -= receivingResourceCount;
                     break;
 
                 case GameResources.Wood:
-                    GameDataManager.Instance.PlayerGamedata[3000] -= receivingResourceCount;
+                    //GameDataManager.Instance.PlayerGamedata[3000] -= receivingResourceCount;
+                    TestResource.Instance.testDictionary["Wood"] -= receivingResourceCount;
                     break;
             }
         }
@@ -167,6 +185,8 @@ public class Trade : MonoBehaviour
 
     public void SendResource(int sendingResourceCount, GameResources sendingResourceType, ref int tradeProbability)
     {
+        CheckTradeProbability(tradeProbability);
+
         if (isAbleToTrade == true)
         {
             switch (sendingResourceType)
@@ -174,25 +194,29 @@ public class Trade : MonoBehaviour
                 case GameResources.Brick:
 
                     resourceContext.ChangeResourceState(new Brick());
-                    resourceContext.SendReousrces(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.SendReousrces(sendingResourceCount);
                     break;
 
                 case GameResources.Iron:
             
                     resourceContext.ChangeResourceState(new Iron());
-                    resourceContext.SendReousrces(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.SendReousrces(sendingResourceCount);
                     break;
 
                 case GameResources.Sheep:
                   
                     resourceContext.ChangeResourceState(new Sheep());
-                    resourceContext.SendReousrces(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.SendReousrces(sendingResourceCount);
                     break;
 
                 case GameResources.Wood:
               
                     resourceContext.ChangeResourceState(new Wood());
-                    resourceContext.SendReousrces(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext.SendReousrces(sendingResourceCount);
                     break;
             }
         }
@@ -205,19 +229,23 @@ public class Trade : MonoBehaviour
             switch (sendingResourceType)
             {
                 case GameResources.Brick:
-                    GameDataManager.Instance.PlayerGamedata[3002] += sendingResourcesCount;
+                    //GameDataManager.Instance.PlayerGamedata[3002] += sendingResourcesCount;
+                    TestResource.Instance.testDictionary["Brick"] += sendingResourceCount;
                     break;
 
                 case GameResources.Iron:
-                    GameDataManager.Instance.PlayerGamedata[3001] += sendingResourcesCount;
+                    //GameDataManager.Instance.PlayerGamedata[3001] += sendingResourcesCount;
+                    TestResource.Instance.testDictionary["Iron"] += sendingResourceCount;
                     break;
 
                 case GameResources.Sheep:
-                    GameDataManager.Instance.PlayerGamedata[3003] += sendingResourcesCount;
+                    //GameDataManager.Instance.PlayerGamedata[3003] += sendingResourcesCount;
+                    TestResource.Instance.testDictionary["Sheep"] += sendingResourceCount;
                     break;
 
                 case GameResources.Wood:
-                    GameDataManager.Instance.PlayerGamedata[3000] += sendingResourcesCount;
+                    //GameDataManager.Instance.PlayerGamedata[3000] += sendingResourcesCount;
+                    TestResource.Instance.testDictionary["Wood"] += sendingResourceCount;
                     break;
             }
         }
@@ -226,48 +254,47 @@ public class Trade : MonoBehaviour
 
     public void checkwants()
     {
-        CheckWantsOfResourcesOnAI();
+        CheckWantsOfResourcesAboutAI();
     }
 
-    public GameResources CheckWantsOfResourcesOnAI()
+    public GameResources CheckWantsOfResourcesAboutAI()
     {
-        // 플레이어가 제일 많이 가지고 있는 자원을 원하게 변경
+        // 플레이어가 제일 많이 가지고 있는 자원을 원하게 바꿈
 
         int maxValue = 0;
-        int maxValueIndex = 0;
+        string maxValueIndex = "";
 
-        maxValue = GameDataManager.Instance.PlayerGamedata[3000];
+        maxValue = TestResource.Instance.testDictionary["Brick"];
 
-        for (int i = 3000; i <= 3003; i++)
+        foreach(KeyValuePair<string, int> pair in TestResource.Instance.testDictionary)
         {
-            if (maxValue > GameDataManager.Instance.PlayerGamedata[i])
+            if(maxValue < pair.Value)
             {
-                maxValue = GameDataManager.Instance.PlayerGamedata[i];
-
-                maxValueIndex = i;
+                maxValue = pair.Value;
+                maxValueIndex = pair.Key;
             }
-
         }
 
-        if (maxValueIndex == 3000)
+
+        if (maxValueIndex == "Wood")
         {
             checkingWantsOfResources = GameResources.Wood;
             Debug.Log("필요한 자원 : 나무");
         }
 
-        else if (maxValueIndex == 3001)
+        else if (maxValueIndex == "Iron")
         {
             checkingWantsOfResources = GameResources.Iron;
             Debug.Log("필요한 자원 : 철광석");
         }
 
-        else if (maxValueIndex == 3002)
+        else if (maxValueIndex == "Brick")
         {
             checkingWantsOfResources = GameResources.Brick;
             Debug.Log("필요한 자원 : 벽돌");
         }
 
-        else if (maxValueIndex == 3003)
+        else if (maxValueIndex == "Sheep")
         { 
             checkingWantsOfResources = GameResources.Sheep;
             Debug.Log("필요한 자원 : 양");

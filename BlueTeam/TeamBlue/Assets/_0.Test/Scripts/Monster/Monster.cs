@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
+
+
 namespace ProjectB.Characters.Monsters
 {
     public enum AniStateParm
@@ -11,13 +13,16 @@ namespace ProjectB.Characters.Monsters
         Battle,
         Hitted,
         Attack,
-        Skill,
+        SkillOne,
+        SkillTwo,
         Defence,
         Died,
     }
 
-    public abstract class Monster : Character 
+    public abstract class Monster : Character
     {
+        [SerializeField]
+        GameResources kindOfMonster;
 
 
         public TestMonsterInfo testinfo;
@@ -26,14 +31,14 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         protected AttackArea[] attackAreas;
         [SerializeField]
-        protected GameObject skillprefab;
+        protected GameObject[] skillprefab;
 
         //Monster Status//
         [SerializeField]
-        protected int  walkRange ;
+        protected int walkRange;
 
         [SerializeField]
-        protected float skillCoolTime;       
+        protected float skillCoolTime;
         [SerializeField]
         protected bool attacking, died, skillUse;
         [SerializeField]
@@ -45,7 +50,7 @@ namespace ProjectB.Characters.Monsters
         protected float waitTime, speed;
         //Set Target//
         [SerializeField]
-        protected Transform attackTarget;
+        public Transform attackTarget;
         [SerializeField]
         protected MonsterMove monsterMove;
         //Move To Destination//
@@ -65,29 +70,43 @@ namespace ProjectB.Characters.Monsters
         //Monster Motion//
         public Animator animator;
 
-        public IAttackable Attackable;
-        public ISkillUsable SkillUsable;
+        protected IAttackableBridge attackable;
+        protected ISkillUsableBridge skillUsable;
+        protected bool isInvincibility;
 
-        public override void ReceiveDamage(int damage)
+        public override void ReceiveDamage(float damage)
         {
-            int defencepossibility = Random.Range(1, 5);
-            if (defencepossibility == 1)
+            if (!isInvincibility)
             {
-                animator.SetTrigger(AniStateParm.Defence.ToString());
-
-            }
-            else
-            {
-                animator.SetTrigger(AniStateParm.Hitted.ToString());
-                characterHealthPoint -= damage;
-
-                if (CharacterHealthPoint <= 0)
+                int defencepossibility = Random.Range(1, 5);
+                if (defencepossibility == 1)
                 {
-                    characterHealthPoint = 0;
-                    ChangeState(State.Died);
+                    animator.SetTrigger(AniStateParm.Defence.ToString());
+
                 }
+                else
+                {
+                    animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    characterHealthPoint -= damage;
+
+                    if (CharacterHealthPoint <= 0)
+                    {
+                        characterHealthPoint = 0;
+                        ChangeState(State.Died);
+                    }
+                }
+                StartCoroutine(AvoidAttac());
             }
         }
+        //1초무적//
+        protected IEnumerator AvoidAttac()
+        {
+            isInvincibility = true;
+            yield return new WaitForSeconds(1.0f);
+            isInvincibility = false;
+
+        }
+
 
         public void ChangeState(State currentState)
         {
@@ -101,27 +120,53 @@ namespace ProjectB.Characters.Monsters
 
         protected virtual void AttackTarget()
         {
-            Attackable.Attack();
+            if (attackTarget != null)
+            {
+                attackable.Attack();
+            }
         }
-        protected virtual  void UseSkill()
+        protected virtual void UseSkill()
         {
-            SkillUsable.UseSkill();
+            skillUsable.UseSkill();
         }
 
         protected void DropItem()
         {
-            
-            //if (dropItemPrefab.Length == 0) { return; }
-            //GameObject dropItem = dropItemPrefab[Random.Range(0, dropItemPrefab.Length)];
-            //Instantiate(dropItem, transform.position, Quaternion.identity);
+            int itemCode = 0;
+            switch (kindOfMonster)
+            {
+                case GameResources.Brick:
+                    itemCode = 3002;
+                    break;
+                case GameResources.Wood:
+                    itemCode = 3000;
+                    break;
+                case GameResources.Iron:
+                    itemCode = 3001;
+                    break;
+                case GameResources.Sheep:
+                    itemCode = 3003;
+                    break;
+                case GameResources.SpecialItem:
+                    itemCode = Random.Range(1311, 1334);
+                    break;
+                default:
+                    break;
+            }
+            if(GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
+                GameControllManager.Instance.ObtainedItemDic[itemCode]++;
+            else
+                GameControllManager.Instance.ObtainedItemDic.Add(itemCode, 1);
+
         }
         protected void Died()
         {
-            GameDataManager.Instance.PlayerInfomation.PlayerExp += characterExp;
+            GameControllManager.Instance.CheckGameOver();
+
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
-            
+
 
             DropItem();
         }
@@ -163,11 +208,11 @@ namespace ProjectB.Characters.Monsters
             monsterMove.SetDirection(attackTarget.position);
             animator.SetInteger(AniStateParm.Moving.ToString(), 2);
 
-            float attackRange = 1.5f;
+            float attackRange = 3.0f;
             float skillRange = 10.0f;
             //스킬 사용할 조건
-            float skillDistance = Vector3.Distance(attackTarget.position, transform.position);
-            if (skillDistance <= skillRange && skillDistance > attackRange && !skillUse) 
+            float targetDistance = Vector3.Distance(attackTarget.position, transform.position);
+            if (targetDistance <= skillRange && targetDistance > attackRange && !skillUse)
             {
                 skillUse = true;
                 monsterMove.SetDestination(attackTarget.position, 0);
@@ -179,7 +224,7 @@ namespace ProjectB.Characters.Monsters
             }
             else
             {
-                if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
+                if (targetDistance <= attackRange && !attacking)
                 {
                     ChangeState(State.Attacking);
                     attacking = true;
@@ -190,19 +235,24 @@ namespace ProjectB.Characters.Monsters
 
         protected void AttackEnd()
         {
-            if (animator.GetBool(AniStateParm.Skill.ToString()))
+            if (animator.GetBool(AniStateParm.SkillOne.ToString()))
             {
-                animator.SetBool(AniStateParm.Skill.ToString(), false);
+                animator.SetBool(AniStateParm.SkillOne.ToString(), false);
+            }
+            else if (animator.GetBool(AniStateParm.SkillTwo.ToString()))
+            {
+                animator.SetBool(AniStateParm.SkillTwo.ToString(), false);
             }
             StartCoroutine(WaitNextState());
-  
-            attacking = false;
+
 
         }
         protected IEnumerator WaitNextState()
         {
             yield return new WaitForSeconds(0.5f);
             animator.SetInteger(AniStateParm.Attack.ToString(), 0);
+            attacking = false;
+
             ChangeState(State.Chasing);
         }
 
@@ -216,21 +266,5 @@ namespace ProjectB.Characters.Monsters
 
         }
     }
+    
 }
-
-
-
-
-
-//// 일정거리안에 있으면 연속공격//
-//protected void AttackCombo()
-//{
-//    float attackRange = 1.5f;
-//    if (Vector3.Distance(attackTarget.position, transform.position) <= attackRange)
-//        animator.SetInteger("Attack", 2);
-//    else
-//    {
-//        animator.SetInteger("Attack", 0);
-//        ChangeState(State.Chasing);
-//    }
-//}
