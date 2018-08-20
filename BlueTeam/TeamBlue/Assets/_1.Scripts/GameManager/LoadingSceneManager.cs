@@ -101,10 +101,8 @@ namespace ProjectB.GameManager
                 if (IsDownLoadDone)
                 {
 
-                    Test_PoolManager.Instance.ClearPool();
-                    GameObject tempobject = Test_PoolManager.Instance.GetArea();
-                    if (tempobject != null)
-                        Destroy(tempobject);
+                    GameObjectsManager.Instance.ClearPool();
+                    GameObjectsManager.Instance.DestroyObject();
 
                     switch (currentType)
                     {
@@ -115,34 +113,40 @@ namespace ProjectB.GameManager
                             currentAssetName = "흙 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+
+                     //       Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                     //      Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.WoodDungeon);
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
-                            Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            //    Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            //   Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            //   Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.SheepDungeon:
                             currentAssetName = "양 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
-                            Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
+                            GameObjectsManager.Instance.SetAreaPrefab(1);
+                            //  Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            //  Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            //  Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.IronDungeon:
+                            Test_AssetBundleManager.Instance.LoadArea(AreaType.IronDungeon);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
                             break;
                         case LoadType.VillageCheckDownLoad:
                             currentAssetName = "마을 로드중...";
-                            Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
+                            Test_AssetBundleManager.Instance.LoadArea(AreaType.Village);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
 
-                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter"));
-                         
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village"));
+                            //  Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter"));
+                            //  Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village"));
                             break;
                     }
 
@@ -206,7 +210,7 @@ namespace ProjectB.GameManager
         }
 
         public static void LoadScene(LoadType mapType, int index)
-        {
+        {   
             switch (mapType)
             {
                 case LoadType.Village:
@@ -231,7 +235,7 @@ namespace ProjectB.GameManager
                 default:
                     break;
             }
-
+            
             NextScene = SceneName.Empty.ToString();
             SceneManager.LoadScene(SceneName.Loading.ToString());
 

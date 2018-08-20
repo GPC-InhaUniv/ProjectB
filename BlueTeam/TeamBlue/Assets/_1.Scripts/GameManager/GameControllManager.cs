@@ -114,8 +114,8 @@ namespace ProjectB.GameManager
 
         public void SetObjectPosition()
         {
-            GameObject tempObject = Test_PoolManager.Instance.GetArea();
-
+            //    GameObject tempObject = Test_PoolManager.Instance.GetArea();
+            GameObject tempObject = GameObjectsManager.Instance.GetAreaObject();
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
@@ -124,8 +124,8 @@ namespace ProjectB.GameManager
 
 
             }
-
-            tempObject = Test_PoolManager.Instance.GetPlayer();
+            GameObjectsManager.Instance.SetPrefab();
+            tempObject = GameObjectsManager.Instance.GetPlayerObject();
 
             if (tempObject != null)
             {

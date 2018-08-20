@@ -10,6 +10,7 @@ namespace ProjectB.UI.Presenter
     public class UIControllPresenter : MonoBehaviour
     {
         LoadType loadtype;
+        [Header("Panel")]
         [SerializeField, Tooltip("UIType Number : 0")]
         GameObject inventoryUI;
         [SerializeField, Tooltip("UIType Number : 1")]
@@ -23,14 +24,6 @@ namespace ProjectB.UI.Presenter
         [SerializeField, Tooltip("UIType Number : 5")]
         GameObject questUI;
         [SerializeField]
-        GameObject storageButton;
-        [SerializeField]
-        GameObject combinationStoreButton;
-        [SerializeField]
-        GameObject tradeButton;
-        [SerializeField]
-        GameObject dungeonButton;
-        [SerializeField]
         GameObject minimapUI;
         [SerializeField]
         GameObject resultUI;
@@ -38,6 +31,17 @@ namespace ProjectB.UI.Presenter
         GameObject playerController;
         [SerializeField]
         GameObject playerHUD;
+        [Space,Header("Button")]
+        
+        [SerializeField]
+        GameObject storageButton;
+        [SerializeField]
+        GameObject combinationStoreButton;
+        [SerializeField]
+        GameObject tradeButton;
+        [SerializeField]
+        GameObject dungeonButton;
+        
 
         bool isOpenedInventoryUI;
         bool isOpenedStorageUI;

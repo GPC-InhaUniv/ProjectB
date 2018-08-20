@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public enum AreaType
 {
     Null,
-    Town,
+    Village,
     WoodDungeon,
     IronDungeon,
     BrickDungeon,
@@ -56,8 +56,8 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         string bundleName;
         switch (areaType)
         {
-            case AreaType.Town:
-                bundleName = "Town";
+            case AreaType.Village:
+                bundleName = "townbundle";
                 break;
             case AreaType.WoodDungeon:
                 bundleName = "wooddungeonbundle";
@@ -137,10 +137,12 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         {
             
             case BundleType.Player:
+                if(PlayerBundle ==null)
                 PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
                 gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Common:
+                if(CommonAssetBundle == null)
                 CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
                 gameObject = CommonAssetBundle.LoadAsset(AssetName) as GameObject;
                 break;
