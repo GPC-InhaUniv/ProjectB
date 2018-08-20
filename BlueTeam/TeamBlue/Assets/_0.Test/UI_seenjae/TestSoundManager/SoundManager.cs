@@ -1,13 +1,10 @@
-﻿using UnityEngine.Audio;
-using UnityEngine;
-using ProjectB.Utility;
-using System;
+﻿using UnityEngine;
 
 namespace ProjectB.GameManager
 {
-    //SoundManager
-    public enum SoundType
+    public enum SoundFXType
     {
+        BGM,
         ButtonClick,
         PlayerAttack,
         PlayerHit,
@@ -19,181 +16,119 @@ namespace ProjectB.GameManager
     //사운드 동시재생이 되도록 
     public class SoundManager : Singleton<SoundManager>
     {
+        public AudioClip[] SoundClips; //에셋번들에서 받아온 사운드 여기에 넣어줄 것, 프라이빗으로 변경
+        public AudioSource[] SoundSources;
+       
+        //const int numberOfSFX = 5; //에셋번들에서 받아올 SFX clips 갯수
+        //const int numberOfAudioSources = 2; //이에따른 Audiosources 갯수
         
-        public AudioClip[] sfxClips;
-        public AudioClip bgmClip;
-        
-        public AudioSource[] sfxSources;
-        public AudioSource bgmSource;
-        
-        //const int numberOfSFX = 5;
-        //const int numberOfAudioSources = 2;
-        [Range(0.0f,1.0f)] // 볼륨조절은 0~1사이값으로만 됨
         public float sfxVolume;
         public float bgmVolume;
-
+        
         void Awake()
         {
-            
+            sfxVolume = 1.0f;
+            bgmVolume = 1.0f;
             //sfxClips = new AudioClip[numberOfSFX];
-            sfxSources = GetComponents<AudioSource>();
+            SoundSources = GetComponents<AudioSource>();
             //LoadSoundClips();
+            RegistBGM();
         }
-
-        private void Start()
-        {
-          
-        }
-
-        public void Update()
-        {
-            VolumeContorll();
-        }
+        
         void LoadSoundClips()
         {
             //sfxClips[0] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "Test1");//각각 사운드 파일들 로드
         }
-      
+
+        void RegistBGM()//매개변수로 해당 Clip받아올것
+        {
+            SoundSources[0].clip = SoundClips[0];
+        }
+
         public void PlayBGM()
         {
-            sfxSources[0].clip = sfxClips[0];
-            sfxSources[0].Play();
-        }
-        public void PlayBGM2()
-        {
-            sfxSources[1].clip = sfxClips[1];
-            sfxSources[1].Play();
-        }
-        public void PlayBGM3()
-        {
-            sfxSources[2].clip = sfxClips[2];
-            
-            sfxSources[2].Play();
-            
-        }
-
-        public void PlayerBGM3()
-        {
-            sfxSources[3].clip = sfxClips[3];
-
-            sfxSources[3].Play();
-
-        }
-
-        public void PlayerBGM4()
-        {
-            sfxSources[4].clip = sfxClips[4];
-
-            sfxSources[4].Play();
-        }
-
-        public void VolumeContorll()
-        {
-            sfxSources[2].volume = sfxVolume;
+            SoundSources[0].Play();
+            SoundSources[0].volume = bgmVolume;
+            SoundSources[0].loop = true;
         }
         
+        //개선 고려
+        void PlaySound(AudioClip audioClip)
+        {
+            for (int i = 1; i < SoundSources.Length; i++)
+            {
+                if ((SoundSources[i].clip != null) && (SoundSources[i].isPlaying))
+                {
+                    continue;
+                }
+
+                else if ((SoundSources[i].clip != null) && (!SoundSources[i].isPlaying))
+                {
+                    SoundSources[i].clip = audioClip;
+                    SoundSources[i].volume = sfxVolume;
+                    SoundSources[i].Play();
+                    break;
+                }
+
+                else if (SoundSources[i].clip == null)
+                {
+                    SoundSources[i].clip = audioClip;
+                    SoundSources[i].volume = sfxVolume;
+                    SoundSources[i].Play();
+                    break;
+                }
+            }
+        }
+
+        public void SetSoundType(SoundFXType soundType)
+        {
+            AudioClip audioClip;
+            switch(soundType)
+            {
+                case SoundFXType.ButtonClick:
+                    audioClip = SoundClips[1];
+                    break;
+
+                case SoundFXType.EnemyAttack:
+                    audioClip = SoundClips[2];
+                    break;
+
+                case SoundFXType.EnemyHit:
+                    audioClip = SoundClips[3];
+                    break;
+
+                case SoundFXType.PlayerAttack:
+                    audioClip = SoundClips[4];
+                    break;
+
+                case SoundFXType.PlayerHit:
+                    audioClip = SoundClips[5];
+                    break;
+
+                default:
+                    audioClip = null;
+                    break;
+            }
+            PlaySound(audioClip);
+        }
+
+        public void ControlVoume(float bgmVolume, float sfxVolume)
+        {
+            for(int i = 1; i<SoundSources.Length; i++)
+            {
+                SoundSources[i].volume = sfxVolume;
+            }
+            SoundSources[0].volume = bgmVolume;
+        }
         
-
-        //public void TestPlayButton()
+        //public void SetSFXVolume(float volume)
         //{
-        //    TestAudioSource.clip = bgmClip;
-        //    TestAudioSource.Play();
+        //    sfxVolume = volume;
         //}
 
-        
-
-        //public void LoadSoundClips()//리턴값 정하고 하는게 나으려나
+        //public void SetBGMVolume(float volume)
         //{
-        //    sfxClips[0] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "Test1");//각각 사운드 파일들 로드
-        //    //bgmSource.clip = sfxClips[0] ;
+        //    bgmVolume = volume;
         //}
-
-        //public AudioClip TestRegitstSFM(AudioClip audioClip)
-        //{
-        //    return audioClip;
-        //}
-
-
-
-
-        //AudioClip[] RegistSFXSource(AudioClip[] audioClips)
-        //{
-        //    for(int i = 0; i<audioClips.Length; i++)
-        //   {
-        //        sfxSources[i].clip = audioClips[i];
-        //    }
-        //    return audioClips;
-        //}
-
-        //AudioClip RegistBGMSource(AudioClip audioClip)
-        //{
-
-        //    return null;
-        //}
-
-        //호출되는 메서드
-        //public void PlayBGM(SoundType soundName)
-        //{
-
-        //}
-
-        //호출되는 메서드
-        //public void PlaySFX()
-        //{
-
-        //    AudioClip soundclip = SetSFXType(SoundType.ButtonClick);
-
-        //    AudioSource SFXsource = new AudioSource();
-        //    SFXsource.clip = soundclip;
-        //    // source.volume =sfxVolume;
-        //    SFXsource.Play();
-        //}
-
-        //public AudioClip SetSFXType(SoundType soundName)
-        //{
-        //    //SFXVolume 적용
-        //    AudioClip audioClip;
-        //    switch (soundName)
-        //    {
-        //        case SoundType.ButtonClick:
-        //            audioClip = sfxClips[0];
-        //            break;
-
-        //        case SoundType.PlayerAttack:
-        //            audioClip = sfxClips[1];
-        //            break;
-
-        //        case SoundType.PlayerHit:
-        //            audioClip = sfxClips[2];
-        //            break;
-
-        //        case SoundType.EnemyAttack:
-        //            audioClip = sfxClips[3];
-        //            break;
-
-        //        case SoundType.EnemyHit:
-        //            audioClip = sfxClips[4];
-        //            break;
-
-        //        default:
-        //            audioClip = null;
-        //            break;
-        //    }
-        //    return audioClip;
-
-        //}
-
-        //볼륨 적용은 Play()가 들어가는 시점에 해보자
-        //public void SetBGMVolume(float bgmVolume)
-        //{
-        //    this.bgmVolume = bgmVolume;
-
-        //}
-
-        //public void SetSFXVolume(float sfxVolume)
-        //{
-        //    this.sfxVolume = sfxVolume;
-        //}
-
     }
 }

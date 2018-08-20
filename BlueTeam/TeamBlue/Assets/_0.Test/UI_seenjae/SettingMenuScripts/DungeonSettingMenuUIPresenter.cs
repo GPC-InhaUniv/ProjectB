@@ -7,7 +7,7 @@ namespace ProjectB.UI.SettingMenu
     public class DungeonSettingMenuUIPresenter : SettingMenuUI
     {
 
-        [Header("DungeonOnly")]
+        [Header("DungeonMenuOnly")]
         [SerializeField]
         GameObject messageWindowUI;
         [SerializeField]
@@ -21,26 +21,41 @@ namespace ProjectB.UI.SettingMenu
         
         void Start()
         {
-            InActivateWindows(activatedMenu, settingWindowUI);
-            InActivateWindows(activatedMenu, soundControlWindowUI);
-            InActivateWindows(activatedMenu, messageWindowUI);
+            //창 비활성화
+            InActivateWindows(isActivatingMenu, settingWindowUI);
+            InActivateWindows(isActivatingMenu, soundControlWindowUI);
+            InActivateWindows(isActivatingMenu, messageWindowUI);
 
-           
-            settingButton.onClick.AddListener(delegate { ControlMenuWindow(activatedMenu, settingWindowUI, settingButton); });
-            returnToGameButton.onClick.AddListener(delegate { ControlMenuWindow(activatedMenu, settingWindowUI, settingButton); });
-            soundButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, settingWindowUI, soundControlWindowUI); });
-            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, soundControlWindowUI, settingWindowUI); });
-            returnToVillageButton.onClick.AddListener(delegate { PopupMessage(activatedMenu, messageWindowUI, messageText, "마을로 돌아가시겠습니까?"); });
-            noButton.onClick.AddListener(delegate { ControlWindows(activatedMenu, messageWindowUI, settingWindowUI); });
-            yesButton.onClick.AddListener(delegate { ControlMenuWindow(activatedMenu, settingWindowUI, settingButton);
-                ControlWindows(activatedMenu, messageWindowUI, messageWindowUI);
+            //버튼 등록
+            settingButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton); });
+            returnToGameButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton); });
+            soundButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, settingWindowUI, soundControlWindowUI); });
+            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, soundControlWindowUI, settingWindowUI); });
+            returnToVillageButton.onClick.AddListener(delegate { PopupMessage(isActivatingMenu, messageWindowUI, messageText, "마을로 돌아가시겠습니까?"); });
+            noButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, messageWindowUI, settingWindowUI); });
+            yesButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
+                ControlWindows(isActivatingMenu, messageWindowUI, messageWindowUI);
                 ReturnToVillage();
             });
+
+            //슬라이더 등록
+            bgmVolumeSlier.onValueChanged.AddListener(delegate { ControlVolume(bgmVolumeSlier, sfxVolumeSlider); });
+            sfxVolumeSlider.onValueChanged.AddListener(delegate { ControlVolume(bgmVolumeSlier, sfxVolumeSlider); });
+
+            RegistComponent(bgmVolumeSlier);
+            RegistComponent(sfxVolumeSlider);
+
+            SetSliderValue(bgmVolumeSlier, minVolumeValue, maxVolumeValue);
+            SetSliderValue(sfxVolumeSlider, minVolumeValue, maxVolumeValue);
+
+            SetFirstSliderValue(bgmVolumeSlier, firstSliderValue);
+            SetFirstSliderValue(sfxVolumeSlider, firstSliderValue);
+
         }
 
-        public void PopupMessage(bool ActivateMenu, GameObject popupWindowUI, Text text, string message)
+        public void PopupMessage(bool isActivatingMenu, GameObject popupWindowUI, Text text, string message)
         {
-            popupWindowUI.SetActive(ActivateMenu);
+            popupWindowUI.SetActive(isActivatingMenu);
             text.text = message;
         }
 
