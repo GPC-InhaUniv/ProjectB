@@ -8,53 +8,90 @@ using ProjectB.Item;
 public class InventoryUIPresenter : MonoBehaviour
 {
     [SerializeField] List<Item> items = new List<Item>();
-    [SerializeField] List<Slot> slots = new List<Slot>();
-    string inventoryRelatedName;
+    public List<Item> Items { get { return items; } }
+  //  AddItem addItem;
 
-    public void AddItem(int code)
+    private void Awake()
     {
-        for (int i = 0; i < items.Count; i++)
+        AddItem();
+        CombinationUIPresenter.addItemDelegate += AddItem;
+    }
+
+    public void AddItem()
+    {
+        foreach(KeyValuePair<int,int> temp in GameDataManager.Instance.PlayerGamedata)
         {
-            if (items[i].Code == code)
+            if (temp.Value == 0)
+                continue;
+
+            else
             {
-                if (items[i].ItemType != ItemType.Equipmentable)
-                    Debug.Log("갯수 증가");
-                else
-                    continue;
-                break;
-            }
-            else if (items[i].Code == 0)
-            {
-                items[i].SetItem(code);
-                items[i].Text_Test.text = items[i].ItemName;
-                break;
+                for(int i = 0; i < items.Count; i++)
+                {
+                    if (items[i].Code == temp.Key)
+                    {
+                        if (items[i].ItemType != ItemType.Equipmentable)
+                            items[i].SetItem(temp.Value);
+                        else
+                            continue;
+                        break;
+                    }
+                    else if (items[i].Code == 0)
+                    {
+                        items[i].SetItem(temp.Key);
+                        items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+                        break;
+                    }
+                }
             }
         }
     }
 
-    public void SwapOnInventoryItem(Slot slot)
+    public void SwapToInventoryItem(Slot currentSlot, Slot swapSlot)
     {
         int SlotIndex;
 
-        for (int i = 0; i < slots.Count; i++)
+        SlotIndex = currentSlot.transform.GetSiblingIndex();
+        currentSlot.transform.SetSiblingIndex(swapSlot.transform.GetSiblingIndex());
+        swapSlot.transform.SetSiblingIndex(SlotIndex);
+    }
+
+    public void SwapToFromCombinationSlotToInventorySlot(Item currentItem, Item swapItem)
+    {
+        int SwapItemCode = currentItem.Code;
+        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Exapandable && swapItem.ItemType == ItemType.Exapandable))
         {
-            if (slot.IsClicked && slots[i].IsClicked)
+            if (currentItem.ItemName == null || (currentItem.Code % 100 <= 33 && currentItem.Code % 100 >= 11) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 11))
             {
-                if (slot == slots[i])
-                {
-                    continue;
-                }
-                SlotIndex = slot.transform.GetSiblingIndex();
-                slot.transform.SetSiblingIndex(slots[i].transform.GetSiblingIndex());
-                slots[i].transform.SetSiblingIndex(SlotIndex);
-                slot.IsClicked = false;
-                slots[i].IsClicked = false;
-                break;
-            }
-            else
-            {
-                continue;
+                currentItem.SetItem(swapItem.Code);
+                swapItem.SetItem(SwapItemCode);
+                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+                swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
             }
         }
     }
+
+    public void SwapToFromEquipSlotToInventorySlot(Item currentItem, Item swapItem)
+    {
+        int SwapItemCode = currentItem.Code;
+
+        if(currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
+        {
+            currentItem.SetItem(swapItem.Code);
+            swapItem.SetItem(SwapItemCode);
+            currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+            swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+            for (int i=0;i<GameDataManager.Instance.EquipmentItem.Length;i++)
+            {
+
+                if (GameDataManager.Instance.EquipmentItem[i]!=0)
+                {
+                    if (GameDataManager.Instance.EquipmentItem[i] == currentItem.Code)
+                        GameDataManager.Instance.EquipmentItem[i] = 0;
+                }
+            }
+        }
+    }
+
+
 }

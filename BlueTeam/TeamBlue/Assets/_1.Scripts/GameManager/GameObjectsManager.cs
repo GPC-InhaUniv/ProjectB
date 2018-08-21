@@ -1,9 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ProjectB.UI.Presenter;
 namespace ProjectB.GameManager
 {
+    public enum ObjectType
+    {
+        Monster,
+        Particle,
+        Area,
+        Player,
+        Canvas,
+    }
 
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
@@ -24,13 +32,14 @@ namespace ProjectB.GameManager
         public void SetPrefab()
         {
             playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
-          //  gameCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
+            gameCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
+           
         }
 
         public void SetAreaPrefab(int stageNum)
         {
             int areaNum = Mathf.Abs(stageNum % 3 + 1);
-            if(GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad)
+            if(GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
             areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
             else
                 areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
@@ -45,23 +54,53 @@ namespace ProjectB.GameManager
 
         GameObject areaObject;
         GameObject playerObject;
+        GameObject mainUICanvas;
 
-        public GameObject GetAreaObject()
+        public void SetObject(ObjectType objectType)
         {
-            areaObject = Instantiate(areaPrefab);
+            switch (objectType)
+            {
+                case ObjectType.Area:
+                    areaObject = Instantiate(areaPrefab);
+                    DontDestroyOnLoad(areaObject);
+                    break;
+                case ObjectType.Player:
+                    playerObject = Instantiate(playerPrefab);
+                    DontDestroyOnLoad(playerObject);
+                    break;
+                case ObjectType.Canvas:
+                    mainUICanvas = Instantiate(gameCanvasPrefab);
+                    DontDestroyOnLoad(mainUICanvas);
+                    break;
+                default:
+                    break;
+            }
+        }
+       
+        public GameObject GetAreaObject()
+        {     
             return areaObject;
         }
+       
         public GameObject GetPlayerObject()
-        {
-            playerObject = Instantiate(playerPrefab);
+        {        
             return playerObject;
         }
+  
+        public GameObject GetCanvasObject()
+        {
+            return mainUICanvas;
+        }
+
+
         public void DestroyObject()
         {
             if (areaObject != null)
                 Destroy(areaObject);
-            if (playerObject != null)
-                Destroy(playerObject);
+            if (mainUICanvas != null)
+                Destroy(mainUICanvas);
+          //  if (playerObject != null)
+           //     Destroy(playerObject);
         }
 
         //Pool
@@ -76,13 +115,7 @@ namespace ProjectB.GameManager
         int fxPoolSize;
 
 
-        enum ObjectType
-        {
-            Monster,
-            Particle,
-            Area,
-            Player,
-        }
+       
 
         public void SetPool()
         {
