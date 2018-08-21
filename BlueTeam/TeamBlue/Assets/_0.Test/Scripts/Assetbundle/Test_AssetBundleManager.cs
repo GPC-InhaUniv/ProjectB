@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public enum AreaType
 {
     Null,
-    Town,
+    Village,
     WoodDungeon,
     IronDungeon,
     BrickDungeon,
@@ -28,7 +28,7 @@ public enum BundleType
 public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
     const string PlayerBundleName = "playerbundle";
-    const string CommonBundleName = "dungeonUIbundle";
+    const string CommonBundleName = "commonbundle";
     const string MonsterBundleName = "TestMonster";
     
     protected Test_AssetBundleManager() { }
@@ -56,8 +56,8 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         string bundleName;
         switch (areaType)
         {
-            case AreaType.Town:
-                bundleName = "Town";
+            case AreaType.Village:
+                bundleName = "townbundle";
                 break;
             case AreaType.WoodDungeon:
                 bundleName = "wooddungeonbundle";
@@ -121,7 +121,14 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     }
 
 
+    public AudioClip LoadTest(BundleType bundleType,string AssetName)
+    {
+        AudioClip temp;
+        CommonAssetBundle = AssetBundle.LoadFromFile(SetPath("soundbundle"));
+        temp = CommonAssetBundle.LoadAsset(AssetName) as AudioClip;
 
+        return temp;
+    }
     public GameObject LoadObject(BundleType bundleType, string AssetName)
     {
         
@@ -130,10 +137,12 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         {
             
             case BundleType.Player:
+                if(PlayerBundle ==null)
                 PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
                 gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Common:
+                if(CommonAssetBundle == null)
                 CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
                 gameObject = CommonAssetBundle.LoadAsset(AssetName) as GameObject;
                 break;

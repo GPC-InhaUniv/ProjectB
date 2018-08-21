@@ -5,17 +5,15 @@ using UnityEngine.EventSystems;
 
 namespace ProjectB.GameManager
 {
-    public class SceneController : MonoBehaviour,IPointerClickHandler
+    public class SceneController : MonoBehaviour
     {
-
         [SerializeField]
         GameObject panel;
-
 
         // Use this for initialization
         void Start()
         {
-            Debug.Log("씬 판별 시작");
+//            Debug.Log("씬 판별 시작");
             GameControllManager.Instance.SetObjectPosition();
             GameControllManager.Instance.SetUI();
             GameControllManager.Instance.SetCameraPosition();
@@ -41,11 +39,5 @@ namespace ProjectB.GameManager
             GameControllManager.Instance.MoveNextScene(LoadType.SheepDungeon, index);
         }
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            Debug.Log(eventData.pointerCurrentRaycast.gameObject);
-            
-          
-        }
     }
 }

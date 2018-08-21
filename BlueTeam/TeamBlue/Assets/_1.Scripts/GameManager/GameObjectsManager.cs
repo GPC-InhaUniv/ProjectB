@@ -1,36 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ProjectB.UI.Presenter;
 namespace ProjectB.GameManager
 {
-    
+    public enum ObjectType
+    {
+        Monster,
+        Particle,
+        Area,
+        Player,
+        Canvas,
+    }
+
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
-       [SerializeField]
         GameObject areaPrefab;
         GameObject playerPrefab;
         GameObject nomalMonsterPrefab;
         GameObject namedMonsterPrefab;
         GameObject bossMonsterPrefab;
         GameObject particlePrefab;
-        GameObject villageCanvasPrefab;
-        GameObject dungeonCanvasPrefab;
+        GameObject gameCanvasPrefab;
 
-
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
 
         public void SetPrefab()
         {
-            playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player,"Riko");
-            villageCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "VillageUI");
-            dungeonCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "DungeonUI");
-                        
+            playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
+            gameCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
+           
         }
+
         public void SetAreaPrefab(int stageNum)
         {
-          int areaNum = Mathf.Abs(stageNum % 3);
-          areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Area"+ areaNum.ToString());
+            int areaNum = Mathf.Abs(stageNum % 3 + 1);
+            if(GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
+            areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
+            else
+                areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
         }
 
         public void SetMonsterPrefab()
@@ -42,21 +54,51 @@ namespace ProjectB.GameManager
 
         GameObject areaObject;
         GameObject playerObject;
+        GameObject mainUICanvas;
 
-        public GameObject GetAreaObject()
+        public void SetObject(ObjectType objectType)
         {
-            areaObject = Instantiate(areaPrefab);
+            switch (objectType)
+            {
+                case ObjectType.Area:
+                    areaObject = Instantiate(areaPrefab);
+                    DontDestroyOnLoad(areaObject);
+                    break;
+                case ObjectType.Player:
+                    playerObject = Instantiate(playerPrefab);
+                    DontDestroyOnLoad(playerObject);
+                    break;
+                case ObjectType.Canvas:
+                    mainUICanvas = Instantiate(gameCanvasPrefab);
+                    DontDestroyOnLoad(mainUICanvas);
+                    break;
+                default:
+                    break;
+            }
+        }
+       
+        public GameObject GetAreaObject()
+        {     
             return areaObject;
         }
+       
         public GameObject GetPlayerObject()
-        {
-            playerObject = Instantiate(playerPrefab);
+        {        
             return playerObject;
         }
+  
+        public GameObject GetCanvasObject()
+        {
+            return mainUICanvas;
+        }
+
+
         public void DestroyObject()
         {
-            Destroy(areaObject);
-            Destroy(playerObject);
+            if (areaObject != null)
+                Destroy(areaObject);
+          //  if (playerObject != null)
+           //     Destroy(playerObject);
         }
 
         //Pool
@@ -71,13 +113,7 @@ namespace ProjectB.GameManager
         int fxPoolSize;
 
 
-        enum ObjectType
-        {
-            Monster,
-            Particle,
-            Area,
-            Player,
-        }
+       
 
         public void SetPool()
         {
@@ -89,7 +125,7 @@ namespace ProjectB.GameManager
             for (int i = particle.Count; i < fxPoolSize; i++)
             {
                 particle.Add(CreateItem(ObjectType.Particle));
-            }           
+            }
         }
 
         public void ClearPool()

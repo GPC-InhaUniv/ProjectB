@@ -11,9 +11,11 @@ namespace ProjectB.GameManager
         public int CurrentIndex;
 
         bool isClearDungeon;
-        bool isGameOver;
-
+        public bool IsClearDungeon { get { return isClearDungeon; } private set { } }
+  
         int totalExp;
+        public int TotalExp { get { return totalExp; } private set { } }
+
         int totalMonsterCount;
         int cameraOffSetZ = 5;
         int cameraOffSetY = 2;
@@ -36,8 +38,7 @@ namespace ProjectB.GameManager
 
         public void CheckGameOver()
         {
-            isGameOver = true;
-            //경험치 까기
+            isClearDungeon = false;
         }
         public void CheckGameClear()
         {
@@ -51,7 +52,7 @@ namespace ProjectB.GameManager
                 {
                     GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
                 }
-
+                isClearDungeon = true;
                 totalExp = 0;
                 ObtainedItemDic.Clear();
                 GameDataManager.Instance.SetGameDataToServer();
@@ -113,8 +114,8 @@ namespace ProjectB.GameManager
 
         public void SetObjectPosition()
         {
-            GameObject tempObject = Test_PoolManager.Instance.GetArea();
-
+               // GameObject tempObject = Test_PoolManager.Instance.GetArea();
+            GameObject tempObject = GameObjectsManager.Instance.GetAreaObject();
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
@@ -123,8 +124,8 @@ namespace ProjectB.GameManager
 
 
             }
-
-            tempObject = Test_PoolManager.Instance.GetPlayer();
+            
+            tempObject = GameObjectsManager.Instance.GetPlayerObject();
 
             if (tempObject != null)
             {

@@ -20,9 +20,9 @@ namespace ProjectB.GameManager
 
     enum SceneName
     {
-        Test_Login,
-        Test_Loading,
-        Test_Empty,
+        Login,
+        Loading,
+        Empty,
     }
     public class LoadingSceneManager : MonoBehaviour
     {
@@ -31,21 +31,21 @@ namespace ProjectB.GameManager
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
-        string dungeonUIURL;
-        string playerBundleURL;
+        string dungeonUIURL = "https://docs.google.com/uc?export=download&id=1QPRGJgieB2GdZkU3GU8BRBIO_tbcWI0J"; //dungeonUIURL;
+        string playerBundleURL = "https://docs.google.com/uc?export=download&id=1jS8k2MRBk7m_diPWI2vqxvEF6ub1z_wU";  //PLAYER URL;
         string ironDungeonBundleURL;
         string brickDungeonBundleURL;
-        string townBundleURL;
-        string woodDungeonBundleURL;
-        string sheepDungeonBundleURL;
+        string townBundleURL = "https://docs.google.com/uc?export=download&id=1t160DBfloJwgtEqFlpw6Yup2x5NhvvTx"; //Town URL;
+        string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URLL;
+        string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1NmgES6gjDP_gtOUlJFndGHnS1CRnuXya"; //sheepdungeon URL;
 
+     
 
         int totalBundleCount = 6;
         static int userBundleCount = 0;
         static LoadType currentType;
 
         bool IsDownLoadDone = false;
-        bool IsAssetLoadDone = false;
         int percentage;
 
         [SerializeField]
@@ -65,45 +65,45 @@ namespace ProjectB.GameManager
             if (currentType.Equals(LoadType.VillageCheckDownLoad) && userBundleCount < totalBundleCount - 1)
             {
                 IsDownLoadDone = false;
-                Debug.Log("다운로드 필요");
                 currentAssetName = "게임 준비중...";
-                playerBundleURL = "https://docs.google.com/uc?export=download&id=1jS8k2MRBk7m_diPWI2vqxvEF6ub1z_wU";  //PLAYER URL
-                woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URL
-                townBundleURL = "https://docs.google.com/uc?export=download&id=1t160DBfloJwgtEqFlpw6Yup2x5NhvvTx"; //Town URL
-                sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1NmgES6gjDP_gtOUlJFndGHnS1CRnuXya"; //sheepdungeon URL
-                dungeonUIURL = "https://docs.google.com/uc?export=download&id=1QPRGJgieB2GdZkU3GU8BRBIO_tbcWI0J"; //dungeonUIURL
-                StartCoroutine(SaveAssetBundleOnDisk(playerBundleURL, "playerbundle"));
-                StartCoroutine(SaveAssetBundleOnDisk(woodDungeonBundleURL, "wooddungeonbundle"));
-                StartCoroutine(SaveAssetBundleOnDisk(sheepDungeonBundleURL, "sheepdungeonbundle"));
-                StartCoroutine(SaveAssetBundleOnDisk(townBundleURL, "Town"));
-                StartCoroutine(SaveAssetBundleOnDisk(dungeonUIURL, "dungeonUIbundle"));
-
+                DownLoadAndSaveBundles();
             }
             else
-            {
-                Debug.Log("다운로드 불필요");
+            {   
                 totalBundleCount = 1;
                 IsDownLoadDone = true;
 
             }
 
-            StartCoroutine(CheckDownLoadDone());
+            StartCoroutine(LoadBundles());
 
             StartCoroutine(LoadScene());
 
         }
 
-        IEnumerator CheckDownLoadDone()
+
+        void DownLoadAndSaveBundles()
         {
+            StartCoroutine(SaveAssetBundleOnDisk(playerBundleURL, "playerbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(woodDungeonBundleURL, "wooddungeonbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(sheepDungeonBundleURL, "sheepdungeonbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(townBundleURL, "Town"));
+            StartCoroutine(SaveAssetBundleOnDisk(dungeonUIURL, "dungeonUIbundle"));
+        }
+
+
+        IEnumerator LoadBundles()
+        {
+            bool IsAssetLoadDone = false;
+
             while (!IsAssetLoadDone)
             {
                 if (IsDownLoadDone)
                 {
 
-                    Test_PoolManager.Instance.ClearPool();
-                    GameObject tempobject = Test_PoolManager.Instance.GetArea();
-                    if (tempobject != null)
-                        Destroy(tempobject);
+                    GameObjectsManager.Instance.ClearPool();
+                    GameObjectsManager.Instance.DestroyObject();
+
                     switch (currentType)
                     {
 
@@ -113,45 +113,57 @@ namespace ProjectB.GameManager
                             currentAssetName = "흙 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                     //       Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                     //      Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.WoodDungeon);
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
-                            Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            //    Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            //   Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            //   Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.SheepDungeon:
                             currentAssetName = "양 던전 로드중..";
 
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                            Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
-                            Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
+                            GameObjectsManager.Instance.SetAreaPrefab(1);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            //  Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            //  Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            //  Test_PoolManager.Instance.SetMonster(Test_AssetBundleManager.Instance.LoadObject(BundleType.Monster, "TestMonster"));
                             break;
                         case LoadType.IronDungeon:
+                            Test_AssetBundleManager.Instance.LoadArea(AreaType.IronDungeon);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
                             break;
                         case LoadType.VillageCheckDownLoad:
                             currentAssetName = "마을 로드중...";
-                            Test_AssetBundleManager.Instance.LoadArea(AreaType.Town);
-
-                            Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter"));
-                         
-                            Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village"));
+                            Test_AssetBundleManager.Instance.LoadArea(AreaType.Village);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.SetPrefab();
+                            GameObjectsManager.Instance.SetObject(ObjectType.Player);
+                            //  Test_PoolManager.Instance.SetPlayer(Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter"));
+                            //  Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village"));
                             break;
                     }
 
                     IsAssetLoadDone = true;
-                    Test_PoolManager.Instance.SetFalsePlayer();
                 }
 
                 else
                 {
                     yield return new WaitForSeconds(0.3f);
                 }
+
+                GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
             }
             yield return null;
         }
@@ -182,7 +194,12 @@ namespace ProjectB.GameManager
                     {
                         currentAssetName = "완료!";
                         progressText.text = "100%";
-                        LoadMainScene(asyncOperation);
+
+                        if (Input.anyKeyDown)
+                        {
+                            GameDataManager.Instance.SetGameDataToServer();
+                            asyncOperation.allowSceneActivation = true;
+                        }
 
                     }
 
@@ -199,38 +216,18 @@ namespace ProjectB.GameManager
             }
         }
 
-        void LoadMainScene(AsyncOperation asyncOperation)
-        {
-
-            //pressAnyKeyText.text = "Press Any Key To Start Game!";
-
-            //pressAnyKeyText.gameObject.SetActive(true);
-            //progressBar.gameObject.SetActive(false);
-
-            if (Input.anyKeyDown)
-            {
-                GameDataManager.Instance.SetGameDataToServer();
-                asyncOperation.allowSceneActivation = true;
-            }
-
-        }
-         
-
         public static void LoadScene(LoadType mapType, int index)
-        {
+        {   
             switch (mapType)
             {
                 case LoadType.Village:
                      currentType = LoadType.Village;
-                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.BrickDungeon:
                     currentType = LoadType.BrickDungeon;
-                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.WoodDungeon:
                     currentType = LoadType.WoodDungeon;
-                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 case LoadType.SheepDungeon:
                     currentType = LoadType.SheepDungeon;
@@ -241,13 +238,13 @@ namespace ProjectB.GameManager
                 case LoadType.VillageCheckDownLoad:
                     currentType = LoadType.VillageCheckDownLoad;
                     userBundleCount = CheckDownLoadFile();
-                    NextScene = SceneName.Test_Empty.ToString();
                     break;
                 default:
                     break;
             }
-
-            SceneManager.LoadScene(SceneName.Test_Loading.ToString());
+            
+            NextScene = SceneName.Empty.ToString();
+            SceneManager.LoadScene(SceneName.Loading.ToString());
 
 
         }
@@ -279,12 +276,6 @@ namespace ProjectB.GameManager
 
         IEnumerator SaveAssetBundleOnDisk(string URL, string AssetName)
         {
-
-            // 에셋 번들을 받아오고자하는 서버의 주소
-
-            // 지금은 주소와 에셋 번들 이름을 함께 묶어 두었지만
-
-            // 주소 + 에셋 번들 이름 형태를 띄는 것이 좋다.
             string uri = URL;
 
             // 웹 서버에 요청을 생성한다.
@@ -292,13 +283,9 @@ namespace ProjectB.GameManager
 
             yield return request.Send();
 
-
-
-
             // 에셋 번들을 저장할 경로
 
             assetBundleDirectory = Application.persistentDataPath + "/AssetBundles";
-
 
             // 에셋 번들을 저장할 경로의 폴더가 존재하지 않는다면 생성시킨다.
             if (!Directory.Exists(assetBundleDirectory))
@@ -313,19 +300,19 @@ namespace ProjectB.GameManager
 
             fs.Close();
 
-            totalBundleCount--;
+           
 
-            if (totalBundleCount <= 0)
+            if (totalBundleCount > 1)
             {
-                totalBundleCount = 1;
+                totalBundleCount--;
 
+                if (totalBundleCount == 1)
+                {
+                    IsDownLoadDone = true;
+                    Debug.Log("모든 파일 다운로드 완료");
+                }
             }
 
-            if (totalBundleCount == 1)
-            {
-                IsDownLoadDone = true;
-                Debug.Log("모든 파일 다운로드 완료");
-            }
             currentAssetName = AssetName + " 다운로드 중...";
 
             Debug.Log(AssetName + " 번들 다운로드 완료 " + totalBundleCount);

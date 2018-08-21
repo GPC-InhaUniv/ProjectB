@@ -3,38 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ProjectB.UI.Minimaps
+namespace ProjectB.Characters.Players
 {
     public class MinimapRadar : MonoBehaviour
     {
-        const float minimapScale = 5.0f;
-
-        [SerializeField]
-        GameObject player;
-
+        //Transform playerTransform;
+            
+        public List<GameObject> Enemys { get { return enemys; } private set { } }
         [SerializeField]
         List<GameObject> enemys;
 
-        [SerializeField]
-        List<RectTransform> enemyIconPositions;
-
-        Vector2 playerPosition;
-        Vector2 enemyPosition;
-
-        private void Start()
-        {
-          
-        }
-        void Update()
-        {
-            drawIcons();
-        }
+        //private void Start()
+        //{
+        //    playerTransform = GetComponentInParent<Player>().transform;
+        //}
 
         void OnTriggerEnter(Collider other)
         {
-            if (!enemys.Contains(other.gameObject))
+            if(other.tag == "Monster")
             {
-                enemys.Add(other.gameObject);
+                if (!enemys.Contains(other.gameObject))
+                {                    
+                    enemys.Add(other.gameObject);
+                }
             }
         }
       
@@ -46,26 +37,54 @@ namespace ProjectB.UI.Minimaps
                 enemys.Remove(other.gameObject);
             }
         }
-       
 
-        void drawIcons()
-        {
-            playerPosition = new Vector2(player.transform.position.x, player.transform.position.z);
+        //플레이어 프레젠터에 있던 minimap 코드
 
-            for (int i = 0; i < enemys.Count; i++)
-            {
-                enemyPosition = new Vector2(enemys[i].transform.position.x, enemys[i].transform.position.z);
-                Vector2 playerToEnemy = enemyPosition - playerPosition;
-                enemyIconPositions[i].localPosition = playerToEnemy * minimapScale;
-            }
+        //MinimapRadar minimap;
 
-            if (enemys.Count < enemyIconPositions.Count)
-            {
-                for (int i = enemys.Count; i < enemyIconPositions.Count; i++)
-                {
-                    enemyIconPositions[i].localPosition = new Vector3(100f, 0, 0);
-                }
-            }
-        }
+        //[SerializeField]
+        //public List<RectTransform> enemyIconPositions;
+
+        //const float minimapScale = 5.0f;
+
+        //Vector2 playerPosition;
+        //Vector2 enemyPosition;
+
+        //public RectTransform IconsParent;
+
+        //[SerializeField]
+        //RectTransform enemyIcon;
+        //minimap
+
+        //minimap
+        //void RegistIcons()
+        //{
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        enemyIconPositions[i] = Instantiate(enemyIcon, IconsParent.rect.position, Quaternion.identity);
+        //        enemyIconPositions[i].transform.parent = enemyIcon.parent;
+        //    }
+        //}
+
+        //void DrawIcons()
+        //{
+        //    playerPosition = new Vector2(player.transform.position.x, player.transform.position.z);
+
+        //    for (int i = 0; i < minimap.Enemys.Count; i++)
+        //    {
+        //        enemyPosition = new Vector2(minimap.Enemys[i].transform.position.x, minimap.Enemys[i].transform.position.z);
+        //        Vector2 playerToEnemy = enemyPosition - playerPosition;
+        //        enemyIconPositions[i].localPosition = playerToEnemy * minimapScale;
+        //    }
+
+        //    if (minimap.Enemys.Count < enemyIconPositions.Count)
+        //    {
+        //        for (int i = minimap.Enemys.Count; i < enemyIconPositions.Count; i++)
+        //        {
+        //            enemyIconPositions[i].localPosition = new Vector3(100f, 0, 0);
+        //        }
+        //    }
+        //}
+        //minimap
     }
 }

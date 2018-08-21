@@ -11,12 +11,7 @@ namespace ProjectB.Utility
 
         void Start()
         {
-
-#if UNITY_ANDROID
             assetBundleDirectory = Application.persistentDataPath + "/JsonFolder";
-#else
-        assetBundleDirectory="Assets/10.JsonFolder";
-#endif
         }
 
 
@@ -27,7 +22,7 @@ namespace ProjectB.Utility
             Data mydata = new Data();
             string save = JsonUtility.ToJson(mydata, prettyPrint: true);
             Debug.Log(save);
-            WriteStringToFile(save, "save.json");
+            WriteStringToFile(save, "JsonFile.json");
 
         }
 
@@ -35,7 +30,7 @@ namespace ProjectB.Utility
         //제이슨 파일 로드
         public void OnClickLoadJSONBtn()
         {
-            string load = ReadStringFromFile("save.json");
+            string load = ReadStringFromFile("JsonFile.json");
             var loadData = JsonUtility.FromJson<Data>(load);
             Debug.Log(loadData);
         }
@@ -75,37 +70,16 @@ namespace ProjectB.Utility
         public PlayerInformation PlayerInfomation;
         public TownInformation ATownInformation;
         public TownInformation BTownInformation;
-        public PlayerInventoryData PlayerInventoryData;
-        public PlayerWareHouseData PlayerWareHouseData;
+        public Dictionary<int, int> PlayerInventoryData;
+        public Dictionary<int, int> PlayerWareHouseData;
 
         public Data()
         {
             PlayerInfomation = GameDataManager.Instance.PlayerInfomation;
             ATownInformation = GameDataManager.Instance.AtownInformation;
             BTownInformation = GameDataManager.Instance.BtownInformation;
-            PlayerInventoryData.Code = new int[GameDataManager.Instance.PlayerGamedata.Count];
-            PlayerInventoryData.Count = new int[GameDataManager.Instance.PlayerGamedata.Count];
-            PlayerWareHouseData.Code = new int[GameDataManager.Instance.WareHouseGamedata.Count];
-            PlayerWareHouseData.Count = new int[GameDataManager.Instance.WareHouseGamedata.Count];
-
-            int tempIndex = 0;
-            foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.PlayerGamedata)
-            {
-                PlayerInventoryData.Code[tempIndex] = temp.Key;
-                PlayerInventoryData.Count[tempIndex] = temp.Value;
-                tempIndex++;
-
-
-            }
-            tempIndex = 0;
-            foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.WareHouseGamedata)
-            {
-                PlayerWareHouseData.Code[tempIndex] = temp.Key;
-                PlayerWareHouseData.Count[tempIndex] = temp.Value;
-                tempIndex++;
-
-
-            } 
+            PlayerInventoryData = GameDataManager.Instance.PlayerGamedata;
+            PlayerWareHouseData = GameDataManager.Instance.WareHouseGamedata;
 
         }
     }

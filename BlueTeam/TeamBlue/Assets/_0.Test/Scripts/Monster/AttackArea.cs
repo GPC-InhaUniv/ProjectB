@@ -19,12 +19,12 @@ public class AttackArea : MonoBehaviour {
         {
             Character player =  other.GetComponent<Character>();
             player.ReceiveDamage(characters.CharacterAttackPower);
-
         }
         else if(other.CompareTag("Monster"))
         {
             Character monster = other.GetComponent<Character>();
             monster.ReceiveDamage(characters.CharacterAttackPower);
+            characters.transform.LookAt(other.transform);
         }
     }
 }
