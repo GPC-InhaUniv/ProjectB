@@ -10,5 +10,5 @@ interface IResource
 {
     void ReceiveResources(int receivingResourceCount);
     void SendResources(int sendingResourceCount);
-    void CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability);
+    int CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, int tradeProbability);
 }

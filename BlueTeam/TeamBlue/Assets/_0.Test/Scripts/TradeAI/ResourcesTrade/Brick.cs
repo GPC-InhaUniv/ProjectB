@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-class Brick : MonoBehaviour, IResource
+class Brick : IResource
 {
     const int SheepWeightedValue = 3;
 
@@ -14,7 +14,7 @@ class Brick : MonoBehaviour, IResource
     const int IronWeightedValue = 4;
 
 
-    public void CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public int CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, int tradeProbability)
     {
         switch (resourceType)
         {
@@ -43,6 +43,8 @@ class Brick : MonoBehaviour, IResource
         {
             tradeProbability = 100;
         }
+
+        return tradeProbability;
     }
 
     public void ReceiveResources(int receivingResourceCount)
