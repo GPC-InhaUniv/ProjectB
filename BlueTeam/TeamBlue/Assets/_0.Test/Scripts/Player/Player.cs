@@ -59,7 +59,8 @@ namespace ProjectB.Characters.Players
 
         private void Awake()
         {
-            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            Initialization();
+
             playerRigidbody = GetComponent<Rigidbody>();
             Weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
@@ -71,15 +72,21 @@ namespace ProjectB.Characters.Players
 
             GetCharacterStatusFromDataManager();
         }
+
         void Start()
         {
             targetVector = new Vector3(0, 0, 1);
 
             SetCharacterStatus();
 
-            playerPresenter.ShowHUD();
+            playerPresenter.UpdateUI();
 
             playerAinmaton.InitWeapon();
+        }
+
+        void Initialization()
+        {
+            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
         }
 
         private void Update()
@@ -89,6 +96,23 @@ namespace ProjectB.Characters.Players
                 targetVector = MoveVector;
             }
             playerAinmaton.RunAnimation(IsRunning);
+
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                characterHealthPoint = 0;
+                ChangeState(PlayerStates.PlayerCharacterDieState);
+                IsDied = true;
+                playerPresenter.UpdateUI();
+
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                IsDied = false;
+                characterHealthPoint = 100;
+                ChangeState(PlayerStates.PlayerCharacterIdleState);
+                playerAinmaton.InitAnimation();
+                playerPresenter.UpdateUI();
+            }
         }
 
         public void SetState(PlayerCharacterState state)
@@ -153,6 +177,7 @@ namespace ProjectB.Characters.Players
                 CurrentWeaponState = NewWeaponState;
             }
         }
+
         public void SetAttackNumber(int number)
         {
             attackNumber = number;
@@ -170,15 +195,16 @@ namespace ProjectB.Characters.Players
                 StartCoroutine(HitCoroutine(1.0f));
                 playerAinmaton.HitAnimation();
                 characterHealthPoint -= CalDamage(damage);
-                playerPresenter.ShowHUD();
+                playerPresenter.UpdateUI();
             }
 
             if (CharacterHealthPoint <= 0)
             {
-                IsDied = true;
                 characterHealthPoint = 0;
                 ChangeState(PlayerStates.PlayerCharacterDieState);
-                //게임 컨트롤러에 게임 오버 요청할 것
+                IsDied = true;
+                GameControllManager.Instance.CheckGameOver();
+                playerPresenter.UpdateUI();
             }
         }
         float CalDamage(float damage)
@@ -222,7 +248,9 @@ namespace ProjectB.Characters.Players
         //애니메이션 이벤트
         public void AttackDone()
         {
+            Debug.Log("공격종료 불림");
             ChangeState(PlayerStates.PlayerCharacterIdleState);
+            Debug.Log(PlayerState.ToString());
         }
 
         public void BackStepStart()
