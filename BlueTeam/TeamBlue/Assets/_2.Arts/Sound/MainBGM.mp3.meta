@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: 0df205c7e03664a65a8f10303ac49429
-timeCreated: 1486447384
-licenseType: Store
+guid: ea5bee127cce5e3409aca0a65dabba52
+timeCreated: 1534826846
+licenseType: Free
 AudioImporter:
   serializedVersion: 6
   defaultSettings:
@@ -18,5 +18,5 @@ AudioImporter:
   loadInBackground: 0
   3D: 1
   userData: 
-  assetBundleName: soundbundle
+  assetBundleName: commonbundle
   assetBundleVariant: 

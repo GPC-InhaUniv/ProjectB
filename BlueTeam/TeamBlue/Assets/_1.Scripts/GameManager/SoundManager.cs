@@ -11,16 +11,14 @@ namespace ProjectB.GameManager
         EnemyAttack,
         EnemyHit,
     }
-    //AudioSource = Getcomponent를 해야 사용할 수 있다. 다수일 경우도 마찬가지
-    //volume은 0~1까지만 컨트롤가능
-    //사운드 동시재생이 되도록 
+   
     public class SoundManager : Singleton<SoundManager>
     {
-        public AudioClip[] SoundClips; //에셋번들에서 받아온 사운드 여기에 넣어줄 것, 프라이빗으로 변경
-        public AudioSource[] SoundSources;
+        AudioClip[] SoundClips; 
+        AudioSource[] SoundSources;
        
-        //const int numberOfSFX = 5; //에셋번들에서 받아올 SFX clips 갯수
-        //const int numberOfAudioSources = 2; //이에따른 Audiosources 갯수
+        const int numberOfSFX = 6;
+        const int numberOfAudioSources = 6; 
         
         public float sfxVolume;
         public float bgmVolume;
@@ -29,22 +27,22 @@ namespace ProjectB.GameManager
         {
             sfxVolume = 1.0f;
             bgmVolume = 1.0f;
-            //sfxClips = new AudioClip[numberOfSFX];
+            SoundClips = new AudioClip[numberOfSFX];
             SoundSources = GetComponents<AudioSource>();
-            //LoadSoundClips();
-            RegistBGM();
         }
         
-        void LoadSoundClips()
+        public void LoadSoundClips()
         {
-            //sfxClips[0] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "Test1");//각각 사운드 파일들 로드
-        }
+            SoundClips[0] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "MainBGM");
+            SoundClips[1] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "ButtonClick");
+            SoundClips[2] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "PlayerAttack");
+            SoundClips[3] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "PlayerHit");
+            SoundClips[4] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "EnemyAttack");
+            SoundClips[5] = Test_AssetBundleManager.Instance.LoadTest(BundleType.Common, "EnemyHit");
 
-        void RegistBGM()//매개변수로 해당 Clip받아올것
-        {
             SoundSources[0].clip = SoundClips[0];
         }
-
+        
         public void PlayBGM()
         {
             SoundSources[0].Play();
@@ -52,7 +50,6 @@ namespace ProjectB.GameManager
             SoundSources[0].loop = true;
         }
         
-        //개선 고려
         void PlaySound(AudioClip audioClip)
         {
             for (int i = 1; i < SoundSources.Length; i++)
@@ -112,7 +109,7 @@ namespace ProjectB.GameManager
             PlaySound(audioClip);
         }
 
-        public void ControlVoume(float bgmVolume, float sfxVolume)
+        public void SetVolume(float bgmVolume, float sfxVolume)
         {
             for(int i = 1; i<SoundSources.Length; i++)
             {
@@ -120,15 +117,5 @@ namespace ProjectB.GameManager
             }
             SoundSources[0].volume = bgmVolume;
         }
-        
-        //public void SetSFXVolume(float volume)
-        //{
-        //    sfxVolume = volume;
-        //}
-
-        //public void SetBGMVolume(float volume)
-        //{
-        //    bgmVolume = volume;
-        //}
     }
 }

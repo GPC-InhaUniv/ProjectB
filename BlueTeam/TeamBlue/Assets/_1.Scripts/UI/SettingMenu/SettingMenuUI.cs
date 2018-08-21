@@ -32,7 +32,7 @@ namespace ProjectB.UI.SettingMenu
 
         
         protected bool isActivatingMenu;
-        protected const float firstSliderValue = 0.5f;
+        protected const float firstSliderValue = 1.0f;
         protected const float minVolumeValue = 0.0f;
         protected const float maxVolumeValue = 1.0f;
         
@@ -55,7 +55,7 @@ namespace ProjectB.UI.SettingMenu
 
         protected void ControlVolume(Slider bgm, Slider sfx)
         {
-            SoundManager.Instance.ControlVoume(bgm.value, sfx.value);
+            SoundManager.Instance.SetVolume(bgm.value, sfx.value);
         }
         
         protected void InActivateWindows(bool isActivatingMenu, GameObject menuWindowUI)
