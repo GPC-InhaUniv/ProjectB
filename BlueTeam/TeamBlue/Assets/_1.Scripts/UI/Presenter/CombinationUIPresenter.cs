@@ -4,98 +4,68 @@ using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.GameManager;
 using ProjectB.Item;
+using System;
+
+public delegate void AddItemDelegate();
 
 public class CombinationUIPresenter : MonoBehaviour
 {
-    // 인벤토리
-
-    [SerializeField] List<Slot> slots = new List<Slot>();
-    [SerializeField] List<Slot> combinationSlots = new List<Slot>();
-    [SerializeField] List<Item> combinationItems = new List<Item>();
     [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
     int[] requirematerials;
-    public string lastPress;
+    int combinationItemCode;
+    public static AddItemDelegate addItemDelegate;
 
-    // 조합소
-    public void SwapOnCombination(Slot slot)
+    private void Awake()
     {
-        if (lastPress == "InventorySlot")
-        {
-            for (int i = 0; i < slots.Count; i++)
-            {
-                if (slot.IsClicked && slots[i].IsClicked)
-                {
-                    if (slot == slots[i])
-                    {
-                        continue;
-                    }
+        requirematerials = new int[4];
+    }
 
-                    if (slots[i].GetComponent<Item>().ItemType == ItemType.Exapandable)
-                    {
-                        if (slots[i].GetComponent<Item>().Code % 100 > 10)
-                        {
-                            slot.GetComponent<Item>().SwapItem(slots[i].GetComponent<Item>());
-                            slot.GetComponent<Item>().Text_Test.text = slot.GetComponent<Item>().ItemName;
-                            slots[i].GetComponent<Item>().Text_Test.text = slots[i].GetComponent<Item>().ItemName;
-                            DisplayToCombinationResourcesSlot();
-                            slot.IsClicked = false;
-                            slots[i].IsClicked = false;
-                        }
-                    }
-                }
-                else
-                {
-                    continue;
-                }
+    public void SwapToFromInventorySlotToCombinationSlot(Item currentItem, Item swapItem)
+    {
+        int SwapItemCode = currentItem.Code;
+        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Exapandable && swapItem.ItemType == ItemType.Exapandable))
+        {
+            if ((currentItem.Code % 100 <= 33 && swapItem.Code % 100 <= 33) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 11))
+            {
+                currentItem.SetItem(swapItem.Code);
+                swapItem.SetItem(SwapItemCode);
+                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+                swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+                DisplayToCombinationResourcesSlot(currentItem);
+                combinationItemCode = currentItem.Code;
             }
         }
-        if (lastPress == "CombinationSlot")
+    }
+
+    public void OnClickCombinationButton()
+    {
+        bool checkCombination = true;
+        for(int i=0;i<4;i++)
         {
-            for (int i = 0; i < combinationSlots.Count; i++)
+            if (GameDataManager.Instance.PlayerGamedata[i + 3000] < requirematerials[i])
             {
-                if (slot.IsClicked && combinationSlots[i].IsClicked)
-                {
-                    slot.gameObject.GetComponent<Item>().SwapItem(combinationSlots[i].gameObject.GetComponent<Item>());
-                    slot.GetComponent<Item>().Text_Test.text = slot.GetComponent<Item>().ItemName;
-                    combinationSlots[i].GetComponent<Item>().Text_Test.text = combinationSlots[i].GetComponent<Item>().ItemName;
-                    DisplayToCombinationResourcesSlot();
-                    slot.IsClicked = false;
-                    combinationSlots[i].IsClicked = false;
-                }
+                checkCombination = false;
                 break;
             }
         }
-    }
 
-    public void OnClickCombinationItemButton()
-    {
-        bool isCombination = false;
-        for (int i = 0; i < 4; i++)
+        if(checkCombination == true)
         {
-            if (GameDataManager.Instance.PlayerGamedata[3000 + i] < requirematerials[i])
-                isCombination = false;
-        }
-
-        if (isCombination)
-        {                                                                                                                                                                                                                                                                                                                             
-            Debug.Log("조합성공");
-        }
-        else
-        {
-            Debug.Log("실패");
+            GameDataManager.Instance.PlayerGamedata[combinationItemCode + 1000]++;
+            addItemDelegate();
         }
     }
 
-    public void DisplayToCombinationResourcesSlot()
+    public void DisplayToCombinationResourcesSlot(Item item)
     {
-        combinationResourcesItems[0].Text_Test.text = combinationItems[0].RecipeBrick.ToString();
-        combinationResourcesItems[1].Text_Test.text = combinationItems[0].RecipeWood.ToString();
-        combinationResourcesItems[2].Text_Test.text = combinationItems[0].RecipeIron.ToString();
-        combinationResourcesItems[3].Text_Test.text = combinationItems[0].RecipeSheep.ToString();
+        combinationResourcesItems[0].ItemAmountText.text = item.RecipeBrick.ToString();
+        combinationResourcesItems[1].ItemAmountText.text = item.RecipeWood.ToString();
+        combinationResourcesItems[2].ItemAmountText.text = item.RecipeIron.ToString();
+        combinationResourcesItems[3].ItemAmountText.text = item.RecipeSheep.ToString();
 
-        requirematerials[0] = combinationItems[0].RecipeWood;
-        requirematerials[1] = combinationItems[0].RecipeIron;
-        requirematerials[2] = combinationItems[0].RecipeBrick;
-        requirematerials[3] = combinationItems[0].RecipeSheep;
+        requirematerials[0] = item.RecipeBrick;
+        requirematerials[1] = item.RecipeWood;
+        requirematerials[2] = item.RecipeIron;
+        requirematerials[3] = item.RecipeSheep;
     }
 }

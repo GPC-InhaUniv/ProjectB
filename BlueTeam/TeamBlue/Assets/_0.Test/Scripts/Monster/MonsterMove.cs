@@ -55,6 +55,7 @@ public class MonsterMove : MonoBehaviour {
     {
         walkSpeed = speed;
         arrived = false;
+
         this.destination = destination;
 
     }

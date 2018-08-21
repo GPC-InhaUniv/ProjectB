@@ -97,6 +97,22 @@ namespace ProjectB.GameManager
             DontDestroyOnLoad(gameObject);
         }
 
+        public void GetEquipmentStatus(ref int Attack,ref int Hp, ref int Defense)
+        {
+            for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
+            {
+                for(int j=0;j<EquipmentItem.Length;j++)
+                {
+                    if (EquipmentItem[j] != 0 && EquipmentItem[j] == (itemTable.sheets[0].list[i].Code))
+                    {
+                        Attack += itemTable.sheets[0].list[i].Attack;
+                        Defense += itemTable.sheets[0].list[i].Defence;
+                        Hp += itemTable.sheets[0].list[i].HP;
+                    }
+                }
+            }
+        }
+        
         public void SetGameDataToServer()
         {
             string playerLv = "";
