@@ -7,7 +7,7 @@ namespace ProjectB.Item
 {
     public enum ItemType
     {
-        Resouece,
+        Resource,
         Exapandable,
         Equipmentable,
     }
@@ -18,15 +18,18 @@ namespace ProjectB.Item
         ItemTable itemtable;
 
         [SerializeField]
-        Text text_Test;
-        public Text Text_Test { get { return text_Test; } }
+        Text itemAmounttext;
+        public Text ItemAmountText { get { return itemAmounttext; } }
 
         [SerializeField]
-        Image image_Test;
-        public Image Image_Test { get { return image_Test; } }
+        Image itemImage;
+        public Image ItemImage { get { return itemImage; } }
 
         public int Code;
 
+        int itemAmount;
+        public int ItemAmount { get { return itemAmount; } }
+        
         string itemname;
         public string ItemName { get { return itemname; } }
 
@@ -78,8 +81,8 @@ namespace ProjectB.Item
                     itemname = itemtable.sheets[0].list[i].Name;
                     switch (itemtable.sheets[0].list[i].Type)
                     {
-                        case "Resouece":
-                            itemType = ItemType.Resouece;
+                        case "Resource":
+                            itemType = ItemType.Resource;
                             break;
                         case "Expandable":
                             itemType = ItemType.Exapandable;
@@ -121,8 +124,13 @@ namespace ProjectB.Item
             recipeSheep = 0;
             recipeIron = 0;
             recipeBrick = 0;
-            image = "";
-            itemname = "";
+            image = null;
+            itemname = null;
+        }
+
+        public void SetItemAmount(int amount)
+        {
+            this.itemAmount = amount;
         }
     }
 }
