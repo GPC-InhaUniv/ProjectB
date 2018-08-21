@@ -6,7 +6,16 @@ namespace ProjectB.Characters.Monsters
 {
     public class Normal : Monster
     {
+        private void OnEnable()
+        {
+            NoSkill.Setstate += ChangeStateToChasing;
 
+        }
+        private void OnDisable()
+        {
+            NoSkill.Setstate -= ChangeStateToChasing;
+
+        }
 
         void Start()
         {
@@ -16,10 +25,8 @@ namespace ProjectB.Characters.Monsters
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
 
-            //test//
-            AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
-            attackable = new ComboAttack(animator);
+            attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
 
 

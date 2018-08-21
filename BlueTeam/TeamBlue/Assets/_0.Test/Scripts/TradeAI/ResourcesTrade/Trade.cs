@@ -12,7 +12,7 @@ public class Trade : MonoBehaviour
     int sendingResourcesCount;
 
     [SerializeField]
-    int tradeProbability = 100; // 기본 확률
+    int tradeProbability; // 기본 확률
 
     [SerializeField]
     GameResources sendingResourceType;
@@ -39,8 +39,8 @@ public class Trade : MonoBehaviour
 
     void Start()
     {
-        Weather weather = new Weather();
-        resourceContext = new ResourceContext();
+        weather = new Weather();
+        weather.ChangeWeatherState(WeatherState.Sunny);
     }
 
     public void ShowPlayerResourcesOnDebugLog()
@@ -68,7 +68,7 @@ public class Trade : MonoBehaviour
             Debug.Log("특정 확률로 거래");
         }
 
-        else if (tradeProbability < Random.Range(1, 100))
+        else
         {
             isAbleToTrade = false;
 
@@ -112,12 +112,12 @@ public class Trade : MonoBehaviour
 
     public void RunSendResource()
     {
-        SendResource(sendingResourcesCount, sendingResourceType, ref tradeProbability);
+        SendResource(sendingResourcesCount, sendingResourceType, tradeProbability);
     }
 
     public void ReceiveResources(int receivingResourceCount, GameResources receivingResourceType, int tradeProbability)
     {
-        int additionResource = 0;
+        additionResource = 0;
 
         CheckTradeProbability(tradeProbability);
         additionResource = CheckRelationShip(relationShip);
@@ -127,33 +127,52 @@ public class Trade : MonoBehaviour
             switch (receivingResourceType)
             {
                 case GameResources.Brick:
-                    resourceContext.ChangeResourceState(new Brick());
+                    resourceContext = new ResourceContext(new Brick());
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
                     break;
 
                 case GameResources.Iron:
-                    resourceContext.ChangeResourceState(new Iron());
+                    resourceContext = new ResourceContext(new Iron());
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
 
                     break;
 
                 case GameResources.Sheep:
-                    resourceContext.ChangeResourceState(new Sheep());
+                    resourceContext = new ResourceContext(new Sheep());
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
 
                     break;
 
                 case GameResources.Wood:
-                    resourceContext.ChangeResourceState(new Wood());
+                    resourceContext = new ResourceContext(new Wood());
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
 
                     break;
 
             }
+
+            if (weather.GetResourcesOfNeed() == receivingResourceType)
+            {
+                relationShip += 1;
+            }
+
+            else
+            {
+                relationShip -= 3;
+            }
+
+
         }
 
-        else if(isAbleToTrade == false)
+        else
         {
             Debug.Log("거래 실패, 자원 받지 않음");
 
@@ -162,28 +181,36 @@ public class Trade : MonoBehaviour
                 case GameResources.Brick:
                     //GameDataManager.Instance.PlayerGamedata[3002] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Brick"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
                     break;
 
                 case GameResources.Iron:
                     //GameDataManager.Instance.PlayerGamedata[3001] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Iron"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
                     break;
 
                 case GameResources.Sheep:
                     //GameDataManager.Instance.PlayerGamedata[3003] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Sheep"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
                     break;
 
                 case GameResources.Wood:
                     //GameDataManager.Instance.PlayerGamedata[3000] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Wood"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
                     break;
             }
         }
 
     }
 
-    public void SendResource(int sendingResourceCount, GameResources sendingResourceType, ref int tradeProbability)
+    public void SendResource(int sendingResourceCount, GameResources sendingResourceType, int tradeProbability)
     {
         CheckTradeProbability(tradeProbability);
 
@@ -193,36 +220,55 @@ public class Trade : MonoBehaviour
             {
                 case GameResources.Brick:
 
-                    resourceContext.ChangeResourceState(new Brick());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext = new ResourceContext(new Brick());
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
                     break;
 
                 case GameResources.Iron:
             
-                    resourceContext.ChangeResourceState(new Iron());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext = new ResourceContext(new Iron());
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
                     break;
 
                 case GameResources.Sheep:
                   
-                    resourceContext.ChangeResourceState(new Sheep());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext = new ResourceContext(new Sheep());
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
                     break;
 
                 case GameResources.Wood:
               
-                    resourceContext.ChangeResourceState(new Wood());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext = new ResourceContext(new Wood());
+                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
                     break;
             }
+
+            if (weather.GetResourcesOfNeed() == receivingResourceType)
+            {
+                relationShip += 1;
+            }
+
+            else
+            {
+                relationShip -= 3;
+            }
+
         }
 
 
-        else if (isAbleToTrade == false)
+        else
         {
             Debug.Log("거래 실패, 보낼 자원을 되돌려 받음");
 
@@ -231,44 +277,57 @@ public class Trade : MonoBehaviour
                 case GameResources.Brick:
                     //GameDataManager.Instance.PlayerGamedata[3002] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Brick"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
                     break;
 
                 case GameResources.Iron:
                     //GameDataManager.Instance.PlayerGamedata[3001] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Iron"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
                     break;
 
                 case GameResources.Sheep:
                     //GameDataManager.Instance.PlayerGamedata[3003] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Sheep"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
                     break;
 
                 case GameResources.Wood:
                     //GameDataManager.Instance.PlayerGamedata[3000] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Wood"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
                     break;
             }
         }
         
     }
 
-    public void checkwants()
+    public void CheckWeather()
     {
-        CheckWantsOfResourcesAboutAI();
+        weather.GetWeatherState();
     }
 
-    public GameResources CheckWantsOfResourcesAboutAI()
+    public void CheckResourceOfNeed()
     {
-        // 플레이어가 제일 많이 가지고 있는 자원을 원하게 바꿈
+        CheckResourcesOfNeedAboutAI();
+    }
+
+    public void CheckResourcesOfNeedAboutAI()
+    {
+        //// 플레이어가 제일 많이 가지고 있는 자원을 원함
 
         int maxValue = 0;
         string maxValueIndex = "";
 
         maxValue = TestResource.Instance.testDictionary["Brick"];
 
-        foreach(KeyValuePair<string, int> pair in TestResource.Instance.testDictionary)
+        foreach (KeyValuePair<string, int> pair in TestResource.Instance.testDictionary)
         {
-            if(maxValue < pair.Value)
+            if (maxValue < pair.Value)
             {
                 maxValue = pair.Value;
                 maxValueIndex = pair.Key;
@@ -294,12 +353,10 @@ public class Trade : MonoBehaviour
             Debug.Log("필요한 자원 : 벽돌");
         }
 
-        else if (maxValueIndex == "Sheep")
-        { 
+        else 
+        {
             checkingWantsOfResources = GameResources.Sheep;
             Debug.Log("필요한 자원 : 양");
         }
-
-        return checkingWantsOfResources;
     }
 }

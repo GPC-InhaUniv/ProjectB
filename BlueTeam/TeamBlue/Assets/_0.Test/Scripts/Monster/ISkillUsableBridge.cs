@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ProjectB.Characters.Monsters
 {
+    public delegate void NoticeNoSkill();
     enum Bossskill
     {
         SkillFireRain,
@@ -19,6 +20,8 @@ namespace ProjectB.Characters.Monsters
     public class NoSkill : ISkillUsableBridge
     {
         Animator animator;
+        public static event NoticeNoSkill Setstate;
+
         public NoSkill(Animator animator)
         {
             this.animator = animator;
@@ -26,12 +29,16 @@ namespace ProjectB.Characters.Monsters
 
         public void UseSkill()
         {
-           // Monster.ChangeState(Monster.State.Chasing);
+            Setstate();
+
+            //Monster.ChangeState(Monster.State.Chasing);
+
         }
 
     }
     public class NamedSkill : ISkillUsableBridge
     {
+
         Animator animator;
         GameObject skillPrefab;
 
@@ -48,6 +55,7 @@ namespace ProjectB.Characters.Monsters
             //(공격,소환)스킬 오브젝트 풀에서 받아와서 사용할 예정//
 
             animator.SetBool(AniStateParm.SkillOne.ToString(),true);
+            Debug.Log("gogogo");
         }
 
     }
@@ -62,7 +70,6 @@ namespace ProjectB.Characters.Monsters
         public void UseSkill()
         {
             //Boss.ChangeState(Monster.State.Chasing);
-
             Debug.Log("boss state useskill");
         }
     }

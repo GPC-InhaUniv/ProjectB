@@ -4,9 +4,11 @@ using UnityEngine;
 using ProjectB.GameManager;
 
 
-
 namespace ProjectB.Characters.Monsters
 {
+
+
+
     public enum AniStateParm
     {
         Moving,
@@ -21,6 +23,7 @@ namespace ProjectB.Characters.Monsters
 
     public abstract class Monster : Character
     {
+
         [SerializeField]
         GameResources kindOfMonster;
 
@@ -49,7 +52,7 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         protected float waitTime, speed;
         //Set Target//
-        [SerializeField]
+       // [SerializeField]
         public Transform attackTarget;
         [SerializeField]
         protected MonsterMove monsterMove;
@@ -197,7 +200,11 @@ namespace ProjectB.Characters.Monsters
             if (attackTarget)
             {
                 animator.SetInteger(AniStateParm.Battle.ToString(), 1);
+                Debug.Log(animator.GetInteger(AniStateParm.Battle.ToString()));
+
                 ChangeState(State.Chasing);
+                Debug.Log(animator.GetInteger(AniStateParm.Battle.ToString()));
+
             }
         }
 
@@ -265,6 +272,13 @@ namespace ProjectB.Characters.Monsters
             skillUse = false;
 
         }
+
+        protected void ChangeStateToChasing()
+        {
+            currentState = State.Chasing;
+        }
+
+
     }
     
 }
