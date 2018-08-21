@@ -97,6 +97,8 @@ namespace ProjectB.GameManager
         {
             if (areaObject != null)
                 Destroy(areaObject);
+            if (mainUICanvas != null)
+                Destroy(mainUICanvas);
           //  if (playerObject != null)
            //     Destroy(playerObject);
         }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.Characters.Players;
-
+using ProjectB.GameManager;
 namespace ProjectB.UI.Presenter
 {
-    public class PlayerPresenter : MonoBehaviour
+    public class PlayerPresenter : MonoBehaviour , IInitializable
     {
         [SerializeField]
         Button attackButton, skillButton, backStepButton, weaponSwapButton;
@@ -52,14 +52,10 @@ namespace ProjectB.UI.Presenter
         void Start()
         {
 
-            Initialization(); // 삭제예정
+           // Initialize(); // 삭제예정
 
             commandControll = new CommandControll();
 
-            Attack1 = new CommandAttack1(player);
-            Attack2 = new CommandAttack2(player);
-            Attack3 = new CommandAttack3(player);
-            Attack4 = new CommandAttack4(player);
 
 
             skillCoolDownTime = 5.0f;
@@ -88,13 +84,21 @@ namespace ProjectB.UI.Presenter
             weaponSwapButton.onClick.AddListener(() => InputWeaponSwapButton());
         }
 
-        void Initialization()
+        
+        public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            Attack1 = new CommandAttack1(player);
+            Attack2 = new CommandAttack2(player);
+            Attack3 = new CommandAttack3(player);
+            Attack4 = new CommandAttack4(player);
+
         }
 
         void Update()
         {
+            if (player == null)
+                return;
             inputMoveVector = PoolInput();
 
             if (GetReadyForRun())
@@ -385,5 +389,6 @@ namespace ProjectB.UI.Presenter
             expValueText.text = (100.0f > expValue) ? expValue.ToString("N1") + "%"  : "100%";
         }
 
+       
     }
 }

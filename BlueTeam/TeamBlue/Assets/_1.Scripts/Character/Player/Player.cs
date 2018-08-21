@@ -20,7 +20,7 @@ namespace ProjectB.Characters.Players
         PlayerCharacterDieState
     }
 
-    public class Player : Character
+    public class Player : Character , IInitializable
     {
         public PlayerPresenter PlayerPresenter { get { return playerPresenter; } }
         PlayerPresenter playerPresenter;
@@ -63,7 +63,7 @@ namespace ProjectB.Characters.Players
 
         private void Awake()
         {
-            Initialization(); //삭제 예정
+           // Initialize(); //삭제 예정
 
             playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
@@ -83,14 +83,15 @@ namespace ProjectB.Characters.Players
 
             SetCharacterStatus();
 
-            playerPresenter.UpdateUI();
-
+           
             playerAinmaton.InitWeapon();
         }
 
-        void Initialization()
+        public void Initialize()
         {
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            playerPresenter.UpdateUI();
+
         }
 
         private void Update()
@@ -258,6 +259,8 @@ namespace ProjectB.Characters.Players
             yield return new WaitForSeconds(time);
             collider.enabled = true;
         }
+
+      
     }
 
 
