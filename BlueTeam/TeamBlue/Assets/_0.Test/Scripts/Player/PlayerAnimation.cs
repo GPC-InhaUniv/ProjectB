@@ -8,6 +8,7 @@ namespace ProjectB.Characters.Players
         ShortSword,
         Run,
         Die,
+        Init,
         Hit,
         Swap,
         BackStep,
@@ -111,8 +112,18 @@ namespace ProjectB.Characters.Players
 
         public void DieAnimation()
         {
-            animator.SetBool(AnimationState.Die.ToString(), true);
             animator.SetTrigger(AnimationState.Die.ToString());
+        }
+        public void InitAnimation()
+        {
+            StartCoroutine(InitCoroutine());
+        }
+
+        IEnumerator InitCoroutine()
+        {
+            animator.SetBool(AnimationState.Init.ToString(), true);
+            yield return new WaitForSeconds(0.5f);
+            animator.SetBool(AnimationState.Init.ToString(), false);
         }
 
     }
