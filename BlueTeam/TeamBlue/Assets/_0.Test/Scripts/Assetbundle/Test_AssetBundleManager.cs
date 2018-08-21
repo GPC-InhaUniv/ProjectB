@@ -28,7 +28,7 @@ public enum BundleType
 public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 {
     const string PlayerBundleName = "playerbundle";
-    const string CommonBundleName = "dungeonUIbundle";
+    const string CommonBundleName = "commonbundle";
     const string MonsterBundleName = "TestMonster";
     
     protected Test_AssetBundleManager() { }
