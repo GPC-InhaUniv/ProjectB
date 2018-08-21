@@ -101,23 +101,14 @@ namespace ProjectB.GameManager
         {
             for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
             {
-                if (EquipmentItem[0] == (itemTable.sheets[0].list[i].Code))
+                for(int j=0;j<EquipmentItem.Length;j++)
                 {
-                    Attack += itemTable.sheets[0].list[i].Attack;
-                    Defense += itemTable.sheets[0].list[i].Defence;
-                    Hp += itemTable.sheets[0].list[i].HP;
-                }
-                else if(EquipmentItem[1] == (itemTable.sheets[0].list[i].Code))
-                {
-                Attack += itemTable.sheets[0].list[i].Attack;
-                Defense += itemTable.sheets[0].list[i].Defence;
-                Hp += itemTable.sheets[0].list[i].HP;
-                }
-                else if (EquipmentItem[2] == (itemTable.sheets[0].list[i].Code))
-                {
-                    Attack += itemTable.sheets[0].list[i].Attack;
-                    Defense += itemTable.sheets[0].list[i].Defence;
-                    Hp += itemTable.sheets[0].list[i].HP;
+                    if (EquipmentItem[j] != 0 && EquipmentItem[j] == (itemTable.sheets[0].list[i].Code))
+                    {
+                        Attack += itemTable.sheets[0].list[i].Attack;
+                        Defense += itemTable.sheets[0].list[i].Defence;
+                        Hp += itemTable.sheets[0].list[i].HP;
+                    }
                 }
             }
         }
