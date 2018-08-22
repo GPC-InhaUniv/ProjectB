@@ -127,7 +127,12 @@ namespace ProjectB.GameManager
             string WareHouseItems = "";
             string EquipmentItems = "";
 
-            playerLv = PlayerInfomation.PlayerLevel.ToString();
+            
+            if (playerLv.Equals("0"))
+                playerLv = "1";
+            else
+                playerLv = PlayerInfomation.PlayerLevel.ToString();
+             
             playerExp = PlayerInfomation.PlayerExp.ToString();
             AtownRelationship = AtownInformation.RelationsShip.ToString();
             AtownQuest = AtownInformation.LastCleardQuest.ToString();

@@ -24,9 +24,9 @@ namespace ProjectB.Characters.Monsters
             waitTime = waitBaseTime;
 
 
-            bossState = new PhaseOne(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
+            //bossState = new PhaseOne(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
             //bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
-            //bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
+            bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
 
 
             characterHealthPoint = characterMaxHealthPoint;
