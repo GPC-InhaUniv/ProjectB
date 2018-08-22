@@ -54,7 +54,6 @@ namespace ProjectB.GameManager
                 {
                     GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
                 }
-                isClearDungeon = true;
                 totalExp = 0;
                 ObtainedItemDic.Clear();
                 GameDataManager.Instance.SetGameDataToServer();
