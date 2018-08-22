@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using ProjectB.GameManager;
 using ProjectB.Item;
+using ProjectB.Inventory;
 
 public class InventoryUIPresenter : MonoBehaviour
 {
     [SerializeField] List<Item> items = new List<Item>();
     public List<Item> Items { get { return items; } }
-  //  AddItem addItem;
 
     private void Awake()
     {
@@ -31,17 +30,21 @@ public class InventoryUIPresenter : MonoBehaviour
                     if (items[i].Code == temp.Key)
                     {
                         if (items[i].ItemType != ItemType.Equipmentable)
-                            items[i].SetItem(temp.Value);
+                            items[i].IncreaseItemAmount();
+
                         else
-                            continue;
-                        break;
+                            items[i].SetItem(temp.Value);
                     }
                     else if (items[i].Code == 0)
                     {
                         items[i].SetItem(temp.Key);
+                        items[i].IncreaseItemAmount();
                         items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-                        break;
                     }
+                    else
+                        continue;
+
+                    break;
                 }
             }
         }

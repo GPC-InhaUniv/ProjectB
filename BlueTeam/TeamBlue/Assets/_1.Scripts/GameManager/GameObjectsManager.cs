@@ -71,6 +71,7 @@ namespace ProjectB.GameManager
                 case ObjectType.Canvas:
                     mainUICanvas = Instantiate(gameCanvasPrefab);
                     DontDestroyOnLoad(mainUICanvas);
+                    GameMediator.Instance.SetUICanvas();
                     break;
                 default:
                     break;

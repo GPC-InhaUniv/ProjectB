@@ -2,37 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using ProjectB.Item;
 
-public class CombinationSlot : Slot
+namespace ProjectB.Inventory
 {
-    [SerializeField] CombinationUIPresenter combinationUIPresenter;
+    using Item;
 
-    public override void OnPointerClick(PointerEventData eventData)
+    public class CombinationSlot : Slot
     {
-        if (!isClicked)
-            isClicked = true;
-        else
-            isClicked = false;
+        [SerializeField] CombinationUIPresenter combinationUIPresenter;
 
-        if (beforePressSlot != null)
+        public override void OnPointerClick(PointerEventData eventData)
         {
-            if (this.isClicked && beforePressSlot.IsClicked)
+            if (!isClicked)
+                isClicked = true;
+            else
+                isClicked = false;
+
+            if (beforePressSlot != null)
             {
-                if (beforePressSlot.gameObject.tag == "InventorySlot")
-                {
-                    {
+                if (this.isClicked && beforePressSlot.IsClicked)
+                    if (beforePressSlot.gameObject.tag == SlotType.InventorySlot.ToString())
                         combinationUIPresenter.SwapToFromInventorySlotToCombinationSlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
-                    }
-                }
+
+                this.InitializeToIsClicked();
+                beforePressSlot.InitializeToIsClicked();
+                beforePressSlot.InitializeTobeforePressSlot();
             }
-            this.InitializeToIsClicked();
-            beforePressSlot.InitializeToIsClicked();
-            beforePressSlot.InitializeTobeforePressSlot();
-        }
-        else
-        {
-            beforePressSlot = eventData.pointerEnter.gameObject.GetComponent<Slot>();
+            else
+                beforePressSlot = eventData.pointerEnter.gameObject.GetComponent<Slot>();
         }
     }
 }

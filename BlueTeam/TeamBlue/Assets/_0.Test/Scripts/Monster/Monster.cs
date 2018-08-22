@@ -27,12 +27,6 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         GameResources kindOfMonster;
 
-
-        public TestMonsterInfo testinfo;
-
-        // test //
-        [SerializeField]
-        protected AttackArea[] attackAreas;
         [SerializeField]
         protected GameObject[] skillprefab;
 
@@ -200,11 +194,7 @@ namespace ProjectB.Characters.Monsters
             if (attackTarget)
             {
                 animator.SetInteger(AniStateParm.Battle.ToString(), 1);
-                Debug.Log(animator.GetInteger(AniStateParm.Battle.ToString()));
-
                 ChangeState(State.Chasing);
-                Debug.Log(animator.GetInteger(AniStateParm.Battle.ToString()));
-
             }
         }
 
@@ -273,9 +263,10 @@ namespace ProjectB.Characters.Monsters
 
         }
 
-        protected void ChangeStateToChasing()
+        protected void ChangeStateToWalking()
         {
-            currentState = State.Chasing;
+            currentState = State.Walking;
+            Debug.Log("ChangeStateToWalking");
         }
 
 

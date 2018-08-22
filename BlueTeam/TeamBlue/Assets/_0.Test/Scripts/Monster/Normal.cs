@@ -6,15 +6,15 @@ namespace ProjectB.Characters.Monsters
 {
     public class Normal : Monster
     {
+        //NoSkill.Setstate()
+        //delegate로 바꾸기
         private void OnEnable()
         {
-            NoSkill.Setstate += ChangeStateToChasing;
-
+            NoSkill.SetState += ChangeStateToWalking;
         }
         private void OnDisable()
         {
-            NoSkill.Setstate -= ChangeStateToChasing;
-
+            NoSkill.SetState += ChangeStateToWalking;
         }
 
         void Start()

@@ -207,7 +207,10 @@ namespace ProjectB.GameManager
 
 
             if (tempPlayerInformation != null)
+            
                 playerInformationArray = tempPlayerInformation.Split('/');
+                
+            
 
             //itemload
             if (tempInventoryitems != null)
@@ -269,7 +272,7 @@ namespace ProjectB.GameManager
             BtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[2]);
             BtownInformation.LastCleardQuest = Convert.ToInt32(townInformationArray[3]);
 
-
+           
         }
 
 

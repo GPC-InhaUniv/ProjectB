@@ -11,11 +11,9 @@ public class Test_Check : MonoBehaviour {
 
     enum KindOfSkill
     {
-        FireHemiSphere = 15,
-        FireRain = 30,
-        FireEntangle = 55,
-
-
+        FireHemiSphere = 200,
+        FireRain = 100,
+        FireEntangle = 400,
     }
     [SerializeField]
     KindOfSkill kindOfSkill;
@@ -30,7 +28,6 @@ public class Test_Check : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("gogogo");
             Character player = other.GetComponent<Character>();
             player.ReceiveDamage((int)kindOfSkill);
         }
@@ -39,7 +36,6 @@ public class Test_Check : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("gogogo");
             Character player = other.GetComponent<Character>();
             player.ReceiveDamage((int)kindOfSkill);
         }

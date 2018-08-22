@@ -197,8 +197,10 @@ namespace ProjectB.GameManager
 
                         if (Input.anyKeyDown)
                         {
-                            //GameDataManager.Instance.SetGameDataToServer();
+                          
+                            GameDataManager.Instance.SetGameDataToServer();
                             asyncOperation.allowSceneActivation = true;
+                           
                         }
 
                     }

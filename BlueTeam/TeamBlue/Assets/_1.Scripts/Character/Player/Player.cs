@@ -74,14 +74,14 @@ namespace ProjectB.Characters.Players
 
             CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
 
-            GetCharacterStatusFromDataManager();
+          
         }
 
         void Start()
         {
             targetVector = new Vector3(0, 0, 1);
 
-            SetCharacterStatus();
+           
 
            
             playerAinmaton.InitWeapon();
@@ -90,6 +90,9 @@ namespace ProjectB.Characters.Players
         public void Initialize()
         {
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+           
+            GetCharacterStatusFromDataManager();
+            SetCharacterStatus();
             playerPresenter.UpdateUI();
 
         }
