@@ -11,7 +11,7 @@ public class EquipUIPresenter : MonoBehaviour {
 
         if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
         {
-            if((currentItem.Code % 100 <= 31 && swapItem.Code % 100 <= 11) && (swapItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11))
+            if((currentItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11) && (swapItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11))
             {
                 currentItem.SetItem(swapItem.Code);
                 swapItem.SetItem(SwapItemCode);
@@ -29,7 +29,7 @@ public class EquipUIPresenter : MonoBehaviour {
 
         if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
         {
-            if ((currentItem.Code % 100 <= 33 && swapItem.Code % 100 <= 13) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13))
+            if ((currentItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13))
             {
                 currentItem.SetItem(swapItem.Code);
                 swapItem.SetItem(SwapItemCode);
@@ -46,7 +46,7 @@ public class EquipUIPresenter : MonoBehaviour {
 
         if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
         {
-            if ((currentItem.Code % 100 <= 32 && swapItem.Code % 100 <= 12) && (swapItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12))
+            if ((currentItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12) && (swapItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12))
             {
 
                 currentItem.SetItem(swapItem.Code);

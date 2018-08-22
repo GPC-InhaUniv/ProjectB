@@ -10,9 +10,14 @@ public class InventoryUIPresenter : MonoBehaviour
     [SerializeField] List<Item> items = new List<Item>();
     public List<Item> Items { get { return items; } }
 
-    private void Awake()
+    private void OnEnable()
     {
         AddItem();
+    }
+
+    private void Awake()
+    {
+        
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 

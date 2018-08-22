@@ -65,8 +65,11 @@ namespace ProjectB.UI.Presenter
         {
             loadtype = GameControllManager.Instance.CurrentLoadType;
             SetActiveUI();
-        }    
-
+        }
+        private void OnDisable()
+        {
+            isOpenedDungeonUI = false;
+        }
         enum UIType
         {
             Inventory,
@@ -142,7 +145,7 @@ namespace ProjectB.UI.Presenter
                     storageUI.SetActive(isOpenedStorageUI);
                     combinationStoreUI.SetActive(isOpenedCombinationUI);
                     tradeUI.SetActive(isOpenedTradeUI);
-                    dungeonUI.SetActive(isOpenedDungeonUI);
+                    
                     villageSetUpUI.SetActive(isOpenedSetupUI);
                   
                 }
@@ -161,6 +164,7 @@ namespace ProjectB.UI.Presenter
                 inventoryUI.SetActive(isOpenedInventoryUI);
                 questUI.SetActive(isOpenedQuestUI);
                 equipmentUI.SetActive(isOpenedEquipmentUI);
+                dungeonUI.SetActive(isOpenedDungeonUI);
             }
             catch
             {
