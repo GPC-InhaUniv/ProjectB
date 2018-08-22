@@ -139,18 +139,18 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
             case BundleType.Player:
                 if(PlayerBundle ==null)
                 PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
-                gameObject = PlayerBundle.LoadAsset(AssetName) as GameObject;
+                gameObject = PlayerBundle.LoadAsset<GameObject>(AssetName);
                 break;
             case BundleType.Common:
                 if(CommonAssetBundle == null)
                 CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
-                gameObject = CommonAssetBundle.LoadAsset(AssetName) as GameObject;
+                gameObject = CommonAssetBundle.LoadAsset<GameObject>(AssetName) ;
                 break;
             case BundleType.Area:
-                gameObject = Area.LoadAsset(AssetName) as GameObject;
+                gameObject = Area.LoadAsset<GameObject>(AssetName);
                 break;
             case BundleType.Monster:
-                gameObject = Area.LoadAsset(AssetName) as GameObject;
+                gameObject = Area.LoadAsset<GameObject>(AssetName);
                 break;
             default:
                 gameObject = null;
