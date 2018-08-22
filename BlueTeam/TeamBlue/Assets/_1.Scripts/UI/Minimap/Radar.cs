@@ -5,9 +5,8 @@ namespace ProjectB.UI.Minimap
 {
     public class Radar : MonoBehaviour
     {
-        public GameObject Player;
         public List<GameObject> Enemys = new List<GameObject>();
-        
+
         void OnTriggerEnter(Collider other)
         {
             if (!Enemys.Contains(other.gameObject))

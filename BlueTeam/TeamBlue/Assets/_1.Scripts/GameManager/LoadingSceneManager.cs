@@ -154,7 +154,7 @@ namespace ProjectB.GameManager
                             //  Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village"));
                             break;
                     }
-
+                    GameObjectsManager.Instance.SetMonsterPrefab();
                     IsAssetLoadDone = true;
                 }
 
@@ -164,6 +164,8 @@ namespace ProjectB.GameManager
                 }
 
                 GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
+               
+                GameObjectsManager.Instance.SetPool();
             }
             yield return null;
         }
@@ -197,8 +199,11 @@ namespace ProjectB.GameManager
 
                         if (Input.anyKeyDown)
                         {
+<<<<<<< HEAD
                           
                             //GameDataManager.Instance.SetGameDataToServer();
+=======
+>>>>>>> 09c1e4c1765a91c38494c9f3242565553c10c67d
                             asyncOperation.allowSceneActivation = true;
                            
                         }

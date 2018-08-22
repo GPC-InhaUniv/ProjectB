@@ -9,6 +9,7 @@ namespace ProjectB.GameManager
 
         public LoadType CurrentLoadType;
         public int CurrentIndex;
+       
 
         bool isClearDungeon;
         public bool IsClearDungeon { get { return isClearDungeon; } private set { } }
@@ -82,11 +83,7 @@ namespace ProjectB.GameManager
             else
             {
                 Debug.Log("인게임 UI 로드");
-                GameObject tempUIObject = Test_PoolManager.Instance.GetInGamePanel();
-                tempUIObject.transform.SetParent(GameObject.Find("Canvas").transform);
-                tempUIObject.transform.position = new Vector3(645, 374, 0);
-
-                tempUIObject.gameObject.SetActive(true);
+              
             }
         }
 
@@ -158,8 +155,21 @@ namespace ProjectB.GameManager
                 MonsterPostion[1] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition2");
                 MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
 
-                Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
-                Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[1].transform.position;
+                for(int i = 0; i<GameObjectsManager.Instance.MonsterPoolSize;i++)
+                {
+                    if( i%3 == 0)
+
+                    GameObjectsManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
+                    else if(i%3 == 1)
+                    {
+                        GameObjectsManager.Instance.GetMonsterObject().transform.position = MonsterPostion[1].transform.position;
+                    }
+                    else
+                        GameObjectsManager.Instance.GetMonsterObject().transform.position = MonsterPostion[2].transform.position;
+                }
+             
+                //     Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
+                //    Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[1].transform.position;
 
             }
 
