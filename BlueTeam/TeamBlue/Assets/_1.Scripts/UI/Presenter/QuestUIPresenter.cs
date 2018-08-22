@@ -10,8 +10,6 @@ public class QuestUIPresenter : MonoBehaviour
     [SerializeField] Text bVillageQuestContentsText;
     [SerializeField] Text aQuestAcceptanceButtonText;
     [SerializeField] Text bQuestAcceptanceButtonText;
-    [SerializeField] Text questSubViewAVillageQuestContentsText;
-    [SerializeField] Text questSubViewBAvillageQuestContentsText;
 
     IQuestViable aVillageQuest;
     IQuestViable bVillageQuest;
@@ -20,16 +18,14 @@ public class QuestUIPresenter : MonoBehaviour
     {
         aVillageQuest = new AVillageHuntingQuest();
         bVillageQuest = new BVillageHuntingQuest();
-        /*        questSubViewAVillageQuestContentsText.text = */
         aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest(QuestType.AVillageQuest, "완료");
-        /*        questSubViewBAvillageQuestContentsText.text = */
         bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest(QuestType.BVillageQuest, "완료");
     }
 
     public void OnClickAcceptButton(int villageType)
     {
-        questSubViewAVillageQuestContentsText.text = aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
-        questSubViewBAvillageQuestContentsText.text = bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest((QuestType)villageType, bQuestAcceptanceButtonText.text);
+        aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
+        bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest((QuestType)villageType, bQuestAcceptanceButtonText.text);
 
         aQuestAcceptanceButtonText.text = aVillageQuest.AcceptToQuest((QuestType)villageType);
         bQuestAcceptanceButtonText.text = bVillageQuest.AcceptToQuest((QuestType)villageType);
