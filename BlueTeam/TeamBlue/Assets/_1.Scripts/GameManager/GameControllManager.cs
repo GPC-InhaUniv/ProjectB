@@ -23,6 +23,8 @@ namespace ProjectB.GameManager
 
         GameObject playerPosition;
         GameObject[] MonsterPostion;
+        GameObject uiController;
+
         public Dictionary<int, int> ObtainedItemDic = new Dictionary<int, int>();
 
         private void Start()
@@ -115,7 +117,7 @@ namespace ProjectB.GameManager
         public void SetObjectPosition()
         {
             //
-            GameMediator.Instance.GameInitialize();
+            
 
                // GameObject tempObject = Test_PoolManager.Instance.GetArea();
             GameObject tempObject = GameObjectsManager.Instance.GetAreaObject();
