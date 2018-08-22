@@ -22,5 +22,10 @@ namespace ProjectB.UI.Minimap
                 Enemys.Remove(other.gameObject);
             }
         }
+
+        private void OnTriggerStay(Collider other)
+        {
+            
+        }
     }
 }
