@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.Characters;
 
-public class Test_Check : MonoBehaviour {
+public class SkillDamage : MonoBehaviour {
 
     [SerializeField]
     Collider collider;

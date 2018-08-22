@@ -40,6 +40,9 @@ namespace ProjectB.Characters.Players
         public int AttackNumber { get { return attackNumber; } private set { } }
         int attackNumber;
 
+        public float PlayerMaxExp { get { return playerMaxExp; } private set { } }
+        float playerMaxExp;
+
         public Vector3 MoveVector;
 
         public bool IsRunning;
@@ -51,39 +54,37 @@ namespace ProjectB.Characters.Players
         float preAttckPower;
 
         bool isDied;
-
+        bool isRunningHitCoroutine = false;
         Weapon weapon;
+
+        [SerializeField]
+        GameObject hitParticle;
 
         int equipmentHp = 0;
         int equipmentAttackPower = 0;
         int equipmentDefensePowr = 0;
 
-        public float PlayerMaxExp { get { return playerMaxExp; } private set { } }
-        float playerMaxExp;
+        bool isHit;
 
         private void Awake()
-        {
-           // Initialize(); //삭제 예정
-
+        {     
             playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
             collider = GetComponent<CapsuleCollider>();
 
             ChangeState(PlayerStates.PlayerCharacterIdleState);
-
             CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
 
-          
+   
         }
 
         void Start()
         {
+            hitParticle.SetActive(false);
+
             targetVector = new Vector3(0, 0, 1);
-
-           
-
-           
+            
             playerAinmaton.InitWeapon();
         }
 
@@ -94,7 +95,6 @@ namespace ProjectB.Characters.Players
             GetCharacterStatusFromDataManager();
             SetCharacterStatus();
             playerPresenter.UpdateUI();
-
         }
 
         private void Update()
@@ -111,6 +111,7 @@ namespace ProjectB.Characters.Players
             isDied = false;
             ChangeState(PlayerStates.PlayerCharacterIdleState);
             playerAinmaton.InitStateAnimation();
+            playerAinmaton.InitWeapon();
             SetCharacterStatus();
             playerPresenter.UpdateUI();
         }
@@ -174,11 +175,14 @@ namespace ProjectB.Characters.Players
 
         public override void ReceiveDamage(float damage)
         {
-            if(isDied == false)
+            if(isDied == false && isRunningHitCoroutine == false)
             {
-                StartCoroutine(HitCoroutine(1.0f));
+                StartCoroutine(HitCoroutine(1.2f));
+
                 playerAinmaton.HitAnimation();
                 characterHealthPoint -= CalDamage(damage);
+                SoundManager.Instance.SetSoundType(SoundFXType.PlayerHit);
+
                 playerPresenter.UpdateUI();
             }
 
@@ -186,15 +190,17 @@ namespace ProjectB.Characters.Players
             {
                 characterHealthPoint = 0;
                 ChangeState(PlayerStates.PlayerCharacterDieState);
-                isDied = true;
+                isDied = true;                          
+                
                 GameControllManager.Instance.CheckGameOver();
+
                 playerPresenter.UpdateUI();
             }
         }
 
         float CalDamage(float damage)
         {
-            if (0 < damage - characterDefensivePower / 10)
+            if (0 < damage - characterDefensivePower * 0.1f)
             {
                 return damage - characterDefensivePower * 0.1f;
             }
@@ -239,6 +245,10 @@ namespace ProjectB.Characters.Players
         //데이터 불러오기 및 정리하기
 
         //애니메이션 이벤트
+        public void AttackStart()
+        {
+            SoundManager.Instance.SetSoundType(SoundFXType.PlayerAttack);
+        }
         public void AttackDone()
         {
             ChangeState(PlayerStates.PlayerCharacterIdleState);
@@ -258,9 +268,15 @@ namespace ProjectB.Characters.Players
 
         IEnumerator HitCoroutine(float time)
         {
-            collider.enabled = false;
+            isRunningHitCoroutine = true;
+
+            hitParticle.SetActive(true);
+
             yield return new WaitForSeconds(time);
-            collider.enabled = true;
+
+            hitParticle.SetActive(false);
+
+            isRunningHitCoroutine = false;
         }
 
       
