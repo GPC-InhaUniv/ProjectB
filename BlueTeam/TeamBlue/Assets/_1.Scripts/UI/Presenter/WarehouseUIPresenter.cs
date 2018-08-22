@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.Item;
+using ProjectB.Inventory;
 
 public class WarehouseUIPresenter : MonoBehaviour
 {

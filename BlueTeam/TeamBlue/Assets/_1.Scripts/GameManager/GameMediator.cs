@@ -11,25 +11,32 @@ namespace ProjectB.GameManager
         GameObject mainUICanvas;
         GameObject playerPresenter;
 
+
+        public void SetUICanvas()
+        {
+            mainUICanvas = GameObject.FindGameObjectWithTag("UIController");
+            mainUICanvas.SetActive(false);
+        }
         public void SetMediator()
         {
             playerObject = GameObject.FindGameObjectWithTag("Player");
-            mainUICanvas = GameObject.FindGameObjectWithTag("UIController");
+            
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter");
-           
+
         }
 
         public void GameInitialize()
         {
+            mainUICanvas.SetActive(true);
             SetMediator();
+            
             IInitializable player = playerPresenter.GetComponent<IInitializable>();
             player.Initialize();
             player = playerObject.GetComponent<IInitializable>();
             player.Initialize();
-           
-            mainUICanvas.SetActive(false);
+
         }
-        
+
 
     }
 }

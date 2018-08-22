@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.Characters;
 
 namespace ProjectB.Characters.Monsters
 {
@@ -14,16 +15,26 @@ namespace ProjectB.Characters.Monsters
 
         void Start()
         {
-        
+            //Setstate
+
             monsterMove = GetComponent<MonsterMove>();
             animator = GetComponent<Animator>();
             startPosition = transform.position;
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
 
-            // bossState = new PhaseOne(animator, skillprefab,attackable,defencSkillUsable,skillUsable);
-            bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
-            //bossState = new PhaseThree(animator, skillprefab, attackable, defencSkillUsable, skillUsable, entangleSkillUsable);
+
+            bossState = new PhaseOne(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
+            //bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
+            //bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
+
+
+            characterHealthPoint = characterMaxHealthPoint;
+
+
+
+
+            NoSkill.SetState += ChangeStateToWalking;
 
 
 
