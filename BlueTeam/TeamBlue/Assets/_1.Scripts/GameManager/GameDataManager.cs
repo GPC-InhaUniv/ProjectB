@@ -127,7 +127,12 @@ namespace ProjectB.GameManager
             string WareHouseItems = "";
             string EquipmentItems = "";
 
-            playerLv = PlayerInfomation.PlayerLevel.ToString();
+            
+            if (playerLv.Equals("0"))
+                playerLv = "1";
+            else
+                playerLv = PlayerInfomation.PlayerLevel.ToString();
+             
             playerExp = PlayerInfomation.PlayerExp.ToString();
             AtownRelationship = AtownInformation.RelationsShip.ToString();
             AtownQuest = AtownInformation.LastCleardQuest.ToString();
@@ -202,7 +207,10 @@ namespace ProjectB.GameManager
 
 
             if (tempPlayerInformation != null)
+            
                 playerInformationArray = tempPlayerInformation.Split('/');
+                
+            
 
             //itemload
             if (tempInventoryitems != null)
@@ -229,8 +237,8 @@ namespace ProjectB.GameManager
                 {
                     string[] tempArray = warehouseItemArray[i].Split('_');
 
-                    if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
-                        PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
+                    if (WareHouseGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
+                        WareHouseGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
                     else
                         WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
@@ -264,7 +272,7 @@ namespace ProjectB.GameManager
             BtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[2]);
             BtownInformation.LastCleardQuest = Convert.ToInt32(townInformationArray[3]);
 
-
+           
         }
 
 

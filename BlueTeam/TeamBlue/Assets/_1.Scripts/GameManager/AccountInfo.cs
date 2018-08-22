@@ -117,7 +117,7 @@ public class AccountInfo : MonoBehaviour
     {
         Debug.Log("Update Account Infomation!");
         Instance.info = result.InfoResultPayload;
-        GameDataManager.Instance.GetGameDataFromServer();
+        GameDataManager.Instance.GetGameDataFromServer();      
     }
 
 

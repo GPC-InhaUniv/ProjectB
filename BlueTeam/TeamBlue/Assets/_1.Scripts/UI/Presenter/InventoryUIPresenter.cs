@@ -14,9 +14,14 @@ public class InventoryUIPresenter : MonoBehaviour
     public List<Item> Items { get { return items; } }
     public static InitializeCombinationResourcesSlot initializeCombinationResourcesSlot;
 
-    private void Awake()
+    private void OnEnable()
     {
         AddItem();
+    }
+
+    private void Awake()
+    {
+        
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 

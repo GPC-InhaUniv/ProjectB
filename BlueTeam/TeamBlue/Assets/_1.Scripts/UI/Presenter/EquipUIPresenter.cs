@@ -12,7 +12,11 @@ public class EquipUIPresenter : MonoBehaviour {
 
         if (swapItem.ItemType == ItemType.Equipmentable)
         {
+<<<<<<< HEAD
             if(swapItem.Code % 10 == 1)
+=======
+            if((currentItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11) && (swapItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11))
+>>>>>>> 577de2a63bd2fc72aae4d678cbe548b7e93868e7
             {
                 currentItem.SetItem(swapItem.Code);
                 currentItem.SetItemAmount(swapItem.ItemAmount);
@@ -35,7 +39,11 @@ public class EquipUIPresenter : MonoBehaviour {
 
         if (swapItem.ItemType == ItemType.Equipmentable)
         {
+<<<<<<< HEAD
             if (swapItem.Code % 10 == 3)
+=======
+            if ((currentItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13))
+>>>>>>> 577de2a63bd2fc72aae4d678cbe548b7e93868e7
             {
                 currentItem.SetItem(swapItem.Code);
                 currentItem.SetItemAmount(swapItem.ItemAmount);
@@ -57,7 +65,11 @@ public class EquipUIPresenter : MonoBehaviour {
 
         if (swapItem.ItemType == ItemType.Equipmentable)
         {
+<<<<<<< HEAD
             if (swapItem.Code % 10 == 2)
+=======
+            if ((currentItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12) && (swapItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12))
+>>>>>>> 577de2a63bd2fc72aae4d678cbe548b7e93868e7
             {
                 currentItem.SetItem(swapItem.Code);
                 currentItem.SetItemAmount(swapItem.ItemAmount);

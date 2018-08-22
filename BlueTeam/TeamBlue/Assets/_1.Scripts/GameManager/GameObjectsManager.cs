@@ -12,9 +12,12 @@ namespace ProjectB.GameManager
         Player,
         Canvas,
     }
+    
 
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
+        public const int MaxMonsterCount = 18;
+
         GameObject areaPrefab;
         GameObject playerPrefab;
         GameObject nomalMonsterPrefab;
@@ -23,9 +26,20 @@ namespace ProjectB.GameManager
         GameObject particlePrefab;
         GameObject gameCanvasPrefab;
 
+
+        [SerializeField]
+        int monsterPoolSize;
+        public int MonsterPoolSize { get { return monsterPoolSize; }}
+
+        [SerializeField]
+        int fxPoolSize;
+
+
+        
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
+            monsterPoolSize = MaxMonsterCount;
         }
 
 
@@ -47,9 +61,9 @@ namespace ProjectB.GameManager
 
         public void SetMonsterPrefab()
         {
-            nomalMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "nomalMonster");
-            namedMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "nameMonster");
-            bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
+            nomalMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
+            namedMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
+          //  bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
         }
 
         GameObject areaObject;
@@ -69,8 +83,12 @@ namespace ProjectB.GameManager
                     DontDestroyOnLoad(playerObject);
                     break;
                 case ObjectType.Canvas:
-                    mainUICanvas = Instantiate(gameCanvasPrefab);
-                    DontDestroyOnLoad(mainUICanvas);
+                    if (mainUICanvas == null)
+                    {
+                        mainUICanvas = Instantiate(gameCanvasPrefab);
+                        DontDestroyOnLoad(mainUICanvas);
+                    }
+                    GameMediator.Instance.SetUICanvas();
                     break;
                 default:
                     break;
@@ -97,9 +115,7 @@ namespace ProjectB.GameManager
         {
             if (areaObject != null)
                 Destroy(areaObject);
-            if (mainUICanvas != null)
-                Destroy(mainUICanvas);
-          //  if (playerObject != null)
+                      //  if (playerObject != null)
            //     Destroy(playerObject);
         }
 
@@ -108,21 +124,12 @@ namespace ProjectB.GameManager
         List<GameObject> monster = new List<GameObject>();
         List<GameObject> particle = new List<GameObject>();
 
-        [SerializeField]
-        int monsterPoolSize;
-
-        [SerializeField]
-        int fxPoolSize;
-
-
-       
-
         public void SetPool()
         {
+            
             for (int i = monster.Count; i < monsterPoolSize; i++)
             {
-                monster.Add(CreateItem(ObjectType.Monster));
-
+                monster.Add(CreateItem(ObjectType.Monster));    
             }
             for (int i = particle.Count; i < fxPoolSize; i++)
             {
@@ -173,44 +180,22 @@ namespace ProjectB.GameManager
             item.SetActive(false);
             return item;
         }
-
+        int curruntMonsterIndex = 0;
+        
         public GameObject GetMonsterObject()
         {
-            if (monster.Count == 0)
-                monster.Add(CreateItem(ObjectType.Monster));
-            if (monster.Count > monsterPoolSize)
-                return null;
-            GameObject monsterObject = monster[0];
-            monster.RemoveAt(0);
-            monsterObject.SetActive(true);
-            return monsterObject;
-        }
-
-        public GameObject GetParticleObject()
-        {
-            if (monster.Count == 0)
-                particle.Add(CreateItem(ObjectType.Particle));
-            if (monster.Count > monsterPoolSize)
-                return null;
-            GameObject particleObject = particle[0];
-            particle.RemoveAt(0);
-            particleObject.SetActive(true);
-            return particleObject;
-        }
-
-        public void PutObject(GameObject gameobject)
-        {
-
-            gameobject.transform.rotation = Quaternion.Euler(0, 0, 0);
-            gameobject.transform.position = new Vector3(0, 0, 0);
-
-            if (gameobject.tag == "Particle")
-                particle.Add(gameobject);
+            if (curruntMonsterIndex < monsterPoolSize)
+            {
+                monster[curruntMonsterIndex].SetActive(true);
+                return monster[curruntMonsterIndex++];
+            }
             else
-                monster.Add(gameobject);
-
-            gameobject.SetActive(false);
+                return null;
         }
+
+        
+
+      
 
     }
 

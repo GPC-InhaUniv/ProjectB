@@ -22,10 +22,5 @@ namespace ProjectB.Characters.Monsters
                 monster.SetAttackTarget(other.transform);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

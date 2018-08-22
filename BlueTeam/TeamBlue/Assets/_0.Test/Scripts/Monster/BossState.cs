@@ -32,7 +32,7 @@ namespace ProjectB.Characters.Monsters
             this.attackable = attackable;
             defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
             this.defencSkillUsable = defencSkillUsable;
-            skillUsable = new BossSkillFirst(this.animator, SkillPrefab);
+            skillUsable = new NoSkill(this.animator);
             this.skillUsable = skillUsable;
 
             attackable.Attack();
@@ -62,15 +62,12 @@ namespace ProjectB.Characters.Monsters
             this.animator = animator;
             SkillPrefab = skillPrefab;
 
-            attackable = new NormalAttack(this.animator);
+            attackable = new ComboAttack(this.animator);
             this.attackable = attackable;
             defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
             this.defencSkillUsable = defencSkillUsable;
             skillUsable = new BossSkillSecond(this.animator, SkillPrefab);
             this.skillUsable = skillUsable;
-
-
-            Debug.Log(this.skillUsable);
 
         }
         public override void Attack()
@@ -85,8 +82,8 @@ namespace ProjectB.Characters.Monsters
 
         public override void UseSkill()
         {
-          //  skillUsable.UseSkill();
-            defencSkillUsable.UseSkill();
+            skillUsable.UseSkill();
+            //defencSkillUsable.UseSkill();
 
         }
     }
@@ -109,8 +106,6 @@ namespace ProjectB.Characters.Monsters
 
             entangleSkillUsable = new BossSkillThird(this.animator, SkillPrefab);
             this.entangleSkillUsable = entangleSkillUsable;
-
-            attackable.Attack();
 
 
         }

@@ -20,7 +20,10 @@ namespace ProjectB.Characters.Monsters
     public class NoSkill : ISkillUsableBridge
     {
         Animator animator;
-        public static event NoticeNoSkill Setstate;
+       // public static event NoticeNoSkill Setstate;
+        public static NoticeNoSkill SetState;
+
+
 
         public NoSkill(Animator animator)
         {
@@ -29,7 +32,7 @@ namespace ProjectB.Characters.Monsters
 
         public void UseSkill()
         {
-            Setstate();
+            SetState();
 
             //Monster.ChangeState(Monster.State.Chasing);
 
@@ -62,6 +65,7 @@ namespace ProjectB.Characters.Monsters
     public class BossSkillFirst : ISkillUsableBridge
     {
         Animator animator;
+        public static NoticeNoSkill SetState;
         public BossSkillFirst(Animator animator, GameObject[] skillPrefab)
         {
             this.animator = animator;
@@ -69,6 +73,7 @@ namespace ProjectB.Characters.Monsters
 
         public void UseSkill()
         {
+            SetState();
             //Boss.ChangeState(Monster.State.Chasing);
             Debug.Log("boss state useskill");
         }
@@ -129,7 +134,8 @@ namespace ProjectB.Characters.Monsters
         }
         public void UseSkill()
         {
-            //Instantiate(SkillTest, Boss.attackTarget);
+            Instantiate(SkillTest);
+            animator.SetTrigger(AniStateParm.SkillTwo.ToString());
 
             Debug.Log("boss state useskill");
         }
