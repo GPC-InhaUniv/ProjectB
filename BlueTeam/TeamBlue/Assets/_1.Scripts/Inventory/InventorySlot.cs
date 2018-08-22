@@ -2,38 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using ProjectB.Item;
 
-public class InventorySlot : Slot
+
+namespace ProjectB.Inventory
 {
-    [SerializeField] InventoryUIPresenter inventoryUIPresenter;
+    using Item;
 
-    public override void OnPointerClick(PointerEventData eventData)
+    public class InventorySlot : Slot
     {
-        if (!isClicked)
-            isClicked = true;
-        else
-            isClicked = false;
+        [SerializeField] InventoryUIPresenter inventoryUIPresenter;
 
-        if (beforePressSlot != null)
+        public override void OnPointerClick(PointerEventData eventData)
         {
-            if(this.isClicked && beforePressSlot.IsClicked)
+            if (!isClicked)
+                isClicked = true;
+            else
+                isClicked = false;
+
+            if (beforePressSlot != null)
             {
+                if (this.isClicked && beforePressSlot.IsClicked)
+                {
+                    if (beforePressSlot.gameObject.tag == SlotType.InventorySlot.ToString())
+                        inventoryUIPresenter.SwapToInventoryItem(this, beforePressSlot);
 
-                if (beforePressSlot.gameObject.tag == "InventorySlot")
-                    inventoryUIPresenter.SwapToInventoryItem(this, beforePressSlot);
-                else if (beforePressSlot.gameObject.tag == "CombinationSlot" || beforePressSlot.gameObject.tag == "WarehouseSlot")
-                    inventoryUIPresenter.SwapToFromCombinationSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
-                else if (beforePressSlot.gameObject.tag == "EquipSlot")
-                    inventoryUIPresenter.SwapToFromEquipSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
+                    else if (beforePressSlot.gameObject.tag == SlotType.CombinationSlot.ToString() || beforePressSlot.gameObject.tag == SlotType.WarehouseSlot.ToString())
+                        inventoryUIPresenter.SwapToFromCombinationSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
+
+                    else if (beforePressSlot.gameObject.tag == SlotType.EquipSlot.ToString())
+                        inventoryUIPresenter.SwapToFromEquipSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
+                }
+
+                this.InitializeToIsClicked();
+                beforePressSlot.InitializeToIsClicked();
+                beforePressSlot.InitializeTobeforePressSlot();
             }
-            this.InitializeToIsClicked();
-            beforePressSlot.InitializeToIsClicked();
-            beforePressSlot.InitializeTobeforePressSlot();
-        }
-        else
-        {
-            beforePressSlot = eventData.pointerEnter.gameObject.GetComponent<Slot>();
+            else
+                beforePressSlot = eventData.pointerEnter.gameObject.GetComponent<Slot>();
         }
     }
 }
