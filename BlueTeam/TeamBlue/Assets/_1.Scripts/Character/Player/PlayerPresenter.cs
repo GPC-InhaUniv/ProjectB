@@ -16,7 +16,7 @@ namespace ProjectB.UI.Presenter
         [SerializeField]
         Image hpBar,expBar;
         [SerializeField]
-        Text levelText,hpValueText,expValueText;
+        Text levelText,hpValueText,expValueText, playerId;
 
         [SerializeField]
         JoyStick joyStick;
@@ -29,9 +29,7 @@ namespace ProjectB.UI.Presenter
 
         Vector3 inputMoveVector;
 
-        int comboResetCount;
-
-        int comboRandom;
+        Vector3 moverDirection;
 
         float skillCoolDownTime, backStepCoolDownTime, swapCoolDownTime, attackCoolDownTime;
 
@@ -39,29 +37,23 @@ namespace ProjectB.UI.Presenter
 
         float expValue, hpValue;
 
-        bool isComboState;
+        bool isComboState, isSwap;
 
-        bool isSwap;
+        int comboResetCount;
 
-        Vector3 moverDirection;  
+        int comboRandom;
 
+        int standardPercent = 100;
      
         const int shortSwordAttackCount = 3;
         const int longSwordAttackCount = 2;
 
         void Start()
-        {
-
-           // Initialize(); // 삭제예정
-
-            commandControll = new CommandControll();
-
-
-
+        {           
             skillCoolDownTime = 5.0f;
-            backStepCoolDownTime = 3.0f;
-            swapCoolDownTime = 2.0f;
-            attackCoolDownTime = 1.2f;
+            backStepCoolDownTime = 3.5f;
+            swapCoolDownTime = 2.5f;
+            attackCoolDownTime = 1.0f;
 
             inputMoveVector = Vector3.zero;
             
@@ -72,6 +64,7 @@ namespace ProjectB.UI.Presenter
             isComboState = false;
 
             GetImage();
+            commandControll = new CommandControll();
 
             attackButton.onClick.AddListener(() => RandomCombo());
             attackButton.onClick.AddListener(() => StartCombo());
@@ -83,8 +76,7 @@ namespace ProjectB.UI.Presenter
 
             weaponSwapButton.onClick.AddListener(() => InputWeaponSwapButton());
         }
-
-        
+       
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -92,7 +84,6 @@ namespace ProjectB.UI.Presenter
             Attack2 = new CommandAttack2(player);
             Attack3 = new CommandAttack3(player);
             Attack4 = new CommandAttack4(player);
-
         }
 
         void Update()
@@ -125,11 +116,7 @@ namespace ProjectB.UI.Presenter
             button.interactable = false;
             yield return new WaitForSeconds(time);
             button.interactable = true;
-
-            if (button == weaponSwapButton)
-            {
-                isSwap = false;
-            }
+            isSwap = false;
         }
 
         IEnumerator ImageCoolDown(float time, Image image)
@@ -147,7 +134,6 @@ namespace ProjectB.UI.Presenter
             StartCoroutine(ButtonCoolDownCoroutine(time, button));
             StartCoroutine(ImageCoolDown(time, image));
         }
-
 
         Vector3 PoolInput()
         {
@@ -191,26 +177,7 @@ namespace ProjectB.UI.Presenter
             }
         }
 
-        bool GetReadyForRun()
-        {
-            if (player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState) && player.PlayerState.GetType() != typeof(PlayerCharacterSkillState))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        bool GetPlayerIdleState()
-        {
-            if (player.PlayerState.GetType() == typeof(PlayerCharacterIdleState))
-            {
-                return true;
-            }
-            else return false;
-        }
 
         void InputSkillButton()
         {
@@ -325,16 +292,8 @@ namespace ProjectB.UI.Presenter
             }
         }
 
-        void SwapWeaponCoolDown()
-        {
-            if (isSwap == false)
-            {
-                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
-            }
-        }
-
         void Shuffle()
-        {       
+        {
             if (GetWeaponState())
             {
                 ResetComboCount(shortSwordAttackCount);
@@ -362,6 +321,14 @@ namespace ProjectB.UI.Presenter
             }
         }
 
+        void SwapWeaponCoolDown()
+        {
+            if (isSwap == false)
+            {
+                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
+            }
+        }
+
         bool GetWeaponState()
         {
             if(player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
@@ -373,22 +340,40 @@ namespace ProjectB.UI.Presenter
                 return false;
             }
         }
+        bool GetReadyForRun()
+        {
+            if (player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState) && player.PlayerState.GetType() != typeof(PlayerCharacterSkillState))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool GetPlayerIdleState()
+        {
+            if (player.PlayerState.GetType() == typeof(PlayerCharacterIdleState))
+            {
+                return true;
+            }
+            else return false;
+        }
 
         public void UpdateUI()
         {
+            playerId.text = AccountInfo.Instance.Id;
             levelText.text = "Level\n" + player.CharacterLevel.ToString();
 
-            expValue = player.CharacterExp / player.PlayerMaxExp * 100;
-            hpValue = player.CharacterHealthPoint / player.CharacterMaxHealthPoint * 100;
+            expValue = player.CharacterExp / player.PlayerMaxExp * standardPercent;
+            hpValue = player.CharacterHealthPoint / player.CharacterMaxHealthPoint * standardPercent;
 
             hpBar.fillAmount = player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
-            hpValueText.text = (100.0f > hpValue) ? hpValue + "%" : "100%" ;
-
+            hpValueText.text = (100.0f > hpValue) ? hpValue + "%" : standardPercent.ToString() + "%";
    
             expBar.fillAmount = player.CharacterExp / player.PlayerMaxExp;
-            expValueText.text = (100.0f > expValue) ? expValue.ToString("N1") + "%"  : "100%";
-        }
-
-       
+            expValueText.text = (100.0f > expValue) ? expValue.ToString("N1") + "%"  : standardPercent.ToString() + "%";
+        }      
     }
 }

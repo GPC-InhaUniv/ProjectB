@@ -28,8 +28,8 @@ public class QuestUIPresenter : MonoBehaviour
 
     public void OnClickAcceptButton(int villageType)
     {
-        questSubViewAVillageQuestContentsText.text = aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
-        questSubViewBAvillageQuestContentsText.text = bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest((QuestType)villageType, bQuestAcceptanceButtonText.text);
+         aVillageQuestContentsText.text = aVillageQuest.ShowContentsOfQuest((QuestType)villageType, aQuestAcceptanceButtonText.text);
+         bVillageQuestContentsText.text = bVillageQuest.ShowContentsOfQuest((QuestType)villageType, bQuestAcceptanceButtonText.text);
 
         aQuestAcceptanceButtonText.text = aVillageQuest.AcceptToQuest((QuestType)villageType);
         bQuestAcceptanceButtonText.text = bVillageQuest.AcceptToQuest((QuestType)villageType);

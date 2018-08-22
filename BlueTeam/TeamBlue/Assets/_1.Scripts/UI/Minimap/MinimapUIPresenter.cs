@@ -2,36 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
+using ProjectB.Characters.Players;
 
 namespace ProjectB.UI.Minimap
 {
-    public class MinimapUIPresenter : MonoBehaviour //,IInitializable
+    public class MinimapUIPresenter : MonoBehaviour ,IInitializable
     {
-        
         Radar radar;
-        Transform radarPosition;
-       
-        public List<RectTransform> EnemyIconsPosition;//이놈을 어떻게 받아올까 ...
-        //public GameObject[] EnemyIconsPosition;
-        //RectTransform[] test;
+        //public List<RectTransform> EnemyIconsPosition;//이놈을 어떻게 받아올까 ...
+        public GameObject[] EnemyIconsPosition;
         Vector2 playerPosition;
         Vector2 enemyPosition;
 
         const float mapScale = 5.0f;
         const float defaultIconPositionX = 100.0f;
         const float minimapUpdateTime = 0.1f;
-        const int sizeOfIconArray = 20;
-
+        const int sizeOfIconArray = 24;
         
-        void Start()
+        public void Initialize()
         {
-            //EnemyIconsPosition = new GameObject[sizeOfIconArray];
-            //EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
+            radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
+            EnemyIconsPosition = new GameObject[sizeOfIconArray];
+            EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
             StartCoroutine(StartDrawIcon());
-            Debug.Log(EnemyIconsPosition);
-            radarPosition.transform.position = radar.transform.position;
         }
-        
+
         IEnumerator StartDrawIcon()
         {
             DrawIcons();
@@ -41,7 +36,7 @@ namespace ProjectB.UI.Minimap
 
         void DrawIcons()
         {
-            playerPosition = new Vector2(radar.transform.position.x, radar.transform.position.z);
+            playerPosition = new Vector2(radar.gameObject.transform.position.x, radar.gameObject.transform.position.z);
 
             for (int i = 0; i < radar.Enemys.Count; i++)
             {
@@ -50,18 +45,13 @@ namespace ProjectB.UI.Minimap
                 EnemyIconsPosition[i].transform.localPosition = playerToEnemy * mapScale;
             }
 
-            if (radar.Enemys.Count < EnemyIconsPosition.Count)
+            if (radar.Enemys.Count < EnemyIconsPosition.Length)
             {
-                for (int i = radar.Enemys.Count; i < EnemyIconsPosition.Count; i++) 
+                for (int i = radar.Enemys.Count; i < EnemyIconsPosition.Length; i++) 
                 {
-                    EnemyIconsPosition[i].localPosition= new Vector3(defaultIconPositionX, 0, 0);
+                    EnemyIconsPosition[i].transform.localPosition= new Vector3(defaultIconPositionX, 0, 0);
                 }
             }
         }
-
-        //public void Initialize()
-        //{
-            
-        //}
     }
 }
