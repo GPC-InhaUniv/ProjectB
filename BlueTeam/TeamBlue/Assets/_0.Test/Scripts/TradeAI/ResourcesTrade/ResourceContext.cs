@@ -22,8 +22,8 @@ class ResourceContext
         resource.SendResources(sendingResourceCount);
     }
 
-    public int CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, int tradeProbability)
+    public int CalculateTradeProbability(int receivingResourceCount, GameResources resourceType, int tradeProbability)
     {
-        return resource.CalculateTradeProbability(sendingResourceCount, resourceType, tradeProbability);
+        return resource.CalculateTradeProbability(receivingResourceCount, resourceType, tradeProbability);
     }
 }
