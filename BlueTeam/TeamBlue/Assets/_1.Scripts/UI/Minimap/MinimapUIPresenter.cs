@@ -22,7 +22,6 @@ namespace ProjectB.UI.Minimap
         void Start()
         {
             radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
-            EnemyIconsPosition = new GameObject[sizeOfIconArray];
             EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
             StartCoroutine(StartDrawIcon());
         }
@@ -38,16 +37,19 @@ namespace ProjectB.UI.Minimap
 
         IEnumerator StartDrawIcon()
         {
-            DrawIcons();
-            yield return new WaitForSeconds(minimapUpdateTime);
-            StartCoroutine(StartDrawIcon());
+            while(true)
+            {
+                DrawIcons();
+
+                yield return new WaitForSeconds(minimapUpdateTime);
+            }
         }
 
         void DrawIcons()
         {
             playerPosition = new Vector2(radar.gameObject.transform.position.x, radar.gameObject.transform.position.z);
 
-            for (int i = 1; i < radar.Enemys.Count; i++)
+            for (int i = 0; i < radar.Enemys.Count; i++)
             {
                 enemyPosition = new Vector2(radar.Enemys[i].transform.position.x, radar.Enemys[i].transform.position.z);
                 Vector2 playerToEnemy = enemyPosition - playerPosition;
