@@ -23,7 +23,7 @@ namespace ProjectB.UI.SettingMenu
         protected Button returnToGameButton;
         [SerializeField]
         protected Button returnToMenuButton;
-        //사운드조절 슬라이더 추가하기
+       
         [Header("Sliders")]
         [SerializeField]
         protected Slider bgmVolumeSlier;
