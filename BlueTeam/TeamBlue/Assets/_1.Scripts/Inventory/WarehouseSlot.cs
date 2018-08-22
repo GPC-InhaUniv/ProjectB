@@ -1,41 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ProjectB.Item;
 using UnityEngine.EventSystems;
 
-public class WarehouseSlot : Slot
+namespace ProjectB.Inventory
 {
-    [SerializeField] WarehouseUIPresenter warehouseUIPresenter;
+    using Item;
 
-    public override void OnPointerClick(PointerEventData eventData)
+    public class WarehouseSlot : Slot
     {
-        if (!isClicked)
-            isClicked = true;
-        else
-            isClicked = false;
+        [SerializeField] WarehouseUIPresenter warehouseUIPresenter;
 
-        if (beforePressSlot != null)
+        public override void OnPointerClick(PointerEventData eventData)
         {
-            if (this.isClicked && beforePressSlot.IsClicked)
+            if (!isClicked)
+                isClicked = true;
+            else
+                isClicked = false;
+
+            if (beforePressSlot != null)
             {
+                if (this.isClicked && beforePressSlot.IsClicked)
+                {
+                    if (beforePressSlot.gameObject.tag == SlotType.WarehouseSlot.ToString())
+                        warehouseUIPresenter.SwapToInventoryItem(this, beforePressSlot);
 
-                if (beforePressSlot.gameObject.tag == "WarehouseSlot")
-                {
-                    warehouseUIPresenter.SwapToInventoryItem(this, beforePressSlot);
+                    else if (beforePressSlot.gameObject.tag == SlotType.InventorySlot.ToString())
+                        warehouseUIPresenter.SwapToFromCombinationSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
                 }
-                else if (beforePressSlot.gameObject.tag == "InventorySlot")
-                {
-                    warehouseUIPresenter.SwapToFromCombinationSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
-                }
+
+                this.InitializeToIsClicked();
+                beforePressSlot.InitializeToIsClicked();
+                beforePressSlot.InitializeTobeforePressSlot();
             }
-            this.InitializeToIsClicked();
-            beforePressSlot.InitializeToIsClicked();
-            beforePressSlot.InitializeTobeforePressSlot();
-        }
-        else
-        {
-            beforePressSlot = eventData.pointerEnter.gameObject.GetComponent<Slot>();
+            else
+                beforePressSlot = eventData.pointerEnter.gameObject.GetComponent<Slot>();
         }
     }
 }

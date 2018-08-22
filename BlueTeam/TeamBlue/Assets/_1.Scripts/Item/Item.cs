@@ -99,6 +99,7 @@ namespace ProjectB.Item
                     recipeIron = itemtable.sheets[0].list[i].RecipeIron;
                     recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                     image = itemtable.sheets[0].list[i].Image;
+                    itemAmount++;
                 }
             }
             //if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
@@ -107,14 +108,14 @@ namespace ProjectB.Item
             //    GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
         }
 
-        public void SwapItem(Item item)
-        {
-            int i = this.Code;
-            int j = item.Code;
+        //public void SwapItem(Item item)
+        //{
+        //    int i = this.Code;
+        //    int j = item.Code;
 
-            this.SetItem(j);
-            item.SetItem(i);
-        }
+        //    this.SetItem(j);
+        //    item.SetItem(i);
+        //}
 
         public void initializationItem()
         {
@@ -131,6 +132,11 @@ namespace ProjectB.Item
         public void SetItemAmount(int amount)
         {
             this.itemAmount = amount;
+        }
+
+        public void IncreaseItemAmount()
+        {
+            this.itemAmount++;
         }
     }
 }

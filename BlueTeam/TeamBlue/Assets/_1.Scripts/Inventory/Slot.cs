@@ -3,22 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-abstract public class Slot : MonoBehaviour, IPointerClickHandler
+namespace ProjectB.Inventory
 {
-    protected bool isClicked;
-    public bool IsClicked { get { return isClicked; } }
-    protected string lastPressSlot;
-    protected static Slot beforePressSlot;
+    
 
-    abstract public void OnPointerClick(PointerEventData eventData);
-
-    public void InitializeToIsClicked()
+    abstract public class Slot : MonoBehaviour, IPointerClickHandler
     {
-        isClicked = false;
-    }
+        protected enum SlotType
+        {
+            InventorySlot, CombinationSlot, EquipSlot, WarehouseSlot
+        }
+        //protected const string inventorySlot = "InventorySlot";
+        //protected const string combinationSlot = "CombinationSlot";
+        //protected const string equipSlot = "EquipSlot";
+        //protected const string warehouseSlot = "WarehouseSlot";
 
-    public void InitializeTobeforePressSlot()
-    {
-        beforePressSlot = null;
+        protected bool isClicked;
+        public bool IsClicked { get { return isClicked; } }
+        protected static Slot beforePressSlot;
+
+        abstract public void OnPointerClick(PointerEventData eventData);
+
+        public void InitializeToIsClicked()
+        {
+            isClicked = false;
+        }
+
+        public void InitializeTobeforePressSlot()
+        {
+            beforePressSlot = null;
+        }
     }
 }

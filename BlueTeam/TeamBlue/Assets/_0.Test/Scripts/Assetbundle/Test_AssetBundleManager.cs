@@ -150,7 +150,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
                 gameObject = Area.LoadAsset(AssetName) as GameObject;
                 break;
             case BundleType.Monster:
-                gameObject = Area.LoadAsset(AssetName) as GameObject;
+                gameObject = Area.LoadAsset<GameObject>(AssetName);
                 break;
             default:
                 gameObject = null;
