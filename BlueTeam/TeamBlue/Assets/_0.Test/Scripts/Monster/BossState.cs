@@ -107,8 +107,6 @@ namespace ProjectB.Characters.Monsters
             entangleSkillUsable = new BossSkillThird(this.animator, SkillPrefab);
             this.entangleSkillUsable = entangleSkillUsable;
 
-            attackable.Attack();
-
 
         }
         public override void Attack()

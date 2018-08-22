@@ -134,7 +134,8 @@ namespace ProjectB.Characters.Monsters
         }
         public void UseSkill()
         {
-            //Instantiate(SkillTest, Boss.attackTarget);
+            Instantiate(SkillTest);
+            animator.SetTrigger(AniStateParm.SkillTwo.ToString());
 
             Debug.Log("boss state useskill");
         }
