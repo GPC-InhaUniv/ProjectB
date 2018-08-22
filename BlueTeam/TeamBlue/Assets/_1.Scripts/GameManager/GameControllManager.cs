@@ -114,6 +114,9 @@ namespace ProjectB.GameManager
 
         public void SetObjectPosition()
         {
+            //
+            GameMediator.Instance.GameInitialize();
+
                // GameObject tempObject = Test_PoolManager.Instance.GetArea();
             GameObject tempObject = GameObjectsManager.Instance.GetAreaObject();
             if (tempObject != null)

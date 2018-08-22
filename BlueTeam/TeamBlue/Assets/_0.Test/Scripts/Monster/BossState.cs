@@ -70,7 +70,7 @@ namespace ProjectB.Characters.Monsters
             this.skillUsable = skillUsable;
 
 
-            Debug.Log(skillUsable);
+            Debug.Log(this.skillUsable);
 
         }
         public override void Attack()

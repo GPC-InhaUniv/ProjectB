@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInitializable {
+namespace ProjectB.GameManager
+{
+    public interface IInitializable
+    {
 
-    void Iniitialize();
-   
+        void Initialize();
+
+    }
+
 }

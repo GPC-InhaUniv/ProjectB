@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-class Wood : MonoBehaviour, IResource
+class Wood : IResource
 {
     const int SheepWeightedValue = 4;
 
@@ -13,7 +13,7 @@ class Wood : MonoBehaviour, IResource
 
     const int IronWeightedValue = 3;
 
-    public void CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public int CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, int tradeProbability)
     {
         switch (resourceType)
         {
@@ -43,6 +43,8 @@ class Wood : MonoBehaviour, IResource
         {
             tradeProbability = 100;
         }
+
+        return tradeProbability;
     }
 
     public void ReceiveResources(int receivingResourceCount)

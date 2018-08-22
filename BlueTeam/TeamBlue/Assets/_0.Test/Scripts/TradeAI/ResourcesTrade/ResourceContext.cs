@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-class ResourceContext : MonoBehaviour
+class ResourceContext
 {
     IResource resource;
 
-    public void ChangeResourceState(IResource resource)
+    public ResourceContext(IResource resource)
     {
         this.resource = resource;
     }
@@ -22,8 +22,8 @@ class ResourceContext : MonoBehaviour
         resource.SendResources(sendingResourceCount);
     }
 
-    public void CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public int CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, int tradeProbability)
     {
-        resource.CalculateTradeProbability(sendingResourceCount, resourceType, ref tradeProbability);
+        return resource.CalculateTradeProbability(sendingResourceCount, resourceType, tradeProbability);
     }
 }
