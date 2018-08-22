@@ -7,16 +7,7 @@ namespace ProjectB.Characters.Monsters
 {
     public class Named : Monster
     {
-        //private void OnEnable()
-        //{
-        //    NamedSkill.Setstate += ChangeStateToChasing;
 
-        //}
-        //private void OnDisable()
-        //{
-        //    NamedSkill.Setstate -0= ChangeStateToChasing;
-
-        //}
 
         void Start()
         {
