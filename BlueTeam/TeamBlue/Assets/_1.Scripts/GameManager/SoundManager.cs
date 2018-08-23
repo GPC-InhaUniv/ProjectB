@@ -77,7 +77,7 @@ namespace ProjectB.GameManager
             }
         }
 
-        public void SetSoundType(SoundFXType soundType)
+        public void SetSound(SoundFXType soundType)
         {
             AudioClip audioClip;
             switch(soundType)
