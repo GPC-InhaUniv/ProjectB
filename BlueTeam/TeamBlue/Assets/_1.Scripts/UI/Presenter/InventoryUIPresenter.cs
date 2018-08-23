@@ -56,7 +56,6 @@ public class InventoryUIPresenter : MonoBehaviour
     //        break;
     //    }
     //}
-
     public void AddItem()
     {
         foreach(KeyValuePair<int,int> temp in GameDataManager.Instance.PlayerGamedata)
@@ -68,10 +67,9 @@ public class InventoryUIPresenter : MonoBehaviour
             {
                 for(int i = 0; i < items.Count; i++)
                 {
-                    if (items[i].Code != temp.Key)
-                        continue;
+                   
 
-                    else if (items[i].Code == 0)
+                    if (items[i].Code == 0)
                     {
                         items[i].SetItem(temp.Key);
                         items[i].IncreaseItemAmount();
@@ -86,6 +84,10 @@ public class InventoryUIPresenter : MonoBehaviour
                         else
                             items[i].SetItem(temp.Value);
                     }
+
+                    else if (items[i].Code != temp.Key)
+                        continue;
+
 
                     break;
                 }
