@@ -27,7 +27,6 @@ public class CombinationUIPresenter : MonoBehaviour
     private void OnDisable()
     {
         ResetCombinationSlot();
-        GameDataManager.Instance.SetGameDataToServer();
     }
 
     public void SwapToFromInventorySlotToCombinationSlot(Item currentItem, Item swapItem)

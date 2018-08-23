@@ -22,11 +22,11 @@ public class InventoryUIPresenter : MonoBehaviour
     private void OnDisable()
     {
         ResetItems();
+        GameDataManager.Instance.SetGameDataToServer();
     }
 
     private void Awake()
     {
-
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 
@@ -69,11 +69,7 @@ public class InventoryUIPresenter : MonoBehaviour
             for (int i = 0; i < items.Count; i++)
             {
                 if (temp.Value == 0)
-                {
-                    items[i].InitializationItem();
-                    items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-                    continue;
-                }
+                    items[i].SetItem(0);
 
                 if (items[i].Code == 0)
                 {

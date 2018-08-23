@@ -11,7 +11,7 @@ namespace ProjectB.GameManager
         // Use this for initialization
         void Start()
         {
-           Debug.Log("씬 판별 시작");
+            Debug.Log("씬 판별 시작");
             GameControllManager.Instance.SetObjectPosition();
             GameControllManager.Instance.SetCameraPosition();
             GameMediator.Instance.GameInitialize();
