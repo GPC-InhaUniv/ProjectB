@@ -12,7 +12,16 @@ namespace ProjectB.Characters.Monsters
         ISkillUsableBridge entangleSkillUsable;
         float stateHandleNum;
 
+        private void OnEnable()
+        {
+            NoSkill.SetState += ChangeStateToWalking;
 
+        }
+        private void OnDisable()
+        {
+            NoSkill.SetState -= ChangeStateToWalking;
+
+        }
         void Start()
         {
             //Setstate
@@ -28,15 +37,7 @@ namespace ProjectB.Characters.Monsters
             //bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
             bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
 
-
             characterHealthPoint = characterMaxHealthPoint;
-
-
-
-
-            NoSkill.SetState += ChangeStateToWalking;
-
-
 
         }
         void Update()

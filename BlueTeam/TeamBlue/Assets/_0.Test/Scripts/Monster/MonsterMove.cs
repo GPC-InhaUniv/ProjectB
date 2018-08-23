@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour {
 
-    const float STOPPINGDISTANCE = 2.0f;
+    const float STOPPINGDISTANCE = 4.0f;
     const float ROTATIONSPEED = 100.0f;
 
     //Go To Destination//
