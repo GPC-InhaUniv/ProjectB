@@ -5,6 +5,7 @@ using ProjectB.GameManager;
 using ProjectB.Item;
 using ProjectB.Inventory;
 using UnityEngine.UI;
+using System.Linq;
 
 public delegate void InitializeCombinationResourcesSlot();
 
@@ -19,79 +20,91 @@ public class InventoryUIPresenter : MonoBehaviour
         AddItem();
     }
 
+    private void OnDisable()
+    {
+        ResetItems();
+        GameDataManager.Instance.SetGameDataToServer();
+    }
+
     private void Awake()
     {
-        
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 
-    public void AddItem_Test(int code)
-    {
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (items[i].Code == 0)
-            {
-                items[i].SetItem(code);
-                items[i].IncreaseItemAmount();
-                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-            }
+    //public void AddItem_Test(int code)
+    //{
+    //    for (int i = 0; i < items.Count; i++)
+    //    {
+    //        if (items[i].Code == 0)
+    //        {
+    //            items[i].SetItem(code);
+    //            items[i].IncreaseItemAmount();
+    //            items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+    //        }
 
-            else if (items[i].Code == code)
-            {
-                if (items[i].ItemType != ItemType.Equipmentable)
-                {
-                    items[i].IncreaseItemAmount();
-                    items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-                }
+    //        else if (items[i].Code == code)
+    //        {
+    //            if (items[i].ItemType != ItemType.Equipmentable)
+    //            {
+    //                items[i].IncreaseItemAmount();
+    //                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+    //            }
 
-                else
-                    items[i].SetItem(code);
-            }
+    //            else
+    //                items[i].SetItem(code);
+    //        }
 
-            else
-            {
-                continue;
-            }
+    //        else
+    //        {
+    //            continue;
+    //        }
 
-            break;
-        }
-    }
+    //        break;
+    //    }
+    //}
 
     public void AddItem()
     {
-        foreach(KeyValuePair<int,int> temp in GameDataManager.Instance.PlayerGamedata)
+
+        for (int j = 0; j < GameDataManager.Instance.PlayerGamedata.Count; j++)
         {
-            if (temp.Value == 0)
+
+            int tempKey = GameDataManager.Instance.PlayerGamedata.Keys.ToList()[j];
+            int tempValue= GameDataManager.Instance.PlayerGamedata.Values.ToList()[j];
+
+            if (tempValue == 0)
                 continue;
 
-            else
+            for (int i = 0; i < items.Count; i++)
             {
-                for(int i = 0; i < items.Count; i++)
+                items[i].SetItemAmount(tempValue);
+
+                if (items[i].ItemAmount == 0)
+                    items[i].SetItem(0);
+
+                if (items[i].Code == 0)
                 {
-                    if (items[i].Code != temp.Key)
-                        continue;
-
-                    else if (items[i].Code == 0)
-                    {
-                        items[i].SetItem(temp.Key);
-                        items[i].IncreaseItemAmount();
-                        items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-                    }
-
-                    else if (items[i].Code == temp.Key)
-                    {
-                        if (items[i].ItemType != ItemType.Equipmentable)
-                            items[i].IncreaseItemAmount();
-
-                        else
-                            items[i].SetItem(temp.Value);
-                    }
-
-                    break;
+                    items[i].SetItem(tempKey);
+                    items[i].IncreaseItemAmount();
                 }
+
+                else if (items[i].Code == tempKey)
+                    items[i].IncreaseItemAmount();
+
+                else if (items[i].ItemAmount == 0)
+                    items[i].SetItem(0);
+
+                else if (items[i].Code != tempKey)
+                    continue;
+
+                items[i].SetItemAmount(tempValue);
+                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+                break;
             }
         }
-    }
+
+
+        }
 
     public void SwapToInventoryItem(Slot currentSlot, Slot swapSlot)
     {
@@ -126,7 +139,7 @@ public class InventoryUIPresenter : MonoBehaviour
         int SwapItemCode = currentItem.Code;
         int SwapItemAmount = currentItem.ItemAmount;
 
-        if(currentItem.ItemName == null)
+        if (currentItem.ItemName == null)
         {
             currentItem.SetItem(swapItem.Code);
             currentItem.SetItemAmount(swapItem.ItemAmount);
@@ -136,15 +149,24 @@ public class InventoryUIPresenter : MonoBehaviour
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
             currentItem.ItemNameText.text = currentItem.ItemName;
             swapItem.ItemNameText.text = swapItem.ItemName;
-            for (int i=0;i<GameDataManager.Instance.EquipmentItem.Length;i++)
+            for (int i = 0; i < GameDataManager.Instance.EquipmentItem.Length; i++)
             {
 
-                if (GameDataManager.Instance.EquipmentItem[i]!=0)
+                if (GameDataManager.Instance.EquipmentItem[i] != 0)
                 {
                     if (GameDataManager.Instance.EquipmentItem[i] == currentItem.Code)
                         GameDataManager.Instance.EquipmentItem[i] = 0;
                 }
             }
+        }
+    }
+
+    public void ResetItems()
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            items[i].InitializationItem();
+            items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
         }
     }
 }
