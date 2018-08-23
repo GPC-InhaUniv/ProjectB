@@ -22,8 +22,8 @@ namespace ProjectB.Item
         public Text ItemAmountText { get { return itemAmounttext; } }
 
         [SerializeField]
-        Image itemImage;
-        public Image ItemImage { get { return itemImage; } }
+        Text itemNameText;
+        public Text ItemNameText { get { return itemNameText; } }
 
         public int Code;
 
@@ -99,7 +99,8 @@ namespace ProjectB.Item
                     recipeIron = itemtable.sheets[0].list[i].RecipeIron;
                     recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                     image = itemtable.sheets[0].list[i].Image;
-                    itemAmount++;
+                    itemNameText.text = itemname;
+                    itemAmount = 0;
                 }
             }
             //if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))

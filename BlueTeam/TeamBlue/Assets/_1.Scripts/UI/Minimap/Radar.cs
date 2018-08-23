@@ -9,9 +9,10 @@ namespace ProjectB.UI.Minimap
 
         void OnTriggerEnter(Collider other)
         {
-            if (!Enemys.Contains(other.gameObject))
+            if (!(Enemys.Contains(other.gameObject)))
             {
                 Enemys.Add(other.gameObject);
+                Debug.Log("Enter");
             }
         }
 
@@ -20,7 +21,9 @@ namespace ProjectB.UI.Minimap
             if (Enemys.Contains(other.gameObject))
             {
                 Enemys.Remove(other.gameObject);
+                Debug.Log("Exit");
             }
         }
+        
     }
 }

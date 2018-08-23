@@ -14,7 +14,7 @@ enum WeatherState
 class Weather
 {
     WeatherState weatherState;
-    GameResources resourcesOfNeed;
+    public GameResources resourcesOfNeed;
 
     int requestResourceCount = 0;
 
@@ -24,6 +24,7 @@ class Weather
         {
             case WeatherState.Cloudy:
                 weatherState = WeatherState.Cloudy;
+                this.weatherState = weatherState;
 
                 resourcesOfNeed = GameResources.Brick;
                 //requestResourceCount = Random.Range(1, 4);
@@ -31,19 +32,22 @@ class Weather
 
             case WeatherState.Rainy:
                 weatherState = WeatherState.Rainy;
+                this.weatherState = weatherState;
 
                 resourcesOfNeed = GameResources.Wood;
-               //requestResourceCount = Random.Range(1, 6);
+                //requestResourceCount = Random.Range(1, 6);
                 break;
 
             case WeatherState.Sunny:
                 weatherState = WeatherState.Sunny;
+                this.weatherState = weatherState;
 
                 resourcesOfNeed = GameResources.Sheep;
                 break;
 
             case WeatherState.Lighting:
                 weatherState = WeatherState.Lighting;
+                this.weatherState = weatherState;
 
                 resourcesOfNeed = GameResources.Iron;
                 //requestResourceCount = Random.Range(1, 2);
@@ -54,12 +58,12 @@ class Weather
 
     public WeatherState GetWeatherState()
     {
-        if(weatherState == WeatherState.Cloudy)
+        if (weatherState == WeatherState.Cloudy)
         {
             Debug.Log("흐린 날씨");
         }
 
-        else if(weatherState == WeatherState.Rainy)
+        else if (weatherState == WeatherState.Rainy)
         {
             Debug.Log("비오는 날씨");
         }
@@ -84,13 +88,4 @@ class Weather
 
         return resourcesOfNeed;
     }
-
-    //public int GetRequestResourceCount()
-    //{
-    //    Debug.Log("필요 자원 추가 " + requestResourceCount);
-
-    //    return requestResourceCount;
-    //}
-
 }
-

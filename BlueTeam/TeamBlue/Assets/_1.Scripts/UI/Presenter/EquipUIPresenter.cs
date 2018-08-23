@@ -5,53 +5,66 @@ using ProjectB.Item;
 using ProjectB.GameManager;
 public class EquipUIPresenter : MonoBehaviour {
 
-    public void SwapToFromEquipWeaponSlotToInventorySlot(Item currentItem, Item swapItem)
+    public void SwapToFromInventorySlotToEquipWeaponSlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
+        int SwapItemAmount = currentItem.ItemAmount;
 
-        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
+        if (swapItem.ItemType == ItemType.Equipmentable)
         {
-            if((currentItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11) && (swapItem.Code % 100 <= 31 && swapItem.Code % 100 >= 11))
+            if(swapItem.Code % 10 == 1)
             {
                 currentItem.SetItem(swapItem.Code);
+                currentItem.SetItemAmount(swapItem.ItemAmount);
                 swapItem.SetItem(SwapItemCode);
-                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+                swapItem.SetItemAmount(SwapItemAmount);
+
+                currentItem.ItemNameText.text = currentItem.ItemName;
+                swapItem.ItemNameText.text = swapItem.ItemName;
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[0] = currentItem.Code;
             }
         }
-
     }
 
-    public void SwapToFromEquipArmorSlotToInventorySlot(Item currentItem, Item swapItem)
+    public void SwapToFromInventorySlotToEquipArmorSlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
+        int SwapItemAmount = currentItem.ItemAmount;
 
-        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
+        if (swapItem.ItemType == ItemType.Equipmentable)
         {
-            if ((currentItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 13))
+            if (swapItem.Code % 10 == 3)
             {
                 currentItem.SetItem(swapItem.Code);
+                currentItem.SetItemAmount(swapItem.ItemAmount);
                 swapItem.SetItem(SwapItemCode);
-                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+                swapItem.SetItemAmount(SwapItemAmount);
+
+                currentItem.ItemNameText.text = currentItem.ItemName;
+                swapItem.ItemNameText.text = swapItem.ItemName;
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[1] = currentItem.Code;
             }
         }
     }
 
-    public void SwapToFromEquipHelmetSlotToInventorySlot(Item currentItem, Item swapItem)
+    public void SwapToFromInventorySlotToEquipHelmetSlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
+        int SwapItemAmount = currentItem.ItemAmount;
 
-        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
+        if (swapItem.ItemType == ItemType.Equipmentable)
         {
-            if ((currentItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12) && (swapItem.Code % 100 <= 32 && swapItem.Code % 100 >= 12))
+            if (swapItem.Code % 10 == 2)
             {
-
                 currentItem.SetItem(swapItem.Code);
+                currentItem.SetItemAmount(swapItem.ItemAmount);
                 swapItem.SetItem(SwapItemCode);
-                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+                swapItem.SetItemAmount(SwapItemAmount);
+
+                currentItem.ItemNameText.text = currentItem.ItemName;
+                swapItem.ItemNameText.text = swapItem.ItemName;
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[2] = currentItem.Code;
             }

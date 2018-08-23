@@ -16,13 +16,18 @@ public class WarehouseUIPresenter : MonoBehaviour
         swapSlot.transform.SetSiblingIndex(SlotIndex);
     }
 
-    public void SwapToFromCombinationSlotToInventorySlot(Item currentItem, Item swapItem)
+    public void SwapToFromInventorySlotToWarehouseSlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
+        int SwapItemAmount = currentItem.ItemAmount;
 
         currentItem.SetItem(swapItem.Code);
+        currentItem.SetItemAmount(swapItem.ItemAmount);
         swapItem.SetItem(SwapItemCode);
+        swapItem.SetItemAmount(SwapItemAmount);
         currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+        currentItem.ItemNameText.text = currentItem.ItemName;
         swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+        swapItem.ItemNameText.text = swapItem.ItemName;
     }
 }

@@ -10,7 +10,7 @@ namespace ProjectB.UI.Minimap
     {
         Radar radar;
         //public List<RectTransform> EnemyIconsPosition;//이놈을 어떻게 받아올까 ...
-        public GameObject[] EnemyIconsPosition;
+        GameObject[] EnemyIconsPosition;
         Vector2 playerPosition;
         Vector2 enemyPosition;
 
@@ -19,19 +19,30 @@ namespace ProjectB.UI.Minimap
         const float minimapUpdateTime = 0.1f;
         const int sizeOfIconArray = 24;
         
-        public void Initialize()
+        void Start()
         {
             radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
-            EnemyIconsPosition = new GameObject[sizeOfIconArray];
             EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
             StartCoroutine(StartDrawIcon());
         }
+        public void Initialize()
+        {
+            //radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
+            //EnemyIconsPosition = new GameObject[sizeOfIconArray];
+            //EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
+            //StartCoroutine(StartDrawIcon());
+        }
+
+       
 
         IEnumerator StartDrawIcon()
         {
-            DrawIcons();
-            yield return new WaitForSeconds(minimapUpdateTime);
-            StartCoroutine(StartDrawIcon());
+            while(true)
+            {
+                DrawIcons();
+
+                yield return new WaitForSeconds(minimapUpdateTime);
+            }
         }
 
         void DrawIcons()
@@ -43,6 +54,7 @@ namespace ProjectB.UI.Minimap
                 enemyPosition = new Vector2(radar.Enemys[i].transform.position.x, radar.Enemys[i].transform.position.z);
                 Vector2 playerToEnemy = enemyPosition - playerPosition;
                 EnemyIconsPosition[i].transform.localPosition = playerToEnemy * mapScale;
+                Debug.Log(i);
             }
 
             if (radar.Enemys.Count < EnemyIconsPosition.Length)

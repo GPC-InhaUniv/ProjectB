@@ -14,9 +14,15 @@ namespace ProjectB.Inventory
         public override void OnPointerClick(PointerEventData eventData)
         {
             if (!isClicked)
+            {
                 isClicked = true;
+                ClickedImage.color = new Color(1, 1, 1, 1);
+            }
             else
+            {
                 isClicked = false;
+                this.InitializeToClickedImage();
+            }
 
             if (beforePressSlot != null)
             {
@@ -25,6 +31,8 @@ namespace ProjectB.Inventory
                         combinationUIPresenter.SwapToFromInventorySlotToCombinationSlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
 
                 this.InitializeToIsClicked();
+                this.InitializeToClickedImage();
+                beforePressSlot.InitializeToClickedImage();
                 beforePressSlot.InitializeToIsClicked();
                 beforePressSlot.InitializeTobeforePressSlot();
             }
