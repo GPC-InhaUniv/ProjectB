@@ -22,4 +22,9 @@ public class Test_UsePool : MonoBehaviour {
         test = GameObjectsManager.Instance.GetAreaObject();
         test.transform.position = new Vector3(0, 0, 0);
     }
+
+    public void TestGameOver()
+    {
+        GameControllManager.Instance.CheckGameOver();
+    }
 }
