@@ -19,9 +19,14 @@ public class InventoryUIPresenter : MonoBehaviour
         AddItem();
     }
 
+    private void OnDisable()
+    {
+        ResetItems();
+    }
+
     private void Awake()
     {
-        
+
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 
@@ -59,34 +64,30 @@ public class InventoryUIPresenter : MonoBehaviour
 
     public void AddItem()
     {
-        foreach(KeyValuePair<int,int> temp in GameDataManager.Instance.PlayerGamedata)
+        foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.PlayerGamedata)
         {
             if (temp.Value == 0)
                 continue;
 
             else
             {
-                for(int i = 0; i < items.Count; i++)
+                for (int i = 0; i < items.Count; i++)
                 {
-                    if (items[i].Code != temp.Key)
-                        continue;
 
-                    else if (items[i].Code == 0)
+                    if (items[i].Code == 0)
                     {
                         items[i].SetItem(temp.Key);
                         items[i].IncreaseItemAmount();
-                        items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
                     }
 
                     else if (items[i].Code == temp.Key)
                     {
-                        if (items[i].ItemType != ItemType.Equipmentable)
-                            items[i].IncreaseItemAmount();
-
-                        else
-                            items[i].SetItem(temp.Value);
+                            items[i].IncreaseItemAmount();        
                     }
+                    else if (items[i].Code != temp.Key)
+                        continue;
 
+                    items[i].ItemAmountText.text = temp.Value.ToString();
                     break;
                 }
             }
@@ -126,7 +127,7 @@ public class InventoryUIPresenter : MonoBehaviour
         int SwapItemCode = currentItem.Code;
         int SwapItemAmount = currentItem.ItemAmount;
 
-        if(currentItem.ItemName == null)
+        if (currentItem.ItemName == null)
         {
             currentItem.SetItem(swapItem.Code);
             currentItem.SetItemAmount(swapItem.ItemAmount);
@@ -136,15 +137,24 @@ public class InventoryUIPresenter : MonoBehaviour
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
             currentItem.ItemNameText.text = currentItem.ItemName;
             swapItem.ItemNameText.text = swapItem.ItemName;
-            for (int i=0;i<GameDataManager.Instance.EquipmentItem.Length;i++)
+            for (int i = 0; i < GameDataManager.Instance.EquipmentItem.Length; i++)
             {
 
-                if (GameDataManager.Instance.EquipmentItem[i]!=0)
+                if (GameDataManager.Instance.EquipmentItem[i] != 0)
                 {
                     if (GameDataManager.Instance.EquipmentItem[i] == currentItem.Code)
                         GameDataManager.Instance.EquipmentItem[i] = 0;
                 }
             }
+        }
+    }
+
+    public void ResetItems()
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            items[i].InitializationItem();
+            items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
         }
     }
 }

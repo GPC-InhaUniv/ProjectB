@@ -15,7 +15,6 @@ namespace ProjectB.GameManager
 
         IExitable uiController;
 
-       
         public void SetUICanvas()
         {
             mainUICanvas = GameObject.FindGameObjectWithTag("UIController");

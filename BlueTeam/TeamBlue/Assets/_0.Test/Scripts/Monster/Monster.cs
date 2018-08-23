@@ -6,7 +6,12 @@ using ProjectB.GameManager;
 
 namespace ProjectB.Characters.Monsters
 {
-
+    enum MonsterType
+    {
+        Normal,
+        Named,
+        Boss,
+    }
 
 
     public enum AniStateParm
@@ -25,7 +30,7 @@ namespace ProjectB.Characters.Monsters
     {
 
         [SerializeField]
-        GameResources kindOfMonster;
+        MonsterType monsterType;
 
         [SerializeField]
         protected GameObject[] skillprefab;
@@ -129,28 +134,31 @@ namespace ProjectB.Characters.Monsters
 
         protected void DropItem()
         {
+            //노말 보스 네임드 //
+            //switch (kindOfMonster)
+            //{
+            //    case GameResources.Brick:
+            //        itemCode = 3002;
+            //        break;
+            //    case GameResources.Wood:
+            //        itemCode = 3000;
+            //        break;
+            //    case GameResources.Iron:
+            //        itemCode = 3001;
+            //        break;
+            //    case GameResources.Sheep:
+            //        itemCode = 3003;
+            //        break;
+            //    case GameResources.SpecialItem:
+            //        break;
+            //    default:
+            //        break;
+            //}
             int itemCode = 0;
-            switch (kindOfMonster)
-            {
-                case GameResources.Brick:
-                    itemCode = 3002;
-                    break;
-                case GameResources.Wood:
-                    itemCode = 3000;
-                    break;
-                case GameResources.Iron:
-                    itemCode = 3001;
-                    break;
-                case GameResources.Sheep:
-                    itemCode = 3003;
-                    break;
-                case GameResources.SpecialItem:
-                    itemCode = Random.Range(1311, 1334);
-                    break;
-                default:
-                    break;
-            }
-            if(GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
+
+            itemCode = Random.Range(1311, 1334);
+
+            if (GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
                 GameControllManager.Instance.ObtainedItemDic[itemCode]++;
             else
                 GameControllManager.Instance.ObtainedItemDic.Add(itemCode, 1);
@@ -165,7 +173,22 @@ namespace ProjectB.Characters.Monsters
             monsterMove.StopMove();
 
 
-            DropItem();
+            switch (monsterType)
+            {
+                case MonsterType.Normal:
+                    break;
+                case MonsterType.Named:
+                    DropItem();
+                    break;
+                case MonsterType.Boss:
+                    DropItem();
+                    break;
+                default:
+                    break;
+            }
+
+
+
         }
         protected void RemovedFromWorld()
         {
