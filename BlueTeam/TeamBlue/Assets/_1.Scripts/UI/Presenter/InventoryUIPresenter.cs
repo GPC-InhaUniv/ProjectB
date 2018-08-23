@@ -5,6 +5,7 @@ using ProjectB.GameManager;
 using ProjectB.Item;
 using ProjectB.Inventory;
 using UnityEngine.UI;
+using System.Linq;
 
 public delegate void InitializeCombinationResourcesSlot();
 
@@ -64,32 +65,46 @@ public class InventoryUIPresenter : MonoBehaviour
 
     public void AddItem()
     {
-        foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.PlayerGamedata)
+
+        for (int j = 0; j < GameDataManager.Instance.PlayerGamedata.Count; j++)
         {
+
+            int tempKey = GameDataManager.Instance.PlayerGamedata.Keys.ToList()[j];
+            int tempValue= GameDataManager.Instance.PlayerGamedata.Values.ToList()[j];
+
+            if (tempValue == 0)
+                continue;
+
             for (int i = 0; i < items.Count; i++)
             {
-                if (temp.Value == 0)
+                items[i].SetItemAmount(tempValue);
+
+                if (items[i].ItemAmount == 0)
                     items[i].SetItem(0);
 
                 if (items[i].Code == 0)
                 {
-                    items[i].SetItem(temp.Key);
+                    items[i].SetItem(tempKey);
                     items[i].IncreaseItemAmount();
                 }
 
-                else if (items[i].Code == temp.Key)
+                else if (items[i].Code == tempKey)
                     items[i].IncreaseItemAmount();
 
-                else if (items[i].Code != temp.Key)
+                else if (items[i].ItemAmount == 0)
+                    items[i].SetItem(0);
+
+                else if (items[i].Code != tempKey)
                     continue;
 
-                items[i].SetItemAmount(temp.Value);
+                items[i].SetItemAmount(tempValue);
                 items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
                 break;
             }
+        }
+
 
         }
-    }
 
     public void SwapToInventoryItem(Slot currentSlot, Slot swapSlot)
     {
