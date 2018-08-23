@@ -11,16 +11,22 @@ public delegate void AddItemDelegate();
 
 public class CombinationUIPresenter : MonoBehaviour
 {
+    [SerializeField] Item combinationSlotItem;
     [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
     int[] requirematerials;
     int combinationItemCode;
     public static AddItemDelegate addItemDelegate;
 
-
     private void Awake()
     {
         InventoryUIPresenter.initializeCombinationResourcesSlot += InitializeToCombinationResourcesSlot;
         requirematerials = new int[4];
+        combinationSlotItem = GameObject.Find("CombinationRecipeSlot").GetComponent<Item>();
+    }
+
+    private void OnDisable()
+    {
+        ResetCombinationSlot();
     }
 
     public void SwapToFromInventorySlotToCombinationSlot(Item currentItem, Item swapItem)
@@ -69,6 +75,7 @@ public class CombinationUIPresenter : MonoBehaviour
 
             GameDataManager.Instance.PlayerGamedata[combinationItemCode + 1000]++;
             GameDataManager.Instance.SetGameDataToServer();
+            ResetCombinationSlot();
             addItemDelegate();
         }
     }
@@ -93,5 +100,12 @@ public class CombinationUIPresenter : MonoBehaviour
             combinationResourcesItems[i].ItemAmountText.text = 0.ToString();
             requirematerials[i] = 0;
         }
+    }
+
+    public void ResetCombinationSlot()
+    {
+        combinationSlotItem.InitializationItem();
+        combinationSlotItem.ItemNameText.text = combinationSlotItem.ItemName;
+        InitializeToCombinationResourcesSlot();
     }
 }

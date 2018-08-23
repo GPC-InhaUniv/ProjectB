@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
-using ProjectB.Characters.Players;
 
 namespace ProjectB.UI.Minimap
 {
@@ -21,16 +20,17 @@ namespace ProjectB.UI.Minimap
         
         void Start()
         {
-            radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
-            EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
-            StartCoroutine(StartDrawIcon());
-        }
-        public void Initialize()
-        {
-            //radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
-            //EnemyIconsPosition = new GameObject[sizeOfIconArray];
+            //radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
             //EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
             //StartCoroutine(StartDrawIcon());
+        }
+
+        public void Initialize()
+        {
+            radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
+            EnemyIconsPosition = new GameObject[sizeOfIconArray];
+            EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
+            StartCoroutine(StartDrawIcon());
         }
 
        
@@ -40,7 +40,6 @@ namespace ProjectB.UI.Minimap
             while(true)
             {
                 DrawIcons();
-
                 yield return new WaitForSeconds(minimapUpdateTime);
             }
         }
@@ -54,7 +53,6 @@ namespace ProjectB.UI.Minimap
                 enemyPosition = new Vector2(radar.Enemys[i].transform.position.x, radar.Enemys[i].transform.position.z);
                 Vector2 playerToEnemy = enemyPosition - playerPosition;
                 EnemyIconsPosition[i].transform.localPosition = playerToEnemy * mapScale;
-                Debug.Log(i);
             }
 
             if (radar.Enemys.Count < EnemyIconsPosition.Length)

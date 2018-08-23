@@ -33,27 +33,27 @@ public class TestSoundButton : MonoBehaviour
 
     public void PlaySound1()
     {
-        SoundManager.Instance.SetSoundType(SoundFXType.ButtonClick);
+        SoundManager.Instance.SetSound(SoundFXType.ButtonClick);
     }
 
     public void Playsound2()
     {
-        SoundManager.Instance.SetSoundType(SoundFXType.EnemyAttack);
+        SoundManager.Instance.SetSound(SoundFXType.EnemyAttack);
     }
 
     public void Playsound3()
     {
-        SoundManager.Instance.SetSoundType(SoundFXType.EnemyHit);
+        SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
     }
 
     public void PlaySound4()
     {
-        SoundManager.Instance.SetSoundType(SoundFXType.PlayerAttack);
+        SoundManager.Instance.SetSound(SoundFXType.PlayerAttack);
 
     }
     public void PlaySound5()
     {
-        SoundManager.Instance.SetSoundType(SoundFXType.PlayerHit);
+        SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
 
     }
 

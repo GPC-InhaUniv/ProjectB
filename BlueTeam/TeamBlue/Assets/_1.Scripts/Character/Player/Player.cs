@@ -181,7 +181,7 @@ namespace ProjectB.Characters.Players
 
                 playerAinmaton.HitAnimation();
                 characterHealthPoint -= CalDamage(damage);
-                SoundManager.Instance.SetSoundType(SoundFXType.PlayerHit);
+                SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
 
                 playerPresenter.UpdateUI();
             }
@@ -247,7 +247,7 @@ namespace ProjectB.Characters.Players
         //애니메이션 이벤트
         public void AttackStart()
         {
-            SoundManager.Instance.SetSoundType(SoundFXType.PlayerAttack);
+            SoundManager.Instance.SetSound(SoundFXType.PlayerAttack);
         }
         public void AttackDone()
         {
