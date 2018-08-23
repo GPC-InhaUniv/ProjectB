@@ -71,7 +71,7 @@ namespace ProjectB.Item
 
             if (code == 0)
             {
-                initializationItem();
+                InitializationItem();
                 return;
             }
             for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
@@ -109,16 +109,7 @@ namespace ProjectB.Item
             //    GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
         }
 
-        //public void SwapItem(Item item)
-        //{
-        //    int i = this.Code;
-        //    int j = item.Code;
-
-        //    this.SetItem(j);
-        //    item.SetItem(i);
-        //}
-
-        public void initializationItem()
+        public void InitializationItem()
         {
             hp = 0;
             attack = 0;
@@ -126,6 +117,7 @@ namespace ProjectB.Item
             recipeSheep = 0;
             recipeIron = 0;
             recipeBrick = 0;
+            itemAmount = 0;
             image = null;
             itemname = null;
         }
