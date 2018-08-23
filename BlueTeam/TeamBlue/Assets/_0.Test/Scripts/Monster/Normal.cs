@@ -6,16 +6,6 @@ namespace ProjectB.Characters.Monsters
 {
     public class Normal : Monster
     {
-        //NoSkill.Setstate()
-        //delegate로 바꾸기
-        private void OnEnable()
-        {
-            NoSkill.SetState += ChangeStateToWalking;
-        }
-        private void OnDisable()
-        {
-            NoSkill.SetState += ChangeStateToWalking;
-        }
 
         void Start()
         {
@@ -29,6 +19,8 @@ namespace ProjectB.Characters.Monsters
             attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
 
+            characterHealthPoint = characterMaxHealthPoint;
+
 
 
         }
@@ -39,6 +31,7 @@ namespace ProjectB.Characters.Monsters
             {
                 case State.Walking:
                     WalkAround();
+                   
                     break;
                 case State.Chasing:
                     ChaseTarget();
@@ -54,7 +47,9 @@ namespace ProjectB.Characters.Monsters
                         AttackTarget();
                         break;
                     case State.Skilling:
+                        NoSkill.SetState += ChangeStateToWalking;
                         UseSkill();
+                        NoSkill.SetState -= ChangeStateToWalking;
                         break;
                     case State.Died:
                         Died();
