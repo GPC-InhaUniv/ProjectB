@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.Characters.Players;
+using ProjectB.UI.Presenter;
 
 namespace ProjectB.GameManager
 {
     public class GameMediator : Singleton<GameMediator>
     {
         GameObject playerObject;
+      
         GameObject mainUICanvas;
         GameObject playerPresenter;
 
+        IExitable uiController;
 
+        private void Start()
+        {
+            mainUICanvas = GameObject.FindGameObjectWithTag("UIController");
+
+            if (uiController == null)
+                uiController = mainUICanvas.GetComponentInChildren<IExitable>();
+        }
         public void SetUICanvas()
         {
             mainUICanvas = GameObject.FindGameObjectWithTag("UIController");
@@ -35,8 +45,16 @@ namespace ProjectB.GameManager
             player = playerObject.GetComponent<IInitializable>();
             player.Initialize();
 
+            if (uiController == null)
+                uiController = mainUICanvas.GetComponent<IExitable>();
+
+
         }
 
+        public void ClearStage()
+        {
+            uiController.EndStage();
+        }
 
     }
 }

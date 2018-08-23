@@ -19,6 +19,11 @@ public class InventoryUIPresenter : MonoBehaviour
         AddItem();
     }
 
+    private void OnDisable()
+    {
+        ResetItems();
+    }
+
     private void Awake()
     {
         
@@ -56,6 +61,7 @@ public class InventoryUIPresenter : MonoBehaviour
     //        break;
     //    }
     //}
+
     public void AddItem()
     {
         foreach(KeyValuePair<int,int> temp in GameDataManager.Instance.PlayerGamedata)
@@ -67,13 +73,13 @@ public class InventoryUIPresenter : MonoBehaviour
             {
                 for(int i = 0; i < items.Count; i++)
                 {
-                   
+                    if (items[i].Code != temp.Key)
+                        continue;
 
-                    if (items[i].Code == 0)
+                    else if (items[i].Code == 0)
                     {
                         items[i].SetItem(temp.Key);
                         items[i].IncreaseItemAmount();
-                        items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
                     }
 
                     else if (items[i].Code == temp.Key)
@@ -85,10 +91,7 @@ public class InventoryUIPresenter : MonoBehaviour
                             items[i].SetItem(temp.Value);
                     }
 
-                    else if (items[i].Code != temp.Key)
-                        continue;
-
-
+                    items[i].ItemAmountText.text = items[i].ItemAmount.ToString(); 
                     break;
                 }
             }
@@ -147,6 +150,15 @@ public class InventoryUIPresenter : MonoBehaviour
                         GameDataManager.Instance.EquipmentItem[i] = 0;
                 }
             }
+        }
+    }
+
+    public void ResetItems()
+    {
+        for(int i = 0; i < items.Count; i++)
+        {
+            items[i].InitializationItem();
+            items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
         }
     }
 }

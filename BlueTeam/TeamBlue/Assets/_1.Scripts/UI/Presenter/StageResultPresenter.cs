@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ProjectB.GameManager;
 namespace ProjectB.UI.Presenter
 {
     public class StageResultPresenter : MonoBehaviour
@@ -15,7 +15,8 @@ namespace ProjectB.UI.Presenter
         Text getItemText;
         [SerializeField]
         ItemTable itemTable;
-
+        [SerializeField]
+        GameObject worldMapUI;
         [SerializeField]
         bool isClear;
         [SerializeField]
@@ -32,7 +33,7 @@ namespace ProjectB.UI.Presenter
 
         void ShowResultUI()
         {
-            if(isClear)
+            if(GameControllManager.Instance.IsClearDungeon)
             {
                 resultText.text = "Stage Clear";
                 getEXPText.text = "EXP : " + EXP.ToString() + "증가";
@@ -47,6 +48,10 @@ namespace ProjectB.UI.Presenter
            
         }
 
+        public void OnclickedStageButton()
+        {
+            worldMapUI.SetActive(true);
+        }
         
     }
 }

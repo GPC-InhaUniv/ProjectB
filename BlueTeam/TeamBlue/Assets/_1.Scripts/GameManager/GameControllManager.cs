@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ProjectB.UI.Presenter;
 namespace ProjectB.GameManager
 {
-    public class GameControllManager : Singleton<GameControllManager>
+    public class GameControllManager : Singleton<GameControllManager> 
     {
 
         public LoadType CurrentLoadType;
@@ -42,9 +42,12 @@ namespace ProjectB.GameManager
         public void CheckGameOver()
         {
             isClearDungeon = false;
+            GameMediator.Instance.ClearStage();
         }
         public void CheckGameClear()
         {
+            
+           
             totalMonsterCount--;
             if(totalMonsterCount<=0)
             {
@@ -58,7 +61,10 @@ namespace ProjectB.GameManager
                 totalExp = 0;
                 ObtainedItemDic.Clear();
                 GameDataManager.Instance.SetGameDataToServer();
+                GameMediator.Instance.ClearStage();
             }
+            
+
         }
 
         public void SetObjectPool()
@@ -176,9 +182,6 @@ namespace ProjectB.GameManager
 
         }
 
-
-
-
-
+       
     }
 }

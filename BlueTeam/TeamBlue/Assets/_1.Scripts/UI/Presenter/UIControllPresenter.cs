@@ -7,7 +7,7 @@ using System;
 namespace ProjectB.UI.Presenter
 {
 
-    public class UIControllPresenter : MonoBehaviour
+    public class UIControllPresenter : MonoBehaviour , IExitable
     {
         LoadType loadtype;
         [Header("Panel")]
@@ -125,7 +125,7 @@ namespace ProjectB.UI.Presenter
             SetActiveUI();
         }
 
-        void EndStage()
+        public void EndStage()
         {
             resultUI.SetActive(true);
         }
