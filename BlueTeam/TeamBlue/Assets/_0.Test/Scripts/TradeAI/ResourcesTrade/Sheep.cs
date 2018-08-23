@@ -4,7 +4,7 @@ using UnityEngine;
 
 using ProjectB.GameManager;
 
-class Sheep : MonoBehaviour, IResource
+class Sheep : IResource
 {
     const int SheepWeightedValue = 10;
 
@@ -15,27 +15,27 @@ class Sheep : MonoBehaviour, IResource
     const int IronWeightedValue = 5;
 
 
-    public void CalculateTradeProbability(int sendingResourceCount, GameResources resourceType, ref int tradeProbability)
+    public int CalculateTradeProbability(int receivingResourceCount, GameResources resourceType, int tradeProbability)
     {
         switch (resourceType)
         {
             case GameResources.Brick:
-                tradeProbability -= (int)((BrickWeightedValue * sendingResourceCount) * 0.95);
+                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Iron:
-                tradeProbability -= (int)((IronWeightedValue * sendingResourceCount) * 0.95);
+                tradeProbability -= (int)((IronWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Sheep:
-                tradeProbability += (int)((SheepWeightedValue * sendingResourceCount) * 0.95);
+                tradeProbability += (int)((SheepWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Wood:
-                tradeProbability -= (int)((WoodWeightedValue * sendingResourceCount) * 0.95);
+                tradeProbability -= (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
         }
@@ -45,6 +45,8 @@ class Sheep : MonoBehaviour, IResource
         {
             tradeProbability = 100;
         }
+
+        return tradeProbability;
     }
 
     public void ReceiveResources(int receivingResourceCount)

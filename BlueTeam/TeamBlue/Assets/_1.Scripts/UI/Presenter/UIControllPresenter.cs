@@ -7,9 +7,10 @@ using System;
 namespace ProjectB.UI.Presenter
 {
 
-    public class UIControllPresenter : MonoBehaviour
+    public class UIControllPresenter : MonoBehaviour , IExitable
     {
         LoadType loadtype;
+        [Header("Panel")]
         [SerializeField, Tooltip("UIType Number : 0")]
         GameObject inventoryUI;
         [SerializeField, Tooltip("UIType Number : 1")]
@@ -22,14 +23,12 @@ namespace ProjectB.UI.Presenter
         GameObject dungeonUI;
         [SerializeField, Tooltip("UIType Number : 5")]
         GameObject questUI;
+        [SerializeField, Tooltip("UIType Number : 6")]
+        GameObject villageSetUpUI;
+        [SerializeField, Tooltip("UIType Number : 6")]
+        GameObject dungeonSetUpUI;
         [SerializeField]
-        GameObject storageButton;
-        [SerializeField]
-        GameObject combinationStoreButton;
-        [SerializeField]
-        GameObject tradeButton;
-        [SerializeField]
-        GameObject dungeonButton;
+        GameObject equipmentUI;
         [SerializeField]
         GameObject minimapUI;
         [SerializeField]
@@ -38,6 +37,17 @@ namespace ProjectB.UI.Presenter
         GameObject playerController;
         [SerializeField]
         GameObject playerHUD;
+        [Space,Header("Button")]
+        
+        [SerializeField]
+        GameObject storageButton;
+        [SerializeField]
+        GameObject combinationStoreButton;
+        [SerializeField]
+        GameObject tradeButton;
+        [SerializeField]
+        GameObject dungeonButton;
+        
 
         bool isOpenedInventoryUI;
         bool isOpenedStorageUI;
@@ -48,14 +58,18 @@ namespace ProjectB.UI.Presenter
         bool isOpenedMinimapUI;
         bool isOpenedWinUI;
         bool isOpenedLoseUI;
+        bool isOpenedSetupUI;
+        bool isOpenedEquipmentUI;
 
-
-        private void Start()
+        private void OnEnable()
         {
             loadtype = GameControllManager.Instance.CurrentLoadType;
             SetActiveUI();
         }
-
+        private void OnDisable()
+        {
+            isOpenedDungeonUI = false;
+        }
         enum UIType
         {
             Inventory,
@@ -64,6 +78,7 @@ namespace ProjectB.UI.Presenter
             Trade,
             Dungeon,
             Quest,
+            SetUp,
         }
         public void OnClickedButton(int uiTypeNumber)
         {
@@ -71,6 +86,7 @@ namespace ProjectB.UI.Presenter
             {
                 case (int)UIType.Inventory:
                     isOpenedInventoryUI = true;
+                    isOpenedEquipmentUI = true;
                     break;
                 case (int)UIType.Storage:
                     isOpenedStorageUI = true;
@@ -88,6 +104,9 @@ namespace ProjectB.UI.Presenter
                 case (int)UIType.Quest:
                     isOpenedQuestUI = true;
                     break;
+                case (int)UIType.SetUp:
+                       isOpenedSetupUI= true;
+                        break;
             }
             SetActiveUI();
         }
@@ -101,10 +120,12 @@ namespace ProjectB.UI.Presenter
             isOpenedTradeUI = false;
             isOpenedDungeonUI = false;
             isOpenedQuestUI = false;
+            isOpenedSetupUI = false;
+            isOpenedEquipmentUI = false;
             SetActiveUI();
         }
 
-        void EndStage()
+        public void EndStage()
         {
             resultUI.SetActive(true);
         }
@@ -113,7 +134,7 @@ namespace ProjectB.UI.Presenter
         {
             try
             {
-                if (loadtype == LoadType.Village)
+                if (loadtype == LoadType.Village || loadtype == LoadType.VillageCheckDownLoad)
                 {
                     storageButton.SetActive(true);
                     combinationStoreButton.SetActive(true);
@@ -124,7 +145,9 @@ namespace ProjectB.UI.Presenter
                     storageUI.SetActive(isOpenedStorageUI);
                     combinationStoreUI.SetActive(isOpenedCombinationUI);
                     tradeUI.SetActive(isOpenedTradeUI);
-                    dungeonUI.SetActive(isOpenedDungeonUI);
+                    
+                    villageSetUpUI.SetActive(isOpenedSetupUI);
+                  
                 }
                 else
                 {
@@ -134,10 +157,14 @@ namespace ProjectB.UI.Presenter
                     tradeButton.SetActive(false);
                     minimapUI.SetActive(true);
                     playerController.SetActive(true);
+                    dungeonSetUpUI.SetActive(isOpenedSetupUI);
+                  
                 }
                 playerHUD.SetActive(true);
                 inventoryUI.SetActive(isOpenedInventoryUI);
                 questUI.SetActive(isOpenedQuestUI);
+                equipmentUI.SetActive(isOpenedEquipmentUI);
+                dungeonUI.SetActive(isOpenedDungeonUI);
             }
             catch
             {

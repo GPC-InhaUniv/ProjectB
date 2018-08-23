@@ -2,48 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
+using UnityEngine.UI;
+
+//0 = Brick
+//1 = Wood
+//2 = Iron
+//3 = Sheep
 
 public class Trade : MonoBehaviour
 {
-    [SerializeField]
-    int receivingResourcesCount;
+    int tradeProbability = 50; // 거래 확률
 
-    [SerializeField]
-    int sendingResourcesCount;
+    int relationShip = 50;
 
-    [SerializeField]
-    int tradeProbability = 100; // 기본 확률
+    int sendingResourceCount;
 
-    [SerializeField]
+    int receivingResourceCount;
+
+
+    bool isAbleToTrade = false;
+
+
     GameResources sendingResourceType;
 
-    [SerializeField]
     GameResources receivingResourceType;
 
-    [SerializeField]
-    int relationShip = 0;
+    GameResources checkingWantsOfResources;
 
 
     Weather weather;
 
     ResourceContext resourceContext;
 
-    GameResources checkingWantsOfResources;
+    public Text relationShipText;
+    public Text tradeProbabilityText;
 
-    bool isAbleToTrade = false;
+    public Text sendingResourceText;
+    public Text sendingResourceCountText;
 
-    int additionResource = 0;
-
-
-
+    public Text receivingResourceText;
+    public Text receivingResourceCountText;
 
     void Start()
     {
-        Weather weather = new Weather();
-        resourceContext = new ResourceContext();
+        weather = new Weather();
+        weather.ChangeWeatherState(WeatherState.Sunny);
+
+        relationShipText = GetComponent<Text>();
+        tradeProbabilityText = GetComponent<Text>();
+
+        sendingResourceText = GetComponent<Text>();
+        sendingResourceCountText = GetComponent<Text>();
+
+        receivingResourceText = GetComponent<Text>();
+        receivingResourceCountText = GetComponent<Text>();
     }
 
-    public void ShowPlayerResourcesOnDebugLog()
+    public void Test_ShowPlayerResourcesOnDebugLog()
     {
         Debug.Log("현재 자원");
         Debug.Log("");
@@ -59,101 +74,152 @@ public class Trade : MonoBehaviour
     }
 
 
-    public void CheckTradeProbability(int tradeProbability)
+    public void CheckTradeProbability()
     {
         if (tradeProbability >= Random.Range(1, 100))
         {
             isAbleToTrade = true;
 
+            Debug.Log("거래 확률 " + tradeProbability + "%");
             Debug.Log("특정 확률로 거래");
         }
 
-        else if (tradeProbability < Random.Range(1, 100))
+        else
         {
             isAbleToTrade = false;
 
+            Debug.Log("거래 확률 " + tradeProbability + "%");
             Debug.Log("특정 확률로 거래 실패");
         }
+
+        tradeProbabilityText.text = "거래 확률 " + tradeProbability;
     }
 
-    public int CheckRelationShip(int relationShip)
+    public void CheckRelationShip()
     {
-        int specRecieveCount = 0;
-
-        if (relationShip >= 70)
+        if (relationShip > 0)
         {
-            specRecieveCount = Random.Range(1, 4);
+            Debug.Log("우호도 " + relationShip);
 
-            Debug.Log("우호도가 높음, 얻는 자원" + specRecieveCount + "추가");
-
+            relationShipText.text = "우호도 " + relationShip;
         }
 
-        else if(relationShip >= 40)
+        else 
         {
-            Debug.Log("우호도 보통");
+            Debug.Log("우호도 0");
+
+            relationShipText.text = "우호도 0";
         }
 
-        else if (relationShip < 40)
-        {
-            specRecieveCount = Random.Range(-1, -3);
-           
-
-            Debug.Log("우호도가 낮음, 얻는 자원 " + specRecieveCount + "감소");
-
-        }
-
-        return specRecieveCount;
     }
 
-    public void RunReceiveResource()
-    {
-        ReceiveResources(receivingResourcesCount, receivingResourceType, tradeProbability);
-    }
-
-    public void RunSendResource()
-    {
-        SendResource(sendingResourcesCount, sendingResourceType, ref tradeProbability);
-    }
-
-    public void ReceiveResources(int receivingResourceCount, GameResources receivingResourceType, int tradeProbability)
+    public int AddReceiveCountByRelationShip()
     {
         int additionResource = 0;
 
-        CheckTradeProbability(tradeProbability);
-        additionResource = CheckRelationShip(relationShip);
-
-        if (isAbleToTrade == true)
+        if (relationShip >= 0)
         {
-            switch (receivingResourceType)
+
+            if (relationShip >= 70)
             {
-                case GameResources.Brick:
-                    resourceContext.ChangeResourceState(new Brick());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+                additionResource = Random.Range(1, 4);
 
-                    break;
+                Debug.Log("우호도가 높음, 얻는 자원" + additionResource + "추가");
 
-                case GameResources.Iron:
-                    resourceContext.ChangeResourceState(new Iron());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+            }
 
-                    break;
+            else if (relationShip >= 50 && relationShip < 70)
+            {
+                Debug.Log("우호도 보통");
+            }
 
-                case GameResources.Sheep:
-                    resourceContext.ChangeResourceState(new Sheep());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+            else
+            {
+                additionResource = Random.Range(-1, -3);
 
-                    break;
-
-                case GameResources.Wood:
-                    resourceContext.ChangeResourceState(new Wood());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
-
-                    break;
+                Debug.Log("우호도가 낮음, 얻는 자원 " + additionResource + "감소");
 
             }
         }
 
-        else if(isAbleToTrade == false)
+        return additionResource;
+
+    }
+
+    public void ReceiveResources(int receivingResourceCount)
+    {
+        this.receivingResourceCount = receivingResourceCount;
+
+        CheckRelationShip();
+
+        if (isAbleToTrade == true)
+        {
+            int additionResource = AddReceiveCountByRelationShip();
+
+            switch (receivingResourceType)
+            {
+                case GameResources.Brick:
+                    resourceContext = new ResourceContext(new Brick());
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
+
+                    Debug.Log("받을 자원 : 흙, 받을 자원 개수 " + receivingResourceCount);
+                    RunResourceText();
+                
+                    break;
+
+                case GameResources.Iron:
+                    resourceContext = new ResourceContext(new Iron());
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
+
+                    Debug.Log("받을 자원 : 철광석, 받을 자원 개수 " + receivingResourceCount);
+                    RunResourceText();
+
+                    break;
+
+                case GameResources.Sheep:
+                    resourceContext = new ResourceContext(new Sheep());
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
+
+                    Debug.Log("받을 자원 : 양, 받을 자원 개수 " + receivingResourceCount);
+                    RunResourceText();
+
+                    break;
+
+                case GameResources.Wood:
+                    resourceContext = new ResourceContext(new Wood());
+                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
+
+                    Debug.Log("받을 자원 : 나무, 받을 자원 개수 " + receivingResourceCount);
+                    RunResourceText();
+
+                    break;
+
+            }
+
+            Debug.Log("추가 획득 자원 개수 " + additionResource);
+
+            checkingWantsOfResources = weather.resourcesOfNeed;
+
+            if (weather.GetResourcesOfNeed() == receivingResourceType)
+            {
+                relationShip += 1;
+            }
+
+            else
+            {
+                relationShip -= 3;
+            }
+        }
+
+        else
         {
             Debug.Log("거래 실패, 자원 받지 않음");
 
@@ -162,30 +228,57 @@ public class Trade : MonoBehaviour
                 case GameResources.Brick:
                     //GameDataManager.Instance.PlayerGamedata[3002] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Brick"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
+
                     break;
 
                 case GameResources.Iron:
                     //GameDataManager.Instance.PlayerGamedata[3001] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Iron"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
+
                     break;
 
                 case GameResources.Sheep:
                     //GameDataManager.Instance.PlayerGamedata[3003] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Sheep"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
+
                     break;
 
                 case GameResources.Wood:
                     //GameDataManager.Instance.PlayerGamedata[3000] -= receivingResourceCount;
                     TestResource.Instance.testDictionary["Wood"] -= receivingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
+
                     break;
+
             }
+
+            checkingWantsOfResources = weather.resourcesOfNeed;
         }
 
     }
 
-    public void SendResource(int sendingResourceCount, GameResources sendingResourceType, ref int tradeProbability)
+    public void SetSendingResourceType(int sendingResourceTypeNumber)
     {
-        CheckTradeProbability(tradeProbability);
+        sendingResourceType = (GameResources)sendingResourceTypeNumber;
+    }
+
+    public void SetReceivingResourceType(int receivingResourceTypeNumber)
+    {
+        receivingResourceType = (GameResources)receivingResourceTypeNumber;
+    }
+
+    public void SendResources(int sendingResourceCount)
+    {
+        this.sendingResourceCount = sendingResourceCount;
+
+        CheckTradeProbability();
 
         if (isAbleToTrade == true)
         {
@@ -193,36 +286,66 @@ public class Trade : MonoBehaviour
             {
                 case GameResources.Brick:
 
-                    resourceContext.ChangeResourceState(new Brick());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+                    resourceContext = new ResourceContext(new Brick());
+
+                    tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
+
+                    Debug.Log("보낼 자원 : 흙, 보낼 개수 " + sendingResourceCount);
+                    RunResourceText();
+
                     break;
 
                 case GameResources.Iron:
-            
-                    resourceContext.ChangeResourceState(new Iron());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+
+                    resourceContext = new ResourceContext(new Iron());
+
+                    tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
+
+                    Debug.Log("보낼 자원 : 철광석, 보낼 개수 " + sendingResourceCount);
+                    RunResourceText();
+
                     break;
 
                 case GameResources.Sheep:
-                  
-                    resourceContext.ChangeResourceState(new Sheep());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+
+                    resourceContext = new ResourceContext(new Sheep());
+
+                    tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
+
+                    Debug.Log("보낼 자원 : 양, 보낼 개수 " + sendingResourceCount);
+                    RunResourceText();
+
                     break;
 
                 case GameResources.Wood:
-              
-                    resourceContext.ChangeResourceState(new Wood());
-                    resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, ref tradeProbability);
+
+                    resourceContext = new ResourceContext(new Wood());
+
+                    tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
                     resourceContext.SendReousrces(sendingResourceCount);
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
+
+                    Debug.Log("보낼 자원 : 나무, 보낼 개수 " + sendingResourceCount);
+                    RunResourceText();
+
                     break;
             }
+
+            checkingWantsOfResources = weather.resourcesOfNeed;
         }
 
 
-        else if (isAbleToTrade == false)
+        else
         {
             Debug.Log("거래 실패, 보낼 자원을 되돌려 받음");
 
@@ -231,75 +354,135 @@ public class Trade : MonoBehaviour
                 case GameResources.Brick:
                     //GameDataManager.Instance.PlayerGamedata[3002] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Brick"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Lighting);
                     break;
 
                 case GameResources.Iron:
                     //GameDataManager.Instance.PlayerGamedata[3001] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Iron"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Cloudy);
                     break;
 
                 case GameResources.Sheep:
                     //GameDataManager.Instance.PlayerGamedata[3003] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Sheep"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Rainy);
                     break;
 
                 case GameResources.Wood:
                     //GameDataManager.Instance.PlayerGamedata[3000] += sendingResourcesCount;
                     TestResource.Instance.testDictionary["Wood"] += sendingResourceCount;
+
+                    weather.ChangeWeatherState(WeatherState.Sunny);
                     break;
             }
+
+            checkingWantsOfResources = weather.resourcesOfNeed;
         }
-        
     }
 
-    public void checkwants()
+    public void CheckWeather()
     {
-        CheckWantsOfResourcesAboutAI();
+        weather.GetWeatherState();
     }
 
-    public GameResources CheckWantsOfResourcesAboutAI()
+    public void CheckResourcesOfNeedAboutAI()
     {
-        // 플레이어가 제일 많이 가지고 있는 자원을 원하게 바꿈
+        // 플레이어가 가장 많이 가지고 있는 자원을 원함
 
         int maxValue = 0;
-        string maxValueIndex = "";
+        string maxValueKey = "";
 
         maxValue = TestResource.Instance.testDictionary["Brick"];
 
-        foreach(KeyValuePair<string, int> pair in TestResource.Instance.testDictionary)
+        foreach (KeyValuePair<string, int> pair in TestResource.Instance.testDictionary)
         {
-            if(maxValue < pair.Value)
+            if (maxValue < pair.Value)
             {
                 maxValue = pair.Value;
-                maxValueIndex = pair.Key;
+                maxValueKey = pair.Key;
             }
         }
 
 
-        if (maxValueIndex == "Wood")
+        if (maxValueKey == "Wood")
         {
             checkingWantsOfResources = GameResources.Wood;
             Debug.Log("필요한 자원 : 나무");
         }
 
-        else if (maxValueIndex == "Iron")
+        else if (maxValueKey == "Iron")
         {
             checkingWantsOfResources = GameResources.Iron;
             Debug.Log("필요한 자원 : 철광석");
         }
 
-        else if (maxValueIndex == "Brick")
+        else if (maxValueKey == "Brick")
         {
             checkingWantsOfResources = GameResources.Brick;
             Debug.Log("필요한 자원 : 벽돌");
         }
 
-        else if (maxValueIndex == "Sheep")
-        { 
+        else 
+        {
             checkingWantsOfResources = GameResources.Sheep;
             Debug.Log("필요한 자원 : 양");
         }
+    }
 
-        return checkingWantsOfResources;
+    public void RunResourceText()
+    {
+        switch(sendingResourceType)
+        {
+            case GameResources.Brick:
+                sendingResourceText.text = "보낼 자원 : 흙";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Iron:
+                sendingResourceText.text = "보낼 자원 : 철광석";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Sheep:
+                sendingResourceText.text = "보낼 자원 : 양";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Wood:
+                sendingResourceText.text = "보낼 자원 : 나무";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+
+        }
+
+        switch (receivingResourceType)
+        {
+            case GameResources.Brick:
+                receivingResourceText.text = "받을 자원 : 흙";
+                receivingResourceCountText.text = "받을 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Iron:
+                receivingResourceText.text = "받을 자원 : 철광석";
+                receivingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Sheep:
+                receivingResourceText.text = "받을 자원 : 양";
+                receivingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Wood:
+                receivingResourceText.text = "받을 자원 : 나무";
+                receivingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+
+        }
     }
 }

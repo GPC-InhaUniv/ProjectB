@@ -19,8 +19,9 @@ namespace ProjectB.Characters.Monsters
 
             attackable = new ComboAttack(animator);
             skillUsable = new NamedSkill(animator, skillprefab);
-            //test//
-            AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
+
+            characterHealthPoint = characterMaxHealthPoint;
+
 
         }
         void Update()

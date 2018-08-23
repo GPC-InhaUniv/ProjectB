@@ -78,6 +78,7 @@ namespace ProjectB.GameManager
             EquipmentItem = new int[3];
             PlayerGamedata = new Dictionary<int, int>();
             WareHouseGamedata = new Dictionary<int, int>();
+
             for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
             {
                 if (PlayerGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
@@ -97,6 +98,22 @@ namespace ProjectB.GameManager
             DontDestroyOnLoad(gameObject);
         }
 
+        public void GetEquipmentStatus(ref int Attack,ref int Hp, ref int Defense)
+        {
+            for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
+            {
+                for(int j=0;j<EquipmentItem.Length;j++)
+                {
+                    if (EquipmentItem[j] != 0 && EquipmentItem[j] == (itemTable.sheets[0].list[i].Code))
+                    {
+                        Attack += itemTable.sheets[0].list[i].Attack;
+                        Defense += itemTable.sheets[0].list[i].Defence;
+                        Hp += itemTable.sheets[0].list[i].HP;
+                    }
+                }
+            }
+        }
+        
         public void SetGameDataToServer()
         {
             string playerLv = "";
@@ -111,7 +128,12 @@ namespace ProjectB.GameManager
             string WareHouseItems = "";
             string EquipmentItems = "";
 
-            playerLv = PlayerInfomation.PlayerLevel.ToString();
+            
+            if (playerLv.Equals("0"))
+                playerLv = "1";
+            else
+                playerLv = PlayerInfomation.PlayerLevel.ToString();
+             
             playerExp = PlayerInfomation.PlayerExp.ToString();
             AtownRelationship = AtownInformation.RelationsShip.ToString();
             AtownQuest = AtownInformation.LastCleardQuest.ToString();
@@ -186,7 +208,10 @@ namespace ProjectB.GameManager
 
 
             if (tempPlayerInformation != null)
+            
                 playerInformationArray = tempPlayerInformation.Split('/');
+                
+            
 
             //itemload
             if (tempInventoryitems != null)
@@ -213,8 +238,8 @@ namespace ProjectB.GameManager
                 {
                     string[] tempArray = warehouseItemArray[i].Split('_');
 
-                    if (PlayerGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
-                        PlayerGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
+                    if (WareHouseGamedata.ContainsKey(Convert.ToInt32(tempArray[0])))
+                        WareHouseGamedata[Convert.ToInt32(tempArray[0])] = Convert.ToInt32(tempArray[1]);
                     else
                         WareHouseGamedata.Add(Convert.ToInt32(tempArray[0]), Convert.ToInt32(tempArray[1]));
 
@@ -248,7 +273,7 @@ namespace ProjectB.GameManager
             BtownInformation.RelationsShip = Convert.ToInt32(townInformationArray[2]);
             BtownInformation.LastCleardQuest = Convert.ToInt32(townInformationArray[3]);
 
-
+           
         }
 
 

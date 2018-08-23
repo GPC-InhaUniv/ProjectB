@@ -11,7 +11,7 @@ namespace ProjectB.Characters.Monsters
         void Start()
         {
             // EnemyCtrl을 미리 준비한다.
-            monster = transform.root.GetComponent<Monster>();
+            monster = GetComponent<Monster>();
         }
 
         void OnTriggerStay(Collider other)
@@ -22,10 +22,5 @@ namespace ProjectB.Characters.Monsters
                 monster.SetAttackTarget(other.transform);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

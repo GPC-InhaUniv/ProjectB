@@ -7,7 +7,6 @@ namespace ProjectB.Characters.Monsters
     public class Normal : Monster
     {
 
-
         void Start()
         {
             monsterMove = GetComponent<MonsterMove>();
@@ -16,11 +15,11 @@ namespace ProjectB.Characters.Monsters
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
 
-            //test//
-            AttackArea[] attackAreas = GetComponentsInChildren<AttackArea>();
 
-            attackable = new ComboAttack(animator);
+            attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
+
+            characterHealthPoint = characterMaxHealthPoint;
 
 
 
@@ -32,6 +31,7 @@ namespace ProjectB.Characters.Monsters
             {
                 case State.Walking:
                     WalkAround();
+                   
                     break;
                 case State.Chasing:
                     ChaseTarget();
@@ -47,7 +47,9 @@ namespace ProjectB.Characters.Monsters
                         AttackTarget();
                         break;
                     case State.Skilling:
+                        NoSkill.SetState += ChangeStateToWalking;
                         UseSkill();
+                        NoSkill.SetState -= ChangeStateToWalking;
                         break;
                     case State.Died:
                         Died();

@@ -1,37 +1,45 @@
-﻿#define InventorySlot
-#define CombinationSlot
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class Slot : MonoBehaviour, IPointerClickHandler
+namespace ProjectB.Inventory
 {
-    bool isClicked;
-    public bool IsClicked
-    {
-        get { return isClicked; }
-        set { isClicked = value; }
-    }
-    [SerializeField] InventoryUIPresenter InventoryUIPresenter;
+    
 
-    public void OnPointerClick(PointerEventData eventData)
+    abstract public class Slot : MonoBehaviour, IPointerClickHandler
     {
-        if (!isClicked) 
+        protected enum SlotType
         {
-            isClicked = true;
+            InventorySlot, CombinationSlot, EquipSlot, WarehouseSlot
         }
-        else
+
+        protected Image ClickedImage;
+        protected bool isClicked;
+        public bool IsClicked { get { return isClicked; } }
+        protected static Slot beforePressSlot;
+
+        private void OnEnable()
+        {
+            ClickedImage = this.gameObject.GetComponent<Image>();
+        }
+
+        abstract public void OnPointerClick(PointerEventData eventData);
+
+        public void InitializeToIsClicked()
         {
             isClicked = false;
         }
 
-    //    if (eventData.pointerEnter.gameObject.tag == "InventorySlot" && InventoryUIPresenter.lastPress == "InventorySlot")
-    //        InventoryUIPresenter.SwapOnInventoryItem(this);
-    //    else if ((eventData.pointerEnter.gameObject.tag == "CombinationSlot" && InventoryUIPresenter.lastPress == "InventorySlot") || (eventData.pointerEnter.gameObject.tag == "InventorySlot" && villageUIPresenter.lastPress == "CombinationSlot"))
-    //        InventoryUIPresenter.SwapOnCombination(this);
+        public void InitializeTobeforePressSlot()
+        {
+            beforePressSlot = null;
+        }
 
-    //    villageUIPresenter.lastPress = eventData.pointerEnter.gameObject.tag;
+        public void InitializeToClickedImage()
+        {
+            ClickedImage.color = new Color(1, 1, 1, 0.392f);
+        }
     }
 }

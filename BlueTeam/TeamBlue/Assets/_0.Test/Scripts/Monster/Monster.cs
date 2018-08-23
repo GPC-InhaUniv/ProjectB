@@ -4,9 +4,16 @@ using UnityEngine;
 using ProjectB.GameManager;
 
 
-
 namespace ProjectB.Characters.Monsters
 {
+    public enum MonsterType
+    {
+        Normal,
+        Named,
+        Boss,
+    }
+
+
     public enum AniStateParm
     {
         Moving,
@@ -21,15 +28,10 @@ namespace ProjectB.Characters.Monsters
 
     public abstract class Monster : Character
     {
+
         [SerializeField]
-        GameResources kindOfMonster;
+        protected MonsterType monsterType;
 
-
-        public TestMonsterInfo testinfo;
-
-        // test //
-        [SerializeField]
-        protected AttackArea[] attackAreas;
         [SerializeField]
         protected GameObject[] skillprefab;
 
@@ -49,13 +51,16 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         protected float waitTime, speed;
         //Set Target//
-        [SerializeField]
+       // [SerializeField]
         public Transform attackTarget;
         [SerializeField]
         protected MonsterMove monsterMove;
         //Move To Destination//
         [SerializeField]
         protected Vector3 startPosition;
+
+        int maxPercent;
+
 
         // Monster State//
         public enum State
@@ -130,30 +135,26 @@ namespace ProjectB.Characters.Monsters
             skillUsable.UseSkill();
         }
 
-        protected void DropItem()
+        protected void DropItem(MonsterType monsterType)
         {
             int itemCode = 0;
-            switch (kindOfMonster)
+
+            if (monsterType == MonsterType.Normal)
             {
-                case GameResources.Brick:
-                    itemCode = 3002;
-                    break;
-                case GameResources.Wood:
-                    itemCode = 3000;
-                    break;
-                case GameResources.Iron:
-                    itemCode = 3001;
-                    break;
-                case GameResources.Sheep:
-                    itemCode = 3003;
-                    break;
-                case GameResources.SpecialItem:
-                    itemCode = Random.Range(1311, 1334);
-                    break;
-                default:
-                    break;
+
+                itemCode = 1300 + Random.Range(11, 14);
             }
-            if(GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
+
+            else if (monsterType == MonsterType.Named)
+            {
+
+                itemCode = 1300 + Random.Range(21, 24);
+            }
+            else
+            {
+                itemCode = 1300 + Random.Range(31, 34);
+            }
+            if (GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
                 GameControllManager.Instance.ObtainedItemDic[itemCode]++;
             else
                 GameControllManager.Instance.ObtainedItemDic.Add(itemCode, 1);
@@ -167,8 +168,32 @@ namespace ProjectB.Characters.Monsters
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
 
+            int randomCount;
+            switch (monsterType)
+            {
+                //5 , 10 , 20 //
+                case MonsterType.Normal:
+                    maxPercent = 21;
+                    randomCount = Random.Range(1, maxPercent);
+                    if (randomCount == maxPercent - 1)
+                        DropItem(MonsterType.Normal);
+                    break;
+                case MonsterType.Named:
+                    maxPercent = 11;
+                    randomCount = Random.Range(1, maxPercent);
+                    if (randomCount == maxPercent-1)
+                        DropItem(MonsterType.Named);
+                    break;
+                case MonsterType.Boss:
+                    maxPercent = 6;
+                    randomCount = Random.Range(1, maxPercent-1);
+                    if (randomCount == maxPercent)
+                        DropItem(MonsterType.Boss);
+                    break;
+                default:
+                    break;
+            }
 
-            DropItem();
         }
         protected void RemovedFromWorld()
         {
@@ -249,7 +274,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected IEnumerator WaitNextState()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
             animator.SetInteger(AniStateParm.Attack.ToString(), 0);
             attacking = false;
 
@@ -265,6 +290,14 @@ namespace ProjectB.Characters.Monsters
             skillUse = false;
 
         }
+
+        protected void ChangeStateToWalking()
+        {
+            currentState = State.Walking;
+            Debug.Log("aaa");
+        }
+
+
     }
     
 }

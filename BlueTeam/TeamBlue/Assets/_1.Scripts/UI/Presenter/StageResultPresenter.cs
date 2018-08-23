@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ProjectB.GameManager;
 namespace ProjectB.UI.Presenter
 {
     public class StageResultPresenter : MonoBehaviour
@@ -15,15 +16,11 @@ namespace ProjectB.UI.Presenter
         Text getItemText;
         [SerializeField]
         ItemTable itemTable;
+        [SerializeField]
+        GameObject worldMapUI;
 
-        [SerializeField]
-        bool isClear;
-        [SerializeField]
-        float EXP;
-        [SerializeField]
-        string item1;
-        [SerializeField]
-        string item2;
+        List<int> itemCode;
+        string[] itemName;
 
         private void OnEnable()
         {
@@ -32,21 +29,51 @@ namespace ProjectB.UI.Presenter
 
         void ShowResultUI()
         {
-            if(isClear)
+            if (GameControllManager.Instance.IsClearDungeon)
             {
                 resultText.text = "Stage Clear";
-                getEXPText.text = "EXP : " + EXP.ToString() + "증가";
-                getItemText.text = "아이템 획득 목록 \n" + item1 + "\n" + item2;
+                getEXPText.text = "EXP : " + GameControllManager.Instance.TotalExp + "증가";
+                foreach (KeyValuePair<int, int> temp in GameControllManager.Instance.ObtainedItemDic)
+                {
+                    itemCode.Add(temp.Key);
+                }
+
+                
+                for (int j = 0; j < itemCode.Count; j++)
+                {
+                    for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
+                    {
+                        if (itemCode[j] == itemTable.sheets[0].list[i].Code)
+                        {
+                            itemName[j] = itemTable.sheets[0].list[i].Name;
+                            break;
+                        }
+                    }
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for(int i = 0; i < itemName.Length; i++)
+                {
+                    stringBuilder.Append(itemName[i] + "\n");
+                }
+
+                getItemText.text = "아이템 획득 목록 \n" + "\n" + stringBuilder.ToString();
+               
+
             }
             else
             {
                 resultText.text = "Stage Fail";
-                getEXPText.text = "EXP : " + EXP.ToString() + "감소";
+                getEXPText.text = "EXP : " + GameControllManager.Instance.TotalExp + "감소";
                 getItemText.text = string.Empty;
             }
-           
+
         }
 
-        
+        public void OnclickedStageButton()
+        {
+            worldMapUI.SetActive(true);
+        }
+
     }
 }

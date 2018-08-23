@@ -1,62 +1,122 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using ProjectB.UI.Presenter;
 namespace ProjectB.GameManager
 {
+    public enum ObjectType
+    {
+        Monster,
+        Particle,
+        Area,
+        Player,
+        Canvas,
+    }
     
+
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
-       [SerializeField]
+        public const int MaxMonsterCount = 18;
+
         GameObject areaPrefab;
         GameObject playerPrefab;
         GameObject nomalMonsterPrefab;
         GameObject namedMonsterPrefab;
         GameObject bossMonsterPrefab;
         GameObject particlePrefab;
-        GameObject villageCanvasPrefab;
-        GameObject dungeonCanvasPrefab;
+        GameObject gameCanvasPrefab;
 
 
+        [SerializeField]
+        int monsterPoolSize;
+        public int MonsterPoolSize { get { return monsterPoolSize; }}
+
+        [SerializeField]
+        int fxPoolSize;
+
+
+        
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+            monsterPoolSize = MaxMonsterCount;
+        }
 
 
         public void SetPrefab()
         {
-            playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player,"Riko");
-            villageCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "VillageUI");
-            dungeonCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "DungeonUI");
-                        
+            playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
+            gameCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
+           
         }
+
         public void SetAreaPrefab(int stageNum)
         {
-          int areaNum = Mathf.Abs(stageNum % 3);
-          areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Area"+ areaNum.ToString());
+            int areaNum = Mathf.Abs(stageNum % 3 + 1);
+            if(GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
+            areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
+            else
+                areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
         }
 
         public void SetMonsterPrefab()
         {
-            nomalMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "nomalMonster");
-            namedMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "nameMonster");
-            bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
+            nomalMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
+            namedMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
+          //  bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
         }
 
         GameObject areaObject;
         GameObject playerObject;
+        GameObject mainUICanvas;
 
-        public GameObject GetAreaObject()
+        public void SetObject(ObjectType objectType)
         {
-            areaObject = Instantiate(areaPrefab);
+            switch (objectType)
+            {
+                case ObjectType.Area:
+                    areaObject = Instantiate(areaPrefab);
+                    DontDestroyOnLoad(areaObject);
+                    break;
+                case ObjectType.Player:
+                    playerObject = Instantiate(playerPrefab);
+                    DontDestroyOnLoad(playerObject);
+                    break;
+                case ObjectType.Canvas:
+                    if (mainUICanvas == null)
+                    {
+                        mainUICanvas = Instantiate(gameCanvasPrefab);
+                        DontDestroyOnLoad(mainUICanvas);
+                    }
+                    GameMediator.Instance.SetUICanvas();
+                    break;
+                default:
+                    break;
+            }
+        }
+       
+        public GameObject GetAreaObject()
+        {     
             return areaObject;
         }
+       
         public GameObject GetPlayerObject()
-        {
-            playerObject = Instantiate(playerPrefab);
+        {        
             return playerObject;
         }
+  
+        public GameObject GetCanvasObject()
+        {
+            return mainUICanvas;
+        }
+
+
         public void DestroyObject()
         {
-            Destroy(areaObject);
-            Destroy(playerObject);
+            if (areaObject != null)
+                Destroy(areaObject);
+                      //  if (playerObject != null)
+           //     Destroy(playerObject);
         }
 
         //Pool
@@ -64,32 +124,17 @@ namespace ProjectB.GameManager
         List<GameObject> monster = new List<GameObject>();
         List<GameObject> particle = new List<GameObject>();
 
-        [SerializeField]
-        int monsterPoolSize;
-
-        [SerializeField]
-        int fxPoolSize;
-
-
-        enum ObjectType
-        {
-            Monster,
-            Particle,
-            Area,
-            Player,
-        }
-
         public void SetPool()
         {
+            
             for (int i = monster.Count; i < monsterPoolSize; i++)
             {
-                monster.Add(CreateItem(ObjectType.Monster));
-
+                monster.Add(CreateItem(ObjectType.Monster));    
             }
             for (int i = particle.Count; i < fxPoolSize; i++)
             {
                 particle.Add(CreateItem(ObjectType.Particle));
-            }           
+            }
         }
 
         public void ClearPool()
@@ -135,44 +180,22 @@ namespace ProjectB.GameManager
             item.SetActive(false);
             return item;
         }
-
+        int curruntMonsterIndex = 0;
+        
         public GameObject GetMonsterObject()
         {
-            if (monster.Count == 0)
-                monster.Add(CreateItem(ObjectType.Monster));
-            if (monster.Count > monsterPoolSize)
-                return null;
-            GameObject monsterObject = monster[0];
-            monster.RemoveAt(0);
-            monsterObject.SetActive(true);
-            return monsterObject;
-        }
-
-        public GameObject GetParticleObject()
-        {
-            if (monster.Count == 0)
-                particle.Add(CreateItem(ObjectType.Particle));
-            if (monster.Count > monsterPoolSize)
-                return null;
-            GameObject particleObject = particle[0];
-            particle.RemoveAt(0);
-            particleObject.SetActive(true);
-            return particleObject;
-        }
-
-        public void PutObject(GameObject gameobject)
-        {
-
-            gameobject.transform.rotation = Quaternion.Euler(0, 0, 0);
-            gameobject.transform.position = new Vector3(0, 0, 0);
-
-            if (gameobject.tag == "Particle")
-                particle.Add(gameobject);
+            if (curruntMonsterIndex < monsterPoolSize)
+            {
+                monster[curruntMonsterIndex].SetActive(true);
+                return monster[curruntMonsterIndex++];
+            }
             else
-                monster.Add(gameobject);
-
-            gameobject.SetActive(false);
+                return null;
         }
+
+        
+
+      
 
     }
 

@@ -7,7 +7,7 @@ namespace ProjectB.Item
 {
     public enum ItemType
     {
-        Resouece,
+        Resource,
         Exapandable,
         Equipmentable,
     }
@@ -18,15 +18,18 @@ namespace ProjectB.Item
         ItemTable itemtable;
 
         [SerializeField]
-        Text text_Test;
-        public Text Text_Test { get { return text_Test; } }
+        Text itemAmounttext;
+        public Text ItemAmountText { get { return itemAmounttext; } }
 
         [SerializeField]
-        Image image_Test;
-        public Image Image_Test { get { return image_Test; } }
+        Text itemNameText;
+        public Text ItemNameText { get { return itemNameText; } }
 
         public int Code;
 
+        int itemAmount;
+        public int ItemAmount { get { return itemAmount; } }
+        
         string itemname;
         public string ItemName { get { return itemname; } }
 
@@ -68,7 +71,7 @@ namespace ProjectB.Item
 
             if (code == 0)
             {
-                initializationItem();
+                InitializationItem();
                 return;
             }
             for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
@@ -78,8 +81,8 @@ namespace ProjectB.Item
                     itemname = itemtable.sheets[0].list[i].Name;
                     switch (itemtable.sheets[0].list[i].Type)
                     {
-                        case "Resouece":
-                            itemType = ItemType.Resouece;
+                        case "Resource":
+                            itemType = ItemType.Resource;
                             break;
                         case "Expandable":
                             itemType = ItemType.Exapandable;
@@ -96,6 +99,8 @@ namespace ProjectB.Item
                     recipeIron = itemtable.sheets[0].list[i].RecipeIron;
                     recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                     image = itemtable.sheets[0].list[i].Image;
+                    itemNameText.text = itemname;
+                    itemAmount = 0;
                 }
             }
             //if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
@@ -104,16 +109,7 @@ namespace ProjectB.Item
             //    GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
         }
 
-        public void SwapItem(Item item)
-        {
-            int i = this.Code;
-            int j = item.Code;
-
-            this.SetItem(j);
-            item.SetItem(i);
-        }
-
-        public void initializationItem()
+        public void InitializationItem()
         {
             hp = 0;
             attack = 0;
@@ -121,8 +117,19 @@ namespace ProjectB.Item
             recipeSheep = 0;
             recipeIron = 0;
             recipeBrick = 0;
-            image = "";
-            itemname = "";
+            itemAmount = 0;
+            image = null;
+            itemname = null;
+        }
+
+        public void SetItemAmount(int amount)
+        {
+            this.itemAmount = amount;
+        }
+
+        public void IncreaseItemAmount()
+        {
+            this.itemAmount++;
         }
     }
 }
