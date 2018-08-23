@@ -45,9 +45,7 @@ namespace ProjectB.GameManager
             GameMediator.Instance.ClearStage();
         }
         public void CheckGameClear()
-        {
-            
-           
+        {   
             totalMonsterCount--;
             if(totalMonsterCount<=0)
             {
@@ -67,10 +65,8 @@ namespace ProjectB.GameManager
 
         }
 
-        public void SetObjectPool()
-        {
-
-        }
+        
+   
 
         public void MoveNextScene(LoadType loadType, int index)
         {
@@ -80,19 +76,7 @@ namespace ProjectB.GameManager
 
         }
 
-        public void SetUI()
-        {
-            if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
-            {
-                Debug.Log("마을 UI 로드");
-            }
-            else
-            {
-                Debug.Log("인게임 UI 로드");
-              
-            }
-        }
-
+       
         public void SetCameraPosition()
         {
             Transform tempCameraTransform;
