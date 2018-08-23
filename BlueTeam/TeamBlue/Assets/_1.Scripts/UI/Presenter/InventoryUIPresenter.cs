@@ -25,37 +25,37 @@ public class InventoryUIPresenter : MonoBehaviour
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 
-    public void AddItem_Test(int code)
-    {
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (items[i].Code == 0)
-            {
-                items[i].SetItem(code);
-                items[i].IncreaseItemAmount();
-                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-            }
+    //public void AddItem_Test(int code)
+    //{
+    //    for (int i = 0; i < items.Count; i++)
+    //    {
+    //        if (items[i].Code == 0)
+    //        {
+    //            items[i].SetItem(code);
+    //            items[i].IncreaseItemAmount();
+    //            items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+    //        }
 
-            else if (items[i].Code == code)
-            {
-                if (items[i].ItemType != ItemType.Equipmentable)
-                {
-                    items[i].IncreaseItemAmount();
-                    items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-                }
+    //        else if (items[i].Code == code)
+    //        {
+    //            if (items[i].ItemType != ItemType.Equipmentable)
+    //            {
+    //                items[i].IncreaseItemAmount();
+    //                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+    //            }
 
-                else
-                    items[i].SetItem(code);
-            }
+    //            else
+    //                items[i].SetItem(code);
+    //        }
 
-            else
-            {
-                continue;
-            }
+    //        else
+    //        {
+    //            continue;
+    //        }
 
-            break;
-        }
-    }
+    //        break;
+    //    }
+    //}
 
     public void AddItem()
     {
