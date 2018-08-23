@@ -15,17 +15,25 @@ namespace ProjectB.Inventory
         public override void OnPointerClick(PointerEventData eventData)
         {
             if (!isClicked)
+            {
                 isClicked = true;
+                ClickedImage.color = new Color(1, 1, 1, 1);
+            }
             else
+            {
                 isClicked = false;
+                this.InitializeToClickedImage();
+            }
 
             if (beforePressSlot != null)
             {
                 if (this.isClicked && beforePressSlot.IsClicked)
                     if (beforePressSlot.gameObject.tag == SlotType.InventorySlot.ToString())
-                        equipUIPresenter.SwapToFromEquipWeaponSlotToInventorySlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
+                        equipUIPresenter.SwapToFromInventorySlotToEquipWeaponSlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
 
                 this.InitializeToIsClicked();
+                this.InitializeToClickedImage();
+                beforePressSlot.InitializeToClickedImage();
                 beforePressSlot.InitializeToIsClicked();
                 beforePressSlot.InitializeTobeforePressSlot();
             }

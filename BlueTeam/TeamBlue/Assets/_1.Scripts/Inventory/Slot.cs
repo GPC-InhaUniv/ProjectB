@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace ProjectB.Inventory
 {
@@ -13,14 +14,16 @@ namespace ProjectB.Inventory
         {
             InventorySlot, CombinationSlot, EquipSlot, WarehouseSlot
         }
-        //protected const string inventorySlot = "InventorySlot";
-        //protected const string combinationSlot = "CombinationSlot";
-        //protected const string equipSlot = "EquipSlot";
-        //protected const string warehouseSlot = "WarehouseSlot";
 
+        protected Image ClickedImage;
         protected bool isClicked;
         public bool IsClicked { get { return isClicked; } }
         protected static Slot beforePressSlot;
+
+        private void OnEnable()
+        {
+            ClickedImage = this.gameObject.GetComponent<Image>();
+        }
 
         abstract public void OnPointerClick(PointerEventData eventData);
 
@@ -32,6 +35,11 @@ namespace ProjectB.Inventory
         public void InitializeTobeforePressSlot()
         {
             beforePressSlot = null;
+        }
+
+        public void InitializeToClickedImage()
+        {
+            ClickedImage.color = new Color(1, 1, 1, 0.392f);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 namespace ProjectB.Inventory
@@ -15,9 +16,15 @@ namespace ProjectB.Inventory
         public override void OnPointerClick(PointerEventData eventData)
         {
             if (!isClicked)
+            {
                 isClicked = true;
+                ClickedImage.color = new Color(1, 1, 1, 1);
+            }
             else
+            {
                 isClicked = false;
+                this.InitializeToClickedImage();
+            }
 
             if (beforePressSlot != null)
             {
@@ -34,6 +41,8 @@ namespace ProjectB.Inventory
                 }
 
                 this.InitializeToIsClicked();
+                this.InitializeToClickedImage();
+                beforePressSlot.InitializeToClickedImage();
                 beforePressSlot.InitializeToIsClicked();
                 beforePressSlot.InitializeTobeforePressSlot();
             }

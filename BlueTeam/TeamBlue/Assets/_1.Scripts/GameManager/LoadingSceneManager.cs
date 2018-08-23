@@ -27,21 +27,23 @@ namespace ProjectB.GameManager
     public class LoadingSceneManager : MonoBehaviour
     {
 
-
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
-        string dungeonUIURL = "https://docs.google.com/uc?export=download&id=1QPRGJgieB2GdZkU3GU8BRBIO_tbcWI0J"; //dungeonUIURL;
-        string playerBundleURL = "https://docs.google.com/uc?export=download&id=1jS8k2MRBk7m_diPWI2vqxvEF6ub1z_wU";  //PLAYER URL;
-        string ironDungeonBundleURL;
-        string brickDungeonBundleURL;
-        string townBundleURL = "https://docs.google.com/uc?export=download&id=1t160DBfloJwgtEqFlpw6Yup2x5NhvvTx"; //Town URL;
-        string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1gPnJr896hKUPD-E5oYN5BonPvxGjcDYo";  //woodDungeon URLL;
-        string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1NmgES6gjDP_gtOUlJFndGHnS1CRnuXya"; //sheepdungeon URL;
 
-     
+        const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1OIrwmK_rDL-pq1GiIJtBtZW7grqKdWOf";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=16YCHjjOC7NjPQxgJkYvCVdTpEAUIyRm1";
+        const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1Xu6YYEwLsXaFn781_w9S8FalDCvILEvr";
+        const string townBundleURL = "https://docs.google.com/uc?export=download&id=1XG4i1tzvIsjMNPByrAC6nniFoASn12tZ"; //Town URL;
+        const string dungeonUIURL = "https://docs.google.com/uc?export=download&id=1QPRGJgieB2GdZkU3GU8BRBIO_tbcWI0J"; //dungeonUIURL;
+        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1mep2pBPdZKJE2EK4RR7PEsY2Wvf5mHtj";  //PLAYER URL;
+        const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1HVXmTDcsFJqZY68VQWf8udJkz4Y_WVD3";  //woodDungeon URLL;
+        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1iPKkHSOYZaZBpyAAZefRxQ63Q0qEhDiM"; //sheepdungeon URL;
 
-        int totalBundleCount = 6;
+
+
+
+        int totalBundleCount = 7;
         static int userBundleCount = 0;
         static LoadType currentType;
 
@@ -69,7 +71,7 @@ namespace ProjectB.GameManager
                 DownLoadAndSaveBundles();
             }
             else
-            {   
+            {
                 totalBundleCount = 1;
                 IsDownLoadDone = true;
 
@@ -87,8 +89,10 @@ namespace ProjectB.GameManager
             StartCoroutine(SaveAssetBundleOnDisk(playerBundleURL, "playerbundle"));
             StartCoroutine(SaveAssetBundleOnDisk(woodDungeonBundleURL, "wooddungeonbundle"));
             StartCoroutine(SaveAssetBundleOnDisk(sheepDungeonBundleURL, "sheepdungeonbundle"));
-            StartCoroutine(SaveAssetBundleOnDisk(townBundleURL, "Town"));
-            StartCoroutine(SaveAssetBundleOnDisk(dungeonUIURL, "dungeonUIbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(townBundleURL, "townbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(commonbundleURL, "commonbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(brickDungeonBundleURL, "brickdungeonbundle"));
+            StartCoroutine(SaveAssetBundleOnDisk(ironDungeonBundleURL, "irondungeonbundle"));
         }
 
 
@@ -115,8 +119,8 @@ namespace ProjectB.GameManager
                             Test_AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
                             GameObjectsManager.Instance.SetObject(ObjectType.Area);
-                     //       Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
-                     //      Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
+                            //       Test_PoolManager.Instance.SetArea(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage1"));
+                            //      Test_PoolManager.Instance.SetPanel(Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "PlayerControlPanel"));
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
@@ -155,6 +159,8 @@ namespace ProjectB.GameManager
                             break;
                     }
                     GameObjectsManager.Instance.SetMonsterPrefab();
+                    GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
+                    GameObjectsManager.Instance.SetPool();
                     IsAssetLoadDone = true;
                 }
 
@@ -163,8 +169,9 @@ namespace ProjectB.GameManager
                     yield return new WaitForSeconds(0.3f);
                 }
 
-                GameObjectsManager.Instance.SetObject(ObjectType.Canvas); 
-                GameObjectsManager.Instance.SetPool();
+             
+
+                
             }
             yield return null;
         }
@@ -199,7 +206,7 @@ namespace ProjectB.GameManager
                         if (Input.anyKeyDown)
                         {
                             asyncOperation.allowSceneActivation = true;
-                           
+
                         }
 
                     }
@@ -218,11 +225,11 @@ namespace ProjectB.GameManager
         }
 
         public static void LoadScene(LoadType mapType, int index)
-        {   
+        {
             switch (mapType)
             {
                 case LoadType.Village:
-                     currentType = LoadType.Village;
+                    currentType = LoadType.Village;
                     break;
                 case LoadType.BrickDungeon:
                     currentType = LoadType.BrickDungeon;
@@ -243,7 +250,7 @@ namespace ProjectB.GameManager
                 default:
                     break;
             }
-            
+
             NextScene = SceneName.Empty.ToString();
             SceneManager.LoadScene(SceneName.Loading.ToString());
 
@@ -301,7 +308,7 @@ namespace ProjectB.GameManager
 
             fs.Close();
 
-           
+
 
             if (totalBundleCount > 1)
             {

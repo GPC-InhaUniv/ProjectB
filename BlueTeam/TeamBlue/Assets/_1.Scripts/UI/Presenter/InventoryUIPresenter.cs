@@ -4,11 +4,15 @@ using UnityEngine;
 using ProjectB.GameManager;
 using ProjectB.Item;
 using ProjectB.Inventory;
+using UnityEngine.UI;
+
+public delegate void InitializeCombinationResourcesSlot();
 
 public class InventoryUIPresenter : MonoBehaviour
 {
     [SerializeField] List<Item> items = new List<Item>();
     public List<Item> Items { get { return items; } }
+    public static InitializeCombinationResourcesSlot initializeCombinationResourcesSlot;
 
     private void OnEnable()
     {
@@ -19,6 +23,38 @@ public class InventoryUIPresenter : MonoBehaviour
     {
         
         CombinationUIPresenter.addItemDelegate += AddItem;
+    }
+
+    public void AddItem_Test(int code)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].Code == 0)
+            {
+                items[i].SetItem(code);
+                items[i].IncreaseItemAmount();
+                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+            }
+
+            else if (items[i].Code == code)
+            {
+                if (items[i].ItemType != ItemType.Equipmentable)
+                {
+                    items[i].IncreaseItemAmount();
+                    items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+                }
+
+                else
+                    items[i].SetItem(code);
+            }
+
+            else
+            {
+                continue;
+            }
+
+            break;
+        }
     }
 
     public void AddItem()
@@ -32,7 +68,17 @@ public class InventoryUIPresenter : MonoBehaviour
             {
                 for(int i = 0; i < items.Count; i++)
                 {
-                    if (items[i].Code == temp.Key)
+                    if (items[i].Code != temp.Key)
+                        continue;
+
+                    else if (items[i].Code == 0)
+                    {
+                        items[i].SetItem(temp.Key);
+                        items[i].IncreaseItemAmount();
+                        items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+                    }
+
+                    else if (items[i].Code == temp.Key)
                     {
                         if (items[i].ItemType != ItemType.Equipmentable)
                             items[i].IncreaseItemAmount();
@@ -40,14 +86,6 @@ public class InventoryUIPresenter : MonoBehaviour
                         else
                             items[i].SetItem(temp.Value);
                     }
-                    else if (items[i].Code == 0)
-                    {
-                        items[i].SetItem(temp.Key);
-                        items[i].IncreaseItemAmount();
-                        items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-                    }
-                    else
-                        continue;
 
                     break;
                 }
@@ -67,28 +105,37 @@ public class InventoryUIPresenter : MonoBehaviour
     public void SwapToFromCombinationSlotToInventorySlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
-        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Exapandable && swapItem.ItemType == ItemType.Exapandable))
+        int SwapItemAmount = currentItem.ItemAmount;
+
+        if (currentItem.ItemName == null)
         {
-            if (currentItem.ItemName == null || (currentItem.Code % 100 <= 33 && currentItem.Code % 100 >= 11) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 11))
-            {
-                currentItem.SetItem(swapItem.Code);
-                swapItem.SetItem(SwapItemCode);
-                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-                swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-            }
+            currentItem.SetItem(swapItem.Code);
+            currentItem.SetItemAmount(swapItem.ItemAmount);
+            swapItem.SetItem(SwapItemCode);
+            swapItem.SetItemAmount(SwapItemAmount);
+
+            currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+            currentItem.ItemNameText.text = currentItem.ItemName;
+            swapItem.ItemNameText.text = swapItem.ItemName;
+            initializeCombinationResourcesSlot();
         }
     }
 
     public void SwapToFromEquipSlotToInventorySlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
+        int SwapItemAmount = currentItem.ItemAmount;
 
-        if(currentItem.ItemName == null || (currentItem.ItemType == ItemType.Equipmentable && swapItem.ItemType == ItemType.Equipmentable))
+        if(currentItem.ItemName == null)
         {
             currentItem.SetItem(swapItem.Code);
+            currentItem.SetItemAmount(swapItem.ItemAmount);
             swapItem.SetItem(SwapItemCode);
+            swapItem.SetItemAmount(SwapItemAmount);
+
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-            swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+            currentItem.ItemNameText.text = currentItem.ItemName;
+            swapItem.ItemNameText.text = swapItem.ItemName;
             for (int i=0;i<GameDataManager.Instance.EquipmentItem.Length;i++)
             {
 
@@ -100,6 +147,4 @@ public class InventoryUIPresenter : MonoBehaviour
             }
         }
     }
-
-
 }

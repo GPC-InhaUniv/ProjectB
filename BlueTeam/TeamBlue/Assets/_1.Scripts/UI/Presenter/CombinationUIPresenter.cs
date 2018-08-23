@@ -8,6 +8,7 @@ using System;
 
 public delegate void AddItemDelegate();
 
+
 public class CombinationUIPresenter : MonoBehaviour
 {
     [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
@@ -15,22 +16,31 @@ public class CombinationUIPresenter : MonoBehaviour
     int combinationItemCode;
     public static AddItemDelegate addItemDelegate;
 
+
     private void Awake()
     {
+        InventoryUIPresenter.initializeCombinationResourcesSlot += InitializeToCombinationResourcesSlot;
         requirematerials = new int[4];
     }
 
     public void SwapToFromInventorySlotToCombinationSlot(Item currentItem, Item swapItem)
     {
         int SwapItemCode = currentItem.Code;
-        if (currentItem.ItemName == null || (currentItem.ItemType == ItemType.Exapandable && swapItem.ItemType == ItemType.Exapandable))
+        int SwapItemAmount = currentItem.ItemAmount;
+
+        if (swapItem.ItemType == ItemType.Exapandable)
         {
-            if ((currentItem.Code % 100 <= 33 && swapItem.Code % 100 <= 33) && (swapItem.Code % 100 <= 33 && swapItem.Code % 100 >= 11))
+            if (swapItem.Code % 100 >= 11 && swapItem.Code % 100 <= 33)
             {
                 currentItem.SetItem(swapItem.Code);
+                currentItem.SetItemAmount(swapItem.ItemAmount);
                 swapItem.SetItem(SwapItemCode);
-                currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
+                swapItem.SetItemAmount(SwapItemAmount);
+
+                currentItem.ItemNameText.text = currentItem.ItemName;
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+                swapItem.ItemNameText.text = swapItem.ItemName;
+
                 DisplayToCombinationResourcesSlot(currentItem);
                 combinationItemCode = currentItem.Code;
             }
@@ -67,5 +77,14 @@ public class CombinationUIPresenter : MonoBehaviour
         requirematerials[1] = item.RecipeWood;
         requirematerials[2] = item.RecipeIron;
         requirematerials[3] = item.RecipeSheep;
+    }
+
+    public void InitializeToCombinationResourcesSlot()
+    {
+        for(int i = 0; i < requirematerials.Length; i++)
+        {
+            combinationResourcesItems[i].ItemAmountText.text = 0.ToString();
+            requirematerials[i] = 0;
+        }
     }
 }
