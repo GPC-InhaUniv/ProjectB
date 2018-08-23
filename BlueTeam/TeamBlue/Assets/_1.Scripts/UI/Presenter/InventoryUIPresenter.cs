@@ -66,31 +66,32 @@ public class InventoryUIPresenter : MonoBehaviour
     {
         foreach (KeyValuePair<int, int> temp in GameDataManager.Instance.PlayerGamedata)
         {
-            if (temp.Value == 0)
-                continue;
-
-            else
+            for (int i = 0; i < items.Count; i++)
             {
-                for (int i = 0; i < items.Count; i++)
+                if (temp.Value == 0)
                 {
-
-                    if (items[i].Code == 0)
-                    {
-                        items[i].SetItem(temp.Key);
-                        items[i].IncreaseItemAmount();
-                    }
-
-                    else if (items[i].Code == temp.Key)
-                    {
-                            items[i].IncreaseItemAmount();        
-                    }
-                    else if (items[i].Code != temp.Key)
-                        continue;
-
-                    items[i].ItemAmountText.text = temp.Value.ToString();
-                    break;
+                    items[i].InitializationItem();
+                    items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+                    continue;
                 }
+
+                if (items[i].Code == 0)
+                {
+                    items[i].SetItem(temp.Key);
+                    items[i].IncreaseItemAmount();
+                }
+
+                else if (items[i].Code == temp.Key)
+                    items[i].IncreaseItemAmount();
+
+                else if (items[i].Code != temp.Key)
+                    continue;
+
+                items[i].SetItemAmount(temp.Value);
+                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
+                break;
             }
+
         }
     }
 
