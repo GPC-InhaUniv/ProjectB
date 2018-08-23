@@ -83,11 +83,8 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
-            if (moveVector != Vector3.zero)
-            {
-                playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
-                playerTransform.rotation = Quaternion.LookRotation(moveVector); //보간필요
-            }
+            playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
+            playerTransform.rotation = Quaternion.LookRotation(moveVector);
         }
     }
 

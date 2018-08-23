@@ -47,9 +47,18 @@ namespace ProjectB.Characters.Players
              StartCoroutine(BackStepAnimationCoroutine());
         }
 
+        public void InitStateAnimation()
+        {
+            StartCoroutine(InitStateCoroutine());
+        }
+
         public void RunAnimation(bool isRunning)
         {
             animator.SetBool(AnimationState.Run.ToString(), isRunning);
+            if (!isRunning)
+                return;
+            animator.ResetTrigger(AnimationState.Hit.ToString());
+
         }
 
         public void HitAnimation()
@@ -74,11 +83,6 @@ namespace ProjectB.Characters.Players
         public void DieAnimation()
         {
             animator.SetTrigger(AnimationState.Die.ToString());
-        }
-
-        public void InitStateAnimation()
-        {
-            StartCoroutine(InitStateCoroutine());
         }
 
         IEnumerator InitStateCoroutine()

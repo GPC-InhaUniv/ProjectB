@@ -49,7 +49,14 @@ namespace ProjectB.UI.Presenter
         const int longSwordAttackCount = 2;
 
         void Start()
-        {           
+        {
+            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            //Attack1 = new CommandAttack1(player);
+            //Attack2 = new CommandAttack2(player);
+            //Attack3 = new CommandAttack3(player);
+            //Attack4 = new CommandAttack4(player);
+            //상단 5줄은 테스트용임, 오류날 시 주석처리 
+
             skillCoolDownTime = 5.0f;
             backStepCoolDownTime = 3.5f;
             swapCoolDownTime = 2.5f;
@@ -92,7 +99,7 @@ namespace ProjectB.UI.Presenter
                 return;
             inputMoveVector = PoolInput();
 
-            if (GetReadyForRun())
+            if (GetIsRunningState(player.IsWorking))
             {
                 SetInputVector();
             }
@@ -130,9 +137,18 @@ namespace ProjectB.UI.Presenter
         }
 
         void StartButtonCoolDown(float time, Button button, Image image)
-        {
+        {            
             StartCoroutine(ButtonCoolDownCoroutine(time, button));
             StartCoroutine(ImageCoolDown(time, image));
+        }
+
+        void SwapWeaponCoolDown()
+        {
+            if (isSwap == false)
+            {
+                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
+            }
+
         }
 
         Vector3 PoolInput()
@@ -151,19 +167,17 @@ namespace ProjectB.UI.Presenter
 
             if (inputMoveVector != Vector3.zero)
             {
-                player.IsRunning = true;
                 player.ChangeState(PlayerStates.PlayerCharacterRunState);
             }
             else
             {
-                player.IsRunning = false;
                 player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 
         void InputBackStep()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -181,7 +195,7 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
@@ -197,7 +211,7 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
                 {
@@ -275,7 +289,7 @@ namespace ProjectB.UI.Presenter
 
         void StartCombo()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 commandControll.ExcuteCommand();
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
@@ -321,13 +335,7 @@ namespace ProjectB.UI.Presenter
             }
         }
 
-        void SwapWeaponCoolDown()
-        {
-            if (isSwap == false)
-            {
-                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
-            }
-        }
+
 
         bool GetWeaponState()
         {
@@ -340,40 +348,30 @@ namespace ProjectB.UI.Presenter
                 return false;
             }
         }
-        bool GetReadyForRun()
+
+
+        bool GetIsRunningState(bool state)
         {
-            if (player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState) && player.PlayerState.GetType() != typeof(PlayerCharacterSkillState))
-            {
-                return true;
-            }
-            else
+            if (state)
             {
                 return false;
             }
-        }
-
-        bool GetPlayerIdleState()
-        {
-            if (player.PlayerState.GetType() == typeof(PlayerCharacterIdleState))
-            {
-                return true;
-            }
-            else return false;
+            else return true;
         }
 
         public void UpdateUI()
         {
-            playerId.text = AccountInfo.Instance.Id;
+            //playerId.text = AccountInfo.Instance.Id;
             levelText.text = "Level\n" + player.CharacterLevel.ToString();
 
             expValue = player.CharacterExp / player.PlayerMaxExp * standardPercent;
             hpValue = player.CharacterHealthPoint / player.CharacterMaxHealthPoint * standardPercent;
 
             hpBar.fillAmount = player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
-            hpValueText.text = (100.0f > hpValue) ? hpValue + "%" : standardPercent.ToString() + "%";
+            hpValueText.text = (hpValue > 0) ? hpValue.ToString("N1") + "%" : 0 + "%";
    
             expBar.fillAmount = player.CharacterExp / player.PlayerMaxExp;
-            expValueText.text = (100.0f > expValue) ? expValue.ToString("N1") + "%"  : standardPercent.ToString() + "%";
+            expValueText.text = (expValue > 0) ? expValue.ToString("N1") + "%"  :0 + "%";
         }      
     }
 }
