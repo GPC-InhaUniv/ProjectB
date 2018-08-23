@@ -21,6 +21,7 @@ public class CombinationUIPresenter : MonoBehaviour
     {
         InventoryUIPresenter.initializeCombinationResourcesSlot += InitializeToCombinationResourcesSlot;
         requirematerials = new int[4];
+        combinationSlotItem = GameObject.Find("CombinationRecipeSlot").GetComponent<Item>();
     }
 
     private void OnDisable()
