@@ -26,13 +26,11 @@ namespace ProjectB.GameManager
     }
     public class LoadingSceneManager : MonoBehaviour
     {
-
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
-
         const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1OIrwmK_rDL-pq1GiIJtBtZW7grqKdWOf";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=16YCHjjOC7NjPQxgJkYvCVdTpEAUIyRm1";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1Kfrpvb1Xu9GyyposKHFDsCtXiMHLN_vc";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1Xu6YYEwLsXaFn781_w9S8FalDCvILEvr";
         const string townBundleURL = "https://docs.google.com/uc?export=download&id=1XG4i1tzvIsjMNPByrAC6nniFoASn12tZ"; //Town URL;
         const string dungeonUIURL = "https://docs.google.com/uc?export=download&id=1QPRGJgieB2GdZkU3GU8BRBIO_tbcWI0J"; //dungeonUIURL;
@@ -43,7 +41,7 @@ namespace ProjectB.GameManager
      
 
 
-        int totalBundleCount = 7;
+        int totalBundleCount = 8;
         static int userBundleCount = 0;
         static LoadType currentType;
 
