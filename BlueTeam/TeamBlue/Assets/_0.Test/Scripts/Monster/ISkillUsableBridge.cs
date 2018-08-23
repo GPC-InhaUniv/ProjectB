@@ -23,8 +23,7 @@ namespace ProjectB.Characters.Monsters
        // public static event NoticeNoSkill Setstate;
         public static NoticeNoSkill SetState;
 
-
-
+        
         public NoSkill(Animator animator)
         {
             this.animator = animator;

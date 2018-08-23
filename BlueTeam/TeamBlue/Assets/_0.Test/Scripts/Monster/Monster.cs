@@ -266,7 +266,7 @@ namespace ProjectB.Characters.Monsters
         protected void ChangeStateToWalking()
         {
             currentState = State.Walking;
-            Debug.Log("ChangeStateToWalking");
+            Debug.Log("aaa");
         }
 
 

@@ -78,6 +78,7 @@ namespace ProjectB.GameManager
             EquipmentItem = new int[3];
             PlayerGamedata = new Dictionary<int, int>();
             WareHouseGamedata = new Dictionary<int, int>();
+
             for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
             {
                 if (PlayerGamedata.ContainsKey(itemTable.sheets[0].list[i].Code))
