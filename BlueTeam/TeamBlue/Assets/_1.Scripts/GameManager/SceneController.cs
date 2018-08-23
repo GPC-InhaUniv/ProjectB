@@ -13,7 +13,6 @@ namespace ProjectB.GameManager
         {
            Debug.Log("씬 판별 시작");
             GameControllManager.Instance.SetObjectPosition();
-            GameControllManager.Instance.SetUI();
             GameControllManager.Instance.SetCameraPosition();
             GameMediator.Instance.GameInitialize();
 
