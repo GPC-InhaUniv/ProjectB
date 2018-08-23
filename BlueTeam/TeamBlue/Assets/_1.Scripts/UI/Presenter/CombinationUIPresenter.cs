@@ -61,7 +61,14 @@ public class CombinationUIPresenter : MonoBehaviour
 
         if(checkCombination == true)
         {
+            for (int i = 0; i < 4; i++)
+            {
+                GameDataManager.Instance.PlayerGamedata[i + 3000] -= requirematerials[i];
+            }
+            GameDataManager.Instance.PlayerGamedata[combinationItemCode]--;
+
             GameDataManager.Instance.PlayerGamedata[combinationItemCode + 1000]++;
+            GameDataManager.Instance.SetGameDataToServer();
             addItemDelegate();
         }
     }
