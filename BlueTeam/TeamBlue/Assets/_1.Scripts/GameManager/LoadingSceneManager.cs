@@ -163,8 +163,7 @@ namespace ProjectB.GameManager
                     yield return new WaitForSeconds(0.3f);
                 }
 
-                GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
-               
+                GameObjectsManager.Instance.SetObject(ObjectType.Canvas); 
                 GameObjectsManager.Instance.SetPool();
             }
             yield return null;
