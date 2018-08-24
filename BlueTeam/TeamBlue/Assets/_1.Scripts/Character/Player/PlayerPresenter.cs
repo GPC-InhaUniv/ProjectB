@@ -361,7 +361,7 @@ namespace ProjectB.UI.Presenter
 
         public void UpdateUI()
         {
-            //playerId.text = AccountInfo.Instance.Id;
+            playerId.text = AccountInfo.Instance.Id;
             levelText.text = "Level\n" + player.CharacterLevel.ToString();
 
             expValue = player.CharacterExp / player.PlayerMaxExp * standardPercent;

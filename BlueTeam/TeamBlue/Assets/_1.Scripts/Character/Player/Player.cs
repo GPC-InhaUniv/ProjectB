@@ -92,7 +92,7 @@ namespace ProjectB.Characters.Players
 
         void Start()
         {
-            playerPresenter.UpdateUI();
+            //playerPresenter.UpdateUI();
 
             hitParticle.SetActive(false);
 

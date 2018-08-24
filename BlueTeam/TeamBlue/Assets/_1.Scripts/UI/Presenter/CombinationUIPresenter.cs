@@ -73,6 +73,9 @@ public class CombinationUIPresenter : MonoBehaviour
             }
             GameDataManager.Instance.PlayerGamedata[combinationItemCode]--;
 
+            if (GameDataManager.Instance.PlayerGamedata[combinationItemCode] <= 0)
+                GameDataManager.Instance.PlayerGamedata[combinationItemCode] = 0;
+
             GameDataManager.Instance.PlayerGamedata[combinationItemCode + 1000]++;
             GameDataManager.Instance.SetGameDataToServer();
             ResetCombinationSlot();

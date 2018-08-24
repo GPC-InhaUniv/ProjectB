@@ -119,17 +119,12 @@ namespace ProjectB.GameManager
 
         public void SetObjectPosition()
         {
-            //
-            
 
-               // GameObject tempObject = Test_PoolManager.Instance.GetArea();
             GameObject tempObject = GameObjectsManager.Instance.GetAreaObject();
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
                 playerPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPosition");
-
-
 
             }
             
