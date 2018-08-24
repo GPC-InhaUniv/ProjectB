@@ -205,12 +205,12 @@ namespace ProjectB.Characters.Players
 
                 playerAinmaton.HitAnimation();
                 characterHealthPoint -= CalDamage(damage);
-<<<<<<< HEAD
-                SoundManager.Instance.SetSoundType(SoundFXType.PlayerHit);
-=======
+
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
 
->>>>>>> 93540ca21a8aaf08f956142cda2a4d9cc7bb9d61
+                SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
+
+
                 playerPresenter.UpdateUI();
             }
 
