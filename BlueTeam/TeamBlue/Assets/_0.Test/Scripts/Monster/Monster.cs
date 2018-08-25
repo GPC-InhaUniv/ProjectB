@@ -4,6 +4,7 @@ using UnityEngine;
 using ProjectB.GameManager;
 
 
+
 namespace ProjectB.Characters.Monsters
 {
     public enum MonsterType
@@ -25,9 +26,13 @@ namespace ProjectB.Characters.Monsters
         Defence,
         Died,
     }
+    //test//
+    public delegate void NoticeDie();
 
     public abstract class Monster : Character
     {
+        //test//
+        public static event NoticeDie NoticeToRader;
 
         [SerializeField]
         protected MonsterType monsterType;
@@ -94,6 +99,9 @@ namespace ProjectB.Characters.Monsters
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     characterHealthPoint -= damage;
 
+                    SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
+
+
                     if (CharacterHealthPoint <= 0)
                     {
                         characterHealthPoint = 0;
@@ -128,6 +136,7 @@ namespace ProjectB.Characters.Monsters
             if (attackTarget != null)
             {
                 attackable.Attack();
+                SoundManager.Instance.SetSound(SoundFXType.EnemyAttack);
             }
         }
         protected virtual void UseSkill()
@@ -193,6 +202,11 @@ namespace ProjectB.Characters.Monsters
                 default:
                     break;
             }
+
+            //test//
+            NoticeToRader();
+
+
 
         }
         protected void RemovedFromWorld()

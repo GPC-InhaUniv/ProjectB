@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.Characters;
+using ProjectB.GameManager;
 
 namespace ProjectB.Characters.Monsters
 {
@@ -77,6 +78,8 @@ namespace ProjectB.Characters.Monsters
         protected override void AttackTarget()
         {
             bossState.Attack();
+            SoundManager.Instance.SetSound(SoundFXType.EnemyAttack);
+
         }
         protected override void UseSkill()
         {
@@ -100,6 +103,9 @@ namespace ProjectB.Characters.Monsters
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     characterHealthPoint -= damage;
+
+                    SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
+
 
                     if (CharacterHealthPoint <= CharacterMaxHealthPoint * (2 / 3) && stateHandleNum == 0)
                     {
