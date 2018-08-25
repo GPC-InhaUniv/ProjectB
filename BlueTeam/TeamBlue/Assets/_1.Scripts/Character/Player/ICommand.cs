@@ -11,50 +11,50 @@ namespace ProjectB.Characters.Players
 
     public class CommandAttack1 : ICommand
     {
-        Player player = null;
-        public CommandAttack1(Player player)
+        PlayerAnimation playerAinmaton;
+        public CommandAttack1(PlayerAnimation playerAinmaton)
         {
-            this.player = player;
+            this.playerAinmaton = playerAinmaton;
         }
         public void Execute()
         {
-            player.SetAttackNumber((int)AttackNumber.Attack1);
+            playerAinmaton.AttackAnimation(AttackNumber.Attack1.ToString());
         }
     }
     public class CommandAttack2 : ICommand
     {
-        Player player = null;
-        public CommandAttack2(Player player)
+        PlayerAnimation playerAinmaton;
+        public CommandAttack2(PlayerAnimation playerAinmaton)
         {
-            this.player = player;
+            this.playerAinmaton = playerAinmaton;
         }
         public void Execute()
         {
-            player.SetAttackNumber((int)AttackNumber.Attack2);
+            playerAinmaton.AttackAnimation(AttackNumber.Attack2.ToString());
         }
     }
     public class CommandAttack3 : ICommand
     {
-        Player player = null;
-        public CommandAttack3(Player player)
+        PlayerAnimation playerAinmaton;
+        public CommandAttack3(PlayerAnimation playerAinmaton)
         {
-            this.player = player;
+            this.playerAinmaton = playerAinmaton;
         }
         public void Execute()
         {
-            player.SetAttackNumber((int)AttackNumber.Attack3);
+            playerAinmaton.AttackAnimation(AttackNumber.Attack3.ToString());
         }
     }
     public class CommandAttack4 : ICommand
     {
-        Player player = null;
-        public CommandAttack4(Player player)
+        PlayerAnimation playerAinmaton;
+        public CommandAttack4(PlayerAnimation playerAinmaton)
         {
-            this.player = player;
+            this.playerAinmaton = playerAinmaton;
         }
         public void Execute()
         {
-            player.SetAttackNumber((int)AttackNumber.Attack4);
+            playerAinmaton.AttackAnimation(AttackNumber.Attack4.ToString());
         }
     }
     public enum AttackNumber

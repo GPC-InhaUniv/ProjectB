@@ -15,6 +15,7 @@ namespace ProjectB.GameManager
         WoodDungeon,
         SheepDungeon,
         IronDungeon,
+        BossDungeon,
         VillageCheckDownLoad
     }
 
