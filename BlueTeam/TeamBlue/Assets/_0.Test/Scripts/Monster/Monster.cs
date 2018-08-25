@@ -27,7 +27,7 @@ namespace ProjectB.Characters.Monsters
         Died,
     }
     //test//
-    public delegate void NoticeDie();
+    public delegate void NoticeDie(GameObject gameObject);
 
     public abstract class Monster : Character
     {
@@ -204,7 +204,7 @@ namespace ProjectB.Characters.Monsters
             }
 
             //test//
-            NoticeToRader();
+            NoticeToRader(gameObject);
 
 
 
