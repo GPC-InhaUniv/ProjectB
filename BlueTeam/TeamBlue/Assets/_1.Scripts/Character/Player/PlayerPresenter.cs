@@ -50,11 +50,11 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player);
-            Attack2 = new CommandAttack2(player);
-            Attack3 = new CommandAttack3(player);
-            Attack4 = new CommandAttack4(player);
+            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
             //상단 5줄은 테스트용임, 오류날 시 주석처리
 
             skillCoolDownTime = 5.0f;
@@ -87,10 +87,10 @@ namespace ProjectB.UI.Presenter
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player);
-            Attack2 = new CommandAttack2(player);
-            Attack3 = new CommandAttack3(player);
-            Attack4 = new CommandAttack4(player);
+            Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            Attack4 = new CommandAttack4(player.PlayerAinmaton);
         }
         void GetImage()
         {
@@ -251,8 +251,9 @@ namespace ProjectB.UI.Presenter
         {
             if (GetIsRunningState(player.IsRunning))
             {
-                commandControll.ExcuteCommand();
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
+                commandControll.ExcuteCommand();
+
                 StartButtonCoolDown(attackCoolDownTime, attackButton, attackImage);
                 SwapWeaponCoolDown();
 
@@ -357,7 +358,7 @@ namespace ProjectB.UI.Presenter
 
         public void UpdateUI()
         {
-            //playerId.text = AccountInfo.Instance.Id;
+            playerId.text = AccountInfo.Instance.Id;
             levelText.text = "Level\n" + player.CharacterLevel.ToString();
 
             expValue = player.CharacterExp / player.PlayerMaxExp * standardPercent;
