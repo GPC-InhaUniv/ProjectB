@@ -15,10 +15,9 @@ namespace ProjectB.UI.Minimap
         
         void OnTriggerEnter(Collider other)
         {
-            if (!(Enemys.Contains(other.gameObject)))
+            if (!(Enemys.Contains(other.gameObject)) && other.CompareTag("Monster"))
             {
                 Enemys.Add(other.gameObject);
-                Debug.Log("생성됨: " + other.gameObject.name);
             }
         }
 
@@ -32,10 +31,9 @@ namespace ProjectB.UI.Minimap
 
         void RemoveFromList(GameObject monster)
         {
-            if (Enemys.Contains(monster))
+            if (Enemys.Contains(monster) )
             {
                 Enemys.Remove(monster);
-                Debug.Log("파괴됨: " + monster.name);
             }
         }
     }

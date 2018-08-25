@@ -13,7 +13,7 @@ namespace ProjectB.UI.Minimap
         Vector2 playerPosition;
         Vector2 enemyPosition;
 
-        const float mapScale = 5.0f;
+        const float mapScale = 9.0f;
         const float defaultIconPositionX = 100.0f;
         const float minimapUpdateTime = 0.1f;
         const int sizeOfIconArray = 24;
