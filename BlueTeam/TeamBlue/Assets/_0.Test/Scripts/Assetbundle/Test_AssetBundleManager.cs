@@ -14,6 +14,7 @@ public enum AreaType
     IronDungeon,
     BrickDungeon,
     SheepDungeon,
+    BossDungeon,
 }
 
 public enum BundleType
@@ -72,7 +73,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
                 bundleName = "sheepdungeonbundle";
                 break;
             default:
-                bundleName = null;
+                bundleName = "brickdungeonbundle";
                 break;
         }
         currentArea = areaType;
@@ -148,10 +149,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
                 break;
             case BundleType.Area:
                 gameObject = Area.LoadAsset<GameObject>(AssetName);
-                break;
-            case BundleType.Monster:
-                gameObject = Area.LoadAsset<GameObject>(AssetName);
-                break;
+                break;    
             default:
                 gameObject = null;
                 break;
