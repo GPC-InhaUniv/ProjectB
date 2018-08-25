@@ -20,17 +20,17 @@ namespace ProjectB.UI.Minimap
         
         void Start()
         {
-            //radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
-            //EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
-            //StartCoroutine(StartDrawIcon());
+            radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
+            EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
+            StartCoroutine(StartDrawIcon());
         }
 
         public void Initialize()
         {
-            radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
-            EnemyIconsPosition = new GameObject[sizeOfIconArray];
-            EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
-            StartCoroutine(StartDrawIcon());
+            //radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
+            //EnemyIconsPosition = new GameObject[sizeOfIconArray];
+            //EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
+            //StartCoroutine(StartDrawIcon());
         }
 
        

@@ -171,41 +171,41 @@ namespace ProjectB.Characters.Monsters
         }
         protected void Died()
         {
-            GameControllManager.Instance.CheckGameOver();
+            
 
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
 
-            int randomCount;
-            switch (monsterType)
-            {
-                //5 , 10 , 20 //
-                case MonsterType.Normal:
-                    maxPercent = 21;
-                    randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent - 1)
-                        DropItem(MonsterType.Normal);
-                    break;
-                case MonsterType.Named:
-                    maxPercent = 11;
-                    randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent-1)
-                        DropItem(MonsterType.Named);
-                    break;
-                case MonsterType.Boss:
-                    maxPercent = 6;
-                    randomCount = Random.Range(1, maxPercent-1);
-                    if (randomCount == maxPercent)
-                        DropItem(MonsterType.Boss);
-                    break;
-                default:
-                    break;
-            }
-
+            //GameControllManager.Instance.CheckGameOver();
+            //int randomCount;
+            //switch (monsterType)
+            //{
+            //    //5 , 10 , 20 //
+            //    case MonsterType.Normal:
+            //        maxPercent = 21;
+            //        randomCount = Random.Range(1, maxPercent);
+            //        if (randomCount == maxPercent - 1)
+            //            DropItem(MonsterType.Normal);
+            //        break;
+            //    case MonsterType.Named:
+            //        maxPercent = 11;
+            //        randomCount = Random.Range(1, maxPercent);
+            //        if (randomCount == maxPercent-1)
+            //            DropItem(MonsterType.Named);
+            //        break;
+            //    case MonsterType.Boss:
+            //        maxPercent = 6;
+            //        randomCount = Random.Range(1, maxPercent-1);
+            //        if (randomCount == maxPercent)
+            //            DropItem(MonsterType.Boss);
+            //        break;
+            //    default:
+            //        break;
+            //}
+            
             //test//
             NoticeToRader(gameObject);
-
 
 
         }
