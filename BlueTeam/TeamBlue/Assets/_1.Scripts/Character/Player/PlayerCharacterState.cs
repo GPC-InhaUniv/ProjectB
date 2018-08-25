@@ -83,7 +83,7 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
-            playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
+            playerRigidbody.velocity = moveVector * 900 * Time.deltaTime;
             playerTransform.rotation = Quaternion.LookRotation(moveVector);
         }
     }
@@ -100,7 +100,7 @@ namespace ProjectB.Characters.Players
         {
             playerCollider.enabled = false;
             playerAinmaton.BackStepAnimation();
-            playerRigidbody.AddForce(-targetVector * 700 * Time.deltaTime, ForceMode.Impulse);
+            playerRigidbody.velocity = -targetVector * 3000 * Time.deltaTime;
         }
     }
 
