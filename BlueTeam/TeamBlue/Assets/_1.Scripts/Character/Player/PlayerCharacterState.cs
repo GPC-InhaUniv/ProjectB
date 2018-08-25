@@ -14,17 +14,14 @@ namespace ProjectB.Characters.Players
 
         protected Collider playerCollider;
 
-        protected int AttackNumber;
-
         protected Vector3 targetVector;
 
-        public PlayerCharacterState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        public PlayerCharacterState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector)
         {
             this.playerAinmaton = playerAinmaton;
             this.playerRigidbody = playerRigidbody;
             this.playerTransform = playerTransform;
             this.playerCollider = playerCollider;
-            this.AttackNumber = AttackNumber;
             this.targetVector = targetVector;
         }
 
@@ -33,8 +30,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterIdleState : PlayerCharacterState
     {
-        public PlayerCharacterIdleState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector) 
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterIdleState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector) 
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -47,8 +44,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterAttackState : PlayerCharacterState
     {
-        public PlayerCharacterAttackState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterAttackState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -61,8 +58,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterSkillState : PlayerCharacterState
     {
-        public PlayerCharacterSkillState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterSkillState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -75,8 +72,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterRunState : PlayerCharacterState
     {
-        public PlayerCharacterRunState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterRunState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -90,8 +87,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterBackStepState : PlayerCharacterState
     {
-        public PlayerCharacterBackStepState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterBackStepState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -106,8 +103,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterDieState : PlayerCharacterState
     {
-        public PlayerCharacterDieState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterDieState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
