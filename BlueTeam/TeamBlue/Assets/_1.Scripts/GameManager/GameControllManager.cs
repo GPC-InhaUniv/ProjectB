@@ -4,16 +4,16 @@ using UnityEngine;
 using ProjectB.UI.Presenter;
 namespace ProjectB.GameManager
 {
-    public class GameControllManager : Singleton<GameControllManager> 
+    public class GameControllManager : Singleton<GameControllManager>
     {
 
         public LoadType CurrentLoadType;
         public int CurrentIndex;
-       
+
 
         bool isClearDungeon;
         public bool IsClearDungeon { get { return isClearDungeon; } private set { } }
-  
+
         int totalExp;
         public int TotalExp { get { return totalExp; } private set { } }
 
@@ -31,14 +31,14 @@ namespace ProjectB.GameManager
         private void Start()
         {
             MonsterPostion = new GameObject[3];
-            
+
         }
         public void CheckMonsterAtDungeon()
         {
-            totalMonsterCount = CurrentIndex * 10;
+            totalMonsterCount = 18;
             totalExp = 1200 * CurrentIndex;
 
-            switch(CurrentLoadType)
+            switch (CurrentLoadType)
             {
                 case LoadType.WoodDungeon:
                     ObtainedItemDic.Add(3000, CurrentIndex * 5);
@@ -63,14 +63,14 @@ namespace ProjectB.GameManager
             GameMediator.Instance.ClearStage();
         }
         public void CheckGameClear()
-        {   
+        {
             totalMonsterCount--;
-            if(totalMonsterCount<=0)
+            if (totalMonsterCount <= 0)
             {
                 isClearDungeon = true;
                 GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
-                
-                foreach(KeyValuePair<int,int> temp in ObtainedItemDic)
+
+                foreach (KeyValuePair<int, int> temp in ObtainedItemDic)
                 {
                     GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
                 }
@@ -78,12 +78,12 @@ namespace ProjectB.GameManager
                 GameDataManager.Instance.SetGameDataToServer();
                 GameMediator.Instance.ClearStage();
             }
-            
+
 
         }
 
-        
-   
+
+
 
         public void MoveNextScene(LoadType loadType, int index)
         {
@@ -93,7 +93,7 @@ namespace ProjectB.GameManager
 
         }
 
-       
+
         public void SetCameraPosition()
         {
             Transform tempCameraTransform;
@@ -119,20 +119,15 @@ namespace ProjectB.GameManager
 
         public void SetObjectPosition()
         {
-            //
-            
 
-               // GameObject tempObject = Test_PoolManager.Instance.GetArea();
             GameObject tempObject = GameObjectsManager.Instance.GetAreaObject();
             if (tempObject != null)
             {
                 tempObject.SetActive(true);
                 playerPosition = GameObject.FindGameObjectWithTag("PlayerSpawnPosition");
 
-
-
             }
-            
+
             tempObject = GameObjectsManager.Instance.GetPlayerObject();
 
             if (tempObject != null)
@@ -145,36 +140,40 @@ namespace ProjectB.GameManager
             if (CurrentIndex != 0)
             {
                 CheckMonsterAtDungeon();
-                
-                Debug.Log("현재 던전 몬스터 수:"+totalMonsterCount);
+
+                Debug.Log("현재 던전 몬스터 수:" + totalMonsterCount);
 
             }
 
             if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
             {
-              
+
 
             }
             else
             {
-                
+
                 MonsterPostion[0] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition1");
                 MonsterPostion[1] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition2");
                 MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
 
-                for(int i = 0; i<GameObjectsManager.Instance.MonsterPoolSize;i++)
+                int positionNum = 0;
+                for (int i = 0; i < GameObjectsManager.Instance.MonsterPoolSize; i++)
                 {
-                    if( i%3 == 0)
-
-                    GameObjectsManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
-                    else if(i%3 == 1)
+                    Vector3 addPos = new Vector3(5, 0, 5);
+                    if (i % 6 == 0)
                     {
-                        GameObjectsManager.Instance.GetMonsterObject().transform.position = MonsterPostion[1].transform.position;
+                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Named).transform.position = MonsterPostion[positionNum].transform.position + addPos;
+                        if (i != 0)
+                            positionNum++;                       
                     }
-                    else
-                        GameObjectsManager.Instance.GetMonsterObject().transform.position = MonsterPostion[2].transform.position;
+                    else 
+                    {
+                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Normal).transform.position = MonsterPostion[positionNum].transform.position + addPos;
+                    }
+
                 }
-             
+
                 //     Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
                 //    Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[1].transform.position;
 
@@ -183,6 +182,6 @@ namespace ProjectB.GameManager
 
         }
 
-       
+
     }
 }

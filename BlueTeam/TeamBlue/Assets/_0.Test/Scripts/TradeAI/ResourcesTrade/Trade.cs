@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
+using UnityEngine.UI;
 
 //0 = Brick
 //1 = Wood
@@ -13,6 +14,10 @@ public class Trade : MonoBehaviour
     int tradeProbability = 50; // 거래 확률
 
     int relationShip = 50;
+
+    int sendingResourceCount = 0;
+
+    int receivingResourceCount = 0;
 
 
     bool isAbleToTrade = false;
@@ -29,6 +34,14 @@ public class Trade : MonoBehaviour
 
     ResourceContext resourceContext;
 
+    public Text relationShipText;
+    public Text tradeProbabilityText;
+
+    public Text sendingResourceText;
+    public Text sendingResourceCountText;
+
+    public Text receivingResourceText;
+    public Text receivingResourceCountText;
 
     void Start()
     {
@@ -36,7 +49,12 @@ public class Trade : MonoBehaviour
         weather.ChangeWeatherState(WeatherState.Sunny);
     }
 
-    public void ShowPlayerResourcesOnDebugLog()
+    void Update()
+    {
+        RunResourceText();
+    }
+
+    public void Test_ShowPlayerResourcesOnDebugLog()
     {
         Debug.Log("현재 자원");
         Debug.Log("");
@@ -69,6 +87,8 @@ public class Trade : MonoBehaviour
             Debug.Log("거래 확률 " + tradeProbability + "%");
             Debug.Log("특정 확률로 거래 실패");
         }
+
+        tradeProbabilityText.text = "거래 확률 " + tradeProbability;
     }
 
     public void CheckRelationShip()
@@ -76,11 +96,15 @@ public class Trade : MonoBehaviour
         if (relationShip > 0)
         {
             Debug.Log("우호도 " + relationShip);
+
+            relationShipText.text = "우호도 " + relationShip;
         }
 
         else 
         {
             Debug.Log("우호도 0");
+
+            relationShipText.text = "우호도 0";
         }
 
     }
@@ -100,7 +124,7 @@ public class Trade : MonoBehaviour
 
             }
 
-            else if (relationShip >= 50)
+            else if (relationShip >= 50 && relationShip < 70)
             {
                 Debug.Log("우호도 보통");
             }
@@ -120,6 +144,8 @@ public class Trade : MonoBehaviour
 
     public void ReceiveResources(int receivingResourceCount)
     {
+        this.receivingResourceCount = receivingResourceCount;
+
         CheckRelationShip();
 
         if (isAbleToTrade == true)
@@ -135,6 +161,7 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Cloudy);
 
                     Debug.Log("받을 자원 : 흙, 받을 자원 개수 " + receivingResourceCount);
+                
                     break;
 
                 case GameResources.Iron:
@@ -142,7 +169,9 @@ public class Trade : MonoBehaviour
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     weather.ChangeWeatherState(WeatherState.Sunny);
+
                     Debug.Log("받을 자원 : 철광석, 받을 자원 개수 " + receivingResourceCount);
+
                     break;
 
                 case GameResources.Sheep:
@@ -150,7 +179,9 @@ public class Trade : MonoBehaviour
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     weather.ChangeWeatherState(WeatherState.Lighting);
+
                     Debug.Log("받을 자원 : 양, 받을 자원 개수 " + receivingResourceCount);
+
                     break;
 
                 case GameResources.Wood:
@@ -158,7 +189,9 @@ public class Trade : MonoBehaviour
                     resourceContext.ReceiveResources(receivingResourceCount + additionResource);
 
                     weather.ChangeWeatherState(WeatherState.Rainy);
+
                     Debug.Log("받을 자원 : 나무, 받을 자원 개수 " + receivingResourceCount);
+
                     break;
 
             }
@@ -235,6 +268,8 @@ public class Trade : MonoBehaviour
 
     public void SendResources(int sendingResourceCount)
     {
+        this.sendingResourceCount = sendingResourceCount;
+
         CheckTradeProbability();
 
         if (isAbleToTrade == true)
@@ -249,6 +284,7 @@ public class Trade : MonoBehaviour
                     resourceContext.SendReousrces(sendingResourceCount);
 
                     weather.ChangeWeatherState(WeatherState.Lighting);
+
                     Debug.Log("보낼 자원 : 흙, 보낼 개수 " + sendingResourceCount);
 
                     break;
@@ -261,7 +297,9 @@ public class Trade : MonoBehaviour
                     resourceContext.SendReousrces(sendingResourceCount);
 
                     weather.ChangeWeatherState(WeatherState.Sunny);
+
                     Debug.Log("보낼 자원 : 철광석, 보낼 개수 " + sendingResourceCount);
+
                     break;
 
                 case GameResources.Sheep:
@@ -272,7 +310,9 @@ public class Trade : MonoBehaviour
                     resourceContext.SendReousrces(sendingResourceCount);
 
                     weather.ChangeWeatherState(WeatherState.Rainy);
+
                     Debug.Log("보낼 자원 : 양, 보낼 개수 " + sendingResourceCount);
+
                     break;
 
                 case GameResources.Wood:
@@ -283,7 +323,9 @@ public class Trade : MonoBehaviour
                     resourceContext.SendReousrces(sendingResourceCount);
 
                     weather.ChangeWeatherState(WeatherState.Cloudy);
+
                     Debug.Log("보낼 자원 : 나무, 보낼 개수 " + sendingResourceCount);
+
                     break;
             }
 
@@ -325,6 +367,8 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Sunny);
                     break;
             }
+
+            checkingWantsOfResources = weather.resourcesOfNeed;
         }
     }
 
@@ -374,6 +418,59 @@ public class Trade : MonoBehaviour
         {
             checkingWantsOfResources = GameResources.Sheep;
             Debug.Log("필요한 자원 : 양");
+        }
+    }
+
+    public void RunResourceText()
+    {
+        switch(sendingResourceType)
+        {
+            case GameResources.Brick:
+                sendingResourceText.text = "보낼 자원 : 흙";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Iron:
+                sendingResourceText.text = "보낼 자원 : 철광석";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Sheep:
+                sendingResourceText.text = "보낼 자원 : 양";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Wood:
+                sendingResourceText.text = "보낼 자원 : 나무";
+                sendingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+
+        }
+
+        switch (receivingResourceType)
+        {
+            case GameResources.Brick:
+                receivingResourceText.text = "받을 자원 : 흙";
+                receivingResourceCountText.text = "받을 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Iron:
+                receivingResourceText.text = "받을 자원 : 철광석";
+                receivingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Sheep:
+                receivingResourceText.text = "받을 자원 : 양";
+                receivingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+            case GameResources.Wood:
+                receivingResourceText.text = "받을 자원 : 나무";
+                receivingResourceCountText.text = "보낼 개수 : " + sendingResourceCount;
+                break;
+
+
         }
     }
 }

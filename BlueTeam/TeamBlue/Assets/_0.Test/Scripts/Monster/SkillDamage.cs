@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.Characters;
 
+public enum KindOfSkill
+{
+    FireHemiSphere = 200,
+    FireRain = 100,
+    FireEntangle = 400,
+}
+
 public class SkillDamage : MonoBehaviour {
 
     [SerializeField]
     Collider collider;
-    
 
-    enum KindOfSkill
-    {
-        FireHemiSphere = 200,
-        FireRain = 100,
-        FireEntangle = 400,
-    }
+
+   
     [SerializeField]
     KindOfSkill kindOfSkill;
 

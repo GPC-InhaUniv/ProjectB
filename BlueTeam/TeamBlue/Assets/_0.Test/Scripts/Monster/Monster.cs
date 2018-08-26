@@ -4,9 +4,10 @@ using UnityEngine;
 using ProjectB.GameManager;
 
 
+
 namespace ProjectB.Characters.Monsters
 {
-    enum MonsterType
+    public enum MonsterType
     {
         Normal,
         Named,
@@ -25,12 +26,16 @@ namespace ProjectB.Characters.Monsters
         Defence,
         Died,
     }
+    //test//
+    public delegate void NoticeDie(GameObject gameObject);
 
     public abstract class Monster : Character
     {
+        //test//
+        public static event NoticeDie NoticeToRader;
 
         [SerializeField]
-        MonsterType monsterType;
+        protected MonsterType monsterType;
 
         [SerializeField]
         protected GameObject[] skillprefab;
@@ -58,6 +63,9 @@ namespace ProjectB.Characters.Monsters
         //Move To Destination//
         [SerializeField]
         protected Vector3 startPosition;
+
+        int maxPercent;
+
 
         // Monster State//
         public enum State
@@ -90,6 +98,9 @@ namespace ProjectB.Characters.Monsters
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     characterHealthPoint -= damage;
+
+                    SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
+
 
                     if (CharacterHealthPoint <= 0)
                     {
@@ -125,6 +136,7 @@ namespace ProjectB.Characters.Monsters
             if (attackTarget != null)
             {
                 attackable.Attack();
+                SoundManager.Instance.SetSound(SoundFXType.EnemyAttack);
             }
         }
         protected virtual void UseSkill()
@@ -132,32 +144,25 @@ namespace ProjectB.Characters.Monsters
             skillUsable.UseSkill();
         }
 
-        protected void DropItem()
+        protected void DropItem(MonsterType monsterType)
         {
-            //노말 보스 네임드 //
-            //switch (kindOfMonster)
-            //{
-            //    case GameResources.Brick:
-            //        itemCode = 3002;
-            //        break;
-            //    case GameResources.Wood:
-            //        itemCode = 3000;
-            //        break;
-            //    case GameResources.Iron:
-            //        itemCode = 3001;
-            //        break;
-            //    case GameResources.Sheep:
-            //        itemCode = 3003;
-            //        break;
-            //    case GameResources.SpecialItem:
-            //        break;
-            //    default:
-            //        break;
-            //}
             int itemCode = 0;
 
-            itemCode = Random.Range(1311, 1334);
+            if (monsterType == MonsterType.Normal)
+            {
 
+                itemCode = 1300 + Random.Range(11, 14);
+            }
+
+            else if (monsterType == MonsterType.Named)
+            {
+
+                itemCode = 1300 + Random.Range(21, 24);
+            }
+            else
+            {
+                itemCode = 1300 + Random.Range(31, 34);
+            }
             if (GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
                 GameControllManager.Instance.ObtainedItemDic[itemCode]++;
             else
@@ -166,27 +171,40 @@ namespace ProjectB.Characters.Monsters
         }
         protected void Died()
         {
-            GameControllManager.Instance.CheckGameOver();
+            
 
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
 
-
+            GameControllManager.Instance.CheckGameClear();
+            int randomCount;
             switch (monsterType)
             {
+                //5 , 10 , 20 //
                 case MonsterType.Normal:
+                    maxPercent = 21;
+                    randomCount = Random.Range(1, maxPercent);
+                    if (randomCount == maxPercent - 1)
+                        DropItem(MonsterType.Normal);
                     break;
                 case MonsterType.Named:
-                    DropItem();
+                    maxPercent = 11;
+                    randomCount = Random.Range(1, maxPercent);
+                    if (randomCount == maxPercent - 1)
+                        DropItem(MonsterType.Named);
                     break;
                 case MonsterType.Boss:
-                    DropItem();
+                    maxPercent = 6;
+                    randomCount = Random.Range(1, maxPercent - 1);
+                    if (randomCount == maxPercent)
+                        DropItem(MonsterType.Boss);
                     break;
                 default:
                     break;
             }
-
+            //test//
+            //NoticeToRader(gameObject);
 
 
         }
@@ -269,7 +287,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected IEnumerator WaitNextState()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
             animator.SetInteger(AniStateParm.Attack.ToString(), 0);
             attacking = false;
 

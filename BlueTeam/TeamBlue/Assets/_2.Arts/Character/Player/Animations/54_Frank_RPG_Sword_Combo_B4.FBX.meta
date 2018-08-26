@@ -217,8 +217,8 @@ ModelImporter:
     - serializedVersion: 16
       name: 54_Frank_RPG_Sword_Combo_B3
       takeName: Take 001
-      firstFrame: 10210
-      lastFrame: 10239
+      firstFrame: 10200
+      lastFrame: 10241
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -238,7 +238,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.06298725
+      - time: 0.43647116
         functionName: AttackStart
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -246,7 +246,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.2598227
+      - time: 0.5233003
         functionName: AttackEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
@@ -254,7 +254,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.97395605
+      - time: 1
         functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,

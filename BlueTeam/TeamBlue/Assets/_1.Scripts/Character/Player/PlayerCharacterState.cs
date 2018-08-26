@@ -14,17 +14,14 @@ namespace ProjectB.Characters.Players
 
         protected Collider playerCollider;
 
-        protected int AttackNumber;
-
         protected Vector3 targetVector;
 
-        public PlayerCharacterState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
+        public PlayerCharacterState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector)
         {
             this.playerAinmaton = playerAinmaton;
             this.playerRigidbody = playerRigidbody;
             this.playerTransform = playerTransform;
             this.playerCollider = playerCollider;
-            this.AttackNumber = AttackNumber;
             this.targetVector = targetVector;
         }
 
@@ -33,8 +30,8 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterIdleState : PlayerCharacterState
     {
-        public PlayerCharacterIdleState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector) 
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterIdleState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector) 
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -47,22 +44,22 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterAttackState : PlayerCharacterState
     {
-        public PlayerCharacterAttackState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterAttackState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
-            playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + AttackNumber.ToString());
+            //playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + AttackNumber.ToString());
         }
     }
 
     public class PlayerCharacterSkillState : PlayerCharacterState
     {
-        public PlayerCharacterSkillState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterSkillState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -75,26 +72,23 @@ namespace ProjectB.Characters.Players
 
     public class PlayerCharacterRunState : PlayerCharacterState
     {
-        public PlayerCharacterRunState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterRunState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
 
         public override void Tick(Vector3 moveVector)
         {
-            if (moveVector != Vector3.zero)
-            {
-                playerRigidbody.velocity = moveVector * 450 * Time.deltaTime;
-                playerTransform.rotation = Quaternion.LookRotation(moveVector); //보간필요
-            }
+            playerRigidbody.velocity = moveVector * 900 * Time.deltaTime;
+            playerTransform.rotation = Quaternion.LookRotation(moveVector);
         }
     }
 
     public class PlayerCharacterBackStepState : PlayerCharacterState
     {
-        public PlayerCharacterBackStepState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterBackStepState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }
@@ -103,14 +97,14 @@ namespace ProjectB.Characters.Players
         {
             playerCollider.enabled = false;
             playerAinmaton.BackStepAnimation();
-            playerRigidbody.AddForce(-targetVector * 700 * Time.deltaTime, ForceMode.Impulse);
+            playerRigidbody.velocity = -targetVector * 3000 * Time.deltaTime;
         }
     }
 
     public class PlayerCharacterDieState : PlayerCharacterState
     {
-        public PlayerCharacterDieState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider, int AttackNumber, Vector3 targetVector)
-        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, AttackNumber, targetVector)
+        public PlayerCharacterDieState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider,  Vector3 targetVector)
+        : base(playerAinmaton, playerRigidbody, playerTransform, playerCollider, targetVector)
         {
 
         }

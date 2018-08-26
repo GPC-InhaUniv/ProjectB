@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.UI.Presenter;
+using ProjectB.Characters.Monsters;
+
 namespace ProjectB.GameManager
 {
     public enum ObjectType
@@ -12,30 +14,26 @@ namespace ProjectB.GameManager
         Player,
         Canvas,
     }
-    
+
 
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
         public const int MaxMonsterCount = 18;
+
 
         GameObject areaPrefab;
         GameObject playerPrefab;
         GameObject nomalMonsterPrefab;
         GameObject namedMonsterPrefab;
         GameObject bossMonsterPrefab;
-        GameObject particlePrefab;
+        GameObject[] bossSkill;
         GameObject gameCanvasPrefab;
 
 
         [SerializeField]
         int monsterPoolSize;
-        public int MonsterPoolSize { get { return monsterPoolSize; }}
+        public int MonsterPoolSize { get { return monsterPoolSize; } }
 
-        [SerializeField]
-        int fxPoolSize;
-
-
-        
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
@@ -47,14 +45,14 @@ namespace ProjectB.GameManager
         {
             playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
             gameCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
-           
+
         }
 
         public void SetAreaPrefab(int stageNum)
         {
             int areaNum = Mathf.Abs(stageNum % 3 + 1);
-            if(GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
-            areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
+            if (GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
+                areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
             else
                 areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
         }
@@ -63,7 +61,14 @@ namespace ProjectB.GameManager
         {
             nomalMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
             namedMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
-          //  bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
+            if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
+            {
+                bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
+                bossSkill[0] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BossSkill1"));
+                bossSkill[1] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BossSkill2"));
+                bossSkill[2] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BossSkill3"));
+            }
+
         }
 
         GameObject areaObject;
@@ -94,17 +99,17 @@ namespace ProjectB.GameManager
                     break;
             }
         }
-       
+
         public GameObject GetAreaObject()
-        {     
+        {
             return areaObject;
         }
-       
+
         public GameObject GetPlayerObject()
-        {        
+        {
             return playerObject;
         }
-  
+
         public GameObject GetCanvasObject()
         {
             return mainUICanvas;
@@ -115,87 +120,124 @@ namespace ProjectB.GameManager
         {
             if (areaObject != null)
                 Destroy(areaObject);
-                      //  if (playerObject != null)
-           //     Destroy(playerObject);
+            //  if (playerObject != null)
+            //     Destroy(playerObject);
         }
 
         //Pool
 
-        List<GameObject> monster = new List<GameObject>();
-        List<GameObject> particle = new List<GameObject>();
+        GameObject[] normalMonster;
+        GameObject[] namedMonster;
+        GameObject bossMonster;
+
+        int curruntNormalMonsterIndex = 0;
+        int curruntNamedMonsterIndex = 0;
 
         public void SetPool()
         {
-            
-            for (int i = monster.Count; i < monsterPoolSize; i++)
+            normalMonster = new GameObject[monsterPoolSize];
+            namedMonster = new GameObject[monsterPoolSize / 3];
+            for (int i = 0; i < normalMonster.Length; i++)
             {
-                monster.Add(CreateItem(ObjectType.Monster));    
+                normalMonster[i] = Instantiate(nomalMonsterPrefab);
+                DontDestroyOnLoad(normalMonster[i]);
+                normalMonster[i].SetActive(false);
             }
-            for (int i = particle.Count; i < fxPoolSize; i++)
+            for (int i = 0; i < namedMonster.Length; i++)
             {
-                particle.Add(CreateItem(ObjectType.Particle));
+                namedMonster[i] = Instantiate(namedMonsterPrefab);
+                DontDestroyOnLoad(namedMonster[i]);
+                normalMonster[i].SetActive(false);
             }
+            //bossMonster = Instantiate(bossMonsterPrefab);
+           // bossMonster.SetActive(false);
+
         }
 
         public void ClearPool()
-        {
-            for (int i = 0; i < monster.Count; i++)
+        {/*
+            if (normalMonster == null)
+                return;
+            for (int i = 0; i < normalMonster.Length; i++)
             {
-                Destroy(monster[i]);
+                Destroy(normalMonster[i]);
             }
-
-            for (int i = 0; i < particle.Count; i++)
+            for (int i = 0; i < namedMonster.Length; i++)
             {
-                Destroy(particle[i]);
+                Destroy(namedMonster[i]);
             }
-            monster.Clear();
-            particle.Clear();
+            
+            for (int i = 0; i < bossSkill.Length; i++)
+            {
+                Destroy(bossSkill[i]);
+            }
+          if(bossMonster !=null)
+                Destroy(bossMonster);*/
+            curruntNormalMonsterIndex = 0;
+            curruntNamedMonsterIndex = 0;
         }
-        GameObject CreateItem(ObjectType objectType)
+
+        
+
+        public GameObject GetMonsterObject(MonsterType monsterType)
         {
-            GameObject item;
-            switch (objectType)
+            GameObject monsterObject;
+            switch (monsterType)
             {
-                case ObjectType.Monster:
-                    item = Instantiate(nomalMonsterPrefab);
-                    DontDestroyOnLoad(item);
+                case MonsterType.Normal:
+                    if (curruntNormalMonsterIndex < normalMonster.Length)
+                    {
+                        normalMonster[curruntNormalMonsterIndex].SetActive(true);
+                        monsterObject = normalMonster[curruntNormalMonsterIndex++];
+                    }
+                    else
+                        monsterObject = null;
                     break;
-                case ObjectType.Particle:
-                    item = Instantiate(particlePrefab);
-                    DontDestroyOnLoad(item);
+                case MonsterType.Named:
+                    if (curruntNamedMonsterIndex < normalMonster.Length)
+                    {
+                        namedMonster[curruntNamedMonsterIndex].SetActive(true);
+                        monsterObject = namedMonster[curruntNamedMonsterIndex++];
+                    }
+                    else
+                        monsterObject = null;
                     break;
-                case ObjectType.Player:
-                    item = Instantiate(playerPrefab);
-                    DontDestroyOnLoad(item);
-                    break;
-                case ObjectType.Area:
-                    item = Instantiate(areaPrefab);
-                    DontDestroyOnLoad(item);
+                case MonsterType.Boss:
+                    monsterObject = bossMonster;
                     break;
                 default:
-                    Debug.Log("잘못된 생성 - PoolManager");
-                    item = null;
+                    monsterObject = null;
                     break;
             }
-            item.SetActive(false);
-            return item;
+
+            return monsterObject;
+           
         }
-        int curruntMonsterIndex = 0;
-        
-        public GameObject GetMonsterObject()
+
+        public GameObject BossSkill(KindOfSkill kindOfSkill)
         {
-            if (curruntMonsterIndex < monsterPoolSize)
+            GameObject bossSkillObject;
+            switch (kindOfSkill)
             {
-                monster[curruntMonsterIndex].SetActive(true);
-                return monster[curruntMonsterIndex++];
+                case KindOfSkill.FireHemiSphere:
+                    bossSkillObject = bossSkill[0];
+                    break;
+                case KindOfSkill.FireRain:
+                    bossSkillObject = bossSkill[1];
+                    break;
+                case KindOfSkill.FireEntangle:
+                    bossSkillObject = bossSkill[2];
+                    break;
+                default:
+                    bossSkillObject = null;
+                    break;
             }
-            else
-                return null;
+            bossSkillObject.SetActive(true);
+            return bossSkillObject;
         }
 
-        
 
-      
+
 
     }
 

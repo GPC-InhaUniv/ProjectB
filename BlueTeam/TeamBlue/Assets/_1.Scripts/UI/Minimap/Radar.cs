@@ -1,29 +1,38 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.Characters.Monsters;
 
 namespace ProjectB.UI.Minimap
 {
     public class Radar : MonoBehaviour
     {
         public List<GameObject> Enemys = new List<GameObject>();
-
-        void OnTriggerEnter(Collider other)
+        
+        private void OnEnable()
         {
-            if (!(Enemys.Contains(other.gameObject)))
-            {
-                Enemys.Add(other.gameObject);
-                Debug.Log("Enter");
-            }
-        }
-
-        void OnTriggerExit(Collider other)
-        {
-            if (Enemys.Contains(other.gameObject))
-            {
-                Enemys.Remove(other.gameObject);
-                Debug.Log("Exit");
-            }
+            Monster.NoticeToRader += RemoveFromList;
         }
         
+        void OnTriggerEnter(Collider other)
+        {
+            if (!(Enemys.Contains(other.gameObject)) && other.CompareTag("Monster"))
+            {
+                Enemys.Add(other.gameObject);
+            }
+        }
+
+        void OnTriggerExit(Collider other) 
+        {
+            RemoveFromList(other.gameObject);
+        }
+
+        void RemoveFromList(GameObject monster)
+        {
+            if (Enemys.Contains(monster))
+            {
+                Debug.Log("RemoveList: " + monster);
+                Enemys.Remove(monster);
+            }
+        }
     }
 }

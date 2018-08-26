@@ -49,9 +49,16 @@ namespace ProjectB.UI.Presenter
         const int longSwordAttackCount = 2;
 
         void Start()
-        {           
+        {
+            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
+            //상단 5줄은 테스트용임, 오류날 시 주석처리
+
             skillCoolDownTime = 5.0f;
-            backStepCoolDownTime = 3.5f;
+            backStepCoolDownTime = 2.0f;
             swapCoolDownTime = 2.5f;
             attackCoolDownTime = 1.0f;
 
@@ -80,24 +87,11 @@ namespace ProjectB.UI.Presenter
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player);
-            Attack2 = new CommandAttack2(player);
-            Attack3 = new CommandAttack3(player);
-            Attack4 = new CommandAttack4(player);
+            Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            Attack4 = new CommandAttack4(player.PlayerAinmaton);
         }
-
-        void Update()
-        {
-            if (player == null)
-                return;
-            inputMoveVector = PoolInput();
-
-            if (GetReadyForRun())
-            {
-                SetInputVector();
-            }
-        }
-
         void GetImage()
         {
             skillImage = skillButton.GetComponent<Image>();
@@ -106,33 +100,16 @@ namespace ProjectB.UI.Presenter
             attackImage = attackButton.GetComponent<Image>();
         }
 
-        IEnumerator ButtonCoolDownCoroutine(float time, Button button)
+        void Update()
         {
-            if (button == weaponSwapButton)
+            if (player == null)
+                return;
+            inputMoveVector = PoolInput();
+
+            if (GetIsRunningState(player.IsWorking))
             {
-                isSwap = true;
+                SetInputVector();
             }
-
-            button.interactable = false;
-            yield return new WaitForSeconds(time);
-            button.interactable = true;
-            isSwap = false;
-        }
-
-        IEnumerator ImageCoolDown(float time, Image image)
-        {
-            while (image.fillAmount > 0)
-            {
-                image.fillAmount -= 1 / time * Time.deltaTime;
-                yield return null;
-            }
-            image.fillAmount = 1;
-        }
-
-        void StartButtonCoolDown(float time, Button button, Image image)
-        {
-            StartCoroutine(ButtonCoolDownCoroutine(time, button));
-            StartCoroutine(ImageCoolDown(time, image));
         }
 
         Vector3 PoolInput()
@@ -151,19 +128,17 @@ namespace ProjectB.UI.Presenter
 
             if (inputMoveVector != Vector3.zero)
             {
-                player.IsRunning = true;
                 player.ChangeState(PlayerStates.PlayerCharacterRunState);
             }
             else
             {
-                player.IsRunning = false;
                 player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 
         void InputBackStep()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -178,10 +153,9 @@ namespace ProjectB.UI.Presenter
         }
 
 
-
         void InputSkillButton()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
@@ -197,7 +171,7 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
                 if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
                 {
@@ -275,10 +249,11 @@ namespace ProjectB.UI.Presenter
 
         void StartCombo()
         {
-            if (GetPlayerIdleState())
+            if (GetIsRunningState(player.IsRunning))
             {
-                commandControll.ExcuteCommand();
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
+                commandControll.ExcuteCommand();
+
                 StartButtonCoolDown(attackCoolDownTime, attackButton, attackImage);
                 SwapWeaponCoolDown();
 
@@ -321,6 +296,36 @@ namespace ProjectB.UI.Presenter
             }
         }
 
+
+        IEnumerator ButtonCoolDownCoroutine(float time, Button button)
+        {
+            if (button == weaponSwapButton)
+            {
+                isSwap = true;
+            }
+
+            button.interactable = false;
+            yield return new WaitForSeconds(time);
+            button.interactable = true;
+            isSwap = false;
+        }
+
+        IEnumerator ImageCoolDown(float time, Image image)
+        {
+            while (image.fillAmount > 0)
+            {
+                image.fillAmount -= 1 / time * Time.deltaTime;
+                yield return null;
+            }
+            image.fillAmount = 1;
+        }
+
+        void StartButtonCoolDown(float time, Button button, Image image)
+        {
+            StartCoroutine(ButtonCoolDownCoroutine(time, button));
+            StartCoroutine(ImageCoolDown(time, image));
+        }
+
         void SwapWeaponCoolDown()
         {
             if (isSwap == false)
@@ -340,25 +345,15 @@ namespace ProjectB.UI.Presenter
                 return false;
             }
         }
-        bool GetReadyForRun()
+
+
+        bool GetIsRunningState(bool state)
         {
-            if (player.PlayerState.GetType() != typeof(PlayerCharacterAttackState) && player.PlayerState.GetType() != typeof(PlayerCharacterBackStepState) && player.PlayerState.GetType() != typeof(PlayerCharacterSkillState))
-            {
-                return true;
-            }
-            else
+            if (state)
             {
                 return false;
             }
-        }
-
-        bool GetPlayerIdleState()
-        {
-            if (player.PlayerState.GetType() == typeof(PlayerCharacterIdleState))
-            {
-                return true;
-            }
-            else return false;
+            else return true;
         }
 
         public void UpdateUI()
@@ -370,10 +365,10 @@ namespace ProjectB.UI.Presenter
             hpValue = player.CharacterHealthPoint / player.CharacterMaxHealthPoint * standardPercent;
 
             hpBar.fillAmount = player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
-            hpValueText.text = (100.0f > hpValue) ? hpValue + "%" : standardPercent.ToString() + "%";
+            hpValueText.text = (hpValue > 0) ? hpValue.ToString("N1") + "%" : 0 + "%";
    
             expBar.fillAmount = player.CharacterExp / player.PlayerMaxExp;
-            expValueText.text = (100.0f > expValue) ? expValue.ToString("N1") + "%"  : standardPercent.ToString() + "%";
+            expValueText.text = (expValue > 0) ? expValue.ToString("N1") + "%"  :0 + "%";
         }      
     }
 }

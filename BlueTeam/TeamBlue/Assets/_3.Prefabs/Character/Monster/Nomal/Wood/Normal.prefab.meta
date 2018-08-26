@@ -1,13 +1,7 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: aced25ff24271334dbc29352aa7f0da8
-=======
-guid: 4f007e20574cd644daeceda7450af1a0
->>>>>>> 9783949d3515ee13228f5d63f747f67e08f8c15f
-timeCreated: 1534837244
-licenseType: Free
+guid: 5223738b0dfd564448926f9970af9fc8
 NativeFormatImporter:
-  mainObjectFileID: 100100000
+  mainObjectFileID: -1
   userData: 
   assetBundleName: wooddungeonbundle
   assetBundleVariant: 
