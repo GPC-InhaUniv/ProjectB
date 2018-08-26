@@ -4,7 +4,6 @@ using UnityEngine;
 using ProjectB.GameManager;
 using ProjectB.Item;
 using ProjectB.Inventory;
-using UnityEngine.UI;
 using System.Linq;
 
 public delegate void InitializeCombinationResourcesSlot();
@@ -31,57 +30,21 @@ public class InventoryUIPresenter : MonoBehaviour
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 
-    //public void AddItem_Test(int code)
-    //{
-    //    for (int i = 0; i < items.Count; i++)
-    //    {
-    //        if (items[i].Code == 0)
-    //        {
-    //            items[i].SetItem(code);
-    //            items[i].IncreaseItemAmount();
-    //            items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-    //        }
-
-    //        else if (items[i].Code == code)
-    //        {
-    //            if (items[i].ItemType != ItemType.Equipmentable)
-    //            {
-    //                items[i].IncreaseItemAmount();
-    //                items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
-    //            }
-
-    //            else
-    //                items[i].SetItem(code);
-    //        }
-
-    //        else
-    //        {
-    //            continue;
-    //        }
-
-    //        break;
-    //    }
-    //}
-
     public void AddItem()
     {
-
         for (int j = 0; j < GameDataManager.Instance.PlayerGamedata.Count; j++)
         {
-
             int tempKey = GameDataManager.Instance.PlayerGamedata.Keys.ToList()[j];
             int tempValue= GameDataManager.Instance.PlayerGamedata.Values.ToList()[j];
 
             if (tempValue == 0)
+            {
+                items[j].SetItem(0);
                 continue;
+            }
 
             for (int i = 0; i < items.Count; i++)
             {
-                items[i].SetItemAmount(tempValue);
-
-                if (items[i].ItemAmount == 0)
-                    items[i].SetItem(0);
-
                 if (items[i].Code == 0)
                 {
                     items[i].SetItem(tempKey);
@@ -90,9 +53,6 @@ public class InventoryUIPresenter : MonoBehaviour
 
                 else if (items[i].Code == tempKey)
                     items[i].IncreaseItemAmount();
-
-                else if (items[i].ItemAmount == 0)
-                    items[i].SetItem(0);
 
                 else if (items[i].Code != tempKey)
                     continue;
@@ -128,8 +88,10 @@ public class InventoryUIPresenter : MonoBehaviour
             swapItem.SetItemAmount(SwapItemAmount);
 
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-            currentItem.ItemNameText.text = currentItem.ItemName;
-            swapItem.ItemNameText.text = swapItem.ItemName;
+            currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
+            //currentItem.ItemImage.sprite = 에셋번들 로드 이미지
+            swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
+            //swapItem.ItemImage.sprite = 에셋번들 로드 이미지
             initializeCombinationResourcesSlot();
         }
     }
@@ -147,8 +109,10 @@ public class InventoryUIPresenter : MonoBehaviour
             swapItem.SetItemAmount(SwapItemAmount);
 
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-            currentItem.ItemNameText.text = currentItem.ItemName;
-            swapItem.ItemNameText.text = swapItem.ItemName;
+            currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
+            //currentItem.ItemImage.sprite = 에셋번들 로드 이미지
+            swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
+            //swapItem.ItemImage.sprite = 에셋번들 로드 이미지
             for (int i = 0; i < GameDataManager.Instance.EquipmentItem.Length; i++)
             {
 

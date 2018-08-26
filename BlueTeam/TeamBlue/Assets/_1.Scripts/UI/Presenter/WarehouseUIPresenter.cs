@@ -25,9 +25,12 @@ public class WarehouseUIPresenter : MonoBehaviour
         currentItem.SetItemAmount(swapItem.ItemAmount);
         swapItem.SetItem(SwapItemCode);
         swapItem.SetItemAmount(SwapItemAmount);
+
         currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-        currentItem.ItemNameText.text = currentItem.ItemName;
+        currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
+        //currentItem.ItemImage.sprite = 에셋번들 로드 이미지
         swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-        swapItem.ItemNameText.text = swapItem.ItemName;
+        swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
+        //swapItem.ItemImage.sprite = 에셋번들 로드 이미지
     }
 }

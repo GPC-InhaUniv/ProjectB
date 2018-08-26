@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using ProjectB.GameManager;
+using UnityEngine.EventSystems;
 
 namespace ProjectB.Item
 {
@@ -12,7 +12,7 @@ namespace ProjectB.Item
         Equipmentable,
     }
 
-    public class Item : MonoBehaviour
+    public class Item : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField]
         ItemTable itemtable;
@@ -24,6 +24,10 @@ namespace ProjectB.Item
         [SerializeField]
         Text itemNameText;
         public Text ItemNameText { get { return itemNameText; } }
+
+        [SerializeField]
+        Image itemImage;
+        public Image ItemImage { get { return itemImage; } }
 
         public int Code;
 
@@ -74,6 +78,7 @@ namespace ProjectB.Item
                 InitializationItem();
                 return;
             }
+
             for (int i = 0; i < itemtable.sheets[0].list.Count; i++)
             {
                 if (itemtable.sheets[0].list[i].Code == Code)
@@ -99,8 +104,13 @@ namespace ProjectB.Item
                     recipeIron = itemtable.sheets[0].list[i].RecipeIron;
                     recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                     image = itemtable.sheets[0].list[i].Image;
-                    itemNameText.text = itemname;
+                    itemNameText.text = itemname; // 삭제 예정
                     itemAmount = 0;
+
+                    //if (image != null
+                    //    //itemImage.sprite = 번들로드 이미지
+                    //else
+                    //    itemImage.sprite = null;
                 }
             }
             //if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
@@ -130,6 +140,18 @@ namespace ProjectB.Item
         public void IncreaseItemAmount()
         {
             this.itemAmount++;
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            this.itemImage.sprite = null;
+            this.itemNameText.text = this.ItemName;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            this.itemNameText.text = null;
+            //this.itemImage.sprite = 에셋번들 로드 이미지
         }
     }
 }
