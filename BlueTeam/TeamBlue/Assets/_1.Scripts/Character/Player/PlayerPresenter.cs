@@ -51,14 +51,14 @@ namespace ProjectB.UI.Presenter
         void Start()
         {
             //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            //Attack1 = new CommandAttack1(player);
-            //Attack2 = new CommandAttack2(player);
-            //Attack3 = new CommandAttack3(player);
-            //Attack4 = new CommandAttack4(player);
-            //상단 5줄은 테스트용임, 오류날 시 주석처리 
+            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
+            //상단 5줄은 테스트용임, 오류날 시 주석처리
 
             skillCoolDownTime = 5.0f;
-            backStepCoolDownTime = 3.5f;
+            backStepCoolDownTime = 2.0f;
             swapCoolDownTime = 2.5f;
             attackCoolDownTime = 1.0f;
 
@@ -87,10 +87,17 @@ namespace ProjectB.UI.Presenter
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player);
-            Attack2 = new CommandAttack2(player);
-            Attack3 = new CommandAttack3(player);
-            Attack4 = new CommandAttack4(player);
+            Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            Attack4 = new CommandAttack4(player.PlayerAinmaton);
+        }
+        void GetImage()
+        {
+            skillImage = skillButton.GetComponent<Image>();
+            backStepImage = backStepButton.GetComponent<Image>();
+            weaponSwapImage = weaponSwapButton.GetComponent<Image>();
+            attackImage = attackButton.GetComponent<Image>();
         }
 
         void Update()
@@ -103,52 +110,6 @@ namespace ProjectB.UI.Presenter
             {
                 SetInputVector();
             }
-        }
-
-        void GetImage()
-        {
-            skillImage = skillButton.GetComponent<Image>();
-            backStepImage = backStepButton.GetComponent<Image>();
-            weaponSwapImage = weaponSwapButton.GetComponent<Image>();
-            attackImage = attackButton.GetComponent<Image>();
-        }
-
-        IEnumerator ButtonCoolDownCoroutine(float time, Button button)
-        {
-            if (button == weaponSwapButton)
-            {
-                isSwap = true;
-            }
-
-            button.interactable = false;
-            yield return new WaitForSeconds(time);
-            button.interactable = true;
-            isSwap = false;
-        }
-
-        IEnumerator ImageCoolDown(float time, Image image)
-        {
-            while (image.fillAmount > 0)
-            {
-                image.fillAmount -= 1 / time * Time.deltaTime;
-                yield return null;
-            }
-            image.fillAmount = 1;
-        }
-
-        void StartButtonCoolDown(float time, Button button, Image image)
-        {            
-            StartCoroutine(ButtonCoolDownCoroutine(time, button));
-            StartCoroutine(ImageCoolDown(time, image));
-        }
-
-        void SwapWeaponCoolDown()
-        {
-            if (isSwap == false)
-            {
-                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
-            }
-
         }
 
         Vector3 PoolInput()
@@ -190,7 +151,6 @@ namespace ProjectB.UI.Presenter
                 player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
-
 
 
         void InputSkillButton()
@@ -291,8 +251,9 @@ namespace ProjectB.UI.Presenter
         {
             if (GetIsRunningState(player.IsRunning))
             {
-                commandControll.ExcuteCommand();
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
+                commandControll.ExcuteCommand();
+
                 StartButtonCoolDown(attackCoolDownTime, attackButton, attackImage);
                 SwapWeaponCoolDown();
 
@@ -336,6 +297,42 @@ namespace ProjectB.UI.Presenter
         }
 
 
+        IEnumerator ButtonCoolDownCoroutine(float time, Button button)
+        {
+            if (button == weaponSwapButton)
+            {
+                isSwap = true;
+            }
+
+            button.interactable = false;
+            yield return new WaitForSeconds(time);
+            button.interactable = true;
+            isSwap = false;
+        }
+
+        IEnumerator ImageCoolDown(float time, Image image)
+        {
+            while (image.fillAmount > 0)
+            {
+                image.fillAmount -= 1 / time * Time.deltaTime;
+                yield return null;
+            }
+            image.fillAmount = 1;
+        }
+
+        void StartButtonCoolDown(float time, Button button, Image image)
+        {
+            StartCoroutine(ButtonCoolDownCoroutine(time, button));
+            StartCoroutine(ImageCoolDown(time, image));
+        }
+
+        void SwapWeaponCoolDown()
+        {
+            if (isSwap == false)
+            {
+                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
+            }
+        }
 
         bool GetWeaponState()
         {

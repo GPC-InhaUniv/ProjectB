@@ -4,6 +4,7 @@ using UnityEngine;
 using ProjectB.GameManager;
 
 
+
 namespace ProjectB.Characters.Monsters
 {
     public enum MonsterType
@@ -25,9 +26,13 @@ namespace ProjectB.Characters.Monsters
         Defence,
         Died,
     }
+    //test//
+    public delegate void NoticeDie(GameObject gameObject);
 
     public abstract class Monster : Character
     {
+        //test//
+        public static event NoticeDie NoticeToRader;
 
         [SerializeField]
         protected MonsterType monsterType;
@@ -94,6 +99,9 @@ namespace ProjectB.Characters.Monsters
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     characterHealthPoint -= damage;
 
+                    SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
+
+
                     if (CharacterHealthPoint <= 0)
                     {
                         characterHealthPoint = 0;
@@ -128,6 +136,7 @@ namespace ProjectB.Characters.Monsters
             if (attackTarget != null)
             {
                 attackable.Attack();
+                SoundManager.Instance.SetSound(SoundFXType.EnemyAttack);
             }
         }
         protected virtual void UseSkill()
@@ -162,12 +171,13 @@ namespace ProjectB.Characters.Monsters
         }
         protected void Died()
         {
-            GameControllManager.Instance.CheckGameOver();
+            
 
             died = true;
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
 
+            GameControllManager.Instance.CheckGameOver();
             int randomCount;
             switch (monsterType)
             {
@@ -181,18 +191,21 @@ namespace ProjectB.Characters.Monsters
                 case MonsterType.Named:
                     maxPercent = 11;
                     randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent-1)
+                    if (randomCount == maxPercent - 1)
                         DropItem(MonsterType.Named);
                     break;
                 case MonsterType.Boss:
                     maxPercent = 6;
-                    randomCount = Random.Range(1, maxPercent-1);
+                    randomCount = Random.Range(1, maxPercent - 1);
                     if (randomCount == maxPercent)
                         DropItem(MonsterType.Boss);
                     break;
                 default:
                     break;
             }
+            //test//
+            NoticeToRader(gameObject);
+
 
         }
         protected void RemovedFromWorld()

@@ -1,40 +1,37 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.Characters.Monsters;
 
 namespace ProjectB.UI.Minimap
 {
     public class Radar : MonoBehaviour
     {
         public List<GameObject> Enemys = new List<GameObject>();
-
-        private void Start()
+        
+        private void OnEnable()
         {
-           
-        }
-
-
-
-        void OnTriggerEnter(Collider other)
-        {
-            if (!(Enemys.Contains(other.gameObject)))
-            {
-                Enemys.Add(other.gameObject); // Enemys목록에 해당 오브젝트가 없으면 추가시킨다.....
-            }
-        }
-
-        void OnTriggerExit(Collider other) // OnTriggerExit는 Destroy나 Disable됐을 경우 호출되지 않는다.
-        {
-            if (Enemys.Contains(other.gameObject))
-            {
-                Enemys.Remove(other.gameObject);
-            }
+            Monster.NoticeToRader += RemoveFromList;
         }
         
-        private void OnTriggerStay(Collider other)
+        void OnTriggerEnter(Collider other)
         {
-            if (Enemys.Contains(other.gameObject) && other.gameObject.activeInHierarchy == false)
+            if (!(Enemys.Contains(other.gameObject)) && other.CompareTag("Monster"))
             {
-                    Enemys.Remove(other.gameObject);
+                Enemys.Add(other.gameObject);
+            }
+        }
+
+        void OnTriggerExit(Collider other) 
+        {
+            RemoveFromList(other.gameObject);
+        }
+
+        void RemoveFromList(GameObject monster)
+        {
+            if (Enemys.Contains(monster))
+            {
+                Debug.Log("RemoveList: " + monster);
+                Enemys.Remove(monster);
             }
         }
     }
