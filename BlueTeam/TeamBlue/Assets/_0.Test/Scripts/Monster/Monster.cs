@@ -177,7 +177,7 @@ namespace ProjectB.Characters.Monsters
             animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
 
-            GameControllManager.Instance.CheckGameOver();
+            GameControllManager.Instance.CheckGameClear();
             int randomCount;
             switch (monsterType)
             {
@@ -204,7 +204,7 @@ namespace ProjectB.Characters.Monsters
                     break;
             }
             //test//
-            NoticeToRader(gameObject);
+            //NoticeToRader(gameObject);
 
 
         }

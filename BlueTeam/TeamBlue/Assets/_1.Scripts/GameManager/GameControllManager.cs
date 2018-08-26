@@ -35,7 +35,7 @@ namespace ProjectB.GameManager
         }
         public void CheckMonsterAtDungeon()
         {
-            totalMonsterCount = CurrentIndex * 10;
+            totalMonsterCount = 18;
             totalExp = 1200 * CurrentIndex;
 
             switch (CurrentLoadType)
