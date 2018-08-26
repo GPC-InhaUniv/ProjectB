@@ -203,7 +203,6 @@ namespace ProjectB.Characters.Monsters
                 default:
                     break;
             }
-
             //test//
             NoticeToRader(gameObject);
 

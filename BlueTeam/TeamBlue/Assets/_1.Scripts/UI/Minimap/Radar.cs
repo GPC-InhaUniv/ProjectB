@@ -23,16 +23,14 @@ namespace ProjectB.UI.Minimap
 
         void OnTriggerExit(Collider other) 
         {
-            if (Enemys.Contains(other.gameObject))
-            {
-                Enemys.Remove(other.gameObject);
-            }
+            RemoveFromList(other.gameObject);
         }
 
         void RemoveFromList(GameObject monster)
         {
-            if (Enemys.Contains(monster) )
+            if (Enemys.Contains(monster))
             {
+                Debug.Log("RemoveList: " + monster);
                 Enemys.Remove(monster);
             }
         }
