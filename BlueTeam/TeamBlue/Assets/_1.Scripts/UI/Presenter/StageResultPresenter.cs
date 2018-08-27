@@ -18,17 +18,21 @@ namespace ProjectB.UI.Presenter
         ItemTable itemTable;
         [SerializeField]
         GameObject worldMapUI;
+        [SerializeField]
+        GameObject resultUI;
 
         List<int> itemCode;
         string[] itemName;
 
         private void OnEnable()
         {
+            itemCode = new List<int>();
             ShowResultUI();
         }
 
         void ShowResultUI()
         {
+
             if (GameControllManager.Instance.IsClearDungeon)
             {
                 resultText.text = "Stage Clear";
@@ -38,27 +42,29 @@ namespace ProjectB.UI.Presenter
                     itemCode.Add(temp.Key);
                 }
 
-                
-                for (int j = 0; j < itemCode.Count; j++)
+                if (itemCode.Count != 0)
                 {
-                    for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
+                    for (int j = 0; j < itemCode.Count; j++)
                     {
-                        if (itemCode[j] == itemTable.sheets[0].list[i].Code)
+                        for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
                         {
-                            itemName[j] = itemTable.sheets[0].list[i].Name;
-                            break;
+                            if (itemCode[j] == itemTable.sheets[0].list[i].Code)
+                            {
+                                itemName[j] = itemTable.sheets[0].list[i].Name;
+                                break;
+                            }
                         }
                     }
-                }
-                StringBuilder stringBuilder = new StringBuilder();
+                    StringBuilder stringBuilder = new StringBuilder();
 
-                for(int i = 0; i < itemName.Length; i++)
-                {
-                    stringBuilder.Append(itemName[i] + "\n");
-                }
 
-                getItemText.text = "아이템 획득 목록 \n" + "\n" + stringBuilder.ToString();
-               
+                    for (int i = 0; i < itemName.Length; i++)
+                    {
+                        stringBuilder.Append(itemName[i] + "\n");
+                    }
+
+                    getItemText.text = "아이템 획득 목록 \n" + "\n" + stringBuilder.ToString();
+                }
 
             }
             else
@@ -72,7 +78,15 @@ namespace ProjectB.UI.Presenter
 
         public void OnclickedStageButton()
         {
+            resultUI.SetActive(false);
             worldMapUI.SetActive(true);
+
+
+        }
+
+        private void OnDisable()
+        {
+            itemCode = null;
         }
 
     }

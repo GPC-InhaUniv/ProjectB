@@ -18,7 +18,7 @@ namespace ProjectB.GameManager
 
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
-        public const int MaxMonsterCount = 18;
+        public const int MaxMonsterCount = 6;
 
 
         GameObject areaPrefab;
@@ -64,9 +64,9 @@ namespace ProjectB.GameManager
             if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
             {
                 bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
-                bossSkill[0] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BossSkill1"));
-                bossSkill[1] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BossSkill2"));
-                bossSkill[2] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "BossSkill3"));
+                bossSkill[0] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
+                bossSkill[1] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
+                bossSkill[2] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
             }
 
         }
@@ -150,12 +150,12 @@ namespace ProjectB.GameManager
                 normalMonster[i].SetActive(false);
             }
             //bossMonster = Instantiate(bossMonsterPrefab);
-           // bossMonster.SetActive(false);
+            // bossMonster.SetActive(false);
 
         }
 
         public void ClearPool()
-        {/*
+        {
             if (normalMonster == null)
                 return;
             for (int i = 0; i < normalMonster.Length; i++)
@@ -166,18 +166,18 @@ namespace ProjectB.GameManager
             {
                 Destroy(namedMonster[i]);
             }
-            
-            for (int i = 0; i < bossSkill.Length; i++)
-            {
-                Destroy(bossSkill[i]);
-            }
-          if(bossMonster !=null)
-                Destroy(bossMonster);*/
+            if (bossSkill != null)
+                for (int i = 0; i < bossSkill.Length; i++)
+                {
+                    Destroy(bossSkill[i]);
+                }
+            if (bossMonster != null)
+                Destroy(bossMonster);
             curruntNormalMonsterIndex = 0;
             curruntNamedMonsterIndex = 0;
         }
 
-        
+
 
         public GameObject GetMonsterObject(MonsterType monsterType)
         {
@@ -211,7 +211,7 @@ namespace ProjectB.GameManager
             }
 
             return monsterObject;
-           
+
         }
 
         public GameObject BossSkill(KindOfSkill kindOfSkill)
