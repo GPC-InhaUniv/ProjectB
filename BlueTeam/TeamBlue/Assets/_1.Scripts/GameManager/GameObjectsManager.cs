@@ -18,8 +18,6 @@ namespace ProjectB.GameManager
 
     public class GameObjectsManager : Singleton<GameObjectsManager>
     {
-        public const int MaxMonsterCount = 6;
-
 
         GameObject areaPrefab;
         GameObject playerPrefab;
@@ -29,16 +27,12 @@ namespace ProjectB.GameManager
         public GameObject[] bossSkill;
         GameObject gameCanvasPrefab;
 
-
-        [SerializeField]
         int monsterPoolSize;
-        public int MonsterPoolSize { get { return monsterPoolSize; } }
-
         private void Start()
         {
             bossSkill = new GameObject[3];
             DontDestroyOnLoad(gameObject);
-            monsterPoolSize = MaxMonsterCount;
+            
         }
 
 
@@ -157,6 +151,7 @@ namespace ProjectB.GameManager
 
         public void SetPool()
         {
+            monsterPoolSize = GameControllManager.Instance.TotalMonsterCount;
             normalMonster = new GameObject[monsterPoolSize];
             namedMonster = new GameObject[monsterPoolSize / 3];
             for (int i = 0; i < normalMonster.Length; i++)

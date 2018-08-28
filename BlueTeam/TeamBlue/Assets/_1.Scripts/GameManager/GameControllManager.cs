@@ -6,7 +6,7 @@ namespace ProjectB.GameManager
 {
     public class GameControllManager : Singleton<GameControllManager>
     {
-        const int MAXMONSTERCOUNT = 5;
+        const int MAXMONSTERCOUNT = 6;
         public LoadType CurrentLoadType;
         public int CurrentIndex;
 
@@ -18,7 +18,7 @@ namespace ProjectB.GameManager
         public int TotalExp { get { return totalExp; } private set { } }
 
         int totalMonsterCount;
-        public int TotalMonsterCount { get { return totalMonsterCount; } private set { }  }
+        public int TotalMonsterCount { get { return totalMonsterCount; } private set {  }  }
         int cameraOffSetZ = 5;
         int cameraOffSetY = 2;
         int cameraOffSetX = 3;
@@ -31,12 +31,14 @@ namespace ProjectB.GameManager
 
         private void Start()
         {
+            totalMonsterCount = MAXMONSTERCOUNT;
             MonsterPostion = new GameObject[3];
 
         }
         public void CheckMonsterAtDungeon()
         {
             totalMonsterCount = MAXMONSTERCOUNT;
+
             totalExp = 1200 * CurrentIndex;
 
 
@@ -178,7 +180,7 @@ namespace ProjectB.GameManager
                 int positionNum = 0;
                 if (CurrentLoadType != LoadType.BossDungeon)
                 {
-                    for (int i = 0; i < GameObjectsManager.Instance.MonsterPoolSize; i++)
+                    for (int i = 0; i < totalMonsterCount; i++)
                     {
                         Vector3 addPos = new Vector3(5, 0, 5);
                         if (i % 6 == 0)
