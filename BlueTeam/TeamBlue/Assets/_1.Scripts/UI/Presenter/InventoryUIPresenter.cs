@@ -58,6 +58,7 @@ public class InventoryUIPresenter : MonoBehaviour
                     continue;
 
                 items[i].SetItemAmount(tempValue);
+                items[i].ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, items[i].Image);
                 items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
                 break;
             }

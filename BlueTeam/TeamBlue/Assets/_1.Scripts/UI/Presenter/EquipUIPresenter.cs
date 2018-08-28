@@ -80,7 +80,7 @@ public class EquipUIPresenter : MonoBehaviour
 
     public void LoadToWearItem()
     {
-        for(int i =0; i < equipItem.Count; i++)
+        for(int i = 0; i < equipItem.Count; i++)
         {
             equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
         }

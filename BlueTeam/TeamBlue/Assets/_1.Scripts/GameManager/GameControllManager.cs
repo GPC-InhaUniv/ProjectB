@@ -38,6 +38,7 @@ namespace ProjectB.GameManager
             totalMonsterCount = GameObjectsManager.Instance.MonsterPoolSize;
             totalExp = 1200 * CurrentIndex;
 
+
             switch (CurrentLoadType)
             {
                 case LoadType.WoodDungeon:
@@ -62,6 +63,23 @@ namespace ProjectB.GameManager
             isClearDungeon = false;
             GameMediator.Instance.ClearStage();
         }
+
+        void CalculateLevelUp()
+        {
+            float currentLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+            float currentExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
+
+            float nextLevepUpExp = 1000 + (100 * 1.2f * currentLevel);
+            if (nextLevepUpExp <= currentExp)
+            {
+                currentLevel++;
+                currentExp -= nextLevepUpExp;
+            }
+
+            GameDataManager.Instance.PlayerInfomation.PlayerLevel = (int)currentLevel;
+            GameDataManager.Instance.PlayerInfomation.PlayerExp = currentExp;
+
+        }
         public void CheckGameClear()
         {
             totalMonsterCount--;
@@ -69,12 +87,12 @@ namespace ProjectB.GameManager
             {
                 isClearDungeon = true;
                 GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
-
                 foreach (KeyValuePair<int, int> temp in ObtainedItemDic)
                 {
                     GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
                 }
                 ObtainedItemDic.Clear();
+                CalculateLevelUp();
                 GameDataManager.Instance.SetGameDataToServer();
                 GameMediator.Instance.ClearStage();
             }
