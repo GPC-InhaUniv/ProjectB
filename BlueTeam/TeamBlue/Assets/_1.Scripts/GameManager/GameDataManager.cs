@@ -98,8 +98,11 @@ namespace ProjectB.GameManager
             DontDestroyOnLoad(gameObject);
         }
 
-        public void GetEquipmentStatus(ref int Attack,ref int Hp, ref int Defense)
+        public void GetEquipmentStatus(out int Attack, out int Hp, out int Defense)
         {
+            Attack = 0;
+            Hp = 0;
+            Defense = 0;
             for (int i = 0; i < itemTable.sheets[0].list.Count; i++)
             {
                 for(int j=0;j<EquipmentItem.Length;j++)
