@@ -20,7 +20,6 @@ namespace ProjectB.Characters.Monsters
     public class NoSkill : ISkillUsableBridge
     {
         Animator animator;
-       // public static event NoticeNoSkill Setstate;
         public static NoticeNoSkill SetState;
 
         
@@ -32,9 +31,6 @@ namespace ProjectB.Characters.Monsters
         public void UseSkill()
         {
             SetState();
-
-            //Monster.ChangeState(Monster.State.Chasing);
-
         }
 
     }
@@ -73,8 +69,6 @@ namespace ProjectB.Characters.Monsters
         public void UseSkill()
         {
             SetState();
-            //Boss.ChangeState(Monster.State.Chasing);
-            Debug.Log("boss state useskill");
         }
     }
     public class BossSkillSecond : MonoBehaviour, ISkillUsableBridge
@@ -92,11 +86,9 @@ namespace ProjectB.Characters.Monsters
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.SkillOne.ToString(), true);
-            Debug.Log(animator.GetBool(AniStateParm.SkillOne.ToString()));
 
             Instantiate(SkillTest);
 
-            Debug.Log("boss state useskill");
         }
     }
     public class BossSkillDefence : MonoBehaviour, ISkillUsableBridge

@@ -19,6 +19,10 @@ namespace ProjectB.Characters.Monsters
             skillUsable = new NoSkill(animator);
 
             healthPoint = maxHealthPoint;
+            monsterType = MonsterType.Normal;
+            walkRange = 15;
+            skillCoolTime = 10;
+            speed = 2;
 
             hitParticle.SetActive(false);
         }
