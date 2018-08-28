@@ -19,10 +19,8 @@ public class EquipUIPresenter : MonoBehaviour {
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-                currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-                //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-                swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[0] = currentItem.Code;
             }
@@ -43,10 +41,8 @@ public class EquipUIPresenter : MonoBehaviour {
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-                currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-                //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-                swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[1] = currentItem.Code;
             }
@@ -67,10 +63,8 @@ public class EquipUIPresenter : MonoBehaviour {
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-                currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-                //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-                swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[2] = currentItem.Code;
             }
