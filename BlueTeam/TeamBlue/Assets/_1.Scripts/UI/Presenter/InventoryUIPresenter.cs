@@ -58,6 +58,7 @@ public class InventoryUIPresenter : MonoBehaviour
                     continue;
 
                 items[i].SetItemAmount(tempValue);
+                items[i].ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, items[i].Image);
                 items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
                 break;
             }
@@ -88,10 +89,8 @@ public class InventoryUIPresenter : MonoBehaviour
             swapItem.SetItemAmount(SwapItemAmount);
 
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-            //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-            currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-            //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-            swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+            currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+            swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
             initializeCombinationResourcesSlot();
         }
     }
@@ -109,10 +108,8 @@ public class InventoryUIPresenter : MonoBehaviour
             swapItem.SetItemAmount(SwapItemAmount);
 
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-            //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-            currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-            //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-            swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+            currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+            swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
             for (int i = 0; i < GameDataManager.Instance.EquipmentItem.Length; i++)
             {
 

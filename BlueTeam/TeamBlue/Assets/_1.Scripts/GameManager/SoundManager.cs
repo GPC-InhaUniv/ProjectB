@@ -40,12 +40,12 @@ namespace ProjectB.GameManager
         
         public void LoadSoundClips()
         {
-            SoundClips[0] = Test_AssetBundleManager.Instance.LoadSound(BundleType.Common, "MainBGM");
-            SoundClips[1] = Test_AssetBundleManager.Instance.LoadSound(BundleType.Common, "ButtonClick");
-            SoundClips[2] = Test_AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerAttack");
-            SoundClips[3] = Test_AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerHit");
-            SoundClips[4] = Test_AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyAttack");
-            SoundClips[5] = Test_AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyHit");
+            SoundClips[0] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "MainBGM");
+            SoundClips[1] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ButtonClick");
+            SoundClips[2] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerAttack");
+            SoundClips[3] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerHit");
+            SoundClips[4] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyAttack");
+            SoundClips[5] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyHit");
 
             SoundSources[0].clip = SoundClips[0];
         }
@@ -61,12 +61,7 @@ namespace ProjectB.GameManager
         {
             for (int i = 1; i < SoundSources.Length; i++)
             {
-                if ((SoundSources[i].clip != null) && (SoundSources[i].isPlaying))
-                {
-                    continue;
-                }
-
-                else if ((SoundSources[i].clip != null) && (!SoundSources[i].isPlaying))
+                if ((SoundSources[i].clip != null) && (!SoundSources[i].isPlaying))
                 {
                     SoundSources[i].clip = audioClip;
                     SoundSources[i].volume = sfxVolume;

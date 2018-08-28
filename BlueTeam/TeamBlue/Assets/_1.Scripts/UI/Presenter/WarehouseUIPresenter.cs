@@ -27,10 +27,8 @@ public class WarehouseUIPresenter : MonoBehaviour
         swapItem.SetItemAmount(SwapItemAmount);
 
         currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
-        //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-        currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+        currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
         swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-        //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-        swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+        swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
     }
 }

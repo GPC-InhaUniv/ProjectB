@@ -21,6 +21,10 @@ namespace ProjectB.Characters.Monsters
             skillUsable = new NamedSkill(animator, skillprefab);
 
             healthPoint = maxHealthPoint;
+            monsterType = MonsterType.Named;
+            walkRange = 15;
+            skillCoolTime = 10;
+            speed = 2;
 
             hitParticle.SetActive(false);
         }

@@ -104,19 +104,16 @@ namespace ProjectB.Item
                     recipeIron = itemtable.sheets[0].list[i].RecipeIron;
                     recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                     image = itemtable.sheets[0].list[i].Image;
-                    itemNameText.text = itemname; // 삭제 예정
                     itemAmount = 0;
 
-                    if (image !=null ||image=="")
-                        itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
-                    else
-                        itemImage.sprite = null;
+                    itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
                 }
             }
         }
 
         public void InitializationItem()
         {
+            Code = 0;
             hp = 0;
             attack = 0;
             recipeWood = 0;
@@ -127,7 +124,7 @@ namespace ProjectB.Item
             itemNameText.text = null;
             itemImage.sprite = null;
             image = null;
-            itemname = null;
+            itemname = "";
         }
 
         public void SetItemAmount(int amount)
@@ -149,7 +146,7 @@ namespace ProjectB.Item
         public void OnPointerUp(PointerEventData eventData)
         {
             this.itemNameText.text = null;
-            this.itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
+            this.itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
         }
     }
 }

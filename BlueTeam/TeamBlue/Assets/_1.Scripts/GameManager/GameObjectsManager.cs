@@ -43,30 +43,34 @@ namespace ProjectB.GameManager
 
         public void SetPrefab()
         {
-            playerPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
-            gameCanvasPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
+            playerPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
+            gameCanvasPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
 
         }
 
         public void SetAreaPrefab(int stageNum)
         {
+            Debug.Log(GameControllManager.Instance.CurrentLoadType);
             int areaNum = Mathf.Abs(stageNum % 3 + 1);
             if (GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
-                areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
+                areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
             else
-                areaPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
+            {
+                
+                areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
+            }
         }
 
         public void SetMonsterPrefab()
         {
-            nomalMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
-            namedMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
+            nomalMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
+            namedMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
             if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
             {
-                bossMonsterPrefab = Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
-                bossSkill[0] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
-                bossSkill[1] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
-                bossSkill[2] = Instantiate(Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
+                bossMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
+                bossSkill[0] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
+                bossSkill[1] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
+                bossSkill[2] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
             }
 
         }
@@ -147,10 +151,13 @@ namespace ProjectB.GameManager
             {
                 namedMonster[i] = Instantiate(namedMonsterPrefab);
                 DontDestroyOnLoad(namedMonster[i]);
-                normalMonster[i].SetActive(false);
+                namedMonster[i].SetActive(false);
             }
-            //bossMonster = Instantiate(bossMonsterPrefab);
-            // bossMonster.SetActive(false);
+            if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
+            {
+                bossMonster = Instantiate(bossMonsterPrefab);
+                bossMonster.SetActive(false);
+            }
 
         }
 

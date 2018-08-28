@@ -243,7 +243,7 @@ namespace ProjectB.Characters.Players
         //데이터 불러오기 및 정리하기
         void GetCharacterStatusFromDataManager()
         {
-            GameDataManager.Instance.GetEquipmentStatus(ref equipmentHp,ref equipmentAttackPower,ref equipmentDefensePowr);
+            GameDataManager.Instance.GetEquipmentStatus(out equipmentHp, out equipmentAttackPower, out equipmentDefensePowr);
             exp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
             level = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
         }
