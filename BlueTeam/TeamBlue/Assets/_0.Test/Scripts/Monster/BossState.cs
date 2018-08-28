@@ -9,6 +9,8 @@ namespace ProjectB.Characters.Monsters
     {
         protected Animator animator;
         protected GameObject[] SkillPrefab;
+        public Transform PlayerTransform;
+        public Transform MonsterTransform;
 
         protected IAttackableBridge attackable;
         protected ISkillUsableBridge skillUsable;
@@ -16,95 +18,91 @@ namespace ProjectB.Characters.Monsters
         protected ISkillUsableBridge entangleSkillUsable;
 
         public abstract void Attack();
-        public abstract void UseSkill();
-        public abstract void UseDefenceSkill();
+        public abstract void UseSkill(Transform transform);
+        public abstract void UseDefenceSkill(Transform transform);
+
 
     }
     public class PhaseOne : BossState
     {
-        public PhaseOne(Animator animator, GameObject[] skillPrefab, 
+        public PhaseOne(Animator animator, 
             IAttackableBridge attackable, ISkillUsableBridge defencSkillUsable,ISkillUsableBridge skillUsable)
         {
             this.animator = animator;
-            SkillPrefab = skillPrefab;
-
-            attackable = new NormalAttack(this.animator);
             this.attackable = attackable;
-            defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
             this.defencSkillUsable = defencSkillUsable;
-            skillUsable = new NoSkill(this.animator);
             this.skillUsable = skillUsable;
 
-            attackable.Attack();
-
-
+            attackable = new NormalAttack(this.animator);
+            skillUsable = new NoSkill(this.animator);
         }
         public override void Attack()
         {
             attackable.Attack();
         }
 
-        public override void UseDefenceSkill()
+        
+        public override void UseDefenceSkill(Transform transform)
         {
+            MonsterTransform = transform;
+            defencSkillUsable = new BossSkillDefence(animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
 
-        public override void UseSkill()
+        public override void UseSkill(Transform transform)
         {
             skillUsable.UseSkill();
         }
     }
     public class PhaseTwo : BossState
     {
-        public PhaseTwo(Animator animator, GameObject[] skillPrefab,
+        public PhaseTwo(Animator animator,
             IAttackableBridge attackable, ISkillUsableBridge defencSkillUsable, ISkillUsableBridge skillUsable)
         {
             this.animator = animator;
-            SkillPrefab = skillPrefab;
 
             attackable = new ComboAttack(this.animator);
             this.attackable = attackable;
-            defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
             this.defencSkillUsable = defencSkillUsable;
-            skillUsable = new BossSkillSecond(this.animator, SkillPrefab);
             this.skillUsable = skillUsable;
 
         }
+
         public override void Attack()
         {
             attackable.Attack();
         }
 
-        public override void UseDefenceSkill()
+        public override void UseDefenceSkill(Transform transform)
         {
+            MonsterTransform = transform;
+            defencSkillUsable = new BossSkillDefence(this.animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
 
-        public override void UseSkill()
+        public override void UseSkill(Transform transform)
         {
+            PlayerTransform = transform;
+            skillUsable = new BossSkillSecond(this.animator, PlayerTransform);
             skillUsable.UseSkill();
             //defencSkillUsable.UseSkill();
 
         }
+
     }
     public class PhaseThree : BossState
     {
-        public PhaseThree(Animator animator, GameObject[] skillPrefab, IAttackableBridge attackable,
+        public PhaseThree(Animator animator,  IAttackableBridge attackable,
             ISkillUsableBridge defencSkillUsable,ISkillUsableBridge skillUsable,ISkillUsableBridge entangleSkillUsable)
         {
             this.animator = animator;
-            SkillPrefab = skillPrefab;
 
             attackable = new NormalAttack(this.animator);
             this.attackable = attackable;
-
-            defencSkillUsable = new BossSkillDefence(this.animator, SkillPrefab);
             this.defencSkillUsable = defencSkillUsable;
 
-            skillUsable = new BossSkillSecond(this.animator, SkillPrefab);
             this.skillUsable = skillUsable;
 
-            entangleSkillUsable = new BossSkillThird(this.animator, SkillPrefab);
             this.entangleSkillUsable = entangleSkillUsable;
 
 
@@ -114,20 +112,26 @@ namespace ProjectB.Characters.Monsters
             attackable.Attack();
         }
 
-        public override void UseDefenceSkill()
+
+        public override void UseDefenceSkill(Transform transform)
         {
+            MonsterTransform = transform;
+            defencSkillUsable = new BossSkillDefence(this.animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
 
-        public override void UseSkill()
+        public override void UseSkill(Transform transform)
         {
+            PlayerTransform = transform;
             int probability = Random.Range(1, 4);
             if (probability == 1)
             {
+                skillUsable = new BossSkillSecond(this.animator, PlayerTransform);
                 skillUsable.UseSkill();
             }
             else
             {
+                entangleSkillUsable = new BossSkillThird(this.animator, PlayerTransform);
                 entangleSkillUsable.UseSkill();
             }
         }
