@@ -17,6 +17,11 @@ namespace ProjectB.UI.Minimap
         const float minimapUpdateTime = 0.1f;
         const int sizeOfIconArray = 24;
 
+        public void Start()
+        {
+            Debug.Log("레이더 스크립트 START");
+        }
+
         public void Initialize()
         {
             radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
