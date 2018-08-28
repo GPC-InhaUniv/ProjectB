@@ -96,14 +96,14 @@ namespace ProjectB.Characters.Monsters
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     StartCoroutine(HitCoroutine(1.0f));
-                    characterHealthPoint -= damage;
+                    healthPoint -= damage;
 
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
 
 
-                    if (CharacterHealthPoint <= 0)
+                    if (healthPoint <= 0)
                     {
-                        characterHealthPoint = 0;
+                        healthPoint = 0;
                         ChangeState(State.Died);
                     }
                 }
