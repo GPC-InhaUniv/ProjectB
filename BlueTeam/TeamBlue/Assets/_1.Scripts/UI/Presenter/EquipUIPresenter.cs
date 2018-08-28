@@ -17,21 +17,36 @@ public class EquipUIPresenter : MonoBehaviour
         int SwapItemCode = currentItem.Code;
         int SwapItemAmount = currentItem.ItemAmount;
 
-        if (swapItem.ItemType == ItemType.Equipmentable)
+        if (currentItem.ItemName != swapItem.ItemName)
         {
-            if(swapItem.Code % 10 == 1)
+            if (swapItem.ItemType == ItemType.Equipmentable)
             {
-                currentItem.SetItem(swapItem.Code);
-                currentItem.SetItemAmount(swapItem.ItemAmount);
-                swapItem.SetItem(SwapItemCode);
-                swapItem.SetItemAmount(SwapItemAmount);
+                if (swapItem.Code % 10 == 1)
+                {
+                    if (swapItem.ItemAmount > 1)
+                    {
+                        if (currentItem.Code != 0)
+                            GameDataManager.Instance.PlayerGamedata[currentItem.Code]++;
+                        swapItem.DecreaseItemAmount();
+                        currentItem.SetItem(swapItem.Code);
+                        GameDataManager.Instance.PlayerGamedata[swapItem.Code]--;
+                    }
 
-                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
-                swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                GameDataManager.Instance.EquipmentItem[0] = currentItem.Code;
+                    else
+                    {
+                        currentItem.SetItem(swapItem.Code);
+                        currentItem.SetItemAmount(swapItem.ItemAmount);
+                        swapItem.SetItem(SwapItemCode);
+                        swapItem.SetItemAmount(SwapItemAmount);
+                        GameDataManager.Instance.PlayerGamedata[currentItem.Code]--;
+                    }
+                }
             }
         }
+        currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+        swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+        swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+        GameDataManager.Instance.EquipmentItem[0] = currentItem.Code;
     }
 
     public void SwapToFromInventorySlotToEquipArmorSlot(Item currentItem, Item swapItem)
@@ -39,21 +54,36 @@ public class EquipUIPresenter : MonoBehaviour
         int SwapItemCode = currentItem.Code;
         int SwapItemAmount = currentItem.ItemAmount;
 
-        if (swapItem.ItemType == ItemType.Equipmentable)
+        if (currentItem.ItemName != swapItem.ItemName)
         {
-            if (swapItem.Code % 10 == 3)
+            if (swapItem.ItemType == ItemType.Equipmentable)
             {
-                currentItem.SetItem(swapItem.Code);
-                currentItem.SetItemAmount(swapItem.ItemAmount);
-                swapItem.SetItem(SwapItemCode);
-                swapItem.SetItemAmount(SwapItemAmount);
+                if (swapItem.Code % 10 == 3)
+                {
+                    if (swapItem.ItemAmount > 1)
+                    {
+                        if (currentItem.Code != 0)
+                            GameDataManager.Instance.PlayerGamedata[currentItem.Code]++;
+                        swapItem.DecreaseItemAmount();
+                        currentItem.SetItem(swapItem.Code);
+                        GameDataManager.Instance.PlayerGamedata[swapItem.Code]--;
+                    }
 
-                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
-                swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                GameDataManager.Instance.EquipmentItem[1] = currentItem.Code;
+                    else
+                    {
+                        currentItem.SetItem(swapItem.Code);
+                        currentItem.SetItemAmount(swapItem.ItemAmount);
+                        swapItem.SetItem(SwapItemCode);
+                        swapItem.SetItemAmount(SwapItemAmount);
+                        GameDataManager.Instance.PlayerGamedata[currentItem.Code]--;
+                    }
+                }
             }
         }
+        currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+        swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+        swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+        GameDataManager.Instance.EquipmentItem[1] = currentItem.Code;
     }
 
     public void SwapToFromInventorySlotToEquipHelmetSlot(Item currentItem, Item swapItem)
@@ -61,21 +91,37 @@ public class EquipUIPresenter : MonoBehaviour
         int SwapItemCode = currentItem.Code;
         int SwapItemAmount = currentItem.ItemAmount;
 
-        if (swapItem.ItemType == ItemType.Equipmentable)
+        if (currentItem.ItemName != swapItem.ItemName)
         {
-            if (swapItem.Code % 10 == 2)
+            if (swapItem.ItemType == ItemType.Equipmentable)
             {
-                currentItem.SetItem(swapItem.Code);
-                currentItem.SetItemAmount(swapItem.ItemAmount);
-                swapItem.SetItem(SwapItemCode);
-                swapItem.SetItemAmount(SwapItemAmount);
+                if (swapItem.Code % 10 == 2)
+                {
+                    if (swapItem.ItemAmount > 1)
+                    {
+                        if(currentItem.Code != 0)
+                            GameDataManager.Instance.PlayerGamedata[currentItem.Code]++;
+                        swapItem.DecreaseItemAmount();
+                        currentItem.SetItem(swapItem.Code);
+                        GameDataManager.Instance.PlayerGamedata[swapItem.Code]--;
+                    }
 
-                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
-                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
-                swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                GameDataManager.Instance.EquipmentItem[2] = currentItem.Code;
+                    else
+                    {
+                        currentItem.SetItem(swapItem.Code);
+                        currentItem.SetItemAmount(swapItem.ItemAmount);
+                        swapItem.SetItem(SwapItemCode);
+                        swapItem.SetItemAmount(SwapItemAmount);
+                        GameDataManager.Instance.PlayerGamedata[currentItem.Code]--;
+                        GameDataManager.Instance.PlayerGamedata[swapItem.Code]++;
+                    }
+                }
             }
         }
+        currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+        swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+        swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
+        GameDataManager.Instance.EquipmentItem[2] = currentItem.Code;
     }
 
     public void LoadToWearItem()

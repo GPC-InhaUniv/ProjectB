@@ -33,7 +33,6 @@ namespace ProjectB.Characters.Monsters
 
         public void AttackEnd()
         {
-
             foreach (Collider attackAreaCollider in attackAreaColliders)
             {
                 attackAreaCollider.enabled = false;

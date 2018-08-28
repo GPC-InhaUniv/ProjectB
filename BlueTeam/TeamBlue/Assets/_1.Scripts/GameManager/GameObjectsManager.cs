@@ -36,6 +36,7 @@ namespace ProjectB.GameManager
 
         private void Start()
         {
+            bossSkill = new GameObject[3];
             DontDestroyOnLoad(gameObject);
             monsterPoolSize = MaxMonsterCount;
         }
@@ -63,16 +64,26 @@ namespace ProjectB.GameManager
 
         public void SetMonsterPrefab()
         {
+
             nomalMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
             namedMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
             if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
             {
-                bossMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "bossMonster");
+                bossMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Boss");
                 bossSkill[0] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
+                DontDestroyOnLoad(bossSkill[0]);
+                bossSkill[0].SetActive(false);
+                
+           
                 bossSkill[1] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
+                DontDestroyOnLoad(bossSkill[1]);
+                bossSkill[1].SetActive(false);
                 bossSkill[2] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
+                DontDestroyOnLoad(bossSkill[2]);
+                bossSkill[2].SetActive(false);
             }
-
+            
+            
         }
 
         GameObject areaObject;
@@ -156,6 +167,7 @@ namespace ProjectB.GameManager
             if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
             {
                 bossMonster = Instantiate(bossMonsterPrefab);
+                DontDestroyOnLoad(bossMonster);
                 bossMonster.SetActive(false);
             }
 

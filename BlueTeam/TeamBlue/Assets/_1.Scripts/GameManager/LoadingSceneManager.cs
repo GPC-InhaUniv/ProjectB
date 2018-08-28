@@ -249,6 +249,9 @@ namespace ProjectB.GameManager
                     currentType = LoadType.VillageCheckDownLoad;
                     userBundleCount = CheckDownLoadFile();
                     break;
+                case LoadType.BossDungeon:
+                    currentType = LoadType.BossDungeon;
+                    break;
                 default:
                     break;
             }
