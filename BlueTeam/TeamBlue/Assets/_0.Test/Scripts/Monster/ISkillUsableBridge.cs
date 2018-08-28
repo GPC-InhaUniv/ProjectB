@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.GameManager;
 
 namespace ProjectB.Characters.Monsters
 {
@@ -71,44 +72,47 @@ namespace ProjectB.Characters.Monsters
             SetState();
         }
     }
-    public class BossSkillSecond : MonoBehaviour, ISkillUsableBridge
+    public class BossSkillSecond : ISkillUsableBridge
     {
         Animator animator;
         GameObject SkillTest;
+        Transform target;
 
-        public BossSkillSecond(Animator animator, GameObject[] skillPrefab)
+        public BossSkillSecond(Animator animator,Transform target)
         {
             this.animator = animator;
-            SkillTest = skillPrefab[(int)Bossskill.SkillFireRain];
+            //SkillTest = skillPrefab[(int)Bossskill.SkillFireRain];
+            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireRain);
+            this.target = target;
 
         }
 
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.SkillOne.ToString(), true);
-
-            Instantiate(SkillTest);
-
+            SkillTest.gameObject.transform.position = target.position;
         }
     }
-    public class BossSkillDefence : MonoBehaviour, ISkillUsableBridge
+    public class BossSkillDefence :  ISkillUsableBridge
     {
         Animator animator;
         GameObject SkillTest;
+        Transform target;
 
-        public BossSkillDefence(Animator animator, GameObject[] skillPrefab)
+        public BossSkillDefence(Animator animator, Transform target)
         {
             this.animator = animator;
-            SkillTest = skillPrefab[(int)Bossskill.SkillHemiSphere];
+            //SkillTest = skillPrefab[(int)Bossskill.SkillHemiSphere];
+            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireHemiSphere);
+            this.target = target;
 
         }
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.Defence.ToString(), true);
+            SkillTest.gameObject.transform.position = target.position;
 
-            Instantiate(SkillTest);
 
-            Debug.Log("boss state useskill");
         }
     }
     public class BossSkillThird : MonoBehaviour, ISkillUsableBridge
@@ -116,19 +120,20 @@ namespace ProjectB.Characters.Monsters
 
         Animator animator;
         GameObject SkillTest;
+        Transform target;
 
-        public BossSkillThird(Animator animator, GameObject[] skillPrefab)
+        public BossSkillThird(Animator animator, Transform target)
         {
+          //  SkillTest = skillPrefab[(int)Bossskill.SkillFireEntangle];
             this.animator = animator;
-            SkillTest = skillPrefab[(int)Bossskill.SkillFireEntangle];
+            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireEntangle);
+            this.target = target;
 
         }
         public void UseSkill()
         {
-            Instantiate(SkillTest);
             animator.SetTrigger(AniStateParm.SkillTwo.ToString());
-
-            Debug.Log("boss state useskill");
+            SkillTest.gameObject.transform.position = target.position;
         }
     }
 

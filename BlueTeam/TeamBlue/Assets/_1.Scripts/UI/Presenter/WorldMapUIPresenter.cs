@@ -31,7 +31,12 @@ public class WorldMapUIPresenter : MonoBehaviour
 
     public void OnClickVillageButton(int dungeonNumber)
     {
-        LoadingSceneManager.LoadScene(LoadType.Village, dungeonNumber);
+        GameControllManager.Instance.MoveNextScene(LoadType.Village, dungeonNumber);
         Debug.Log("마을 입장");
     }
+    public void OnClickBossButton()
+    {
+        GameControllManager.Instance.MoveNextScene(LoadType.BossDungeon, 1);
+    }
+
 }

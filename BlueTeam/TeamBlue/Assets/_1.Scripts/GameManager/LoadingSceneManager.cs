@@ -30,13 +30,13 @@ namespace ProjectB.GameManager
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
-        const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1_4RTcEyP86WZps72ro_JknjIRPY3dmjv";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1Z-0P0zsGVqrZOLhscSl5NLwioIOf9fgM";
-        const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1tQte0tOUDAA6JCsJwK806-36P6w1pPfT";
-        const string townBundleURL = "https://docs.google.com/uc?export=download&id=10n0R-ml2FbDiUJ7dvGl7yAkwKf2bzs0H";
-        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1TpTwZ_jFnUEqUjNDJtNlK_8c-ycl8WRV";
-        const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1ka5PfcSkfW9QcUwDrtJYvDMFTngaaTGU";
-        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1gVKVYQD8OeNDji0o0LwMpnMtLzLEBuFp";
+        const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1Ld7Fbd9ukR4Hh52vdQ9Vm1kMMFchrw1I";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1KJAZJbUeFNwblLsTOCiaomn8EZq7u-P6";
+        const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=17uZWs_sddv-FSP7GQdgi8FTwYinTUIyf";
+        const string townBundleURL = "https://docs.google.com/uc?export=download&id=1jE6gUesvaMQSlRc6A_BHGQCG2Y1LYsvt";
+        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1hAjJ3i5zCxtR73eQV7mcRi-zoNmodC6W";
+        const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1z_7JKQShDbU_VA_jHO0xUYUVscDhZYnt";
+        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1zFU4nRFUkxMpgF5TF7m3JsAGiIah0c6u";
 
 
         int totalBundleCount = 8;
@@ -109,6 +109,10 @@ namespace ProjectB.GameManager
                     {
 
                         case LoadType.Village:
+                            currentAssetName = "마을 로드중...";
+                            AssetBundleManager.Instance.LoadArea(AreaType.Village);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area); 
                             break;
                         case LoadType.BrickDungeon:
                             currentAssetName = "흙 던전 로드중..";
@@ -143,6 +147,11 @@ namespace ProjectB.GameManager
                             GameObjectsManager.Instance.SetObject(ObjectType.Area);
                             GameObjectsManager.Instance.SetPrefab();
                             GameObjectsManager.Instance.SetObject(ObjectType.Player);
+                            break;
+                        case LoadType.BossDungeon:
+                            AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
                             break;
                     }
                     GameObjectsManager.Instance.SetMonsterPrefab();
@@ -234,6 +243,9 @@ namespace ProjectB.GameManager
                 case LoadType.VillageCheckDownLoad:
                     currentType = LoadType.VillageCheckDownLoad;
                     userBundleCount = CheckDownLoadFile();
+                    break;
+                case LoadType.BossDungeon:
+                    currentType = LoadType.BossDungeon;
                     break;
                 default:
                     break;

@@ -15,9 +15,13 @@ namespace ProjectB.Characters.Players
             longSword.SetActive(false);
         }
 
-        public void SetWeapon(bool isSet, PlayerCharacterWeaponState newState, PlayerCharacterWeaponState preState)
+        public void SetWeapon(bool isSet, PlayerCharacterWeaponState newState, PlayerCharacterWeaponState currentState)
         {
-            if (newState == PlayerCharacterWeaponState.LongSword && preState == PlayerCharacterWeaponState.ShortSword)
+            if(currentState == newState)
+            {
+                return;
+            }
+            if (newState == PlayerCharacterWeaponState.LongSword)
             {
                 shortSword.SetActive(!isSet);
                 fakeLongSword.SetActive(!isSet);
@@ -25,7 +29,7 @@ namespace ProjectB.Characters.Players
                 fakeShortSword.SetActive(isSet);
                 longSword.SetActive(isSet);
             }
-            else
+            else if(newState == PlayerCharacterWeaponState.ShortSword)
             {
                 longSword.SetActive(!isSet);
                 fakeShortSword.SetActive(!isSet);
