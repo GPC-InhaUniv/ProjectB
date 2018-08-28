@@ -74,7 +74,8 @@ namespace ProjectB.GameManager
             }
 
             StartCoroutine(LoadBundles());
-
+            //SoundManager.Instance.LoadSoundClips();
+            //SoundManager.Instance.PlayBGM();
             StartCoroutine(LoadScene());
 
         }
@@ -169,9 +170,6 @@ namespace ProjectB.GameManager
 
                 
             }
-
-            SoundManager.Instance.LoadSoundClips();
-            SoundManager.Instance.PlayBGM();
 
             yield return null;
         }

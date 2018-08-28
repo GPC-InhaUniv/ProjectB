@@ -137,7 +137,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         Sprite tempSprite;
         if (CommonAssetBundle == null)
             CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
-        tempSprite = CommonAssetBundle.LoadAsset(AssetName) as Sprite;
+        tempSprite = CommonAssetBundle.LoadAsset<Sprite>(AssetName);
 
         return tempSprite;
     }
