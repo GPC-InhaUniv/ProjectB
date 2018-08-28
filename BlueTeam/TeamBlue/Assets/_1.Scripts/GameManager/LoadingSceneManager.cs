@@ -109,6 +109,10 @@ namespace ProjectB.GameManager
                     {
 
                         case LoadType.Village:
+                            currentAssetName = "마을 로드중...";
+                            AssetBundleManager.Instance.LoadArea(AreaType.Village);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area); 
                             break;
                         case LoadType.BrickDungeon:
                             currentAssetName = "흙 던전 로드중..";
@@ -143,6 +147,11 @@ namespace ProjectB.GameManager
                             GameObjectsManager.Instance.SetObject(ObjectType.Area);
                             GameObjectsManager.Instance.SetPrefab();
                             GameObjectsManager.Instance.SetObject(ObjectType.Player);
+                            break;
+                        case LoadType.BossDungeon:
+                            AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
                             break;
                     }
                     GameObjectsManager.Instance.SetMonsterPrefab();
