@@ -89,9 +89,9 @@ public class InventoryUIPresenter : MonoBehaviour
 
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
             //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-            currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.ItemName);
+            currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
             //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-            swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.ItemName);
+            swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
             initializeCombinationResourcesSlot();
         }
     }
@@ -110,9 +110,9 @@ public class InventoryUIPresenter : MonoBehaviour
 
             currentItem.ItemAmountText.text = currentItem.ItemAmount.ToString();
             //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-            currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.ItemName);
+            currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
             //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-            swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.ItemName);
+            swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
             for (int i = 0; i < GameDataManager.Instance.EquipmentItem.Length; i++)
             {
 
