@@ -52,11 +52,11 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
-            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
-            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
-            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            Attack4 = new CommandAttack4(player.PlayerAinmaton);
             //상단 5줄은 테스트용임, 오류날 시 주석처리
 
             skillCoolDownTime = 5.0f;
@@ -75,9 +75,9 @@ namespace ProjectB.UI.Presenter
             GetImage();
             commandControll = new CommandControll();
 
-            attackButton.onClick.AddListener(() => RandomCombo());
+            attackButton.onClick.AddListener(() => GenerateCombo());
             attackButton.onClick.AddListener(() => StartCombo());
-            attackButton.onClick.AddListener(() => Shuffle());
+            attackButton.onClick.AddListener(() => ShuffleCombo());
 
             skillButton.onClick.AddListener(() => InputSkillButton());
 
@@ -193,7 +193,7 @@ namespace ProjectB.UI.Presenter
         }
 
 
-        void RandomCombo()
+        void GenerateCombo()
         {
             switch (comboRandom)
             {
@@ -269,7 +269,7 @@ namespace ProjectB.UI.Presenter
             }
         }
 
-        void Shuffle()
+        void ShuffleCombo()
         {
             if (GetWeaponState())
             {
@@ -360,7 +360,7 @@ namespace ProjectB.UI.Presenter
 
         public void UpdateUI()
         {
-            playerId.text = AccountInfo.Instance.Id;
+            //playerId.text = AccountInfo.Instance.Id;
             levelText.text = "Level\n" + player.Level.ToString();
 
             expValue = player.Exp / player.MaxExp * standardPercent;
