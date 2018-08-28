@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ProjectB.UI.Minimap;
 using ProjectB.Characters.Players;
 using ProjectB.UI.Presenter;
 
@@ -12,6 +13,7 @@ namespace ProjectB.GameManager
       
         GameObject mainUICanvas;
         GameObject playerPresenter;
+        GameObject minimapPresenter;
 
         IExitable uiController;
 
@@ -20,12 +22,17 @@ namespace ProjectB.GameManager
             mainUICanvas = GameObject.FindGameObjectWithTag("UIController");
             mainUICanvas.SetActive(false);
         }
+
         public void SetMediator()
         {
             playerObject = GameObject.FindGameObjectWithTag("Player");
             
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter");
 
+
+            if (GameControllManager.Instance.CurrentLoadType != LoadType.Village &&
+                  GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad)
+                minimapPresenter = GameObject.FindGameObjectWithTag("MinimapPresenter");
         }
 
         public void GameInitialize()
@@ -40,6 +47,10 @@ namespace ProjectB.GameManager
 
             if (uiController == null)
                 uiController = mainUICanvas.GetComponentInChildren<IExitable>();
+
+            if (GameControllManager.Instance.CurrentLoadType != LoadType.Village &&
+                 GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad)
+                minimapPresenter.GetComponent<MinimapUIPresenter>().Initialize();
 
 
         }

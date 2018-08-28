@@ -5,12 +5,22 @@ namespace ProjectB.Characters.Players
     public class Weapon : MonoBehaviour
     {
         [SerializeField]
-        GameObject longSword, shortSword;
+        GameObject shortSword, longSword;
+
         [SerializeField]
-        GameObject fakeLongSword, fakeShortSword;
+        GameObject fakeShortSword, fakeLongSword;
+
+        [SerializeField]
+        Collider ShortSwordColider, LongSwordColider;
 
         void Start()
         {
+            ShortSwordColider = shortSword.GetComponent<CapsuleCollider>();
+            LongSwordColider = longSword.GetComponent<BoxCollider>();
+
+            ShortSwordColider.enabled = false;
+            LongSwordColider.enabled = false;
+
             fakeShortSword.SetActive(false);
             longSword.SetActive(false);
         }
@@ -27,15 +37,22 @@ namespace ProjectB.Characters.Players
                 fakeLongSword.SetActive(!isSet);
 
                 fakeShortSword.SetActive(isSet);
+
+                ShortSwordColider.enabled = false;
                 longSword.SetActive(isSet);
+                LongSwordColider.enabled = false;
             }
+
             else if(newState == PlayerCharacterWeaponState.ShortSword)
             {
                 longSword.SetActive(!isSet);
                 fakeShortSword.SetActive(!isSet);
 
                 fakeLongSword.SetActive(isSet);
+
+                LongSwordColider.enabled = false;
                 shortSword.SetActive(isSet);
+                ShortSwordColider.enabled = false;
             }
         }
     }

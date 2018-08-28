@@ -31,14 +31,13 @@ namespace ProjectB.GameManager
         string assetBundleDirectory;
         string currentAssetName = "";
         const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1Ld7Fbd9ukR4Hh52vdQ9Vm1kMMFchrw1I";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1KJAZJbUeFNwblLsTOCiaomn8EZq7u-P6";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1qwQzaYQkke4Wnd7_fDDyJPjTFb50RaRj";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=17uZWs_sddv-FSP7GQdgi8FTwYinTUIyf";
-        const string townBundleURL = "https://docs.google.com/uc?export=download&id=1jE6gUesvaMQSlRc6A_BHGQCG2Y1LYsvt";
-        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1hAjJ3i5zCxtR73eQV7mcRi-zoNmodC6W";
+        const string townBundleURL = "https://docs.google.com/uc?export=download&id=19o1LNrcQ2jS_GWH8HOP-gO6R_Gcz66Na";
+        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1KWoA0rreDPxPe1OU3e8Lr3Ggql5HTFx-";
         const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1z_7JKQShDbU_VA_jHO0xUYUVscDhZYnt";
         const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1zFU4nRFUkxMpgF5TF7m3JsAGiIah0c6u";
-
-
+        
         int totalBundleCount = 8;
         static int userBundleCount = 0;
         static LoadType currentType;
@@ -102,7 +101,6 @@ namespace ProjectB.GameManager
                 if (IsDownLoadDone)
                 {
 
-                    GameObjectsManager.Instance.ClearPool();
                     GameObjectsManager.Instance.DestroyObject();
 
                     switch (currentType)
@@ -154,9 +152,15 @@ namespace ProjectB.GameManager
                             GameObjectsManager.Instance.SetObject(ObjectType.Area);
                             break;
                     }
-                    GameObjectsManager.Instance.SetMonsterPrefab();
+                  
                     GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
-                    GameObjectsManager.Instance.SetPool();
+
+                    if (GameControllManager.Instance.CurrentLoadType!=LoadType.Village &&
+                        GameControllManager.Instance.CurrentLoadType!=LoadType.VillageCheckDownLoad)
+                    {
+                        GameObjectsManager.Instance.SetMonsterPrefab();
+                        GameObjectsManager.Instance.SetPool();
+                    }
                     IsAssetLoadDone = true;
                 }
 

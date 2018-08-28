@@ -89,9 +89,7 @@ namespace ProjectB.Characters.Players
 
             hitParticle.SetActive(false);
 
-            targetVector = new Vector3(0, 0, 1);
-            
-            playerAinmaton.InitWeapon();
+            targetVector = new Vector3(0, 0, 1);            
         }
 
         //테스트용 함수 - 삭제 예정
@@ -113,10 +111,16 @@ namespace ProjectB.Characters.Players
 
         public void Initialize()
         {
+            isDied = false;
+            ChangeState(PlayerStates.PlayerCharacterIdleState);
+            playerAinmaton.InitStateAnimation();
+            playerAinmaton.InitWeapon();
+
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
            
             GetCharacterStatusFromDataManager();
             SetCharacterStatus();
+
             playerPresenter.SetpUpUI();
         }
 
@@ -297,16 +301,6 @@ namespace ProjectB.Characters.Players
             isRunningHitCoroutine = false;
         }
 
-        public void ReturnIdleState() //다시 살리는 함수
-        {
-            isDied = false;
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
-            playerAinmaton.InitStateAnimation();
-
-            playerAinmaton.InitWeapon();
-            SetCharacterStatus();
-            playerPresenter.SetpUpUI();
-        }
 
 
     }
