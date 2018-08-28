@@ -26,7 +26,7 @@ namespace ProjectB.GameManager
         GameObject nomalMonsterPrefab;
         GameObject namedMonsterPrefab;
         GameObject bossMonsterPrefab;
-        GameObject[] bossSkill;
+        public GameObject[] bossSkill;
         GameObject gameCanvasPrefab;
 
 
