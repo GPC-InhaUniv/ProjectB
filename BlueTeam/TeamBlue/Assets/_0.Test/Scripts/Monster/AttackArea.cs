@@ -18,12 +18,12 @@ public class AttackArea : MonoBehaviour {
         if (other.CompareTag("Player"))
         {
             Character player =  other.GetComponent<Character>();
-            player.ReceiveDamage(characters.CharacterAttackPower);
+            player.ReceiveDamage(characters.AttackPower);
         }
         else if(other.CompareTag("Monster"))
         {
             Character monster = other.GetComponent<Character>();
-            monster.ReceiveDamage(characters.CharacterAttackPower);
+            monster.ReceiveDamage(characters.AttackPower);
             characters.transform.LookAt(other.transform);
         }
     }

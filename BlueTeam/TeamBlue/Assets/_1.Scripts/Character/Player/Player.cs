@@ -37,8 +37,8 @@ namespace ProjectB.Characters.Players
         public Vector3 TargetVector { get { return targetVector; } }
         Vector3 targetVector;
 
-        public float PlayerMaxExp { get { return playerMaxExp; } private set { } }
-        float playerMaxExp;
+        public float MaxExp { get { return maxExp; } private set { } }
+        float maxExp;
 
         public bool IsRunning { get { return isRunning; } private set { } }
         [SerializeField]
@@ -101,17 +101,17 @@ namespace ProjectB.Characters.Players
 
         void TestSetCharacterStatus() //테스트용 함수 - 삭제 예정
         {
-            characterExp = 200;
-            characterLevel = 1;
+            exp = 200;
+            level = 1;
 
-            characterMaxHealthPoint = characterLevel * 1000 + equipmentHp;
-            characterHealthPoint = characterMaxHealthPoint;
+            maxHealthPoint = Level * 1000 + equipmentHp;
+            healthPoint = maxHealthPoint;
 
-            characterAttackPower = characterLevel * 10;
-            characterDefensivePower += equipmentDefensePowr;
+            attackPower = level * 10;
+            defensivePower += equipmentDefensePowr;
 
-            playerMaxExp = (1000 * 1.2f * CharacterLevel);
-            preAttckPower = characterAttackPower + equipmentAttackPower;
+            maxExp = (1000 * 1.2f * level);
+            preAttckPower = attackPower + equipmentAttackPower;
         }
 
         public void Initialize()
@@ -199,7 +199,7 @@ namespace ProjectB.Characters.Players
 
         void SetAttackPower(float power) 
         {
-            characterAttackPower = preAttckPower  * power;
+            attackPower = preAttckPower  * power;
         }
 
 
@@ -213,15 +213,15 @@ namespace ProjectB.Characters.Players
                 StartCoroutine(HitCoroutine(1.2f));
 
                 playerAinmaton.HitAnimation();
-                characterHealthPoint -= CalDamage(damage);
+                healthPoint -= CalDamage(damage);
 
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
                 playerPresenter.UpdateUI();
             }
 
-            if (CharacterHealthPoint <= 0)
+            if (healthPoint <= 0)
             {
-                characterHealthPoint = 0;
+                healthPoint = 0;
                 ChangeState(PlayerStates.PlayerCharacterDieState);
                 GameControllManager.Instance.CheckGameOver();
                 playerPresenter.UpdateUI();
@@ -230,9 +230,9 @@ namespace ProjectB.Characters.Players
 
         float CalDamage(float damage)
         {
-            if (0 < damage - characterDefensivePower * 0.1f)
+            if (0 < damage - defensivePower * 0.1f)
             {
-                return damage - characterDefensivePower * 0.1f;
+                return damage - defensivePower * 0.1f;
             }
             else return 0;
         }
@@ -257,20 +257,20 @@ namespace ProjectB.Characters.Players
         void GetCharacterStatusFromDataManager()
         {
             GameDataManager.Instance.GetEquipmentStatus(ref equipmentHp,ref equipmentAttackPower,ref equipmentDefensePowr);
-            characterExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
-            characterLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+            exp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
+            level = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
         }
 
         void SetCharacterStatus()
         {
-            characterMaxHealthPoint = characterLevel * 1000 + equipmentHp;
-            characterHealthPoint = characterMaxHealthPoint;
+            maxHealthPoint = level * 1000 + equipmentHp;
+            healthPoint = maxHealthPoint;
 
-            characterAttackPower = characterLevel * 10;
-            characterDefensivePower += equipmentDefensePowr;
+            attackPower = level * 10;
+            defensivePower += equipmentDefensePowr;
 
-            playerMaxExp = (1000 * 1.2f * CharacterLevel);
-            preAttckPower = characterAttackPower + equipmentAttackPower;
+            maxExp = (1000 * 1.2f * level);
+            preAttckPower = attackPower + equipmentAttackPower;
         }
         //데이터 불러오기 및 정리하기
 
