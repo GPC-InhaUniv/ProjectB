@@ -65,6 +65,10 @@ namespace ProjectB.Characters.Players
         {
             animator.SetTrigger(AnimationState.Hit.ToString());
         }
+        public void ResetHitTrigger()
+        {
+            animator.ResetTrigger(AnimationState.Hit.ToString());
+        }
 
         public void WeaponSwapAnimation(PlayerCharacterWeaponState weaponState)
         {

@@ -112,7 +112,10 @@ namespace ProjectB.Characters.Players
         public void Initialize()
         {
             isDied = false;
+            playerAinmaton.ResetHitTrigger();
+
             ChangeState(PlayerStates.PlayerCharacterIdleState);
+
             weapon.SetShortSword();
             playerAinmaton.InitStateAnimation();
             playerAinmaton.InitWeapon();
@@ -202,6 +205,9 @@ namespace ProjectB.Characters.Players
             {
                 healthPoint = 0;
                 ChangeState(PlayerStates.PlayerCharacterDieState);
+
+                SoundManager.Instance.SetSound(SoundFXType.PlayerDeath);
+
                 GameControllManager.Instance.CheckGameOver();
                 playerPresenter.UpdateHpUI();
             }
