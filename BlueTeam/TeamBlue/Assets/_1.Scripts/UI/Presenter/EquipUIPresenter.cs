@@ -80,15 +80,9 @@ public class EquipUIPresenter : MonoBehaviour
 
     public void LoadToWearItem()
     {
-        equipItem[0].SetItem(GameDataManager.Instance.EquipmentItem[2]);
-        equipItem[1].SetItem(GameDataManager.Instance.EquipmentItem[1]);
-        equipItem[2].SetItem(GameDataManager.Instance.EquipmentItem[0]);
-
-        //for(int i = 0; i < equipItem.Count; i++)
-        //{
-        //    equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
-        //    equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
-        //    equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
-        //}
+        for(int i = 0; i < equipItem.Count; i++)
+        {
+            equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
+        }
     }
 }
