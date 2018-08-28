@@ -129,6 +129,9 @@ public class AssetBundleManager : Singleton<AssetBundleManager> {
 
     public Sprite LoadSprite(BundleType bundleType, string AssetName)
     {
+        if (AssetName == null)
+            return null;
+
         Sprite tempSprite;
         if (CommonAssetBundle == null)
             CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
