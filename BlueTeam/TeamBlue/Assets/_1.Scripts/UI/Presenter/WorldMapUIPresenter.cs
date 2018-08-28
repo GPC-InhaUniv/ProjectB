@@ -36,7 +36,7 @@ public class WorldMapUIPresenter : MonoBehaviour
     }
     public void OnClickBossButton()
     {
-        GameControllManager.Instance.MoveNextScene(LoadType.BossDungeon, 0);
+        GameControllManager.Instance.MoveNextScene(LoadType.BossDungeon, 1);
     }
 
 }
