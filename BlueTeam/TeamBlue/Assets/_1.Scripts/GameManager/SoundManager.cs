@@ -28,6 +28,7 @@ namespace ProjectB.GameManager
             sfxVolume = 1.0f;
             bgmVolume = 1.0f;
             SoundClips = new AudioClip[numberOfSFX];
+            SoundSources = new AudioSource[numberOfAudioSources];
             SoundSources = GetComponents<AudioSource>();
         }
         

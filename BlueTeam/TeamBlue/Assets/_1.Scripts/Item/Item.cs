@@ -108,7 +108,7 @@ namespace ProjectB.Item
                     itemAmount = 0;
 
                     if (image != null)
-                        itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.itemname);
+                        itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
                     else
                         itemImage.sprite = null;
                 }
@@ -149,7 +149,7 @@ namespace ProjectB.Item
         public void OnPointerUp(PointerEventData eventData)
         {
             this.itemNameText.text = null;
-            this.itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.itemname);
+            this.itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
         }
     }
 }
