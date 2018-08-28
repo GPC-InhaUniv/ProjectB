@@ -13,12 +13,12 @@ namespace ProjectB.UI.Presenter
         [SerializeField]
         Button attackButton, skillButton, backStepButton, weaponSwapButton;
         [SerializeField]
-        Image skillImage, backStepImage, weaponSwapImage, attackImage;
+        Image attackImage, skillImage, backStepImage, weaponSwapImage;
 
         [SerializeField]
         Image hpBar,expBar;
         [SerializeField]
-        Text levelText,hpValueText,expValueText, playerId;
+        Text level, hp, exp, ID;
 
         [SerializeField]
         JoyStick joyStick;
@@ -52,16 +52,16 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
-            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
-            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
-            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            Attack4 = new CommandAttack4(player.PlayerAinmaton);
             //상단 5줄은 테스트용임, 오류날 시 주석처리
 
-            skillCoolDownTime = 5.0f;
+            skillCoolDownTime = 4.0f;
             backStepCoolDownTime = 2.0f;
-            swapCoolDownTime = 2.5f;
+            swapCoolDownTime = 2.0f;
             attackCoolDownTime = 1.0f;
 
             inputMoveVector = Vector3.zero;
@@ -106,9 +106,10 @@ namespace ProjectB.UI.Presenter
         {
             if (player == null)
                 return;
+
             inputMoveVector = PoolInput();
 
-            if (GetIsRunningState(player.IsWorking))
+            if (GetIsState(player.IsWorking))
             {
                 SetInputVector();
             }
@@ -126,6 +127,8 @@ namespace ProjectB.UI.Presenter
 
         void SetInputVector()
         {
+            if (!GetIsState(player.IsWorking)) return;
+
             player.MoveVector = inputMoveVector;
 
             if (inputMoveVector != Vector3.zero)
@@ -140,7 +143,9 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            if (GetIsRunningState(player.IsRunning))
+            if (!GetIsState(player.IsWorking)) return;
+
+            if (GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -157,7 +162,9 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            if (GetIsRunningState(player.IsRunning))
+            if (!GetIsState(player.IsWorking)) return;
+
+            if (GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
@@ -173,7 +180,9 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (GetIsRunningState(player.IsRunning))
+            if (!GetIsState(player.IsWorking)) return;
+
+            if (GetIsState(player.IsRunning))
             {
                 if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
                 {
@@ -186,7 +195,6 @@ namespace ProjectB.UI.Presenter
 
                 SwapWeaponCoolDown();
 
-                isComboState = false;
                 commandControll.ClearCommand();
                 comboResetCount = 0;
             }
@@ -208,58 +216,48 @@ namespace ProjectB.UI.Presenter
 
         void ComboOne()
         {
-            if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
+            if (comboResetCount > 0) return;
+            if (GetWeaponState())
             {
-                if (comboResetCount == 0)
-                {
-                    commandControll.TakeCommand(Attack1);
-                    commandControll.TakeCommand(Attack2);
-                    commandControll.TakeCommand(Attack3);
-                }
+                commandControll.TakeCommand(Attack1);
+                commandControll.TakeCommand(Attack2);
+                commandControll.TakeCommand(Attack3);
             }
-            else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+            else
             {
-                if (comboResetCount == 0)
-                {
-                    commandControll.TakeCommand(Attack1);
-                    commandControll.TakeCommand(Attack3);
-                }
+                commandControll.TakeCommand(Attack1);
+                commandControll.TakeCommand(Attack2);
             }
         }
 
         void ComboTwo()
         {
-            if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
+            if (comboResetCount > 0) return;
+            if (GetWeaponState())
             {
-                if (comboResetCount == 0)
-                {
-                    commandControll.TakeCommand(Attack1);
-                    commandControll.TakeCommand(Attack2);
-                    commandControll.TakeCommand(Attack4);
-                }
+                commandControll.TakeCommand(Attack1);
+                commandControll.TakeCommand(Attack2);
+                commandControll.TakeCommand(Attack4);
             }
-            else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+            else
             {
-                if (comboResetCount == 0)
-                {
-                    commandControll.TakeCommand(Attack1);
-                    commandControll.TakeCommand(Attack2);
-                }
+                commandControll.TakeCommand(Attack1);
+                commandControll.TakeCommand(Attack3);
             }
 
         }
 
         void StartCombo()
         {
-            if (GetIsRunningState(player.IsRunning))
+            if (!GetIsState(player.IsWorking)) return;
+
+            if (GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
                 commandControll.ExcuteCommand();
 
                 StartButtonCoolDown(attackCoolDownTime, attackButton, attackImage);
                 SwapWeaponCoolDown();
-
-                isComboState = true;
 
                 comboResetCount++;
             }
@@ -309,6 +307,7 @@ namespace ProjectB.UI.Presenter
             button.interactable = false;
             yield return new WaitForSeconds(time);
             button.interactable = true;
+
             isSwap = false;
         }
 
@@ -342,14 +341,10 @@ namespace ProjectB.UI.Presenter
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            else return false;
         }
 
-
-        bool GetIsRunningState(bool state)
+        bool GetIsState(bool state)
         {
             if (state)
             {
@@ -358,19 +353,22 @@ namespace ProjectB.UI.Presenter
             else return true;
         }
 
-        public void UpdateUI()
+        public void SetpUpUI()
         {
-            playerId.text = AccountInfo.Instance.Id;
-            levelText.text = "Level\n" + player.Level.ToString();
+            //ID.text = AccountInfo.Instance.Id;
+            level.text = "Level\n" + player.Level.ToString();
 
-            expValue = player.Exp / player.MaxExp * standardPercent;
-            hpValue = player.HealthPoint / player.MaxHealthPoint * standardPercent;
+            UpdateHpUI();
 
-            hpBar.fillAmount = player.HealthPoint / player.MaxHealthPoint;
-            hpValueText.text = hpValue.ToString("N1") + "%";
-            
+            expValue = (player.Exp > player.MaxExp) ? 99.99f : player.Exp / player.MaxExp * standardPercent;
             expBar.fillAmount = player.Exp / player.MaxExp;
-            expValueText.text = expValue.ToString("N1") + "%" ;
+            exp.text = expValue.ToString("N1") + "%" ;
         }      
+        public void UpdateHpUI()
+        {
+            hpValue = player.HealthPoint / player.MaxHealthPoint * standardPercent;
+            hpBar.fillAmount = player.HealthPoint / player.MaxHealthPoint;
+            hp.text = hpValue.ToString("N1") + "%";
+        }
     }
 }

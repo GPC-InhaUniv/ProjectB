@@ -8,8 +8,8 @@ public class Test_UsePool : MonoBehaviour {
     GameObject test;
     public void SetPool()
     {
-        Test_AssetBundleManager.Instance.LoadArea(AreaType.Village);
-        Test_AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
+        AssetBundleManager.Instance.LoadArea(AreaType.Village);
+        AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
     }
 
     public void testinstance()

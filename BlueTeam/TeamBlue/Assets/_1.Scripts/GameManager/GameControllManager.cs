@@ -38,6 +38,7 @@ namespace ProjectB.GameManager
             totalMonsterCount = GameObjectsManager.Instance.MonsterPoolSize;
             totalExp = 1200 * CurrentIndex;
 
+
             switch (CurrentLoadType)
             {
                 case LoadType.WoodDungeon:
@@ -62,6 +63,23 @@ namespace ProjectB.GameManager
             isClearDungeon = false;
             GameMediator.Instance.ClearStage();
         }
+
+        void CalculateLevelUp()
+        {
+            float currentLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+            float currentExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
+
+            float nextLevepUpExp = 1000 + (100 * 1.2f * currentLevel);
+            if (nextLevepUpExp <= currentExp)
+            {
+                currentLevel++;
+                currentExp -= nextLevepUpExp;
+            }
+
+            GameDataManager.Instance.PlayerInfomation.PlayerLevel = (int)currentLevel;
+            GameDataManager.Instance.PlayerInfomation.PlayerExp = currentExp;
+
+        }
         public void CheckGameClear()
         {
             totalMonsterCount--;
@@ -69,12 +87,12 @@ namespace ProjectB.GameManager
             {
                 isClearDungeon = true;
                 GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
-
                 foreach (KeyValuePair<int, int> temp in ObtainedItemDic)
                 {
                     GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
                 }
                 ObtainedItemDic.Clear();
+                CalculateLevelUp();
                 GameDataManager.Instance.SetGameDataToServer();
                 GameMediator.Instance.ClearStage();
             }
@@ -104,7 +122,7 @@ namespace ProjectB.GameManager
 
             if (CurrentLoadType == LoadType.Village || CurrentLoadType == LoadType.VillageCheckDownLoad)
             {
-                tempCameraTransform.position = new Vector3(2.33f, 2.19f, 0.96f);
+                tempCameraTransform.position = new Vector3(2.33f, 11f, 0.96f);
                 tempCameraTransform.rotation = Quaternion.Euler(19.98f, 42.253f, 0.7f);
 
             }
@@ -163,13 +181,13 @@ namespace ProjectB.GameManager
                     Vector3 addPos = new Vector3(5, 0, 5);
                     if (i % 6 == 0)
                     {
-                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Named).transform.position = MonsterPostion[positionNum].transform.position + addPos;
+                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Named).transform.position = MonsterPostion[positionNum].transform.position;// + addPos;
                         if (i != 0)
                             positionNum++;                       
                     }
                     else 
                     {
-                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Normal).transform.position = MonsterPostion[positionNum].transform.position + addPos;
+                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Normal).transform.position = MonsterPostion[positionNum].transform.position;// + addPos;
                     }
 
                 }

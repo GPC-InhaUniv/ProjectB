@@ -43,9 +43,9 @@ public class CombinationUIPresenter : MonoBehaviour
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
+                currentItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
+                swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
 
                 DisplayToCombinationResourcesSlot(currentItem);
                 combinationItemCode = currentItem.Code;
@@ -90,10 +90,10 @@ public class CombinationUIPresenter : MonoBehaviour
         combinationResourcesItems[2].ItemAmountText.text = item.RecipeIron.ToString();
         combinationResourcesItems[3].ItemAmountText.text = item.RecipeSheep.ToString();
 
-        combinationResourcesItems[0].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Brick");
-        combinationResourcesItems[1].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Wood");
-        combinationResourcesItems[2].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Iron");
-        combinationResourcesItems[3].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Sheep");
+        combinationResourcesItems[0].ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Brick");
+        combinationResourcesItems[1].ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Wood");
+        combinationResourcesItems[2].ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Iron");
+        combinationResourcesItems[3].ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Sheep");
 
         requirematerials[0] = item.RecipeBrick;
         requirematerials[1] = item.RecipeWood;
@@ -113,7 +113,7 @@ public class CombinationUIPresenter : MonoBehaviour
     public void ResetCombinationSlot()
     {
         combinationSlotItem.InitializationItem();
-        combinationSlotItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, combinationSlotItem.Image);
+        combinationSlotItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, combinationSlotItem.Image);
         InitializeToCombinationResourcesSlot();
     }
 }

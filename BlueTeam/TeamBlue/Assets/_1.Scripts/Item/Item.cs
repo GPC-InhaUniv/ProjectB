@@ -106,13 +106,14 @@ namespace ProjectB.Item
                     image = itemtable.sheets[0].list[i].Image;
                     itemAmount = 0;
 
-                    itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
+                    itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
                 }
             }
         }
 
         public void InitializationItem()
         {
+            Code = 0;
             hp = 0;
             attack = 0;
             recipeWood = 0;
@@ -123,7 +124,7 @@ namespace ProjectB.Item
             itemNameText.text = null;
             itemImage.sprite = null;
             image = null;
-            itemname = null;
+            itemname = "";
         }
 
         public void SetItemAmount(int amount)
@@ -145,7 +146,7 @@ namespace ProjectB.Item
         public void OnPointerUp(PointerEventData eventData)
         {
             this.itemNameText.text = null;
-            this.itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
+            this.itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
         }
     }
 }
