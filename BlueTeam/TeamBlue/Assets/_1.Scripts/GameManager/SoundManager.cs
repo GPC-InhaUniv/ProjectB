@@ -55,12 +55,7 @@ namespace ProjectB.GameManager
         {
             for (int i = 1; i < SoundSources.Length; i++)
             {
-                if ((SoundSources[i].clip != null) && (SoundSources[i].isPlaying))
-                {
-                    continue;
-                }
-
-                else if ((SoundSources[i].clip != null) && (!SoundSources[i].isPlaying))
+                if ((SoundSources[i].clip != null) && (!SoundSources[i].isPlaying))
                 {
                     SoundSources[i].clip = audioClip;
                     SoundSources[i].volume = sfxVolume;
