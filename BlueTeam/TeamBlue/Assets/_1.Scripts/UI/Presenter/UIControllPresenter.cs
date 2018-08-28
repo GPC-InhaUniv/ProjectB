@@ -64,6 +64,7 @@ namespace ProjectB.UI.Presenter
         private void OnEnable()
         {
             loadtype = GameControllManager.Instance.CurrentLoadType;
+            OnClickedBackGround();
             SetActiveUI();
         }
         private void OnDisable()
@@ -122,6 +123,8 @@ namespace ProjectB.UI.Presenter
             isOpenedQuestUI = false;
             isOpenedSetupUI = false;
             isOpenedEquipmentUI = false;
+            isOpenedWinUI = false;
+
             SetActiveUI();
         }
 

@@ -15,14 +15,12 @@ namespace ProjectB.Characters.Monsters
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
 
-
             attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
 
             characterHealthPoint = characterMaxHealthPoint;
 
-
-
+            hitParticle.SetActive(false);
         }
         void Update()
         {

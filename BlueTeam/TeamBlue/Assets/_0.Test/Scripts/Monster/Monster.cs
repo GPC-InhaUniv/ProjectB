@@ -13,8 +13,6 @@ namespace ProjectB.Characters.Monsters
         Named,
         Boss,
     }
-
-
     public enum AniStateParm
     {
         Moving,
@@ -26,12 +24,10 @@ namespace ProjectB.Characters.Monsters
         Defence,
         Died,
     }
-    //test//
     public delegate void NoticeDie(GameObject gameObject);
 
     public abstract class Monster : Character
     {
-        //test//
         public static event NoticeDie NoticeToRader;
 
         [SerializeField]
@@ -55,17 +51,13 @@ namespace ProjectB.Characters.Monsters
         protected float waitBaseTime;
         [SerializeField]
         protected float waitTime, speed;
-        //Set Target//
-       // [SerializeField]
+
         public Transform attackTarget;
         [SerializeField]
         protected MonsterMove monsterMove;
         //Move To Destination//
         [SerializeField]
         protected Vector3 startPosition;
-
-        int maxPercent;
-
 
         // Monster State//
         public enum State
@@ -77,12 +69,18 @@ namespace ProjectB.Characters.Monsters
             Died,       // 사망.
         };
         public State state, currentState;
+
         //Monster Motion//
         public Animator animator;
 
         protected IAttackableBridge attackable;
         protected ISkillUsableBridge skillUsable;
         protected bool isInvincibility;
+
+        [SerializeField]
+        protected GameObject hitParticle;
+
+        int maxPercent;
 
         public override void ReceiveDamage(float damage)
         {
@@ -97,6 +95,7 @@ namespace ProjectB.Characters.Monsters
                 else
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    StartCoroutine(HitCoroutine(1.0f));
                     characterHealthPoint -= damage;
 
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
@@ -117,6 +116,15 @@ namespace ProjectB.Characters.Monsters
             isInvincibility = true;
             yield return new WaitForSeconds(1.0f);
             isInvincibility = false;
+
+        }
+        protected IEnumerator HitCoroutine(float time)
+        {
+            hitParticle.SetActive(true);
+
+            yield return new WaitForSeconds(time);
+
+            hitParticle.SetActive(false);
 
         }
 
@@ -174,8 +182,9 @@ namespace ProjectB.Characters.Monsters
             
 
             died = true;
-            animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
+
+            animator.SetTrigger(AniStateParm.Died.ToString());
 
             GameControllManager.Instance.CheckGameClear();
             int randomCount;
@@ -204,13 +213,13 @@ namespace ProjectB.Characters.Monsters
                     break;
             }
             //test//
-            //NoticeToRader(gameObject);
+            NoticeToRader(gameObject);
 
 
         }
         protected void RemovedFromWorld()
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         protected void WalkAround()
@@ -307,7 +316,6 @@ namespace ProjectB.Characters.Monsters
         protected void ChangeStateToWalking()
         {
             currentState = State.Walking;
-            Debug.Log("aaa");
         }
 
 
