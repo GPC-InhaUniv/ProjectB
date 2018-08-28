@@ -69,8 +69,8 @@ namespace ProjectB.Characters.Players
 
         private void Awake()
         {
-            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-            TestSetCharacterStatus();
+            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+           // TestSetCharacterStatus();
             //상단 두줄은 테스트용임, 오류날 시 주석처리 
 
             playerRigidbody = GetComponent<Rigidbody>();
@@ -84,7 +84,7 @@ namespace ProjectB.Characters.Players
 
         void Start()
         {
-            playerPresenter.SetpUpUI();
+            //playerPresenter.SetpUpUI();
             //상단 줄은 테스트용임, 오류날 시 주석처리 
 
             hitParticle.SetActive(false);
