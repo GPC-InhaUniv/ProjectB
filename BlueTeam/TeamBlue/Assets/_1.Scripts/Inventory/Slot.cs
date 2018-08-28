@@ -13,14 +13,14 @@ namespace ProjectB.Inventory
             InventorySlot, CombinationSlot, EquipSlot, WarehouseSlot
         }
 
-        protected Image ClickedImage;
+        protected Image clickedImage;
         protected bool isClicked;
         public bool IsClicked { get { return isClicked; } }
         protected static Slot beforePressSlot;
 
         private void OnEnable()
         {
-            ClickedImage = this.gameObject.GetComponent<Image>();
+            clickedImage = this.gameObject.GetComponent<Image>();
         }
 
         abstract public void OnPointerClick(PointerEventData eventData);
@@ -37,7 +37,7 @@ namespace ProjectB.Inventory
 
         public void InitializeToClickedImage()
         {
-            ClickedImage.color = new Color(1, 1, 1, 0.392f);
+            clickedImage.color = new Color(1, 1, 1, 0.392f);
         }
     }
 }

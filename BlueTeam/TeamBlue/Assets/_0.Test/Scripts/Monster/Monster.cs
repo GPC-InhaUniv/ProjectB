@@ -13,8 +13,6 @@ namespace ProjectB.Characters.Monsters
         Named,
         Boss,
     }
-
-
     public enum AniStateParm
     {
         Moving,
@@ -26,12 +24,10 @@ namespace ProjectB.Characters.Monsters
         Defence,
         Died,
     }
-    //test//
     public delegate void NoticeDie(GameObject gameObject);
 
     public abstract class Monster : Character
     {
-        //test//
         public static event NoticeDie NoticeToRader;
 
         [SerializeField]
@@ -55,8 +51,7 @@ namespace ProjectB.Characters.Monsters
         protected float waitBaseTime;
         [SerializeField]
         protected float waitTime, speed;
-        //Set Target//
-       // [SerializeField]
+
         public Transform attackTarget;
         [SerializeField]
         protected MonsterMove monsterMove;
@@ -74,6 +69,7 @@ namespace ProjectB.Characters.Monsters
             Died,       // 사망.
         };
         public State state, currentState;
+
         //Monster Motion//
         public Animator animator;
 
@@ -320,7 +316,6 @@ namespace ProjectB.Characters.Monsters
         protected void ChangeStateToWalking()
         {
             currentState = State.Walking;
-            Debug.Log("aaa");
         }
 
 
