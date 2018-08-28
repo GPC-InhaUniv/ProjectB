@@ -176,20 +176,27 @@ namespace ProjectB.GameManager
                 MonsterPostion[2] = GameObject.FindGameObjectWithTag("MonsterSpawnPosition3");
 
                 int positionNum = 0;
-                for (int i = 0; i < GameObjectsManager.Instance.MonsterPoolSize; i++)
+                if (CurrentLoadType != LoadType.BossDungeon)
                 {
-                    Vector3 addPos = new Vector3(5, 0, 5);
-                    if (i % 6 == 0)
+                    for (int i = 0; i < GameObjectsManager.Instance.MonsterPoolSize; i++)
                     {
-                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Named).transform.position = MonsterPostion[positionNum].transform.position;// + addPos;
-                        if (i != 0)
-                            positionNum++;                       
-                    }
-                    else 
-                    {
-                        GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Normal).transform.position = MonsterPostion[positionNum].transform.position;// + addPos;
-                    }
+                        Vector3 addPos = new Vector3(5, 0, 5);
+                        if (i % 6 == 0)
+                        {
+                            GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Named).transform.position = MonsterPostion[positionNum].transform.position;// + addPos;
+                            if (i != 0)
+                                positionNum++;
+                        }
+                        else
+                        {
+                            GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Normal).transform.position = MonsterPostion[positionNum].transform.position;// + addPos;
+                        }
 
+                    }
+                }
+                else
+                {
+                    GameObjectsManager.Instance.GetMonsterObject(Characters.Monsters.MonsterType.Boss).transform.position = MonsterPostion[0].transform.position;
                 }
 
                 //     Test_PoolManager.Instance.GetMonsterObject().transform.position = MonsterPostion[0].transform.position;
