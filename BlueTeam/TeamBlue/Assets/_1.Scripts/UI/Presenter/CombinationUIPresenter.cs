@@ -43,11 +43,11 @@ public class CombinationUIPresenter : MonoBehaviour
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
-                //currentItem.ItemImage.sprite = 에셋번들 로드 이미지
+                //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
+                currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.ItemName);
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
-                //swapItem.ItemImage.sprite = 에셋번들 로드 이미지
+                //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
+                swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.ItemName);
 
                 DisplayToCombinationResourcesSlot(currentItem);
                 combinationItemCode = currentItem.Code;
@@ -111,7 +111,7 @@ public class CombinationUIPresenter : MonoBehaviour
     {
         combinationSlotItem.InitializationItem();
         combinationSlotItem.ItemNameText.text = combinationSlotItem.ItemName; // 삭제 예정
-        //combinationSlotItem.ItemImage.sprite = 에셋번들 로드 이미지
+        combinationSlotItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, combinationSlotItem.ItemName);
         InitializeToCombinationResourcesSlot();
     }
 }
