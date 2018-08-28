@@ -1,0 +1,69 @@
+ManifestFileVersion: 0
+CRC: 2956974199
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5e0683af5af837bf292aecab57418fac
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4b4b6764c1ae42b1c40cfe5dfacd6d8d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 29314521640bc8847890ace407047a75, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5b74ef74a19fb994ab93437cf2d432ef, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ccb78ecc147493945b13b343394df2c9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 45a63cbe07e093847b4eaa9dc862ed5c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 23ca494fa7557c34992e40dedc68bf31, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+Assets:
+- Assets/_3.Prefabs/Character/Player/PlayerCharacter.prefab
+- Assets/_3.Prefabs/Character/Player/Radar.prefab
+Dependencies: []
