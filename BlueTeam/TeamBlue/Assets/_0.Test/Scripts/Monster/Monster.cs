@@ -28,8 +28,18 @@ namespace ProjectB.Characters.Monsters
 
     public abstract class Monster : Character
     {
-        public static event NoticeDie NoticeToRader;
+        // Monster State//
+        protected enum State
+        {
+            Walking,    // 탐색.
+            Chasing,    // 추적.
+            Attacking,  // 공격.
+            Skilling,   // 스킬.
+            Died,       // 사망.
+        };
 
+        public static event NoticeDie NoticeToRader;
+        public Transform attackTarget;
         [SerializeField]
         protected GameObject[] skillprefab;
         protected bool attacking, died, skillUse;
@@ -49,27 +59,14 @@ namespace ProjectB.Characters.Monsters
 
         protected MonsterMove monsterMove;
         protected Vector3 startPosition;
+        protected Animator animator;
 
-        public Transform attackTarget;
-
-        // Monster State//
-        protected enum State
-        {
-            Walking,    // 탐색.
-            Chasing,    // 추적.
-            Attacking,  // 공격.
-            Skilling,   // 스킬.
-            Died,       // 사망.
-        };
+        int maxPercent;
 
         //Monster Motion//
-        public Animator animator;
-
 
         [SerializeField]
         protected GameObject hitParticle;
-
-        int maxPercent;
 
         public override void ReceiveDamage(float damage)
         {
@@ -117,7 +114,6 @@ namespace ProjectB.Characters.Monsters
 
         }
 
-
         protected void ChangeState(State currentState)
         {
             this.currentState = currentState;
@@ -126,7 +122,6 @@ namespace ProjectB.Characters.Monsters
         {
             attackTarget = target;
         }
-
 
         protected virtual void AttackTarget()
         {
