@@ -106,7 +106,7 @@ namespace ProjectB.Item
                     image = itemtable.sheets[0].list[i].Image;
                     itemAmount = 0;
 
-                    itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
+                    itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
                 }
             }
         }
@@ -145,7 +145,7 @@ namespace ProjectB.Item
         public void OnPointerUp(PointerEventData eventData)
         {
             this.itemNameText.text = null;
-            this.itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
+            this.itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
         }
     }
 }
