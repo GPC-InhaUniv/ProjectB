@@ -102,7 +102,6 @@ namespace ProjectB.GameManager
                 if (IsDownLoadDone)
                 {
 
-                    GameObjectsManager.Instance.ClearPool();
                     GameObjectsManager.Instance.DestroyObject();
 
                     switch (currentType)

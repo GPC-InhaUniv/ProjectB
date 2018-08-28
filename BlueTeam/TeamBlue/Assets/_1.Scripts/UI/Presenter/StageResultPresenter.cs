@@ -65,7 +65,7 @@ namespace ProjectB.UI.Presenter
 
                     getItemText.text = "아이템 획득 목록 \n" + "\n" + stringBuilder.ToString();
                 }
-
+                GameControllManager.Instance.ObtainedItemDic.Clear();
             }
             else
             {
