@@ -18,7 +18,7 @@ namespace ProjectB.Characters.Monsters
             attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
 
-            characterHealthPoint = characterMaxHealthPoint;
+            healthPoint = maxHealthPoint;
 
             hitParticle.SetActive(false);
         }

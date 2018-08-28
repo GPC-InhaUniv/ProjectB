@@ -31,13 +31,13 @@ namespace ProjectB.GameManager
         string assetBundleDirectory;
         string currentAssetName = "";
         const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1slLaHmMvbkZCwZD94NtEh3cuB0iSV_AT";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=19Qzg3Uw5bPgZf3if1B8EFdelrbS482iJ";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1-yPtycqZZznNv67IZF-7mNhIL3LKtmOm";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1q_QbEOg5OFe4HAXfpiSfVM8SqINL-aKp";
         const string townBundleURL = "https://docs.google.com/uc?export=download&id=1_HlQDDESVmgOPrkrdLrk1DNjeWYcYzXw"; 
         const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1bozDf8t_mx3PSNaJC8nC1m6MH1UIBjGs"; 
         const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1jr1yvxOIHSecUlyzhJ2NanMcXeTLmdk6";  
-        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1SWMM_F6jgnUAvjJCAwv9wwXM0D8mihcb"; 
-        
+        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1SWMM_F6jgnUAvjJCAwv9wwXM0D8mihcb";
+      
 
         int totalBundleCount = 8;
         static int userBundleCount = 0;
@@ -72,7 +72,9 @@ namespace ProjectB.GameManager
                 IsDownLoadDone = true;
 
             }
-
+            SoundManager.Instance.LoadSoundClips();
+            SoundManager.Instance.PlayBGM();
+            
             StartCoroutine(LoadBundles());
 
             StartCoroutine(LoadScene());

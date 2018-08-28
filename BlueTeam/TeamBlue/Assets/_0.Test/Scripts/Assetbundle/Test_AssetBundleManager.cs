@@ -45,7 +45,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     void Start()
     {
-      
+        
         DontDestroyOnLoad(gameObject);
      // StartCoroutine(LoadedAssetBundles());
     }
@@ -122,14 +122,26 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     }
 
 
-    public AudioClip LoadTest(BundleType bundleType,string AssetName)
+    public AudioClip LoadSound(BundleType bundleType,string AssetName)
     {
         AudioClip temp;
-        CommonAssetBundle = AssetBundle.LoadFromFile(SetPath("soundbundle"));
+        if (CommonAssetBundle == null)
+            CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
         temp = CommonAssetBundle.LoadAsset(AssetName) as AudioClip;
 
         return temp;
     }
+
+    public Sprite LoadSprite(BundleType bundleType,string AssetName)
+    {
+        Sprite tempSprite;
+        if (CommonAssetBundle == null)
+            CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
+        tempSprite = CommonAssetBundle.LoadAsset(AssetName) as Sprite;
+
+        return tempSprite;
+    }
+
     public GameObject LoadObject(BundleType bundleType, string AssetName)
     {
         

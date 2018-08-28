@@ -18,7 +18,7 @@ namespace ProjectB.Inventory
             if (!isClicked)
             {
                 isClicked = true;
-                ClickedImage.color = new Color(1, 1, 1, 1);
+                clickedImage.color = new Color(1, 1, 1, 1);
             }
             else
             {

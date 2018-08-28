@@ -107,16 +107,12 @@ namespace ProjectB.Item
                     itemNameText.text = itemname; // 삭제 예정
                     itemAmount = 0;
 
-                    //if (image != null
-                    //    //itemImage.sprite = 번들로드 이미지
-                    //else
-                    //    itemImage.sprite = null;
+                    if (image != null)
+                        itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.itemname);
+                    else
+                        itemImage.sprite = null;
                 }
             }
-            //if (GameDataManager.Instance.PlayerGamedata.ContainsKey(code))
-            //    GameDataManager.Instance.PlayerGamedata[code] = 1;
-            //else
-            //    GameDataManager.Instance.PlayerGamedata.Add(Code, 1);
         }
 
         public void InitializationItem()
@@ -128,6 +124,8 @@ namespace ProjectB.Item
             recipeIron = 0;
             recipeBrick = 0;
             itemAmount = 0;
+            itemNameText.text = null;
+            itemImage.sprite = null;
             image = null;
             itemname = null;
         }
@@ -151,7 +149,7 @@ namespace ProjectB.Item
         public void OnPointerUp(PointerEventData eventData)
         {
             this.itemNameText.text = null;
-            //this.itemImage.sprite = 에셋번들 로드 이미지
+            this.itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.itemname);
         }
     }
 }
