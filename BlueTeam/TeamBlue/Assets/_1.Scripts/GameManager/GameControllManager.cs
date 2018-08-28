@@ -6,7 +6,7 @@ namespace ProjectB.GameManager
 {
     public class GameControllManager : Singleton<GameControllManager>
     {
-
+        const int MAXMONSTERCOUNT = 5;
         public LoadType CurrentLoadType;
         public int CurrentIndex;
 
@@ -18,6 +18,7 @@ namespace ProjectB.GameManager
         public int TotalExp { get { return totalExp; } private set { } }
 
         int totalMonsterCount;
+        public int TotalMonsterCount { get { return totalMonsterCount; } private set { }  }
         int cameraOffSetZ = 5;
         int cameraOffSetY = 2;
         int cameraOffSetX = 3;
@@ -35,7 +36,7 @@ namespace ProjectB.GameManager
         }
         public void CheckMonsterAtDungeon()
         {
-            totalMonsterCount = GameObjectsManager.Instance.MonsterPoolSize;
+            totalMonsterCount = MAXMONSTERCOUNT;
             totalExp = 1200 * CurrentIndex;
 
 
@@ -91,7 +92,6 @@ namespace ProjectB.GameManager
                 {
                     GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
                 }
-                ObtainedItemDic.Clear();
                 CalculateLevelUp();
                 GameDataManager.Instance.SetGameDataToServer();
                 GameMediator.Instance.ClearStage();

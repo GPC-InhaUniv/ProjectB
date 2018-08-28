@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using ProjectB.Item;
 using ProjectB.GameManager;
+
 public class EquipUIPresenter : MonoBehaviour
 {
-    [SerializeField] List<Item> equipItem;
+    [SerializeField] List<Item> equipItems;
+    // index 0 : HP, 1 : Attack, 2 : Defence 
+    [SerializeField] Text[] helmetInfos;
+    [SerializeField] Text[] amorInfos;
+    [SerializeField] Text[] weaponInfos;
 
     public void Awake()
     {
@@ -39,6 +45,8 @@ public class EquipUIPresenter : MonoBehaviour
                         swapItem.SetItem(SwapItemCode);
                         swapItem.SetItemAmount(SwapItemAmount);
                         GameDataManager.Instance.PlayerGamedata[currentItem.Code]--;
+                        if(SwapItemCode != 0)
+                            GameDataManager.Instance.PlayerGamedata[swapItem.Code]++;
                     }
                 }
             }
@@ -47,6 +55,10 @@ public class EquipUIPresenter : MonoBehaviour
         swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
         swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
         GameDataManager.Instance.EquipmentItem[0] = currentItem.Code;
+
+        weaponInfos[0].text = "HP : " + currentItem.Hp.ToString();
+        weaponInfos[1].text = "Attack : " + currentItem.Attack.ToString();
+        weaponInfos[2].text = "Defence : " + currentItem.Defence.ToString();
     }
 
     public void SwapToFromInventorySlotToEquipArmorSlot(Item currentItem, Item swapItem)
@@ -76,6 +88,8 @@ public class EquipUIPresenter : MonoBehaviour
                         swapItem.SetItem(SwapItemCode);
                         swapItem.SetItemAmount(SwapItemAmount);
                         GameDataManager.Instance.PlayerGamedata[currentItem.Code]--;
+                        if (SwapItemCode != 0)
+                            GameDataManager.Instance.PlayerGamedata[swapItem.Code]++;
                     }
                 }
             }
@@ -84,6 +98,10 @@ public class EquipUIPresenter : MonoBehaviour
         swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
         swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
         GameDataManager.Instance.EquipmentItem[1] = currentItem.Code;
+
+        amorInfos[0].text = "HP : " + currentItem.Hp.ToString();
+        amorInfos[1].text = "Attack : " + currentItem.Attack.ToString();
+        amorInfos[2].text = "Defence : " + currentItem.Defence.ToString();
     }
 
     public void SwapToFromInventorySlotToEquipHelmetSlot(Item currentItem, Item swapItem)
@@ -113,7 +131,8 @@ public class EquipUIPresenter : MonoBehaviour
                         swapItem.SetItem(SwapItemCode);
                         swapItem.SetItemAmount(SwapItemAmount);
                         GameDataManager.Instance.PlayerGamedata[currentItem.Code]--;
-                        GameDataManager.Instance.PlayerGamedata[swapItem.Code]++;
+                        if (SwapItemCode != 0)
+                            GameDataManager.Instance.PlayerGamedata[swapItem.Code]++;
                     }
                 }
             }
@@ -122,13 +141,17 @@ public class EquipUIPresenter : MonoBehaviour
         swapItem.ItemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
         swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
         GameDataManager.Instance.EquipmentItem[2] = currentItem.Code;
+
+        helmetInfos[0].text = "HP : " + currentItem.Hp.ToString();
+        helmetInfos[1].text = "Attack : " + currentItem.Attack.ToString();
+        helmetInfos[2].text = "Defence : " + currentItem.Defence.ToString();
     }
 
     public void LoadToWearItem()
     {
-        for(int i = 0; i < equipItem.Count; i++)
+        for(int i = 0; i < equipItems.Count; i++)
         {
-            equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
+            equipItems[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
         }
     }
 }

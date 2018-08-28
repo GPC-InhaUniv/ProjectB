@@ -57,7 +57,7 @@ namespace ProjectB.GameManager
                 areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
             else
             {
-                
+
                 areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
             }
         }
@@ -69,21 +69,10 @@ namespace ProjectB.GameManager
             namedMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
             if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
             {
-                bossMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Boss");
-                bossSkill[0] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
-                DontDestroyOnLoad(bossSkill[0]);
-                bossSkill[0].SetActive(false);
-                
-           
-                bossSkill[1] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
-                DontDestroyOnLoad(bossSkill[1]);
-                bossSkill[1].SetActive(false);
-                bossSkill[2] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
-                DontDestroyOnLoad(bossSkill[2]);
-                bossSkill[2].SetActive(false);
+               
             }
-            
-            
+
+
         }
 
         GameObject areaObject;
@@ -135,8 +124,26 @@ namespace ProjectB.GameManager
         {
             if (areaObject != null)
                 Destroy(areaObject);
-            //  if (playerObject != null)
-            //     Destroy(playerObject);
+
+            if (normalMonster == null)
+                return;
+            for (int i = 0; i < normalMonster.Length; i++)
+            {
+                Destroy(normalMonster[i]);
+            }
+            for (int i = 0; i < namedMonster.Length; i++)
+            {
+                Destroy(namedMonster[i]);
+            }
+            if (bossSkill != null)
+                for (int i = 0; i < bossSkill.Length; i++)
+                {
+                    Destroy(bossSkill[i]);
+                }
+            if (bossMonster != null)
+                Destroy(bossMonster);
+            curruntNormalMonsterIndex = 0;
+            curruntNamedMonsterIndex = 0;
         }
 
         //Pool
@@ -166,34 +173,21 @@ namespace ProjectB.GameManager
             }
             if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
             {
-                bossMonster = Instantiate(bossMonsterPrefab);
+                bossMonster = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "Boss"));
                 DontDestroyOnLoad(bossMonster);
                 bossMonster.SetActive(false);
-            }
-
-        }
-
-        public void ClearPool()
-        {
-            if (normalMonster == null)
-                return;
-            for (int i = 0; i < normalMonster.Length; i++)
-            {
-                Destroy(normalMonster[i]);
-            }
-            for (int i = 0; i < namedMonster.Length; i++)
-            {
-                Destroy(namedMonster[i]);
-            }
-            if (bossSkill != null)
-                for (int i = 0; i < bossSkill.Length; i++)
+                bossSkill[0] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
+                bossSkill[1] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
+                bossSkill[2] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
+               
+                for(int i = 0; i <bossSkill.Length;i++)
                 {
-                    Destroy(bossSkill[i]);
+                    DontDestroyOnLoad(bossSkill[i]);
+                    bossSkill[i].SetActive(false);
                 }
-            if (bossMonster != null)
-                Destroy(bossMonster);
-            curruntNormalMonsterIndex = 0;
-            curruntNamedMonsterIndex = 0;
+               
+            }
+
         }
 
 
@@ -223,6 +217,7 @@ namespace ProjectB.GameManager
                     break;
                 case MonsterType.Boss:
                     monsterObject = bossMonster;
+                    monsterObject.SetActive(true);
                     break;
                 default:
                     monsterObject = null;
