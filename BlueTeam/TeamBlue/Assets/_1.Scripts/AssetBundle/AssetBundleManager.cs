@@ -1,40 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-/// <summary>
-/// http://wergia.tistory.com/36?category=737654
-/// </summary>
 using UnityEngine.UI;
-//public enum AreaType
-//{
-//    Null,
-//    Village,
-//    WoodDungeon,
-//    IronDungeon,
-//    BrickDungeon,
-//    SheepDungeon,
-//    BossDungeon,
-//}
 
-//public enum BundleType
-//{
-//    Player,
-//    Monster,
-//    Common,
-//    Area,
-//}
-
-
-public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
+public enum AreaType
 {
+    Null,
+    Village,
+    WoodDungeon,
+    IronDungeon,
+    BrickDungeon,
+    SheepDungeon,
+    BossDungeon,
+}
+
+public enum BundleType
+{
+    Player,
+    Monster,
+    Common,
+    Area,
+}
+
+public class AssetBundleManager : Singleton<AssetBundleManager> {
     const string PlayerBundleName = "playerbundle";
     const string CommonBundleName = "commonbundle";
     const string MonsterBundleName = "TestMonster";
-    
-    protected Test_AssetBundleManager() { }
 
-  
+    protected AssetBundleManager() { }
+
+
     //public string path;
     public Text Log;
     public AssetBundle PlayerBundle;
@@ -45,9 +40,9 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     void Start()
     {
-        
+
         DontDestroyOnLoad(gameObject);
-     // StartCoroutine(LoadedAssetBundles());
+        // StartCoroutine(LoadedAssetBundles());
     }
 
     public void LoadArea(AreaType areaType)
@@ -84,24 +79,24 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     {
         return Application.persistentDataPath + "/AssetBundles/" + assetName + "_unity3D";
     }
-    
+
     IEnumerator LoadedAssetBundles()
     {
         PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
 
         CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
-        if (PlayerBundle == null ||CommonAssetBundle == null)
+        if (PlayerBundle == null || CommonAssetBundle == null)
         {
             Debug.Log("Fail");
             yield break;
         }
         else
             Debug.Log("Successe");
-    } 
+    }
 
     IEnumerator LoadAssetBundle(string areaType)
     {
-        
+
         if (areaType == null)
             yield break;
         if (Area != null)
@@ -111,7 +106,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         }
 
         Area = AssetBundle.LoadFromFile(SetPath(areaType));
-        
+
         if (Area == null)
         {
             Debug.Log("Fail");
@@ -122,7 +117,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
     }
 
 
-    public AudioClip LoadSound(BundleType bundleType,string AssetName)
+    public AudioClip LoadSound(BundleType bundleType, string AssetName)
     {
         AudioClip temp;
         if (CommonAssetBundle == null)
@@ -132,7 +127,7 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
         return temp;
     }
 
-    public Sprite LoadSprite(BundleType bundleType,string AssetName)
+    public Sprite LoadSprite(BundleType bundleType, string AssetName)
     {
         Sprite tempSprite;
         if (CommonAssetBundle == null)
@@ -144,32 +139,32 @@ public class Test_AssetBundleManager : Singleton<Test_AssetBundleManager>
 
     public GameObject LoadObject(BundleType bundleType, string AssetName)
     {
-        
+
         GameObject gameObject;
         switch (bundleType)
         {
-            
+
             case BundleType.Player:
-                if(PlayerBundle ==null)
-                PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
+                if (PlayerBundle == null)
+                    PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
                 gameObject = PlayerBundle.LoadAsset<GameObject>(AssetName);
                 break;
             case BundleType.Common:
-                if(CommonAssetBundle == null)
-                CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
-                gameObject = CommonAssetBundle.LoadAsset<GameObject>(AssetName) ;
+                if (CommonAssetBundle == null)
+                    CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
+                gameObject = CommonAssetBundle.LoadAsset<GameObject>(AssetName);
                 break;
             case BundleType.Area:
                 gameObject = Area.LoadAsset<GameObject>(AssetName);
-                break;    
+                break;
             default:
                 gameObject = null;
                 break;
         }
-        
+
         return gameObject;
     }
 
-    
+
 
 }
