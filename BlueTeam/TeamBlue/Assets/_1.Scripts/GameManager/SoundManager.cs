@@ -4,7 +4,7 @@ namespace ProjectB.GameManager
 {
     public enum SoundFXType
     {
-        BGM = 0,
+        BGM,
         ButtonClick,
         PlayerAttack,
         PlayerHit,
@@ -19,6 +19,8 @@ namespace ProjectB.GameManager
         GameOver,
         GameClear,
         ItemPickup,
+        Whip,
+        EnemyDefence
     }
    
     public class SoundManager : Singleton<SoundManager>
@@ -62,6 +64,8 @@ namespace ProjectB.GameManager
             SoundClips[10] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "GameOver");
             SoundClips[11] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "GameClear");
             SoundClips[12] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ItemPickup");
+            SoundClips[13] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "Whip");
+            SoundClips[14] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyDefence");
 
 
             SoundSources[0].clip = SoundClips[0];
@@ -147,6 +151,14 @@ namespace ProjectB.GameManager
 
                 case SoundFXType.ItemPickup:
                     audioClip = SoundClips[12];
+                    break;
+
+                case SoundFXType.Whip:
+                    audioClip = SoundClips[13];
+                    break;
+
+                case SoundFXType.EnemyDefence:
+                    audioClip = SoundClips[14];
                     break;
 
                 default:

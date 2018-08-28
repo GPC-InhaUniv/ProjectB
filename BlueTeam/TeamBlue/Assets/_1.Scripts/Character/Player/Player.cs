@@ -113,6 +113,7 @@ namespace ProjectB.Characters.Players
         {
             isDied = false;
             ChangeState(PlayerStates.PlayerCharacterIdleState);
+            weapon.SetShortSword();
             playerAinmaton.InitStateAnimation();
             playerAinmaton.InitWeapon();
 
