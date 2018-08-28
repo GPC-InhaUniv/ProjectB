@@ -16,17 +16,10 @@ namespace ProjectB.UI.Minimap
         const float defaultIconPositionX = 100.0f;
         const float minimapUpdateTime = 0.1f;
         const int sizeOfIconArray = 24;
-        
-        //void Start()
-        //{
-        //    radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
-        //    EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
-        //    StartCoroutine(StartDrawIcon());
-        //}
 
         public void Initialize()
         {
-            radar = GameObject.FindGameObjectWithTag("Player").GetComponent<Radar>();
+            radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
             EnemyIconsPosition = new GameObject[sizeOfIconArray];
             EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
             StartCoroutine(StartDrawIcon());
