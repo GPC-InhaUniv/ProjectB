@@ -31,36 +31,29 @@ namespace ProjectB.Characters.Monsters
         public static event NoticeDie NoticeToRader;
 
         [SerializeField]
-        protected MonsterType monsterType;
-
-        [SerializeField]
         protected GameObject[] skillprefab;
+        protected bool attacking, died, skillUse;
+        protected bool isInvincibility;
 
         //Monster Status//
-        [SerializeField]
         protected int walkRange;
-
-        [SerializeField]
         protected float skillCoolTime;
-        [SerializeField]
-        protected bool attacking, died, skillUse;
-        [SerializeField]
-        protected GameObject[] dropItemPrefab;
         //Monster System//
-        [SerializeField]
         protected float waitBaseTime;
-        [SerializeField]
         protected float waitTime, speed;
 
-        public Transform attackTarget;
-        [SerializeField]
+        protected MonsterType monsterType;
+        protected IAttackableBridge attackable;
+        protected ISkillUsableBridge skillUsable;
+        protected State state, currentState;
+
         protected MonsterMove monsterMove;
-        //Move To Destination//
-        [SerializeField]
         protected Vector3 startPosition;
 
+        public Transform attackTarget;
+
         // Monster State//
-        public enum State
+        protected enum State
         {
             Walking,    // 탐색.
             Chasing,    // 추적.
@@ -68,14 +61,10 @@ namespace ProjectB.Characters.Monsters
             Skilling,   // 스킬.
             Died,       // 사망.
         };
-        public State state, currentState;
 
         //Monster Motion//
         public Animator animator;
 
-        protected IAttackableBridge attackable;
-        protected ISkillUsableBridge skillUsable;
-        protected bool isInvincibility;
 
         [SerializeField]
         protected GameObject hitParticle;
@@ -129,7 +118,7 @@ namespace ProjectB.Characters.Monsters
         }
 
 
-        public void ChangeState(State currentState)
+        protected void ChangeState(State currentState)
         {
             this.currentState = currentState;
         }
@@ -185,7 +174,6 @@ namespace ProjectB.Characters.Monsters
             monsterMove.StopMove();
 
             animator.SetTrigger(AniStateParm.Died.ToString());
-
             GameControllManager.Instance.CheckGameClear();
             int randomCount;
             switch (monsterType)
@@ -212,11 +200,9 @@ namespace ProjectB.Characters.Monsters
                 default:
                     break;
             }
-            //test//
             NoticeToRader(gameObject);
-
-
         }
+
         protected void RemovedFromWorld()
         {
             gameObject.SetActive(false);

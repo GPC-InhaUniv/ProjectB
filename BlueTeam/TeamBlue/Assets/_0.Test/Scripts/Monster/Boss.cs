@@ -38,6 +38,13 @@ namespace ProjectB.Characters.Monsters
             //bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
             bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
 
+            monsterType = MonsterType.Boss;
+
+            walkRange = 30;
+            skillCoolTime = 10;
+            speed = 2;
+
+
             healthPoint = maxHealthPoint;
             hitParticle.SetActive(false);
 
