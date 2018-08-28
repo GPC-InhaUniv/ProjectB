@@ -182,6 +182,16 @@ namespace ProjectB.GameManager
 
         }
 
+        public void SetBGM()
+        {
+            if(CurrentLoadType==LoadType.VillageCheckDownLoad)
+            {
+                SoundManager.Instance.LoadSoundClips();
+                SoundManager.Instance.PlayBGM();
+
+            }
+        }
+
 
     }
 }

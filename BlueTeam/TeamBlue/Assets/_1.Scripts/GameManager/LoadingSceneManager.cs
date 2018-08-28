@@ -31,7 +31,7 @@ namespace ProjectB.GameManager
         string assetBundleDirectory;
         string currentAssetName = "";
         const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1slLaHmMvbkZCwZD94NtEh3cuB0iSV_AT";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1-yPtycqZZznNv67IZF-7mNhIL3LKtmOm";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=17M_2rxnVnWt3cCiobylywuKQ_b9t1KKD";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1q_QbEOg5OFe4HAXfpiSfVM8SqINL-aKp";
         const string townBundleURL = "https://docs.google.com/uc?export=download&id=1_HlQDDESVmgOPrkrdLrk1DNjeWYcYzXw"; 
         const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1bozDf8t_mx3PSNaJC8nC1m6MH1UIBjGs"; 
@@ -74,7 +74,8 @@ namespace ProjectB.GameManager
             }
 
             StartCoroutine(LoadBundles());
-
+            //SoundManager.Instance.LoadSoundClips();
+            //SoundManager.Instance.PlayBGM();
             StartCoroutine(LoadScene());
 
         }
@@ -169,9 +170,6 @@ namespace ProjectB.GameManager
 
                 
             }
-
-            SoundManager.Instance.LoadSoundClips();
-            SoundManager.Instance.PlayBGM();
 
             yield return null;
         }
