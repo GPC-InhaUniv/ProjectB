@@ -8,7 +8,6 @@ namespace ProjectB.UI.Minimap
     public class MinimapUIPresenter : MonoBehaviour ,IInitializable
     {
         Radar radar;
-        //public List<RectTransform> EnemyIconsPosition;//이놈을 어떻게 받아올까 ...
         GameObject[] EnemyIconsPosition;
         Vector2 playerPosition;
         Vector2 enemyPosition;
