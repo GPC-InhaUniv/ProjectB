@@ -28,7 +28,7 @@ namespace ProjectB.GameManager
         AudioClip[] SoundClips; 
         AudioSource[] SoundSources;
        
-        const int numberOfSFX = 13;
+        const int numberOfSFX = 15;
         const int numberOfAudioSources = 6; 
         
         public float sfxVolume;
