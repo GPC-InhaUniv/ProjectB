@@ -113,6 +113,7 @@ namespace ProjectB.Item
 
         public void InitializationItem()
         {
+            Code = 0;
             hp = 0;
             attack = 0;
             recipeWood = 0;
@@ -123,7 +124,7 @@ namespace ProjectB.Item
             itemNameText.text = null;
             itemImage.sprite = null;
             image = null;
-            itemname = null;
+            itemname = "";
         }
 
         public void SetItemAmount(int amount)
