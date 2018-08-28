@@ -43,10 +43,8 @@ public class CombinationUIPresenter : MonoBehaviour
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                //currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
                 currentItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, currentItem.Image);
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                //swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
                 swapItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, swapItem.Image);
 
                 DisplayToCombinationResourcesSlot(currentItem);
@@ -92,6 +90,11 @@ public class CombinationUIPresenter : MonoBehaviour
         combinationResourcesItems[2].ItemAmountText.text = item.RecipeIron.ToString();
         combinationResourcesItems[3].ItemAmountText.text = item.RecipeSheep.ToString();
 
+        combinationResourcesItems[0].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Brick");
+        combinationResourcesItems[1].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Wood");
+        combinationResourcesItems[2].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Iron");
+        combinationResourcesItems[3].ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, "Sheep");
+
         requirematerials[0] = item.RecipeBrick;
         requirematerials[1] = item.RecipeWood;
         requirematerials[2] = item.RecipeIron;
@@ -110,7 +113,6 @@ public class CombinationUIPresenter : MonoBehaviour
     public void ResetCombinationSlot()
     {
         combinationSlotItem.InitializationItem();
-        combinationSlotItem.ItemNameText.text = combinationSlotItem.ItemName; // 삭제 예정
         combinationSlotItem.ItemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, combinationSlotItem.Image);
         InitializeToCombinationResourcesSlot();
     }
