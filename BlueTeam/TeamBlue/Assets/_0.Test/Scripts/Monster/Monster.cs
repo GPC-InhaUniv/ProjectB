@@ -64,9 +64,6 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         protected Vector3 startPosition;
 
-        int maxPercent;
-
-
         // Monster State//
         public enum State
         {
@@ -84,6 +81,11 @@ namespace ProjectB.Characters.Monsters
         protected ISkillUsableBridge skillUsable;
         protected bool isInvincibility;
 
+        [SerializeField]
+        protected GameObject hitParticle;
+
+        int maxPercent;
+
         public override void ReceiveDamage(float damage)
         {
             if (!isInvincibility)
@@ -97,6 +99,7 @@ namespace ProjectB.Characters.Monsters
                 else
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    StartCoroutine(HitCoroutine(1.0f));
                     characterHealthPoint -= damage;
 
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
@@ -117,6 +120,15 @@ namespace ProjectB.Characters.Monsters
             isInvincibility = true;
             yield return new WaitForSeconds(1.0f);
             isInvincibility = false;
+
+        }
+        protected IEnumerator HitCoroutine(float time)
+        {
+            hitParticle.SetActive(true);
+
+            yield return new WaitForSeconds(time);
+
+            hitParticle.SetActive(false);
 
         }
 
@@ -174,10 +186,11 @@ namespace ProjectB.Characters.Monsters
             
 
             died = true;
-            animator.SetTrigger(AniStateParm.Died.ToString());
             monsterMove.StopMove();
 
-            GameControllManager.Instance.CheckGameOver();
+            animator.SetTrigger(AniStateParm.Died.ToString());
+
+            GameControllManager.Instance.CheckGameClear();
             int randomCount;
             switch (monsterType)
             {
@@ -203,7 +216,6 @@ namespace ProjectB.Characters.Monsters
                 default:
                     break;
             }
-
             //test//
             NoticeToRader(gameObject);
 
@@ -211,7 +223,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected void RemovedFromWorld()
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         protected void WalkAround()

@@ -22,7 +22,7 @@ namespace ProjectB.Characters.Monsters
 
             characterHealthPoint = characterMaxHealthPoint;
 
-
+            hitParticle.SetActive(false);
         }
         void Update()
         {

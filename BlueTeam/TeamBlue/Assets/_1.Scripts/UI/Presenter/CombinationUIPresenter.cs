@@ -43,9 +43,11 @@ public class CombinationUIPresenter : MonoBehaviour
                 swapItem.SetItem(SwapItemCode);
                 swapItem.SetItemAmount(SwapItemAmount);
 
-                currentItem.ItemNameText.text = currentItem.ItemName;
+                currentItem.ItemNameText.text = currentItem.ItemName; // 삭제 예정
+                //currentItem.ItemImage.sprite = 에셋번들 로드 이미지
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
-                swapItem.ItemNameText.text = swapItem.ItemName;
+                swapItem.ItemNameText.text = swapItem.ItemName; // 삭제 예정
+                //swapItem.ItemImage.sprite = 에셋번들 로드 이미지
 
                 DisplayToCombinationResourcesSlot(currentItem);
                 combinationItemCode = currentItem.Code;
@@ -56,7 +58,7 @@ public class CombinationUIPresenter : MonoBehaviour
     public void OnClickCombinationButton()
     {
         bool checkCombination = true;
-        for(int i=0;i<4;i++)
+        for(int i=0; i<4 ;i++)
         {
             if (GameDataManager.Instance.PlayerGamedata[i + 3000] < requirematerials[i])
             {
@@ -108,7 +110,8 @@ public class CombinationUIPresenter : MonoBehaviour
     public void ResetCombinationSlot()
     {
         combinationSlotItem.InitializationItem();
-        combinationSlotItem.ItemNameText.text = combinationSlotItem.ItemName;
+        combinationSlotItem.ItemNameText.text = combinationSlotItem.ItemName; // 삭제 예정
+        //combinationSlotItem.ItemImage.sprite = 에셋번들 로드 이미지
         InitializeToCombinationResourcesSlot();
     }
 }

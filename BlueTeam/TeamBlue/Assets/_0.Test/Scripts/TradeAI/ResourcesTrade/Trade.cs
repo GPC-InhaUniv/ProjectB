@@ -15,9 +15,9 @@ public class Trade : MonoBehaviour
 
     int relationShip = 50;
 
-    int sendingResourceCount;
+    int sendingResourceCount = 0;
 
-    int receivingResourceCount;
+    int receivingResourceCount = 0;
 
 
     bool isAbleToTrade = false;
@@ -47,15 +47,11 @@ public class Trade : MonoBehaviour
     {
         weather = new Weather();
         weather.ChangeWeatherState(WeatherState.Sunny);
+    }
 
-        relationShipText = GetComponent<Text>();
-        tradeProbabilityText = GetComponent<Text>();
-
-        sendingResourceText = GetComponent<Text>();
-        sendingResourceCountText = GetComponent<Text>();
-
-        receivingResourceText = GetComponent<Text>();
-        receivingResourceCountText = GetComponent<Text>();
+    void Update()
+    {
+        RunResourceText();
     }
 
     public void Test_ShowPlayerResourcesOnDebugLog()
@@ -165,7 +161,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Cloudy);
 
                     Debug.Log("받을 자원 : 흙, 받을 자원 개수 " + receivingResourceCount);
-                    RunResourceText();
                 
                     break;
 
@@ -176,7 +171,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Sunny);
 
                     Debug.Log("받을 자원 : 철광석, 받을 자원 개수 " + receivingResourceCount);
-                    RunResourceText();
 
                     break;
 
@@ -187,7 +181,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Lighting);
 
                     Debug.Log("받을 자원 : 양, 받을 자원 개수 " + receivingResourceCount);
-                    RunResourceText();
 
                     break;
 
@@ -198,7 +191,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Rainy);
 
                     Debug.Log("받을 자원 : 나무, 받을 자원 개수 " + receivingResourceCount);
-                    RunResourceText();
 
                     break;
 
@@ -294,7 +286,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Lighting);
 
                     Debug.Log("보낼 자원 : 흙, 보낼 개수 " + sendingResourceCount);
-                    RunResourceText();
 
                     break;
 
@@ -308,7 +299,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Sunny);
 
                     Debug.Log("보낼 자원 : 철광석, 보낼 개수 " + sendingResourceCount);
-                    RunResourceText();
 
                     break;
 
@@ -322,7 +312,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Rainy);
 
                     Debug.Log("보낼 자원 : 양, 보낼 개수 " + sendingResourceCount);
-                    RunResourceText();
 
                     break;
 
@@ -336,7 +325,6 @@ public class Trade : MonoBehaviour
                     weather.ChangeWeatherState(WeatherState.Cloudy);
 
                     Debug.Log("보낼 자원 : 나무, 보낼 개수 " + sendingResourceCount);
-                    RunResourceText();
 
                     break;
             }

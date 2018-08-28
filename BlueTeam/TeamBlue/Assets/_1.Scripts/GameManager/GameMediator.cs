@@ -39,7 +39,7 @@ namespace ProjectB.GameManager
             player.Initialize();
 
             if (uiController == null)
-                uiController = mainUICanvas.GetComponent<IExitable>();
+                uiController = mainUICanvas.GetComponentInChildren<IExitable>();
 
 
         }

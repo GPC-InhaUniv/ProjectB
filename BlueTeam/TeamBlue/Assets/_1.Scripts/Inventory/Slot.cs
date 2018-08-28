@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 namespace ProjectB.Inventory
 {
-    
-
     abstract public class Slot : MonoBehaviour, IPointerClickHandler
     {
         protected enum SlotType
