@@ -17,6 +17,10 @@ namespace ProjectB.Characters.Players
         {
             ShortSwordColider = shortSword.GetComponent<CapsuleCollider>();
             LongSwordColider = longSword.GetComponent<BoxCollider>();
+
+            ShortSwordColider.enabled = false;
+            LongSwordColider.enabled = false;
+
             fakeShortSword.SetActive(false);
             longSword.SetActive(false);
         }
@@ -38,6 +42,7 @@ namespace ProjectB.Characters.Players
                 longSword.SetActive(isSet);
                 LongSwordColider.enabled = false;
             }
+
             else if(newState == PlayerCharacterWeaponState.ShortSword)
             {
                 longSword.SetActive(!isSet);
