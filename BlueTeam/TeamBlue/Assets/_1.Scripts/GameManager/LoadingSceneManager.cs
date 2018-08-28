@@ -148,6 +148,11 @@ namespace ProjectB.GameManager
                             GameObjectsManager.Instance.SetPrefab();
                             GameObjectsManager.Instance.SetObject(ObjectType.Player);
                             break;
+                        case LoadType.BossDungeon:
+                            AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
+                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            break;
                     }
                     GameObjectsManager.Instance.SetMonsterPrefab();
                     GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
