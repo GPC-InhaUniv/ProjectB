@@ -72,8 +72,8 @@ namespace ProjectB.Characters.Players
 
         private void Awake()
         {
-            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-            //TestSetCharacterStatus();
+            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            TestSetCharacterStatus();
             //상단 두줄은 테스트용임, 오류날 시 주석처리 
       
 
@@ -89,7 +89,7 @@ namespace ProjectB.Characters.Players
 
         void Start()
         {
-            //playerPresenter.UpdateUI();
+            playerPresenter.UpdateUI();
             //상단 줄은 테스트용임, 오류날 시 주석처리 
 
             hitParticle.SetActive(false);
@@ -98,8 +98,8 @@ namespace ProjectB.Characters.Players
             
             playerAinmaton.InitWeapon();
         }
-
-        void TestSetCharacterStatus() //테스트용 함수 - 삭제 예정
+        //테스트용 함수 - 삭제 예정
+        void TestSetCharacterStatus()
         {
             exp = 200;
             level = 1;
@@ -113,7 +113,7 @@ namespace ProjectB.Characters.Players
             maxExp = (1000 * 1.2f * level);
             preAttckPower = attackPower + equipmentAttackPower;
         }
-
+        //테스트용 함수 - 삭제 예정
         public void Initialize()
         {
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
@@ -131,16 +131,6 @@ namespace ProjectB.Characters.Players
             }
 
             playerAinmaton.RunAnimation(isRunning);
-        }
-
-        void ReturnIdleState() //다시 살리는 함수
-        {
-            isDied = false;
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
-            playerAinmaton.InitStateAnimation();
-            playerAinmaton.InitWeapon();
-            SetCharacterStatus();
-            playerPresenter.UpdateUI();
         }
 
         public void SetState(PlayerCharacterState state)
@@ -267,7 +257,7 @@ namespace ProjectB.Characters.Players
             healthPoint = maxHealthPoint;
 
             attackPower = level * 10;
-            defensivePower += equipmentDefensePowr;
+            defensivePower = equipmentDefensePowr;
 
             maxExp = (1000 * 1.2f * level);
             preAttckPower = attackPower + equipmentAttackPower;
@@ -309,7 +299,17 @@ namespace ProjectB.Characters.Players
             isRunningHitCoroutine = false;
         }
 
-      
+        public void ReturnIdleState() //다시 살리는 함수
+        {
+            isDied = false;
+            ChangeState(PlayerStates.PlayerCharacterIdleState);
+            playerAinmaton.InitStateAnimation();
+            playerAinmaton.InitWeapon();
+            SetCharacterStatus();
+            playerPresenter.UpdateUI();
+        }
+
+
     }
 
 
