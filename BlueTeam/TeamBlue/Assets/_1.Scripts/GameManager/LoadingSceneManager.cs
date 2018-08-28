@@ -72,7 +72,9 @@ namespace ProjectB.GameManager
                 IsDownLoadDone = true;
 
             }
-
+            SoundManager.Instance.LoadSoundClips();
+            SoundManager.Instance.PlayBGM();
+            
             StartCoroutine(LoadBundles());
 
             StartCoroutine(LoadScene());
