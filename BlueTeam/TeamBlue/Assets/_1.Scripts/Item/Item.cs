@@ -107,7 +107,7 @@ namespace ProjectB.Item
                     itemNameText.text = itemname; // 삭제 예정
                     itemAmount = 0;
 
-                    if (image != null)
+                    if (image !=null ||image=="")
                         itemImage.sprite = Test_AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
                     else
                         itemImage.sprite = null;

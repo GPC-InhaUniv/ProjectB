@@ -29,7 +29,13 @@ namespace ProjectB.GameManager
             bgmVolume = 1.0f;
             SoundClips = new AudioClip[numberOfSFX];
             SoundSources = new AudioSource[numberOfAudioSources];
-            SoundSources = GetComponents<AudioSource>();
+
+            for(int i=0;i<numberOfAudioSources;i++)
+            {
+                SoundSources[i] = gameObject.AddComponent<AudioSource>();
+            }
+
+            DontDestroyOnLoad(gameObject);
         }
         
         public void LoadSoundClips()
