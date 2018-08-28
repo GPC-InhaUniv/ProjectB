@@ -116,7 +116,7 @@ namespace ProjectB.GameManager
 
         public void SetVolume(float bgmVolume, float sfxVolume)
         {
-            for(int i = 1; i<SoundSources.Length; i++)
+            for (int i = 1; i < SoundSources.Length; i++) 
             {
                 SoundSources[i].volume = sfxVolume;
             }
