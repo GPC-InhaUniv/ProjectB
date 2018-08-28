@@ -105,6 +105,7 @@ namespace ProjectB.Item
                     recipeBrick = itemtable.sheets[0].list[i].RecipeBrick;
                     image = itemtable.sheets[0].list[i].Image;
                     itemAmount = 0;
+                    itemAmount++;
 
                     itemImage.sprite = AssetBundleManager.Instance.LoadSprite(BundleType.Common, this.image);
                 }
@@ -124,7 +125,7 @@ namespace ProjectB.Item
             itemNameText.text = null;
             itemImage.sprite = null;
             image = null;
-            itemname = "";
+            itemname = null;
         }
 
         public void SetItemAmount(int amount)
@@ -135,6 +136,11 @@ namespace ProjectB.Item
         public void IncreaseItemAmount()
         {
             this.itemAmount++;
+        }
+
+        public void DecreaseItemAmount()
+        {
+            this.itemAmount--;
         }
 
         public void OnPointerDown(PointerEventData eventData)

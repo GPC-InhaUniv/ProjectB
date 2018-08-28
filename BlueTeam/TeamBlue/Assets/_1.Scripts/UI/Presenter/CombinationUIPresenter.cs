@@ -55,6 +55,9 @@ public class CombinationUIPresenter : MonoBehaviour
 
     public void OnClickCombinationButton()
     {
+        if (combinationItemCode == 0)
+            return;
+
         bool checkCombination = true;
         for(int i=0; i<4 ;i++)
         {
