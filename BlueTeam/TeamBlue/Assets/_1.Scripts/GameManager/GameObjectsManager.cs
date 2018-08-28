@@ -50,11 +50,15 @@ namespace ProjectB.GameManager
 
         public void SetAreaPrefab(int stageNum)
         {
+            Debug.Log(GameControllManager.Instance.CurrentLoadType);
             int areaNum = Mathf.Abs(stageNum % 3 + 1);
             if (GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad && GameControllManager.Instance.CurrentLoadType != LoadType.Village)
                 areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
             else
+            {
+                
                 areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
+            }
         }
 
         public void SetMonsterPrefab()
@@ -147,10 +151,13 @@ namespace ProjectB.GameManager
             {
                 namedMonster[i] = Instantiate(namedMonsterPrefab);
                 DontDestroyOnLoad(namedMonster[i]);
-                normalMonster[i].SetActive(false);
+                namedMonster[i].SetActive(false);
             }
-            //bossMonster = Instantiate(bossMonsterPrefab);
-            // bossMonster.SetActive(false);
+            if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
+            {
+                bossMonster = Instantiate(bossMonsterPrefab);
+                bossMonster.SetActive(false);
+            }
 
         }
 
