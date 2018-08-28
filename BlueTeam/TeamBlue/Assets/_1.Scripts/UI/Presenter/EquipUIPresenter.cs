@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.Item;
 using ProjectB.GameManager;
-public class EquipUIPresenter : MonoBehaviour {
+public class EquipUIPresenter : MonoBehaviour
+{
+    [SerializeField] List<Item> equipItem;
+
+    public void Awake()
+    {
+        LoadToWearItem();
+    }
 
     public void SwapToFromInventorySlotToEquipWeaponSlot(Item currentItem, Item swapItem)
     {
@@ -68,6 +75,14 @@ public class EquipUIPresenter : MonoBehaviour {
                 swapItem.ItemAmountText.text = swapItem.ItemAmount.ToString();
                 GameDataManager.Instance.EquipmentItem[2] = currentItem.Code;
             }
+        }
+    }
+
+    public void LoadToWearItem()
+    {
+        for(int i =0; i < equipItem.Count; i++)
+        {
+            equipItem[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
         }
     }
 }
