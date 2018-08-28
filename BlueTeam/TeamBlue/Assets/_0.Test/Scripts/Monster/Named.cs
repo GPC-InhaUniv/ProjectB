@@ -20,7 +20,7 @@ namespace ProjectB.Characters.Monsters
             attackable = new ComboAttack(animator);
             skillUsable = new NamedSkill(animator, skillprefab);
 
-            characterHealthPoint = characterMaxHealthPoint;
+            healthPoint = maxHealthPoint;
 
             hitParticle.SetActive(false);
         }

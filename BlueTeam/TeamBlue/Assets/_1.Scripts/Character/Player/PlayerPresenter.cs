@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using ProjectB.Characters.Players;
 using ProjectB.GameManager;
+using ProjectB.Utility;
+
 namespace ProjectB.UI.Presenter
 {
     public class PlayerPresenter : MonoBehaviour , IInitializable
@@ -359,16 +361,16 @@ namespace ProjectB.UI.Presenter
         public void UpdateUI()
         {
             playerId.text = AccountInfo.Instance.Id;
-            levelText.text = "Level\n" + player.CharacterLevel.ToString();
+            levelText.text = "Level\n" + player.Level.ToString();
 
-            expValue = player.CharacterExp / player.PlayerMaxExp * standardPercent;
-            hpValue = player.CharacterHealthPoint / player.CharacterMaxHealthPoint * standardPercent;
+            expValue = player.Exp / player.MaxExp * standardPercent;
+            hpValue = player.HealthPoint / player.MaxHealthPoint * standardPercent;
 
-            hpBar.fillAmount = player.CharacterHealthPoint / player.CharacterMaxHealthPoint;
-            hpValueText.text = (hpValue > 0) ? hpValue.ToString("N1") + "%" : 0 + "%";
-   
-            expBar.fillAmount = player.CharacterExp / player.PlayerMaxExp;
-            expValueText.text = (expValue > 0) ? expValue.ToString("N1") + "%"  :0 + "%";
+            hpBar.fillAmount = player.HealthPoint / player.MaxHealthPoint;
+            hpValueText.text = hpValue.ToString("N1") + "%";
+            
+            expBar.fillAmount = player.Exp / player.MaxExp;
+            expValueText.text = expValue.ToString("N1") + "%" ;
         }      
     }
 }

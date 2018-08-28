@@ -125,6 +125,7 @@ namespace ProjectB.Item
             recipeBrick = 0;
             itemAmount = 0;
             itemNameText.text = null;
+            itemImage.sprite = null;
             image = null;
             itemname = null;
         }

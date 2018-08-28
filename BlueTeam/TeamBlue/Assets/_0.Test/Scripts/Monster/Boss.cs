@@ -38,7 +38,7 @@ namespace ProjectB.Characters.Monsters
             //bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
             bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
 
-            characterHealthPoint = characterMaxHealthPoint;
+            healthPoint = maxHealthPoint;
             hitParticle.SetActive(false);
 
 
@@ -106,25 +106,25 @@ namespace ProjectB.Characters.Monsters
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     StartCoroutine(HitCoroutine(1.0f));
 
-                    characterHealthPoint -= damage;
+                    healthPoint -= damage;
 
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
 
 
-                    if (CharacterHealthPoint <= CharacterMaxHealthPoint * (2 / 3) && stateHandleNum == 0)
+                    if (healthPoint <= maxHealthPoint * (2 / 3) && stateHandleNum == 0)
                     {
                         bossState = new PhaseTwo(animator, skillprefab, attackable, defencSkillUsable, skillUsable);
 
                         stateHandleNum++;
                     }
-                    else if (CharacterHealthPoint <= CharacterMaxHealthPoint * (1 / 3) && stateHandleNum == 1)
+                    else if (healthPoint <= maxHealthPoint * (1 / 3) && stateHandleNum == 1)
                     {
                         bossState = new PhaseThree(animator, skillprefab,attackable,defencSkillUsable,skillUsable,entangleSkillUsable);
                         stateHandleNum++;
                     }
-                    else if (CharacterHealthPoint <= 0)
+                    else if (healthPoint <= 0)
                     {
-                        characterHealthPoint = 0;
+                        healthPoint = 0;
                         ChangeState(State.Died);
                     }
                 }
