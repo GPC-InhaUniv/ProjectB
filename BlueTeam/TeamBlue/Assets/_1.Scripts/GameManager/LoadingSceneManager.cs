@@ -27,11 +27,12 @@ namespace ProjectB.GameManager
     }
     public class LoadingSceneManager : MonoBehaviour
     {
+
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
         const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1VSqGG5vrDuHkhVYbjHV1_1DD6Prxov72";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1YafW_6jZNpyc_tUegf9Mssggx1dPT8dO";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1LYGKc7Okg5XGOGUNA0CxKNhxYc9HCHNt";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1LMR1Go8FoTgaeYdFNkUIOJVT-ISc1tHK";
         const string townBundleURL = "https://docs.google.com/uc?export=download&id=19o1LNrcQ2jS_GWH8HOP-gO6R_Gcz66Na";
         const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1Xb4wusyBEFNwdGiTZk-GkyJnZh9pYtoV";
@@ -129,7 +130,7 @@ namespace ProjectB.GameManager
                             currentAssetName = "양 던전 로드중..";
 
                             AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
-                            GameObjectsManager.Instance.SetAreaPrefab(1);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
                             GameObjectsManager.Instance.SetObject(ObjectType.Area);
 
                             break;

@@ -362,7 +362,7 @@ namespace ProjectB.UI.Presenter
         {
             hpValue = player.HealthPoint / player.MaxHealthPoint * standardPercent;
             hpBar.fillAmount = player.HealthPoint / player.MaxHealthPoint;
-            hp.text = hpValue.ToString("N1") + "%";
+            hp.text = (hpValue < 0) ? 0.0f + "%" : hpValue.ToString("N1") + "%";
         }
     }
 }

@@ -39,6 +39,7 @@ namespace ProjectB.Characters.Monsters
                 case State.Chasing:
                     ChaseTarget();
                     break;
+
             }
 
             if (state != currentState)

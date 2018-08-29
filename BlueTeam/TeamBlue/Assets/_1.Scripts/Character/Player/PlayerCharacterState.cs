@@ -80,7 +80,7 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
-            playerRigidbody.velocity = moveVector * 900 * Time.deltaTime;
+            playerRigidbody.velocity = moveVector * 800 * Time.deltaTime;
             playerTransform.rotation = Quaternion.LookRotation(moveVector);
         }
     }
