@@ -67,16 +67,14 @@ namespace ProjectB.Characters.Players
 
         [SerializeField]
         GameObject hitParticle;
-
-        void Start()
+        private void Awake()
         {
+            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+
             playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
             collider = GetComponent<CapsuleCollider>();
-
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
-            CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
         }
 
         public void Initialize()
@@ -86,6 +84,7 @@ namespace ProjectB.Characters.Players
             isDied = false;
             
             ChangeState(PlayerStates.PlayerCharacterIdleState);
+            CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
 
             weapon.SetShortSword();
             playerAinmaton.InitStateAnimation();
@@ -171,11 +170,10 @@ namespace ProjectB.Characters.Players
         public override void ReceiveDamage(float damage)
         {
             if (isWorking == true || isRunning == true || isDied == true)
-                return;     
-
+                return;
+            ChangeState(PlayerStates.PlayerCharacterIdleState);
             if (isRunningHitCoroutine == false)
             {
-                isWorking = false;
                 StartCoroutine(HitCoroutine(1.2f));
 
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);

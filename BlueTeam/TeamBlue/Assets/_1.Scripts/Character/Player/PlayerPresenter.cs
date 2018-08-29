@@ -113,8 +113,6 @@ namespace ProjectB.UI.Presenter
 
         void SetInputVector()
         {
-            if (GetIsState(player.IsWorking)) return;
-
             player.MoveVector = inputMoveVector;
 
             if (inputMoveVector != Vector3.zero)
