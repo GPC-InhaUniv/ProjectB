@@ -6,8 +6,7 @@ using ProjectB.Inventory;
 
 public class WarehouseUIPresenter : MonoBehaviour
 {
-
-    public void SwapToInventoryItem(Slot currentSlot, Slot swapSlot)
+    public void SwapToWarehouseItem(Slot currentSlot, Slot swapSlot)
     {
         int SlotIndex;
 

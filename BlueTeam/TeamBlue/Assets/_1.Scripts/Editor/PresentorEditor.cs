@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+public class PresentorEditor
+{
+
+}
+
 [CustomEditor(typeof(EquipUIPresenter))]
 public class EquipPresentorEditor : Editor
 {
@@ -17,7 +22,7 @@ public class CombinationPresenterEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-       
+
     }
 }
 
