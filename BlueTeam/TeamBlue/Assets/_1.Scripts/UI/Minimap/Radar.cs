@@ -34,5 +34,10 @@ namespace ProjectB.UI.Minimap
                 Enemys.Remove(monster);
             }
         }
+
+        public void ClearEnemyList()
+        {
+            Enemys.Clear();
+        }
     }
 }

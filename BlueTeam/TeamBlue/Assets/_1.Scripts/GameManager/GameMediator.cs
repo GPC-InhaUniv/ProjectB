@@ -50,13 +50,15 @@ namespace ProjectB.GameManager
 
             if (GameControllManager.Instance.CurrentLoadType != LoadType.Village &&
                  GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad)
+            {
                 minimapPresenter.GetComponent<MinimapUIPresenter>().Initialize();
-
+            }
 
         }
 
         public void ClearStage()
         {
+            minimapPresenter.GetComponent<MinimapUIPresenter>().ResetRadar();
             uiController.EndStage();
         }
 

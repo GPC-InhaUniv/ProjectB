@@ -18,7 +18,7 @@ namespace ProjectB.Characters.Monsters
             attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
 
-            healthPoint = maxHealthPoint;
+            SetMonsterInfo();
             monsterType = MonsterType.Normal;
             walkRange = 15;
             skillCoolTime = 10;

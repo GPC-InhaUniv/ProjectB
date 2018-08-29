@@ -63,9 +63,7 @@ public class InventoryUIPresenter : MonoBehaviour
                 break;
             }
         }
-
-
-        }
+    }
 
     public void SwapToInventoryItem(Slot currentSlot, Slot swapSlot)
     {

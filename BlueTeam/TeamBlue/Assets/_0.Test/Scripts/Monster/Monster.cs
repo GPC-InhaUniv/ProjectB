@@ -40,8 +40,7 @@ namespace ProjectB.Characters.Monsters
 
         public static event NoticeDie NoticeToRader;
         public Transform attackTarget;
-        [SerializeField]
-        protected GameObject[] skillprefab;
+
         protected bool attacking, died, skillUse;
         protected bool isInvincibility;
 
@@ -49,6 +48,7 @@ namespace ProjectB.Characters.Monsters
         protected int walkRange;
         protected float skillCoolTime;
         //Monster System//
+        protected int stageLevel;
         protected float waitBaseTime;
         protected float waitTime, speed;
 
@@ -68,6 +68,30 @@ namespace ProjectB.Characters.Monsters
         [SerializeField]
         protected GameObject hitParticle;
 
+        protected void SetMonsterInfo()
+        {
+            stageLevel = GameControllManager.Instance.CurrentIndex;
+
+            float levelOne = 1.0f;
+            float levelTwo = 1.5f;
+            float levelThree = 2.0f;
+            switch (stageLevel)
+            {
+                case 1:
+                    healthPoint = maxHealthPoint * levelOne;
+                    attackPower = attackPower * levelOne;
+                    break;
+                case 2:
+                    healthPoint = maxHealthPoint * levelTwo;
+                    attackPower = attackPower * levelTwo;
+                    break;
+                case 3:
+                    healthPoint = maxHealthPoint * levelThree;
+                    attackPower = attackPower * levelThree;
+                    break;
+            }
+        }
+
         public override void ReceiveDamage(float damage)
         {
             if (!isInvincibility)
@@ -81,11 +105,10 @@ namespace ProjectB.Characters.Monsters
                 else
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
-                    StartCoroutine(HitCoroutine(1.0f));
+                    StartCoroutine(ShowHitEffect(1.0f));
                     healthPoint -= damage;
 
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
-
 
                     if (healthPoint <= 0)
                     {
@@ -93,18 +116,18 @@ namespace ProjectB.Characters.Monsters
                         ChangeState(State.Died);
                     }
                 }
-                StartCoroutine(AvoidAttac());
+                StartCoroutine(AvoidAttack());
             }
         }
         //1초무적//
-        protected IEnumerator AvoidAttac()
+        protected IEnumerator AvoidAttack()
         {
             isInvincibility = true;
             yield return new WaitForSeconds(1.0f);
             isInvincibility = false;
 
         }
-        protected IEnumerator HitCoroutine(float time)
+        protected IEnumerator ShowHitEffect(float time)
         {
             hitParticle.SetActive(true);
 
@@ -139,21 +162,22 @@ namespace ProjectB.Characters.Monsters
         protected void DropItem(MonsterType monsterType)
         {
             int itemCode = 0;
+            int equipmentItemNum = 1300;
+
 
             if (monsterType == MonsterType.Normal)
             {
-
-                itemCode = 1300 + Random.Range(11, 14);
+                itemCode = equipmentItemNum + Random.Range(11, 14);
             }
 
             else if (monsterType == MonsterType.Named)
             {
 
-                itemCode = 1300 + Random.Range(21, 24);
+                itemCode = equipmentItemNum + Random.Range(21, 24);
             }
             else
             {
-                itemCode = 1300 + Random.Range(31, 34);
+                itemCode = equipmentItemNum + Random.Range(31, 34);
             }
             if (GameControllManager.Instance.ObtainedItemDic.ContainsKey(itemCode))
                 GameControllManager.Instance.ObtainedItemDic[itemCode]++;
@@ -162,9 +186,7 @@ namespace ProjectB.Characters.Monsters
 
         }
         protected void Died()
-        {
-            
-
+        {         
             died = true;
             monsterMove.StopMove();
 

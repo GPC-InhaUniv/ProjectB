@@ -9,34 +9,27 @@ namespace ProjectB.Characters.Monsters
     public class Boss : Monster
     {
         BossState bossState;
-        ISkillUsableBridge defenceSkillUsable;
-        ISkillUsableBridge entangleSkillUsable;
         float stateHandleNum;
-    
+
         private void OnEnable()
         {
             NoSkill.SetState += ChangeStateToWalking;
-
         }
         private void OnDisable()
         {
             NoSkill.SetState -= ChangeStateToWalking;
-
         }
         void Start()
         {
-            //Setstate
-
             monsterMove = GetComponent<MonsterMove>();
             animator = GetComponent<Animator>();
             startPosition = transform.position;
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
-
-
-            //bossState = new PhaseOne(animator, attackable, defenceSkillUsable, skillUsable);
-            bossState = new PhaseTwo(animator, attackable, defenceSkillUsable, skillUsable);
-            //bossState = new PhaseThree(animator, attackable, defenceSkillUsable, skillUsable, entangleSkillUsable);
+          
+            //bossState = new PhaseOne(animator);
+            bossState = new PhaseTwo(animator);
+            //bossState = new PhaseThree(animator);
 
             monsterType = MonsterType.Boss;
 
@@ -77,7 +70,6 @@ namespace ProjectB.Characters.Monsters
                         break;
                 }
             }
-            //Debug.Log(animator.GetInteger(AniStateParm.Attack.ToString()));
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -88,7 +80,6 @@ namespace ProjectB.Characters.Monsters
         {
             bossState.Attack();
             SoundManager.Instance.SetSound(SoundFXType.EnemyAttack);
-
         }
         protected override void UseSkill()
         {
@@ -113,7 +104,7 @@ namespace ProjectB.Characters.Monsters
                 else
                 {
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
-                    StartCoroutine(HitCoroutine(1.0f));
+                    StartCoroutine(ShowHitEffect(1.0f));
 
                     healthPoint -= damage;
 
@@ -122,13 +113,13 @@ namespace ProjectB.Characters.Monsters
 
                     if (healthPoint <= maxHealthPoint * (2 / 3) && stateHandleNum == 0)
                     {
-                        bossState = new PhaseTwo(animator, attackable, defenceSkillUsable, skillUsable);
+                        bossState = new PhaseTwo(animator);
 
                         stateHandleNum++;
                     }
                     else if (healthPoint <= maxHealthPoint * (1 / 3) && stateHandleNum == 1)
                     {
-                        bossState = new PhaseThree(animator, attackable, defenceSkillUsable, skillUsable, entangleSkillUsable);
+                        bossState = new PhaseThree(animator);
                         stateHandleNum++;
                     }
                     else if (healthPoint <= 0)
@@ -137,7 +128,6 @@ namespace ProjectB.Characters.Monsters
                         ChangeState(State.Died);
                     }
                 }
-
             }
         }
     }

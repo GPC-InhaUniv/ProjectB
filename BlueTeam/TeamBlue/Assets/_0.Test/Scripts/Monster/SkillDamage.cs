@@ -12,11 +12,7 @@ public enum KindOfSkill
 
 public class SkillDamage : MonoBehaviour {
 
-    [SerializeField]
     Collider collider;
-
-
-   
     [SerializeField]
     KindOfSkill kindOfSkill;
 
@@ -24,7 +20,7 @@ public class SkillDamage : MonoBehaviour {
     void Start () {
         collider = GetComponent<Collider>();
         collider.enabled = true;
-        
+        StartCoroutine(StopSkill());
     }
     private void OnParticleCollision(GameObject other)
     {
@@ -41,6 +37,11 @@ public class SkillDamage : MonoBehaviour {
             Character player = other.GetComponent<Character>();
             player.ReceiveDamage((int)kindOfSkill);
         }
+    }
+    IEnumerator StopSkill()
+    {
+        yield return new WaitForSeconds(7.0f);
+        gameObject.SetActive(false);
     }
 
 }

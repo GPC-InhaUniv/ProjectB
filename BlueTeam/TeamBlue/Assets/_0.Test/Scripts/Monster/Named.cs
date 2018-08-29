@@ -18,9 +18,9 @@ namespace ProjectB.Characters.Monsters
             waitTime = waitBaseTime;
 
             attackable = new ComboAttack(animator);
-            skillUsable = new NamedSkill(animator, skillprefab);
+            skillUsable = new NamedSkill(animator);
 
-            healthPoint = maxHealthPoint;
+            SetMonsterInfo();
             monsterType = MonsterType.Named;
             walkRange = 15;
             skillCoolTime = 10;

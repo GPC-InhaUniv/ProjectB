@@ -24,10 +24,22 @@ namespace ProjectB.UI.Minimap
 
         public void Initialize()
         {
+          
             radar = GameObject.FindGameObjectWithTag("Radar").GetComponent<Radar>();
             EnemyIconsPosition = new GameObject[sizeOfIconArray];
             EnemyIconsPosition = GameObject.FindGameObjectsWithTag("Minimap");
             StartCoroutine(StartDrawIcon());
+        }
+
+        public void ResetRadar()
+        {
+            StopCoroutine(StartDrawIcon());
+            for (int i = radar.Enemys.Count; i < EnemyIconsPosition.Length; i++)
+            {
+                EnemyIconsPosition[i].transform.localPosition = new Vector3(defaultIconPositionX, 0, 0);
+            }
+
+            radar.ClearEnemyList();
         }
 
        

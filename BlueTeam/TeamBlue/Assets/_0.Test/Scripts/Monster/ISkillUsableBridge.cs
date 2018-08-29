@@ -15,14 +15,12 @@ namespace ProjectB.Characters.Monsters
     public interface ISkillUsableBridge
     {
         void UseSkill();
-
     }
 
     public class NoSkill : ISkillUsableBridge
     {
         Animator animator;
         public static NoticeNoSkill SetState;
-
         
         public NoSkill(Animator animator)
         {
@@ -39,22 +37,15 @@ namespace ProjectB.Characters.Monsters
     {
 
         Animator animator;
-        GameObject skillPrefab;
-
-        public NamedSkill(Animator animator, GameObject[] skillPrefab)
+        public NamedSkill(Animator animator)
         {
             this.animator = animator;
-            this.skillPrefab = skillPrefab[0];
-
         }
 
 
         public void UseSkill()
         {
-            //(공격,소환)스킬 오브젝트 풀에서 받아와서 사용할 예정//
-
             animator.SetBool(AniStateParm.SkillOne.ToString(),true);
-            Debug.Log("gogogo");
         }
 
     }
@@ -62,7 +53,7 @@ namespace ProjectB.Characters.Monsters
     {
         Animator animator;
         public static NoticeNoSkill SetState;
-        public BossSkillFirst(Animator animator, GameObject[] skillPrefab)
+        public BossSkillFirst(Animator animator)
         {
             this.animator = animator;
         }
@@ -81,10 +72,8 @@ namespace ProjectB.Characters.Monsters
         public BossSkillSecond(Animator animator,Transform target)
         {
             this.animator = animator;
-            //SkillTest = skillPrefab[(int)Bossskill.SkillFireRain];
-            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireRain);
             this.target = target;
-
+            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireRain);
         }
 
         public void UseSkill()
@@ -102,7 +91,6 @@ namespace ProjectB.Characters.Monsters
         public BossSkillDefence(Animator animator, Transform target)
         {
             this.animator = animator;
-            //SkillTest = skillPrefab[(int)Bossskill.SkillHemiSphere];
             SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireHemiSphere);
             this.target = target;
 
@@ -112,6 +100,7 @@ namespace ProjectB.Characters.Monsters
             animator.SetBool(AniStateParm.Defence.ToString(), true);
             SkillTest.gameObject.transform.position = target.position;
 
+            Debug.Log(target.position);
 
         }
     }
@@ -134,6 +123,8 @@ namespace ProjectB.Characters.Monsters
         {
             animator.SetTrigger(AniStateParm.SkillTwo.ToString());
             SkillTest.gameObject.transform.position = target.position;
+            Debug.Log(target.position);
+
         }
     }
 
