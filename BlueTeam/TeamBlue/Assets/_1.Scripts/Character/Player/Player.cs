@@ -81,20 +81,20 @@ namespace ProjectB.Characters.Players
 
         void Start()
         {
-            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-            //TestSetCharacterStatus();
-            //isDied = false;
-            //hitParticle.SetActive(false);
-            //playerAinmaton.ResetHitTrigger();
+            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            TestSetCharacterStatus();
+            isDied = false;
+            hitParticle.SetActive(false);
+            playerAinmaton.ResetHitTrigger();
 
-            //ChangeState(PlayerStates.PlayerCharacterIdleState);
+            ChangeState(PlayerStates.PlayerCharacterIdleState);
 
-            //weapon.SetShortSword();
-            //playerAinmaton.InitStateAnimation();
-            //playerAinmaton.InitWeapon();
+            weapon.SetShortSword();
+            playerAinmaton.InitStateAnimation();
+            playerAinmaton.InitWeapon();
 
-            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-            //playerPresenter.SetpUpUI();
+            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            playerPresenter.SetpUpUI();
             //상단 줄은 테스트용임, 오류날 시 주석처리        
         }
 
