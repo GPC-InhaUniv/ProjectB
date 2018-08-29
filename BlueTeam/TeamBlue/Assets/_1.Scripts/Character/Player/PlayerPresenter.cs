@@ -46,27 +46,21 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
-            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
-            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
-            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
-            //상단 5줄은 테스트용임, 오류날 시 주석처리
+            commandControll = new CommandControll();
 
             skillCoolDownTime = 4.0f;
             backStepCoolDownTime = 2.0f;
             swapCoolDownTime = 2.0f;
             attackCoolDownTime = 1.0f;
 
-            inputMoveVector = Vector3.zero;
-            
             comboResetCount = 0;
             comboRandom = Random.Range(1, 3);
-
+      
+            inputMoveVector = Vector3.zero;
+               
             isSwap = false;
 
-            GetImage();
-            commandControll = new CommandControll();
+            GetImage();           
 
             attackButton.onClick.AddListener(() => GenerateCombo());
             attackButton.onClick.AddListener(() => StartCombo());
@@ -98,15 +92,11 @@ namespace ProjectB.UI.Presenter
 
         void Update()
         {
-            if (player == null)
-                return;
+            if (player == null) return;
 
             inputMoveVector = PoolInput();
 
-            if (!GetIsState(player.IsWorking))
-            {
-                SetInputVector();
-            }
+            SetInputVector();
         }
 
         Vector3 PoolInput()
@@ -123,10 +113,9 @@ namespace ProjectB.UI.Presenter
         {
             if (GetIsState(player.IsWorking)) return;
 
-            player.MoveVector = inputMoveVector;
-
             if (inputMoveVector != Vector3.zero)
             {
+                player.MoveVector = inputMoveVector;
                 player.ChangeState(PlayerStates.PlayerCharacterRunState);
             }
             else
@@ -137,7 +126,7 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            if (GetIsState(player.IsWorking)) return;
+            //if (GetIsState(player.IsWorking)) return;
 
             if (!GetIsState(player.IsRunning) && player.TargetVector != Vector3.zero)
             {
@@ -145,7 +134,7 @@ namespace ProjectB.UI.Presenter
 
                 StartButtonCoolDown(backStepCoolDownTime, backStepButton, backStepImage);
 
-                SwapWeaponCoolDown();
+                SwapWeaponCoolDown(backStepCoolDownTime);
             }
             else
             {
@@ -153,10 +142,9 @@ namespace ProjectB.UI.Presenter
             }
         }
 
-
         void InputSkillButton()
         {
-            if (GetIsState(player.IsWorking)) return;
+            //if (GetIsState(player.IsWorking)) return;
 
             if (!GetIsState(player.IsRunning))
             {
@@ -164,7 +152,7 @@ namespace ProjectB.UI.Presenter
 
                 StartButtonCoolDown(skillCoolDownTime, skillButton, skillImage);
 
-                SwapWeaponCoolDown();
+                SwapWeaponCoolDown(skillCoolDownTime);
             }
             else
             {
@@ -174,26 +162,25 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (GetIsState(player.IsWorking)) return;
+            //if (GetIsState(player.IsWorking)) return;
 
             if (!GetIsState(player.IsRunning))
             {
-                if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
+                if (GetWeaponState())
                 {
                     player.WeaponSwitching(PlayerCharacterWeaponState.LongSword);
                 }
-                else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+                else
                 {
                     player.WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
                 }
 
-                SwapWeaponCoolDown();
+                SwapWeaponCoolDown(swapCoolDownTime);
 
                 commandControll.ClearCommand();
                 comboResetCount = 0;
             }
         }
-
 
         void GenerateCombo()
         {
@@ -251,7 +238,7 @@ namespace ProjectB.UI.Presenter
                 commandControll.ExcuteCommand();
 
                 StartButtonCoolDown(attackCoolDownTime, attackButton, attackImage);
-                SwapWeaponCoolDown();
+                SwapWeaponCoolDown(attackCoolDownTime);
 
                 comboResetCount++;
             }
@@ -321,11 +308,11 @@ namespace ProjectB.UI.Presenter
             StartCoroutine(ImageCoolDown(time, image));
         }
 
-        void SwapWeaponCoolDown()
+        void SwapWeaponCoolDown(float time)
         {
             if (isSwap == false)
             {
-                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
+                StartButtonCoolDown(time, weaponSwapButton, weaponSwapImage);
             }
         }
 
@@ -349,7 +336,7 @@ namespace ProjectB.UI.Presenter
 
         public void SetpUpUI()
         {
-            ID.text = AccountInfo.Instance.Id;
+            //ID.text = AccountInfo.Instance.Id;
             level.text = "Level\n" + player.Level.ToString();
 
             UpdateHpUI();

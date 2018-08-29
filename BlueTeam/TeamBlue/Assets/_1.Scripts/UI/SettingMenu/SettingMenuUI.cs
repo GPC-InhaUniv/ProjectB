@@ -70,7 +70,11 @@ namespace ProjectB.UI.SettingMenu
             button.enabled = isActivatingMenu;
             PauseGame(this.isActivatingMenu);
         }
-
+        public void ControlMenuWindow(bool isActivationMenu, GameObject menuWindowUI)
+        {
+            menuWindowUI.SetActive(!isActivatingMenu);
+        }
+        
         public void ControlWindows(bool isActivatingMenu, GameObject menuWindowUI, GameObject popUPWindowUI)
         {
             menuWindowUI.SetActive(!isActivatingMenu);
@@ -89,6 +93,11 @@ namespace ProjectB.UI.SettingMenu
                     Time.timeScale = 1.0f;
                     break;
             }
+        }
+
+        protected void PlaySound()
+        {
+            SoundManager.Instance.SetSound(SoundFXType.ButtonClick);
         }
     }
 }

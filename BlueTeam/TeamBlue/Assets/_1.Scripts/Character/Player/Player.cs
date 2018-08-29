@@ -74,54 +74,17 @@ namespace ProjectB.Characters.Players
             weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
             collider = GetComponent<CapsuleCollider>();
-
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
-            CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
         }
-
-        void Start()
-        {
-            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-            //TestSetCharacterStatus();
-            //isDied = false;
-            //hitParticle.SetActive(false);
-            //playerAinmaton.ResetHitTrigger();
-
-            //ChangeState(PlayerStates.PlayerCharacterIdleState);
-
-            //weapon.SetShortSword();
-            //playerAinmaton.InitStateAnimation();
-            //playerAinmaton.InitWeapon();
-
-            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-            //playerPresenter.SetpUpUI();
-            //상단 줄은 테스트용임, 오류날 시 주석처리        
-        }
-
-        //테스트용 함수 - 삭제 예정
-        void TestSetCharacterStatus()
-        {
-            exp = 200;
-            level = 1;
-
-            maxHealthPoint = Level * 1000 + equipmentHp;
-            healthPoint = maxHealthPoint;
-
-            attackPower = level * 10;
-            defensivePower = equipmentDefensePowr;
-
-            maxExp = 1000 + (100 * 1.2f * level);
-            preAttckPower = attackPower + equipmentAttackPower;
-        }
-        //테스트용 함수 - 삭제 예정
 
         public void Initialize()
         {
             playerAinmaton.ResetHitTrigger();
+
             hitParticle.SetActive(false);
             isDied = false;
             
             ChangeState(PlayerStates.PlayerCharacterIdleState);
+            CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
 
             weapon.SetShortSword();
             playerAinmaton.InitStateAnimation();
@@ -167,27 +130,28 @@ namespace ProjectB.Characters.Players
             switch (playerState)
             {
                 case PlayerStates.PlayerCharacterIdleState:
-                    isRunning = false; isWorking = false;
+                    isRunning = false;
+                    isWorking = false;
                     SetAttackPower(1.0f);
-                    SetState(new PlayerCharacterIdleState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
+                    SetState(new PlayerCharacterIdleState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                  
                     break;
                 case PlayerStates.PlayerCharacterAttackState:
                     isWorking = true;
                     SetAttackPower(1.2f);
-                    SetState(new PlayerCharacterAttackState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
+                    SetState(new PlayerCharacterAttackState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                                     
                     break;
                 case PlayerStates.PlayerCharacterSkillState:
                     isWorking = true;
                     SetAttackPower(3.0f);
-                    SetState(new PlayerCharacterSkillState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
+                    SetState(new PlayerCharacterSkillState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                   
                     break;
                 case PlayerStates.PlayerCharacterBackStepState:
                     isWorking = true;
-                    SetState(new PlayerCharacterBackStepState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
+                    SetState(new PlayerCharacterBackStepState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector)); 
                     break;
                 case PlayerStates.PlayerCharacterRunState:
                     isRunning = true;
-                    SetState(new PlayerCharacterRunState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
+                    SetState(new PlayerCharacterRunState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                    
                     break;            
                 case PlayerStates.PlayerCharacterDieState:
                     SetState(new PlayerCharacterDieState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
@@ -208,16 +172,17 @@ namespace ProjectB.Characters.Players
             if (isWorking == true || isRunning == true || isDied == true)
                 return;
 
+            ChangeState(PlayerStates.PlayerCharacterIdleState);
             if (isRunningHitCoroutine == false)
-            {
-                ChangeState(PlayerStates.PlayerCharacterIdleState);
+            {              
                 StartCoroutine(HitCoroutine(1.2f));
 
+                SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
                 playerAinmaton.HitAnimation();
                 healthPoint -= CalDamage(damage);
-                playerPresenter.UpdateHpUI();
 
-                SoundManager.Instance.SetSound(SoundFXType.PlayerHit);                           
+                playerPresenter.UpdateHpUI();
+                
                 if (healthPoint <= 0)
                 {
                     healthPoint = 0;
@@ -230,7 +195,6 @@ namespace ProjectB.Characters.Players
                     GameControllManager.Instance.CheckGameOver();                  
                 }
             }
-            isWorking = false;
         }
 
         float CalDamage(float damage)
@@ -252,6 +216,8 @@ namespace ProjectB.Characters.Players
             }
             else if (IsRunning == false)
             {
+                isWorking = false;
+
                 playerAinmaton.WeaponSwapAnimation(NewWeaponState);
                 weapon.SetWeapon(true, NewWeaponState, CurrentWeaponState);
            

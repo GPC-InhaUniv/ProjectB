@@ -6,7 +6,7 @@ namespace ProjectB.GameManager
 {
     public class GameControllManager : Singleton<GameControllManager>
     {
-        const int MAXMONSTERCOUNT = 6;
+        const int MAXMONSTERCOUNT = 18;
         public LoadType CurrentLoadType;
         public int CurrentIndex;
 

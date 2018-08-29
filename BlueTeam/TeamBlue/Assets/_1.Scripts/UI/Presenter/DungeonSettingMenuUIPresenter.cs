@@ -27,14 +27,41 @@ namespace ProjectB.UI.SettingMenu
             InActivateWindows(isActivatingMenu, messageWindowUI);
 
             //버튼 등록
-            settingButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton); });
-            returnToGameButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton); });
-            soundButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, settingWindowUI, soundControlWindowUI); });
-            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, soundControlWindowUI, settingWindowUI); });
-            returnToVillageButton.onClick.AddListener(delegate { PopupMessage(isActivatingMenu, messageWindowUI, messageText, "마을로 돌아가시겠습니까?"); });
-            noButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, messageWindowUI, settingWindowUI); });
-            yesButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
+            settingButton.onClick.AddListener(delegate {
+                ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
+                PlaySound();
+            });
+
+            returnToGameButton.onClick.AddListener(delegate {
+                ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
+                PlaySound();
+            });
+
+            soundButton.onClick.AddListener(delegate {
+                ControlWindows(isActivatingMenu, settingWindowUI, soundControlWindowUI);
+                PlaySound();
+            });
+
+            returnToMenuButton.onClick.AddListener(delegate {
+                ControlWindows(isActivatingMenu, soundControlWindowUI, settingWindowUI);
+                PlaySound();
+            });
+
+            returnToVillageButton.onClick.AddListener(delegate {
+                PopupMessage(isActivatingMenu, messageWindowUI, messageText, "마을로 돌아가시겠습니까?");
+                ControlMenuWindow(isActivatingMenu, settingWindowUI);
+                PlaySound();
+            });
+
+            noButton.onClick.AddListener(delegate {
+                ControlWindows(isActivatingMenu, messageWindowUI, settingWindowUI);
+                PlaySound();
+            });
+
+            yesButton.onClick.AddListener(delegate {
+                ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
                 ControlWindows(isActivatingMenu, messageWindowUI, messageWindowUI);
+                PlaySound();
                 ReturnToVillage();
             });
 
@@ -62,6 +89,7 @@ namespace ProjectB.UI.SettingMenu
         public void ReturnToVillage()
         {
             GameControllManager.Instance.MoveNextScene(LoadType.Village,0);
+            GameControllManager.Instance.ObtainedItemDic.Clear();
         }
         
     }
