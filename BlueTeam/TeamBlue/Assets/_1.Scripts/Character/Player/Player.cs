@@ -208,17 +208,6 @@ namespace ProjectB.Characters.Players
             if (isWorking == true || isRunning == true || isDied == true)
                 return;
 
-            if (healthPoint <= 0)
-            {
-                healthPoint = 0;
-                ChangeState(PlayerStates.PlayerCharacterDieState);
-
-                SoundManager.Instance.SetSound(SoundFXType.PlayerDeath);
-
-                GameControllManager.Instance.CheckGameOver();
-                playerPresenter.UpdateHpUI();
-            }
-
             if (isRunningHitCoroutine == false)
             {
                 ChangeState(PlayerStates.PlayerCharacterIdleState);
@@ -228,7 +217,20 @@ namespace ProjectB.Characters.Players
                 healthPoint -= CalDamage(damage);
 
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
+
                 playerPresenter.UpdateHpUI();
+            
+                if (healthPoint <= 0)
+                {
+                    healthPoint = 0;
+                    ChangeState(PlayerStates.PlayerCharacterDieState);
+
+                    SoundManager.Instance.SetSound(SoundFXType.PlayerDeath);
+
+                    GameControllManager.Instance.CheckGameOver();
+
+                    playerPresenter.UpdateHpUI();
+                }
             }
             isWorking = false;
         }
