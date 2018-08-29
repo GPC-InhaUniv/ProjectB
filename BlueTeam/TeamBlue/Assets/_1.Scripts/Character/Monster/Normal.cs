@@ -12,7 +12,6 @@
 
         void Update()
         {
-
             switch (state)
             {
                 case State.Walking:
