@@ -215,21 +215,19 @@ namespace ProjectB.Characters.Players
 
                 playerAinmaton.HitAnimation();
                 healthPoint -= CalDamage(damage);
-
-                SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
-
                 playerPresenter.UpdateHpUI();
-            
+
+                SoundManager.Instance.SetSound(SoundFXType.PlayerHit);                           
                 if (healthPoint <= 0)
                 {
                     healthPoint = 0;
+                    playerPresenter.UpdateHpUI();
+
                     ChangeState(PlayerStates.PlayerCharacterDieState);
 
                     SoundManager.Instance.SetSound(SoundFXType.PlayerDeath);
 
-                    GameControllManager.Instance.CheckGameOver();
-
-                    playerPresenter.UpdateHpUI();
+                    GameControllManager.Instance.CheckGameOver();                  
                 }
             }
             isWorking = false;
