@@ -126,9 +126,7 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            //if (GetIsState(player.IsWorking)) return;
-
-            if (!GetIsState(player.IsRunning) && player.TargetVector != Vector3.zero)
+            if (!GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -144,8 +142,6 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            //if (GetIsState(player.IsWorking)) return;
-
             if (!GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
@@ -162,8 +158,6 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            //if (GetIsState(player.IsWorking)) return;
-
             if (!GetIsState(player.IsRunning))
             {
                 if (GetWeaponState())
@@ -230,8 +224,6 @@ namespace ProjectB.UI.Presenter
 
         void StartCombo()
         {
-            if (GetIsState(player.IsWorking)) return;
-
             if (!GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
@@ -336,7 +328,7 @@ namespace ProjectB.UI.Presenter
 
         public void SetpUpUI()
         {
-            //ID.text = AccountInfo.Instance.Id;
+            ID.text = AccountInfo.Instance.Id;
             level.text = "Level\n" + player.Level.ToString();
 
             UpdateHpUI();

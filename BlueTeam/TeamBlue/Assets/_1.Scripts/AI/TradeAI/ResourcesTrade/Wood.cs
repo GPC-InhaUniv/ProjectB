@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-class Iron : IResource
+class Wood : IResource
 {
-    const int SheepWeightedValue = 5;
+    const int SheepWeightedValue = 4;
 
-    const int BrickWeightedValue = 4;
+    const int BrickWeightedValue = 5;
 
-    const int WoodWeightedValue = 3;
+    const int WoodWeightedValue = 10;
 
-    const int IronWeightedValue = 10;
+    const int IronWeightedValue = 3;
 
 
     public int CalculateTradeProbability(int receivingResourceCount, GameResources resourceType, int tradeProbability)
@@ -24,7 +24,7 @@ class Iron : IResource
                 break;
 
             case GameResources.Iron:
-                tradeProbability += (int)((IronWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability -= (int)((IronWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
@@ -34,7 +34,7 @@ class Iron : IResource
                 break;
 
             case GameResources.Wood:
-                tradeProbability -= (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability += (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
         }
@@ -46,31 +46,24 @@ class Iron : IResource
         }
 
         return tradeProbability;
-
     }
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        // GameDataManager.Instance.PlayerGamedata[3001] += receivingResourceCount;
-        TestResource.Instance.testDictionary["Iron"] += receivingResourceCount;
-
+        GameDataManager.Instance.PlayerGamedata[3000] += receivingResourceCount;
     }
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3001] >= sendingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3001] -= sendingResourceCount;
-        //}
-
-        if(TestResource.Instance.testDictionary["Iron"] >= sendingResourceCount)
+        if (GameDataManager.Instance.PlayerGamedata[3000] >= sendingResourceCount)
         {
-            TestResource.Instance.testDictionary["Iron"] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3000] -= sendingResourceCount;
+
         }
 
         else
         {
-            Debug.Log("보낼 철광석 부족");
+            Debug.Log("보내는 나무 부족");
         }
     }
 }

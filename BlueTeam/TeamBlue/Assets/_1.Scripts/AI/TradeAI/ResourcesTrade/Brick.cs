@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-class Wood : IResource
+class Brick : IResource
 {
-    const int SheepWeightedValue = 4;
+    const int SheepWeightedValue = 3;
 
-    const int BrickWeightedValue = 5;
+    const int BrickWeightedValue = 10;
 
-    const int WoodWeightedValue = 10;
+    const int WoodWeightedValue = 5;
 
-    const int IronWeightedValue = 3;
+    const int IronWeightedValue = 4;
 
 
     public int CalculateTradeProbability(int receivingResourceCount, GameResources resourceType, int tradeProbability)
@@ -19,7 +19,7 @@ class Wood : IResource
         switch (resourceType)
         {
             case GameResources.Brick:
-                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability += (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
@@ -34,13 +34,12 @@ class Wood : IResource
                 break;
 
             case GameResources.Wood:
-                tradeProbability += (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability -= (int)((WoodWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
         }
 
-
-        if (tradeProbability > 100)
+        if(tradeProbability > 100)
         {
             tradeProbability = 100;
         }
@@ -50,26 +49,19 @@ class Wood : IResource
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        //GameDataManager.Instance.PlayerGamedata[3000] += receivingResourceCount;
-        TestResource.Instance.testDictionary["Wood"] += receivingResourceCount;
+        GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
     }
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3000] >= receivingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3000] -= receivingResourceCount;
-
-        //}
-
-        if(TestResource.Instance.testDictionary["Wood"] >= sendingResourceCount)
+        if (GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
         {
-            TestResource.Instance.testDictionary["Wood"] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3002] -= sendingResourceCount;
         }
 
         else
         {
-            Debug.Log("보내는 나무 부족");
+            Debug.Log("보낼 흙 부족");
         }
     }
 }

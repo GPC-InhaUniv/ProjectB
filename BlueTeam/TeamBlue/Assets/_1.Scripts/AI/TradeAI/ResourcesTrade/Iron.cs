@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using ProjectB.GameManager;
 
-class Brick : IResource
+class Iron : IResource
 {
-    const int SheepWeightedValue = 3;
+    const int SheepWeightedValue = 5;
 
-    const int BrickWeightedValue = 10;
+    const int BrickWeightedValue = 4;
 
-    const int WoodWeightedValue = 5;
+    const int WoodWeightedValue = 3;
 
-    const int IronWeightedValue = 4;
+    const int IronWeightedValue = 10;
 
 
     public int CalculateTradeProbability(int receivingResourceCount, GameResources resourceType, int tradeProbability)
@@ -19,12 +19,12 @@ class Brick : IResource
         switch (resourceType)
         {
             case GameResources.Brick:
-                tradeProbability += (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability -= (int)((BrickWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
             case GameResources.Iron:
-                tradeProbability -= (int)((IronWeightedValue * receivingResourceCount) * 0.95);
+                tradeProbability += (int)((IronWeightedValue * receivingResourceCount) * 0.95);
 
                 break;
 
@@ -39,36 +39,32 @@ class Brick : IResource
                 break;
         }
 
-        if(tradeProbability > 100)
+
+        if (tradeProbability > 100)
         {
             tradeProbability = 100;
         }
 
         return tradeProbability;
+
     }
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        //GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
+        GameDataManager.Instance.PlayerGamedata[3001] += receivingResourceCount;
 
-        TestResource.Instance.testDictionary["Brick"] += receivingResourceCount;
     }
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3002] -= sendingResourceCount;
-        //}
-
-        if(TestResource.Instance.testDictionary["Brick"] >= sendingResourceCount)
+        if (GameDataManager.Instance.PlayerGamedata[3001] >= sendingResourceCount)
         {
-            TestResource.Instance.testDictionary["Brick"] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3001] -= sendingResourceCount;
         }
 
         else
         {
-            Debug.Log("보낼 흙 부족");
+            Debug.Log("보낼 철광석 부족");
         }
     }
 }
