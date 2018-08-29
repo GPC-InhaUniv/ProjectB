@@ -27,6 +27,7 @@ namespace ProjectB.GameManager
     }
     public class LoadingSceneManager : MonoBehaviour
     {
+
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
@@ -34,7 +35,7 @@ namespace ProjectB.GameManager
         const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1DDbQHSdLLk-1Ugnzciu_6Es-W__inkXV";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=107eeYBkcL7PgLWQZIQCVYfJohlhcv-e1";
         const string townBundleURL = "https://docs.google.com/uc?export=download&id=1TTEkuizpPZKm5yYhDk2ZW3fG3fbUqRv5";
-        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1vTTGc801Dis9e4l0l51X7QUqlI2mppT0";
+        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1MzBJD1l3Zn0qUcB0KNXsp9oKavWKaAU6";
         const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1TdVmVeXt5yGadsF2k0r6eZ76-ba6zMmU";
         const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1J66F1659uXcLnNZu-ss10Kc33r785jSD";
         

@@ -69,7 +69,6 @@ namespace ProjectB.Characters.Players
         GameObject hitParticle;
         private void Awake()
         {
-            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
 
             playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
