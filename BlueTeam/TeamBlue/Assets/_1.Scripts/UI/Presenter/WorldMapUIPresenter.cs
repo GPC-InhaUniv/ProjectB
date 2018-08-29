@@ -5,6 +5,8 @@ using ProjectB.GameManager;
 
 public class WorldMapUIPresenter : MonoBehaviour
 {
+    [SerializeField] GameObject worldMapPanel;
+
     public void OnClickWoodDungeonButton(int dungeonNumber)
     {
         GameControllManager.Instance.MoveNextScene(LoadType.WoodDungeon, dungeonNumber);
@@ -39,4 +41,8 @@ public class WorldMapUIPresenter : MonoBehaviour
         GameControllManager.Instance.MoveNextScene(LoadType.BossDungeon, 1);
     }
 
+    public void OnClickExitButton()
+    {
+        worldMapPanel.SetActive(false);
+    }
 }
