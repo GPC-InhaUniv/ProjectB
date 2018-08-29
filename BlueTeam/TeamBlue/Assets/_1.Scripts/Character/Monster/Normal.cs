@@ -61,7 +61,11 @@ namespace ProjectB.Characters.Monsters
             {
                 //Died();
 
-                ReceiveDamage(50);
+                for (int i = 0; i < 50; i++)
+                {
+                    ReceiveDamage(500);
+                    
+                }
             }
         }
 
