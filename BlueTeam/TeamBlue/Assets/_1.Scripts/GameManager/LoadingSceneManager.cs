@@ -110,56 +110,56 @@ namespace ProjectB.GameManager
                             currentAssetName = "마을 로드중...";
                             AssetBundleManager.Instance.LoadArea(AreaType.Village);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area); 
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area); 
                             break;
                         case LoadType.BrickDungeon:
                             currentAssetName = "흙 던전 로드중..";
 
                             AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area);
                             break;
                         case LoadType.WoodDungeon:
                             currentAssetName = "나무 던전 로드중..";
                             AssetBundleManager.Instance.LoadArea(AreaType.WoodDungeon);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area);
                             break;
                         case LoadType.SheepDungeon:
                             currentAssetName = "양 던전 로드중..";
 
                             AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area);
 
                             break;
                         case LoadType.IronDungeon:
                             AssetBundleManager.Instance.LoadArea(AreaType.IronDungeon);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area);
                             break;
                         case LoadType.VillageCheckDownLoad:
                             currentAssetName = "마을 로드중...";
                             AssetBundleManager.Instance.LoadArea(AreaType.Village);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area);
                             GameObjectsManager.Instance.SetPrefab();
-                            GameObjectsManager.Instance.SetObject(ObjectType.Player);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Player);
                             break;
                         case LoadType.BossDungeon:
                             AssetBundleManager.Instance.LoadArea(AreaType.BrickDungeon);
                             GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
-                            GameObjectsManager.Instance.SetObject(ObjectType.Area);
+                            GameObjectsManager.Instance.MakeObject(ObjectType.Area);
                             break;
                     }
                   
-                    GameObjectsManager.Instance.SetObject(ObjectType.Canvas);
+                    GameObjectsManager.Instance.MakeObject(ObjectType.Canvas);
 
                     if (GameControllManager.Instance.CurrentLoadType!=LoadType.Village &&
                         GameControllManager.Instance.CurrentLoadType!=LoadType.VillageCheckDownLoad)
                     {
                         GameObjectsManager.Instance.SetMonsterPrefab();
-                        GameObjectsManager.Instance.SetPool();
+                        GameObjectsManager.Instance.MakeMonsterObject();
                     }
                     IsAssetLoadDone = true;
                 }

@@ -84,7 +84,7 @@ namespace ProjectB.Characters.Monsters
         public BossSkillDefence(Animator animator, Transform target)
         {
             this.animator = animator;
-            skillPrefab = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireHemiSphere);
+            skillPrefab = GameObjectsManager.Instance.GetBossSkill(KindOfSkill.FireHemiSphere);
             this.target = target;
         }
         public void UseSkill()
@@ -104,7 +104,7 @@ namespace ProjectB.Characters.Monsters
         public BossSkillThird(Animator animator, Transform target)
         {
             this.animator = animator;
-            skillPrefab = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireEntangle);
+            skillPrefab = GameObjectsManager.Instance.GetBossSkill(KindOfSkill.FireEntangle);
             this.target = target;
         }
         public void UseSkill()

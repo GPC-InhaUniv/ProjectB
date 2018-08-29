@@ -114,8 +114,7 @@ namespace ProjectB.GameManager
                         Hp += itemTable.sheets[0].list[i].HP;
                     }
                 }
-            }
-            Debug.Log("asdad");
+            } 
         }
         
         public void SetGameDataToServer()

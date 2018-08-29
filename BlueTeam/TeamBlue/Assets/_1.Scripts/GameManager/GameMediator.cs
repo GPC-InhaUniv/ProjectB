@@ -7,14 +7,17 @@ using ProjectB.UI.Presenter;
 
 namespace ProjectB.GameManager
 {
+    interface IExitable
+    {
+        void EndStage();
+    }
+
     public class GameMediator : Singleton<GameMediator>
     {
         GameObject playerObject;
-      
         GameObject mainUICanvas;
         GameObject playerPresenter;
         GameObject minimapPresenter;
-
         IExitable uiController;
 
         public void SetUICanvas()
@@ -25,10 +28,8 @@ namespace ProjectB.GameManager
 
         public void SetMediator()
         {
-            playerObject = GameObject.FindGameObjectWithTag("Player");
-            
+            playerObject = GameObject.FindGameObjectWithTag("Player"); 
             playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter");
-
 
             if (GameControllManager.Instance.CurrentLoadType != LoadType.Village &&
                   GameControllManager.Instance.CurrentLoadType != LoadType.VillageCheckDownLoad)
@@ -53,7 +54,6 @@ namespace ProjectB.GameManager
             {
                 minimapPresenter.GetComponent<MinimapUIPresenter>().Initialize();
             }
-
         }
 
         public void ClearStage()

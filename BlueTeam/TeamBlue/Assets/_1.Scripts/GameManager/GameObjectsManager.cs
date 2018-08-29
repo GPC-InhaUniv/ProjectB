@@ -24,23 +24,25 @@ namespace ProjectB.GameManager
         GameObject nomalMonsterPrefab;
         GameObject namedMonsterPrefab;
         GameObject bossMonsterPrefab;
-        public GameObject[] bossSkill;
+        GameObject[] bossSkill;
         GameObject gameCanvasPrefab;
 
         int monsterPoolSize;
+
+        GameObject[] normalMonster;
+        GameObject[] namedMonster;
+        GameObject bossMonster;
+
         private void Start()
         {
             bossSkill = new GameObject[3];
-            DontDestroyOnLoad(gameObject);
-            
+            normalMonster = new GameObject[monsterPoolSize];
+            namedMonster = new GameObject[monsterPoolSize / 3];
         }
-
-
         public void SetPrefab()
         {
             playerPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Player, "PlayerCharacter");
             gameCanvasPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Common, "MainCanvas");
-
         }
 
         public void SetAreaPrefab(int stageNum)
@@ -57,22 +59,15 @@ namespace ProjectB.GameManager
 
         public void SetMonsterPrefab()
         {
-
             nomalMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Normal");
             namedMonsterPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Named");
-            if (GameControllManager.Instance.CurrentLoadType == LoadType.BossDungeon)
-            {
-               
-            }
-
-
         }
 
         GameObject areaObject;
         GameObject playerObject;
         GameObject mainUICanvas;
 
-        public void SetObject(ObjectType objectType)
+        public void MakeObject(ObjectType objectType)
         {
             switch (objectType)
             {
@@ -137,23 +132,16 @@ namespace ProjectB.GameManager
                 }
             if (bossMonster != null)
                 Destroy(bossMonster);
-            
         }
 
-        //Pool
-
-        GameObject[] normalMonster;
-        GameObject[] namedMonster;
-        GameObject bossMonster;
-
+        
         int curruntNormalMonsterIndex = 0;
         int curruntNamedMonsterIndex = 0;
 
-        public void SetPool()
+        public void MakeMonsterObject()
         {
             monsterPoolSize = GameControllManager.Instance.TotalMonsterCount;
-            normalMonster = new GameObject[monsterPoolSize];
-            namedMonster = new GameObject[monsterPoolSize / 3];
+           
             for (int i = 0; i < normalMonster.Length; i++)
             {
                 normalMonster[i] = Instantiate(nomalMonsterPrefab);
@@ -173,16 +161,13 @@ namespace ProjectB.GameManager
                 bossMonster.SetActive(false);
                 bossSkill[0] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireEntangle"));
                 bossSkill[1] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillFireRain"));
-                bossSkill[2] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));
-               
+                bossSkill[2] = Instantiate(AssetBundleManager.Instance.LoadObject(BundleType.Area, "SkillHemiSphere"));   
                 for(int i = 0; i <bossSkill.Length;i++)
                 {
                     DontDestroyOnLoad(bossSkill[i]);
                     bossSkill[i].SetActive(false);
-                }
-               
+                }   
             }
-
         }
 
 
@@ -223,7 +208,7 @@ namespace ProjectB.GameManager
 
         }
 
-        public GameObject BossSkill(KindOfSkill kindOfSkill)
+        public GameObject GetBossSkill(KindOfSkill kindOfSkill)
         {
             GameObject bossSkillObject;
             switch (kindOfSkill)

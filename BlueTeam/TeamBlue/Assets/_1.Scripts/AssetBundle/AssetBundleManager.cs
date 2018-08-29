@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using ProjectB.Utility;
 
 public enum AreaType
 {
@@ -27,16 +26,10 @@ public class AssetBundleManager : Singleton<AssetBundleManager> {
     const string CommonBundleName = "commonbundle";
     const string MonsterBundleName = "TestMonster";
 
-    protected AssetBundleManager() { }
-
-
-    //public string path;
-    public Text Log;
     public AssetBundle PlayerBundle;
     public AssetBundle CommonAssetBundle;
     public AssetBundle Area;
-    public AssetBundle MonsterBundle;
-    public AreaType currentArea;
+    AreaType currentArea;
 
     void Start()
     {
@@ -80,20 +73,6 @@ public class AssetBundleManager : Singleton<AssetBundleManager> {
         return Application.persistentDataPath + "/AssetBundles/" + assetName + "_unity3D";
     }
 
-    IEnumerator LoadedAssetBundles()
-    {
-        PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));
-
-        CommonAssetBundle = AssetBundle.LoadFromFile(SetPath(CommonBundleName));
-        if (PlayerBundle == null || CommonAssetBundle == null)
-        {
-            Debug.Log("Fail");
-            yield break;
-        }
-        else
-            Debug.Log("Successe");
-    }
-
     IEnumerator LoadAssetBundle(string areaType)
     {
 
@@ -109,7 +88,7 @@ public class AssetBundleManager : Singleton<AssetBundleManager> {
 
         if (Area == null)
         {
-            Debug.Log("Fail");
+            DebugLog.SaveLog(this, "load Fail : Area is Null");
             yield break;
         }
         else
@@ -146,7 +125,6 @@ public class AssetBundleManager : Singleton<AssetBundleManager> {
         GameObject gameObject;
         switch (bundleType)
         {
-
             case BundleType.Player:
                 if (PlayerBundle == null)
                     PlayerBundle = AssetBundle.LoadFromFile(SetPath(PlayerBundleName));

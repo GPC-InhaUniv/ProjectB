@@ -24,23 +24,22 @@ namespace ProjectB.UI.Presenter
         List<int> itemCode;
         string[] itemName;
 
-        private void OnEnable()
+        private void Start()
         {
-            if (itemCode == null && itemName == null)
-            {
-                itemCode = new List<int>();
-                itemName = new string[2];
-            }
+            itemCode = new List<int>();
+            itemName = new string[2];
+        }
+        private void OnEnable()
+        {  
             ShowResultUI();
         }
-
         void ShowResultUI()
         {
-
             if (GameControllManager.Instance.IsClearDungeon)
             {
                 resultText.text = "Stage Clear";
                 getEXPText.text = "EXP : " + GameControllManager.Instance.TotalExp + "증가";
+
                 foreach (KeyValuePair<int, int> temp in GameControllManager.Instance.ObtainedItemDic)
                 {
                     itemCode.Add(temp.Key);
@@ -87,8 +86,6 @@ namespace ProjectB.UI.Presenter
             getItemText.text = string.Empty;
             resultUI.SetActive(false);
             worldMapUI.SetActive(true);
-
-
         }
 
         private void OnDisable()
