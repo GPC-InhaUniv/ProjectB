@@ -89,6 +89,7 @@ namespace ProjectB.UI.SettingMenu
         public void ReturnToVillage()
         {
             GameControllManager.Instance.MoveNextScene(LoadType.Village,0);
+            GameControllManager.Instance.ObtainedItemDic.Clear();
         }
         
     }
