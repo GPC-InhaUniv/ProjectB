@@ -8,15 +8,13 @@ enum WeatherState
     Cloudy,
     Rainy,
     Sunny,
-    Lighting 
+    Windy
 }
 
 class Weather
 {
     WeatherState weatherState;
     public GameResources resourcesOfNeed;
-
-    int requestResourceCount = 0;
 
     public void ChangeWeatherState(WeatherState weatherState)
     {
@@ -45,8 +43,8 @@ class Weather
                 resourcesOfNeed = GameResources.Sheep;
                 break;
 
-            case WeatherState.Lighting:
-                weatherState = WeatherState.Lighting;
+            case WeatherState.Windy:
+                weatherState = WeatherState.Windy;
                 this.weatherState = weatherState;
 
                 resourcesOfNeed = GameResources.Iron;
@@ -58,27 +56,6 @@ class Weather
 
     public WeatherState GetWeatherState()
     {
-        if (weatherState == WeatherState.Cloudy)
-        {
-            Debug.Log("흐린 날씨");
-        }
-
-        else if (weatherState == WeatherState.Rainy)
-        {
-            Debug.Log("비오는 날씨");
-        }
-
-        else if (weatherState == WeatherState.Lighting)
-        {
-            Debug.Log("번개치는 날씨");
-        }
-
-        else
-        {
-            Debug.Log("맑은 날씨");
-        }
-
-
         return weatherState;
     }
 

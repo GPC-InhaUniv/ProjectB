@@ -1,36 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-namespace ProjectB.Characters.Monsters
+﻿namespace ProjectB.Characters.Monsters
 {
     public class Named : Monster
     {
-
-
         void Start()
         {
-            monsterMove = GetComponent<MonsterMove>();
-            animator = GetComponent<Animator>();
-            startPosition = transform.position;
-            waitBaseTime = 2.0f;
-            waitTime = waitBaseTime;
-
+            monsterType = MonsterType.Named;
+            SetMonsterInfo();
             attackable = new ComboAttack(animator);
             skillUsable = new NamedSkill(animator);
-
-            SetMonsterInfo();
-            monsterType = MonsterType.Named;
-            walkRange = 15;
-            skillCoolTime = 10;
-            speed = 2;
-
-            hitParticle.SetActive(false);
         }
+
         void Update()
         {
-
             switch (state)
             {
                 case State.Walking:
@@ -39,9 +20,7 @@ namespace ProjectB.Characters.Monsters
                 case State.Chasing:
                     ChaseTarget();
                     break;
-
             }
-
             if (state != currentState)
             {
                 state = currentState;
@@ -58,17 +37,6 @@ namespace ProjectB.Characters.Monsters
                         break;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                //Died();
-
-                for (int i = 0; i < 50; i++)
-                {
-                    ReceiveDamage(500);
-                }
-            }
-
         }
-
     }
 }

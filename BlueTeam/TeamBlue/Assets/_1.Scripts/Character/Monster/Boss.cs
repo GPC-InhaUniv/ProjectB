@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ProjectB.Characters;
+﻿using UnityEngine;
 using ProjectB.GameManager;
 
 namespace ProjectB.Characters.Monsters
@@ -11,41 +8,22 @@ namespace ProjectB.Characters.Monsters
         BossState bossState;
         float stateHandleNum;
 
-        private void OnEnable()
+        void OnEnable()
         {
             NoSkill.SetState += ChangeStateToWalking;
         }
-        private void OnDisable()
-        {
-            NoSkill.SetState -= ChangeStateToWalking;
-        }
         void Start()
-        {
-            monsterMove = GetComponent<MonsterMove>();
-            animator = GetComponent<Animator>();
-            startPosition = transform.position;
-            waitBaseTime = 2.0f;
-            waitTime = waitBaseTime;
-          
-            //bossState = new PhaseOne(animator);
-            bossState = new PhaseTwo(animator);
-            //bossState = new PhaseThree(animator);
-
+        {        
             monsterType = MonsterType.Boss;
-
-            walkRange = 30;
-            skillCoolTime = 10;
-            speed = 2;
-
-
-            healthPoint = maxHealthPoint;
-            hitParticle.SetActive(false);
-
-
+            SetMonsterInfo();
+            bossState = new PhaseOne(animator);
+            //TEST//
+            //bossState = new PhaseTwo(animator);
+            //bossState = new PhaseThree(animator);
         }
+
         void Update()
         {
-           
             switch (state)
             {
                 case State.Walking:
@@ -54,7 +32,6 @@ namespace ProjectB.Characters.Monsters
                 case State.Chasing:
                     ChaseTarget();
                     break;
-
             }
             if (state != currentState)
             {
@@ -72,11 +49,6 @@ namespace ProjectB.Characters.Monsters
                         break;
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                Died();
-            }
         }
         protected override void AttackTarget()
         {
@@ -85,9 +57,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected override void UseSkill()
         {
-            Debug.Log("gogogogogo");
             bossState.UseSkill(attackTarget);
-
         }
         public override void ReceiveDamage(float damage)
         {
@@ -95,9 +65,7 @@ namespace ProjectB.Characters.Monsters
             {
                 int defencePossibility = Random.Range(1, 9);
                 if (defencePossibility == 1)
-                {
                     animator.SetTrigger(AniStateParm.Defence.ToString());
-                }
                 else if (defencePossibility == 2)
                 {
                     animator.SetTrigger(AniStateParm.Defence.ToString());
@@ -105,18 +73,13 @@ namespace ProjectB.Characters.Monsters
                 }
                 else
                 {
-                    animator.SetTrigger(AniStateParm.Hitted.ToString());
                     StartCoroutine(ShowHitEffect(1.0f));
-
                     healthPoint -= damage;
-
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
-
 
                     if (healthPoint <= maxHealthPoint * (2 / 3) && stateHandleNum == 0)
                     {
                         bossState = new PhaseTwo(animator);
-
                         stateHandleNum++;
                     }
                     else if (healthPoint <= maxHealthPoint * (1 / 3) && stateHandleNum == 1)
@@ -129,8 +92,14 @@ namespace ProjectB.Characters.Monsters
                         healthPoint = 0;
                         ChangeState(State.Died);
                     }
+                    else
+                        animator.SetTrigger(AniStateParm.Hitted.ToString());
                 }
             }
+        }
+        void OnDisable()
+        {
+            NoSkill.SetState -= ChangeStateToWalking;
         }
     }
 }
