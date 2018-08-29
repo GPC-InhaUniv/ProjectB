@@ -101,6 +101,26 @@ namespace ProjectB.Characters.Players
             playerPresenter.SetpUpUI();
         }
 
+        //데이터 불러오기 및 정리
+        void GetCharacterStatusFromDataManager()
+        {
+            exp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
+            level = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+            GameDataManager.Instance.GetEquipmentStatus(out equipmentAttackPower, out equipmentHp, out equipmentDefensePowr);
+        }
+        void SetCharacterStatus()
+        {
+            maxHealthPoint = level * 500 + equipmentHp;
+            healthPoint = maxHealthPoint;
+
+            maxExp = 1000 + (100 * 1.2f * level);
+
+            attackPower = level * 10;
+
+            totoalAttckPower = attackPower + equipmentAttackPower;
+            defensivePower = equipmentDefensePowr;
+        }
+
         public void SetState(PlayerCharacterState newState)
         {
             if (isDied == true) return;
@@ -208,36 +228,6 @@ namespace ProjectB.Characters.Players
             currentWeaponState = NewWeaponState;
         }
 
-        //데이터 불러오기 및 정리하기
-        void GetCharacterStatusFromDataManager()
-        {
-<<<<<<< HEAD
-=======
-            GameDataManager.Instance.GetEquipmentStatus(out equipmentAttackPower, out equipmentHp, out equipmentDefensePowr);
->>>>>>> e2ad3d7846525af8a425684ae306428db3bda0b5
-            exp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
-            level = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
-            GameDataManager.Instance.GetEquipmentStatus(out equipmentAttackPower, out equipmentHp, out equipmentDefensePowr);
-        }
-
-        void SetCharacterStatus()
-        {
-            maxHealthPoint = level * 500 + equipmentHp;
-            healthPoint = maxHealthPoint;
-
-            maxExp = 1000 + (100 * 1.2f * level);
-
-            attackPower = level * 10;
-<<<<<<< HEAD
-            totoalAttckPower = attackPower + equipmentAttackPower;
-
-=======
-            preAttckPower = attackPower + equipmentAttackPower;
->>>>>>> e2ad3d7846525af8a425684ae306428db3bda0b5
-            defensivePower = equipmentDefensePowr;
-        }
-        //데이터 불러오기 및 정리하기
-
         //애니메이션 이벤트
         public void AttackStart()
         {
@@ -247,7 +237,6 @@ namespace ProjectB.Characters.Players
         {
             isWorking = false;
         }
-
         public void BackStepStart()
         {       
             //백스텝 사운드 추가 예정
@@ -257,7 +246,6 @@ namespace ProjectB.Characters.Players
             collider.enabled = true;
             isWorking = false;
         }
-        //애니메이션 이벤트
 
         IEnumerator HitCoroutine(float time)
         {
