@@ -9,10 +9,25 @@
             InActivateWindows(isActivatingMenu, soundControlWindowUI);
             
             //버튼 등록
-            settingButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton); });
-            returnToGameButton.onClick.AddListener(delegate { ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton); });
-            soundButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, settingWindowUI, soundControlWindowUI); });
-            returnToMenuButton.onClick.AddListener(delegate { ControlWindows(isActivatingMenu, soundControlWindowUI, settingWindowUI); });
+            settingButton.onClick.AddListener(delegate {
+                ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
+                PlaySound();
+            });
+
+            returnToGameButton.onClick.AddListener(delegate {
+                ControlMenuWindow(isActivatingMenu, settingWindowUI, settingButton);
+                PlaySound();
+            });
+
+            soundButton.onClick.AddListener(delegate {
+                ControlWindows(isActivatingMenu, settingWindowUI, soundControlWindowUI);
+                PlaySound();
+            });
+
+            returnToMenuButton.onClick.AddListener(delegate {
+                ControlWindows(isActivatingMenu, soundControlWindowUI, settingWindowUI);
+                PlaySound();
+            });
 
             //슬라이더 등록
             bgmVolumeSlier.onValueChanged.AddListener(delegate { ControlVolume(bgmVolumeSlier, sfxVolumeSlider); });

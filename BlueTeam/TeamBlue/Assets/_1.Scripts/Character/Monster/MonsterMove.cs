@@ -73,12 +73,6 @@ public class MonsterMove : MonoBehaviour {
         arrived = true;
     }
 
-    //// 목적지에 도착했는지 조사한다(도착했다 true / 도착하지 않았다 false).
-    //public bool Arrived()
-    //{
-    //    return arrived;
-    //}
-
 
 }
 

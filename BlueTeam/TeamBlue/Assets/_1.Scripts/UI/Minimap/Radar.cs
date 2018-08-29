@@ -30,7 +30,6 @@ namespace ProjectB.UI.Minimap
         {
             if (Enemys.Contains(monster))
             {
-                Debug.Log("RemoveList: " + monster);
                 Enemys.Remove(monster);
             }
         }

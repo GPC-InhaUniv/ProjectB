@@ -95,30 +95,28 @@ namespace ProjectB.Characters.Monsters
 
         public override void ReceiveDamage(float damage)
         {
-
-            if (!isInvincibility)
+            if (!died)
             {
-                int defencepossibility = Random.Range(1, 5);
-                if (defencepossibility == 1)
+                if (!isInvincibility)
                 {
-                    animator.SetTrigger(AniStateParm.Defence.ToString());
-
-                }
-                else
-                {
-                        animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    int defencepossibility = Random.Range(1, 5);
+                    if (defencepossibility == 1)
+                        animator.SetTrigger(AniStateParm.Defence.ToString());
+                    else
+                    {
                         StartCoroutine(ShowHitEffect(1.0f));
                         healthPoint -= damage;
                         SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
-                              
+                        if (healthPoint <= 0)
+                        {
+                            healthPoint = 0;
+                            ChangeState(State.Died);
+                        }
+                        else
+                            animator.SetTrigger(AniStateParm.Hitted.ToString());
+                    }
+                    StartCoroutine(AvoidAttack());
                 }
-                StartCoroutine(AvoidAttack());
-            }
-
-            if(healthPoint <= 0)
-            {
-                healthPoint = 0;
-                ChangeState(State.Died);
             }
         }
         //1초무적//
@@ -138,13 +136,46 @@ namespace ProjectB.Characters.Monsters
             hitParticle.SetActive(false);
 
         }
+        protected void Died()
+        {
+            died = true;
+            monsterMove.StopMove();
+
+            animator.SetTrigger(AniStateParm.Died.ToString());
+            GameControllManager.Instance.CheckGameClear();
+            int randomCount;
+            switch (monsterType)
+            {
+                //5 , 10 , 20 //
+                case MonsterType.Normal:
+                    maxPercent = 21;
+                    randomCount = Random.Range(1, maxPercent);
+                    if (randomCount == maxPercent - 1)
+                        DropItem(MonsterType.Normal);
+                    break;
+                case MonsterType.Named:
+                    maxPercent = 11;
+                    randomCount = Random.Range(1, maxPercent);
+                    if (randomCount == maxPercent - 1)
+                        DropItem(MonsterType.Named);
+                    break;
+                case MonsterType.Boss:
+                    maxPercent = 6;
+                    randomCount = Random.Range(1, maxPercent - 1);
+                    if (randomCount == maxPercent)
+                        DropItem(MonsterType.Boss);
+                    break;
+                default:
+                    break;
+            }
+            NoticeToRader(gameObject);
+        }
 
         protected void ChangeState(State currentState)
         {
-            if (died)
-                return;
             this.currentState = currentState;
         }
+
         public void SetAttackTarget(Transform target)
         {
             attackTarget = target;
@@ -188,40 +219,6 @@ namespace ProjectB.Characters.Monsters
             else
                 GameControllManager.Instance.ObtainedItemDic.Add(itemCode, 1);
 
-        }
-        protected void Died()
-        {         
-            died = true;
-            monsterMove.StopMove();
-
-            animator.SetTrigger(AniStateParm.Died.ToString());
-            GameControllManager.Instance.CheckGameClear();
-            int randomCount;
-            switch (monsterType)
-            {
-                //5 , 10 , 20 //
-                case MonsterType.Normal:
-                    maxPercent = 21;
-                    randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent - 1)
-                        DropItem(MonsterType.Normal);
-                    break;
-                case MonsterType.Named:
-                    maxPercent = 11;
-                    randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent - 1)
-                        DropItem(MonsterType.Named);
-                    break;
-                case MonsterType.Boss:
-                    maxPercent = 6;
-                    randomCount = Random.Range(1, maxPercent - 1);
-                    if (randomCount == maxPercent)
-                        DropItem(MonsterType.Boss);
-                    break;
-                default:
-                    break;
-            }
-            NoticeToRader(gameObject);
         }
 
         protected void RemovedFromWorld()
