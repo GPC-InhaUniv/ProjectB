@@ -130,7 +130,7 @@ namespace ProjectB.GameManager
                             currentAssetName = "양 던전 로드중..";
 
                             AssetBundleManager.Instance.LoadArea(AreaType.SheepDungeon);
-                            GameObjectsManager.Instance.SetAreaPrefab(1);
+                            GameObjectsManager.Instance.SetAreaPrefab(GameControllManager.Instance.CurrentIndex);
                             GameObjectsManager.Instance.SetObject(ObjectType.Area);
 
                             break;
