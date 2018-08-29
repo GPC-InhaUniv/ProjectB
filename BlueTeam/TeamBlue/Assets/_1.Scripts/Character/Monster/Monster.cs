@@ -77,6 +77,21 @@ namespace ProjectB.Characters.Monsters
                 float levelOne = 1.0f;
                 float levelTwo = 1.5f;
                 float levelThree = 2.0f;
+                switch (monsterType)
+                {
+                    case MonsterType.Boss:
+                        maxHealthPoint = 13000;
+                        attackPower = 100;
+                        break;
+                    case MonsterType.Named:
+                        maxHealthPoint = 1600;
+                        attackPower = 120;
+                        break;
+                    case MonsterType.Normal:
+                        maxHealthPoint = 1000;
+                        attackPower = 70;
+                        break;
+                }
                 switch (stageLevel)
                 {
                     case 1:
@@ -117,6 +132,16 @@ namespace ProjectB.Characters.Monsters
                 }
                 hitParticle.SetActive(false);
             }
+            Debug.Log("몬스터무브 " + monsterMove);
+            Debug.Log("애니메이터 " + animator);
+            Debug.Log("스타트포지션 " + startPosition);
+            Debug.Log("대기시간 " + waitTime);
+            Debug.Log("몬스터타입 " + monsterType);
+            Debug.Log("몬스터HP " + healthPoint);
+            Debug.Log("공격력 " + attackPower);
+            Debug.Log("워크레인지 " + walkRange);
+            Debug.Log("쿨타임 " + skillCoolTime);
+            Debug.Log("스피드 " + this.speed);
         }
 
         public override void ReceiveDamage(float damage)
