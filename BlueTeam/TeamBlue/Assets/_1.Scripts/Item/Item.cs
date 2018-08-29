@@ -114,18 +114,18 @@ namespace ProjectB.Item
 
         public void InitializationItem()
         {
-            Code = 0;
-            hp = 0;
-            attack = 0;
-            recipeWood = 0;
-            recipeSheep = 0;
-            recipeIron = 0;
-            recipeBrick = 0;
-            itemAmount = 0;
-            itemNameText.text = null;
-            itemImage.sprite = null;
-            image = null;
-            itemname = null;
+            this.Code = 0;
+            this.hp = 0;
+            this.attack = 0;
+            this.recipeWood = 0;
+            this.recipeSheep = 0;
+            this.recipeIron = 0;
+            this.recipeBrick = 0;
+            this.itemAmount = 0;
+            this.itemNameText.text = null;
+            this.itemImage.sprite = null;
+            this.image = null;
+            this.itemname = null;
         }
 
         public void SetItemAmount(int amount)

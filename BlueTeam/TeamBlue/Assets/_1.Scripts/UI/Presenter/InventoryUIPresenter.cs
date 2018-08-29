@@ -7,12 +7,14 @@ using ProjectB.Inventory;
 using System.Linq;
 
 public delegate void InitializeCombinationResourcesSlot();
+public delegate void LoadToWearItem();
 
 public class InventoryUIPresenter : MonoBehaviour
 {
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] List<Item> items;
     public static InitializeCombinationResourcesSlot initializeCombinationResourcesSlot;
+    public static LoadToWearItem loadToWearItem;
 
     private void OnEnable()
     {
@@ -126,6 +128,7 @@ public class InventoryUIPresenter : MonoBehaviour
                     GameDataManager.Instance.EquipmentItem[i] = 0;
             }
         }
+        loadToWearItem();
     }
 
     public void ResetItems()

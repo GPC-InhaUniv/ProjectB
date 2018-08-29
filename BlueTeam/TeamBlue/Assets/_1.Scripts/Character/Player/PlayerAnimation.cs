@@ -103,7 +103,7 @@ namespace ProjectB.Characters.Players
         {
             isRunningAttackCoroutine = true;
             animator.SetBool(attackName, true);
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(1.0f);
             animator.SetBool(attackName, false);
             isRunningAttackCoroutine = false;
         }
