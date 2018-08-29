@@ -223,6 +223,7 @@ namespace ProjectB.Characters.Players
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
                 playerPresenter.UpdateHpUI();
             }
+            isWorking = false;
         }
 
         float CalDamage(float damage)
