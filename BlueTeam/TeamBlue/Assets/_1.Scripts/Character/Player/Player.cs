@@ -67,10 +67,9 @@ namespace ProjectB.Characters.Players
 
         [SerializeField]
         GameObject hitParticle;
+
         private void Awake()
         {
-            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-
             playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
@@ -80,6 +79,7 @@ namespace ProjectB.Characters.Players
         public void Initialize()
         {
             playerAinmaton.ResetHitTrigger();
+
             hitParticle.SetActive(false);
             isDied = false;
             
@@ -170,10 +170,11 @@ namespace ProjectB.Characters.Players
         public override void ReceiveDamage(float damage)
         {
             if (isWorking == true || isRunning == true || isDied == true)
-                return;
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
+                return;     
+
             if (isRunningHitCoroutine == false)
             {
+                ChangeState(PlayerStates.PlayerCharacterIdleState);
                 StartCoroutine(HitCoroutine(1.2f));
 
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
