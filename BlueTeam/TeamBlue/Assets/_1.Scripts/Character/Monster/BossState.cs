@@ -62,14 +62,15 @@ namespace ProjectB.Characters.Monsters
         public override void UseDefenceSkill(Transform transform)
         {
             MonsterTransform = transform;
-            defencSkillUsable = new BossSkillDefence(this.animator, MonsterTransform);
+            defencSkillUsable = new BossSkillDefence(animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
 
         public override void UseSkill(Transform transform)
         {
             PlayerTransform = transform;
-            skillUsable = new BossSkillSecond(this.animator, PlayerTransform);
+            skillUsable = new BossSkillSecond(animator, PlayerTransform);
+            Debug.Log("gogogo");
             skillUsable.UseSkill();
         }
     }

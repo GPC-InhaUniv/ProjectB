@@ -52,7 +52,7 @@ namespace ProjectB.Characters.Players
 
         public override void Tick(Vector3 moveVector)
         {
-            //playerAinmaton.AttackAnimation(AnimationState.Attack.ToString() + AttackNumber.ToString());
+           
         }
     }
 
