@@ -153,5 +153,17 @@ public class EquipUIPresenter : MonoBehaviour
         {
             equipItems[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
         }
+
+        weaponInfos[0].text = "HP : " + equipItems[0].Hp.ToString();
+        weaponInfos[1].text = "Attack : " + equipItems[0].Attack.ToString();
+        weaponInfos[2].text = "Defence : " + equipItems[0].Defence.ToString();
+
+        amorInfos[0].text = "HP : " + equipItems[1].Hp.ToString();
+        amorInfos[1].text = "Attack : " + equipItems[1].Attack.ToString();
+        amorInfos[2].text = "Defence : " + equipItems[1].Defence.ToString();
+
+        helmetInfos[0].text = "HP : " + equipItems[2].Hp.ToString();
+        helmetInfos[1].text = "Attack : " + equipItems[2].Attack.ToString();
+        helmetInfos[2].text = "Defence : " + equipItems[2].Defence.ToString();
     }
 }

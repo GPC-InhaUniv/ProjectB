@@ -29,23 +29,17 @@ namespace ProjectB.UI.Presenter
 
         ICommand Attack1, Attack2, Attack3, Attack4;
 
-        Vector3 inputMoveVector;
-
-        Vector3 moverDirection;
+        Vector3 inputMoveVector, moverDirection;
 
         float skillCoolDownTime, backStepCoolDownTime, swapCoolDownTime, attackCoolDownTime;
 
-        float horizontal, vertical;
+        float horizontal, vertical, expValue, hpValue;
 
-        float expValue, hpValue;
+        bool isSwap;
 
-        bool isComboState, isSwap;
+        int comboResetCount, comboRandom;
 
-        int comboResetCount;
-
-        int comboRandom;
-
-        int standardPercent = 100;
+        const int standardPercent = 100;
      
         const int shortSwordAttackCount = 3;
         const int longSwordAttackCount = 2;
@@ -70,7 +64,6 @@ namespace ProjectB.UI.Presenter
             comboRandom = Random.Range(1, 3);
 
             isSwap = false;
-            isComboState = false;
 
             GetImage();
             commandControll = new CommandControll();
@@ -94,6 +87,7 @@ namespace ProjectB.UI.Presenter
             Attack3 = new CommandAttack3(player.PlayerAinmaton);
             Attack4 = new CommandAttack4(player.PlayerAinmaton);
         }
+
         void GetImage()
         {
             skillImage = skillButton.GetComponent<Image>();
@@ -109,7 +103,7 @@ namespace ProjectB.UI.Presenter
 
             inputMoveVector = PoolInput();
 
-            if (GetIsState(player.IsWorking))
+            if (!GetIsState(player.IsWorking))
             {
                 SetInputVector();
             }
@@ -127,7 +121,7 @@ namespace ProjectB.UI.Presenter
 
         void SetInputVector()
         {
-            if (!GetIsState(player.IsWorking)) return;
+            if (GetIsState(player.IsWorking)) return;
 
             player.MoveVector = inputMoveVector;
 
@@ -143,9 +137,9 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            if (!GetIsState(player.IsWorking)) return;
+            if (GetIsState(player.IsWorking)) return;
 
-            if (GetIsState(player.IsRunning))
+            if (!GetIsState(player.IsRunning) && player.TargetVector != Vector3.zero)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -162,9 +156,9 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            if (!GetIsState(player.IsWorking)) return;
+            if (GetIsState(player.IsWorking)) return;
 
-            if (GetIsState(player.IsRunning))
+            if (!GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
@@ -180,9 +174,9 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (!GetIsState(player.IsWorking)) return;
+            if (GetIsState(player.IsWorking)) return;
 
-            if (GetIsState(player.IsRunning))
+            if (!GetIsState(player.IsRunning))
             {
                 if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
                 {
@@ -249,9 +243,9 @@ namespace ProjectB.UI.Presenter
 
         void StartCombo()
         {
-            if (!GetIsState(player.IsWorking)) return;
+            if (GetIsState(player.IsWorking)) return;
 
-            if (GetIsState(player.IsRunning))
+            if (!GetIsState(player.IsRunning))
             {
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
                 commandControll.ExcuteCommand();
@@ -348,9 +342,9 @@ namespace ProjectB.UI.Presenter
         {
             if (state)
             {
-                return false;
+                return true;
             }
-            else return true;
+            else return false;
         }
 
         public void SetpUpUI()
@@ -368,7 +362,7 @@ namespace ProjectB.UI.Presenter
         {
             hpValue = player.HealthPoint / player.MaxHealthPoint * standardPercent;
             hpBar.fillAmount = player.HealthPoint / player.MaxHealthPoint;
-            hp.text = hpValue.ToString("N1") + "%";
+            hp.text = (hpValue < 0) ? 0.0f + "%" : hpValue.ToString("N1") + "%";
         }
     }
 }

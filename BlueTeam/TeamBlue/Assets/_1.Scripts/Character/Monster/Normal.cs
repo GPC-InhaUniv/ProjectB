@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace ProjectB.Characters.Monsters
 {
-    public class Named : Monster
+    public class Normal : Monster
     {
-
 
         void Start()
         {
@@ -17,11 +15,11 @@ namespace ProjectB.Characters.Monsters
             waitBaseTime = 2.0f;
             waitTime = waitBaseTime;
 
-            attackable = new ComboAttack(animator);
-            skillUsable = new NamedSkill(animator);
+            attackable = new NormalAttack(animator);
+            skillUsable = new NoSkill(animator);
 
             SetMonsterInfo();
-            monsterType = MonsterType.Named;
+            monsterType = MonsterType.Normal;
             walkRange = 15;
             skillCoolTime = 10;
             speed = 2;
@@ -34,7 +32,7 @@ namespace ProjectB.Characters.Monsters
             switch (state)
             {
                 case State.Walking:
-                    WalkAround();
+                    WalkAround();                
                     break;
                 case State.Chasing:
                     ChaseTarget();
@@ -50,7 +48,9 @@ namespace ProjectB.Characters.Monsters
                         AttackTarget();
                         break;
                     case State.Skilling:
+                        NoSkill.SetState += ChangeStateToWalking;
                         UseSkill();
+                        NoSkill.SetState -= ChangeStateToWalking;
                         break;
                     case State.Died:
                         Died();
@@ -58,9 +58,11 @@ namespace ProjectB.Characters.Monsters
                 }
             }
             if (Input.GetKeyDown(KeyCode.F))
-                Died();
+            {
+                //Died();
 
-
+                ReceiveDamage(50);
+            }
         }
 
     }

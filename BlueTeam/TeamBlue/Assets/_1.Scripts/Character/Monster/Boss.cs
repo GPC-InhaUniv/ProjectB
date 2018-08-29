@@ -45,6 +45,7 @@ namespace ProjectB.Characters.Monsters
         }
         void Update()
         {
+           
             switch (state)
             {
                 case State.Walking:
@@ -53,6 +54,7 @@ namespace ProjectB.Characters.Monsters
                 case State.Chasing:
                     ChaseTarget();
                     break;
+
             }
             if (state != currentState)
             {
@@ -83,7 +85,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected override void UseSkill()
         {
-
+            Debug.Log("gogogogogo");
             bossState.UseSkill(attackTarget);
 
         }

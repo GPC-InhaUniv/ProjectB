@@ -19,7 +19,6 @@ namespace ProjectB.Characters.Monsters
         {
             animator.SetInteger(AniStateParm.Attack.ToString(), 1);
         }
-
     }
     public class ComboAttack : IAttackableBridge
     {
@@ -32,8 +31,6 @@ namespace ProjectB.Characters.Monsters
         {
             animator.SetInteger(AniStateParm.Attack.ToString(), 2);
         }
-
-
     }
 }
 
