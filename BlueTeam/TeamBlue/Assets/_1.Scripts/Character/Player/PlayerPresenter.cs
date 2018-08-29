@@ -46,11 +46,11 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player.PlayerAinmaton);
-            Attack2 = new CommandAttack2(player.PlayerAinmaton);
-            Attack3 = new CommandAttack3(player.PlayerAinmaton);
-            Attack4 = new CommandAttack4(player.PlayerAinmaton);
+            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
+            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
+            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
+            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
             //상단 5줄은 테스트용임, 오류날 시 주석처리
 
             skillCoolDownTime = 4.0f;

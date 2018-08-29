@@ -109,20 +109,17 @@ namespace ProjectB.Characters.Monsters
                 }
                 else
                 {
-                    if (healthPoint <= 0)
-                    {
-                        healthPoint = 0;
-                        ChangeState(State.Died);
-                    }
-
                     animator.SetTrigger(AniStateParm.Hitted.ToString());
                     StartCoroutine(ShowHitEffect(1.0f));
                     healthPoint -= damage;
 
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
 
-
-
+                    if (healthPoint <= 0)
+                    {
+                        healthPoint = 0;
+                        ChangeState(State.Died);
+                    }
                 }
                 StartCoroutine(AvoidAttack());
             }
@@ -147,6 +144,8 @@ namespace ProjectB.Characters.Monsters
 
         protected void ChangeState(State currentState)
         {
+            if (died)
+                return;
             this.currentState = currentState;
         }
         public void SetAttackTarget(Transform target)
