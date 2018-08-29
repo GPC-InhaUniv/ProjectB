@@ -15,11 +15,11 @@ namespace ProjectB.GameManager
         EnemyExplosionSkill,
         EnemyDeath,
         BossDeath,
-        
+        Whip,
+
         GameOver,
         GameClear,
         ItemPickup,
-        Whip,
         EnemyDefence
     }
    
@@ -105,7 +105,7 @@ namespace ProjectB.GameManager
             AudioClip audioClip;
             switch(soundType)
             {
-                case SoundFXType.ButtonClick:
+                case SoundFXType.BGM:
                     audioClip = SoundClips[1];
                     break;
 

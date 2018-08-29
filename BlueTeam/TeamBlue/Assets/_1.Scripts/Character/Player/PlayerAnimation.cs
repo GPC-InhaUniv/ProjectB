@@ -55,16 +55,13 @@ namespace ProjectB.Characters.Players
         public void RunAnimation(bool isRunning)
         {
             animator.SetBool(AnimationState.Run.ToString(), isRunning);
-            if (!isRunning)
-                return;
-            animator.ResetTrigger(AnimationState.Hit.ToString());
-
         }
 
         public void HitAnimation()
         {
             animator.SetTrigger(AnimationState.Hit.ToString());
         }
+
         public void ResetHitTrigger()
         {
             animator.ResetTrigger(AnimationState.Hit.ToString());
@@ -73,6 +70,7 @@ namespace ProjectB.Characters.Players
         public void WeaponSwapAnimation(PlayerCharacterWeaponState weaponState)
         {
             StartCoroutine(SwapAnimationCoroutine());
+
             animator.SetBool(AnimationState.LongSword.ToString(), false);
             animator.SetBool(AnimationState.ShortSword.ToString(), false);
 
