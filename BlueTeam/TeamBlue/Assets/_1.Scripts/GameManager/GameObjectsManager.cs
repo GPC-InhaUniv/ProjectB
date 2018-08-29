@@ -51,7 +51,6 @@ namespace ProjectB.GameManager
                 areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Stage" + areaNum.ToString());
             else
             {
-
                 areaPrefab = AssetBundleManager.Instance.LoadObject(BundleType.Area, "Village");
             }
         }
