@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectB.Characters.Monsters
 {
-    [System.Serializable]
     public abstract class BossState
     {
         public Transform PlayerTransform;
@@ -32,15 +29,13 @@ namespace ProjectB.Characters.Monsters
         public override void Attack()
         {
             attackable.Attack();
-        }
-        
+        }    
         public override void UseDefenceSkill(Transform transform)
         {
             MonsterTransform = transform;
             defencSkillUsable = new BossSkillDefence(animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
-
         public override void UseSkill(Transform transform)
         {
             skillUsable.UseSkill();
@@ -53,24 +48,20 @@ namespace ProjectB.Characters.Monsters
             this.animator = animator;
             attackable = new ComboAttack(this.animator);
         }
-
         public override void Attack()
         {
             attackable.Attack();
         }
-
         public override void UseDefenceSkill(Transform transform)
         {
             MonsterTransform = transform;
             defencSkillUsable = new BossSkillDefence(animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
-
         public override void UseSkill(Transform transform)
         {
             PlayerTransform = transform;
             skillUsable = new BossSkillSecond(animator, PlayerTransform);
-            Debug.Log("gogogo");
             skillUsable.UseSkill();
         }
     }
@@ -86,14 +77,12 @@ namespace ProjectB.Characters.Monsters
         {
             attackable.Attack();
         }
-
         public override void UseDefenceSkill(Transform transform)
         {
             MonsterTransform = transform;
             defencSkillUsable = new BossSkillDefence(animator, MonsterTransform);
             defencSkillUsable.UseSkill();
         }
-
         public override void UseSkill(Transform transform)
         {
             PlayerTransform = transform;
