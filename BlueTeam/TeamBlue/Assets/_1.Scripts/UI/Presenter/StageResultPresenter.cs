@@ -27,6 +27,7 @@ namespace ProjectB.UI.Presenter
         private void OnEnable()
         {
             itemCode = new List<int>();
+            itemName = new string[2];
             ShowResultUI();
         }
 

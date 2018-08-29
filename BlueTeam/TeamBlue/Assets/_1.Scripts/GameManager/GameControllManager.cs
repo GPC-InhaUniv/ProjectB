@@ -33,8 +33,8 @@ namespace ProjectB.GameManager
         {
             totalMonsterCount = MAXMONSTERCOUNT;
             MonsterPostion = new GameObject[3];
-
         }
+
         public void CheckMonsterAtDungeon()
         {
             totalMonsterCount = MAXMONSTERCOUNT;
@@ -64,7 +64,10 @@ namespace ProjectB.GameManager
         public void CheckGameOver()
         {
             isClearDungeon = false;
+            GameDataManager.Instance.PlayerInfomation.PlayerExp *= 0.3f;
+            GameDataManager.Instance.SetGameDataToServer();
             GameMediator.Instance.ClearStage();
+            totalMonsterCount = MAXMONSTERCOUNT;
         }
 
         void CalculateLevelUp()
@@ -97,6 +100,7 @@ namespace ProjectB.GameManager
                 CalculateLevelUp();
                 GameDataManager.Instance.SetGameDataToServer();
                 GameMediator.Instance.ClearStage();
+                totalMonsterCount = MAXMONSTERCOUNT;
             }
 
 

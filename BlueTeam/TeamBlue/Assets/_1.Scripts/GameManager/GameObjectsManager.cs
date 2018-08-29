@@ -116,6 +116,8 @@ namespace ProjectB.GameManager
 
         public void DestroyObject()
         {
+            curruntNormalMonsterIndex = 0;
+            curruntNamedMonsterIndex = 0;
             if (areaObject != null)
                 Destroy(areaObject);
 
@@ -136,8 +138,7 @@ namespace ProjectB.GameManager
                 }
             if (bossMonster != null)
                 Destroy(bossMonster);
-            curruntNormalMonsterIndex = 0;
-            curruntNamedMonsterIndex = 0;
+            
         }
 
         //Pool
