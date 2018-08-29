@@ -214,10 +214,10 @@ namespace ProjectB.Characters.Players
             {
                 return;
             }
-            else if (IsRunning == false)
-            {
-                isWorking = false;
 
+            else if (isRunning != true && isWorking!= true)
+            {
+                ChangeState(PlayerStates.PlayerCharacterIdleState);
                 playerAinmaton.WeaponSwapAnimation(NewWeaponState);
                 weapon.SetWeapon(true, NewWeaponState, CurrentWeaponState);
            
