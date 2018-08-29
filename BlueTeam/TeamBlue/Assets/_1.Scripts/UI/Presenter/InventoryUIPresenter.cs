@@ -10,6 +10,7 @@ public delegate void InitializeCombinationResourcesSlot();
 
 public class InventoryUIPresenter : MonoBehaviour
 {
+    [SerializeField] GameObject inventoryPanel;
     [SerializeField] List<Item> items = new List<Item>();
     public List<Item> Items { get { return items; } }
     public static InitializeCombinationResourcesSlot initializeCombinationResourcesSlot;
@@ -134,5 +135,10 @@ public class InventoryUIPresenter : MonoBehaviour
             items[i].InitializationItem();
             items[i].ItemAmountText.text = items[i].ItemAmount.ToString();
         }
+    }
+
+    public void OnClickInventoryExitButton()
+    {
+        inventoryPanel.SetActive(false);
     }
 }
