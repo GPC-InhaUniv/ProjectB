@@ -22,6 +22,7 @@ namespace ProjectB.Characters.Players
 
     public class Player : Character , IInitializable
     {
+        [SerializeField]
         Vector3 targetVector;
         public Vector3 TargetVector { get { return targetVector; } }
 
@@ -69,10 +70,6 @@ namespace ProjectB.Characters.Players
 
         private void Awake()
         {
-            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
-           // TestSetCharacterStatus();
-            //상단 두줄은 테스트용임, 오류날 시 주석처리 
-
             playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
             playerAinmaton = GetComponent<PlayerAnimation>();
@@ -84,12 +81,21 @@ namespace ProjectB.Characters.Players
 
         void Start()
         {
+            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            //TestSetCharacterStatus();
+            //isDied = false;
+            //hitParticle.SetActive(false);
+            //playerAinmaton.ResetHitTrigger();
+
+            //ChangeState(PlayerStates.PlayerCharacterIdleState);
+
+            //weapon.SetShortSword();
+            //playerAinmaton.InitStateAnimation();
+            //playerAinmaton.InitWeapon();
+
+            //playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
             //playerPresenter.SetpUpUI();
-            //상단 줄은 테스트용임, 오류날 시 주석처리 
-
-            hitParticle.SetActive(false);
-
-            targetVector = new Vector3(0, 0, 1);            
+            //상단 줄은 테스트용임, 오류날 시 주석처리        
         }
 
         //테스트용 함수 - 삭제 예정
@@ -111,9 +117,10 @@ namespace ProjectB.Characters.Players
 
         public void Initialize()
         {
-            isDied = false;
             playerAinmaton.ResetHitTrigger();
-
+            hitParticle.SetActive(false);
+            isDied = false;
+            
             ChangeState(PlayerStates.PlayerCharacterIdleState);
 
             weapon.SetShortSword();
@@ -198,7 +205,7 @@ namespace ProjectB.Characters.Players
 
         public override void ReceiveDamage(float damage)
         {
-            if (isWorking == true && isRunning == true && isDied == true)
+            if (isWorking == true || isRunning == true || isDied == true)
                 return;
 
             if (healthPoint <= 0)
@@ -265,7 +272,7 @@ namespace ProjectB.Characters.Players
             maxHealthPoint = level * 1000 + equipmentHp;
             healthPoint = maxHealthPoint;
         
-            maxExp = (100 * 1.2f * level);
+            maxExp = 1000 + (100 * 1.2f * level);
 
             attackPower = level * 10;
             preAttckPower = attackPower + equipmentAttackPower;
@@ -286,12 +293,10 @@ namespace ProjectB.Characters.Players
 
         public void BackStepStart()
         {
-            //추후 확장 가능성
-        }
 
+        }
         public void BackStepEnd()
         {
-            collider.enabled = true;
             ChangeState(PlayerStates.PlayerCharacterIdleState);
         }
         //애니메이션 이벤트
@@ -308,9 +313,6 @@ namespace ProjectB.Characters.Players
 
             isRunningHitCoroutine = false;
         }
-
-
-
     }
 
 
