@@ -51,21 +51,15 @@ class Iron : IResource
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        // GameDataManager.Instance.PlayerGamedata[3001] += receivingResourceCount;
-        TestResource.Instance.testDictionary["Iron"] += receivingResourceCount;
+        GameDataManager.Instance.PlayerGamedata[3001] += receivingResourceCount;
 
     }
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3001] >= sendingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3001] -= sendingResourceCount;
-        //}
-
-        if(TestResource.Instance.testDictionary["Iron"] >= sendingResourceCount)
+        if (GameDataManager.Instance.PlayerGamedata[3001] >= sendingResourceCount)
         {
-            TestResource.Instance.testDictionary["Iron"] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3001] -= sendingResourceCount;
         }
 
         else
