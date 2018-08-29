@@ -32,11 +32,13 @@ namespace ProjectB.Characters.Monsters
             switch (state)
             {
                 case State.Walking:
-                    WalkAround();
-                   
+                    WalkAround();                
                     break;
                 case State.Chasing:
                     ChaseTarget();
+                    break;
+                case State.Died:
+                    Died();
                     break;
             }
 
