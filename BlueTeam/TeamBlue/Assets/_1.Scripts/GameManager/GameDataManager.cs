@@ -115,6 +115,7 @@ namespace ProjectB.GameManager
                     }
                 }
             }
+            Debug.Log("asdad");
         }
         
         public void SetGameDataToServer()
