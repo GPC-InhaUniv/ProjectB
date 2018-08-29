@@ -11,6 +11,7 @@ public delegate void AddItemDelegate();
 
 public class CombinationUIPresenter : MonoBehaviour
 {
+    [SerializeField] GameObject combinationPanel;
     [SerializeField] Item combinationSlotItem;
     [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
     int[] requirematerials;
@@ -50,6 +51,11 @@ public class CombinationUIPresenter : MonoBehaviour
                 combinationItemCode = currentItem.Code;
             }
         }
+    }
+
+    public void OnClickCombinationExitButton()
+    {
+        combinationPanel.SetActive(false);
     }
 
     public void OnClickCombinationButton()

@@ -26,8 +26,11 @@ namespace ProjectB.UI.Presenter
 
         private void OnEnable()
         {
-            itemCode = new List<int>();
-            itemName = new string[2];
+            if (itemCode == null && itemName == null)
+            {
+                itemCode = new List<int>();
+                itemName = new string[2];
+            }
             ShowResultUI();
         }
 
@@ -71,8 +74,8 @@ namespace ProjectB.UI.Presenter
             else
             {
                 resultText.text = "Stage Fail";
-                getEXPText.text = "EXP : " + GameControllManager.Instance.TotalExp + "감소";
-                getItemText.text = string.Empty;
+               //"EXP : " + GameControllManager.Instance.TotalExp + "감소";
+               
             }
             GameControllManager.Instance.ObtainedItemDic.Clear();
 
@@ -80,6 +83,8 @@ namespace ProjectB.UI.Presenter
 
         public void OnclickedStageButton()
         {
+            getEXPText.text = string.Empty;
+            getItemText.text = string.Empty;
             resultUI.SetActive(false);
             worldMapUI.SetActive(true);
 
@@ -88,7 +93,7 @@ namespace ProjectB.UI.Presenter
 
         private void OnDisable()
         {
-            itemCode = null;
+            itemCode.Clear();
         }
 
     }
