@@ -71,14 +71,7 @@ public class MonsterMove : MonoBehaviour {
     public void StopMove()
     {
         arrived = true;
-        Debug.Log(arrived);
     }
-
-    //// 목적지에 도착했는지 조사한다(도착했다 true / 도착하지 않았다 false).
-    //public bool Arrived()
-    //{
-    //    return arrived;
-    //}
 
 
 }
