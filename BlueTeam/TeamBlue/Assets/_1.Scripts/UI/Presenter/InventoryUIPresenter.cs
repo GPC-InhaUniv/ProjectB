@@ -11,8 +11,7 @@ public delegate void InitializeCombinationResourcesSlot();
 public class InventoryUIPresenter : MonoBehaviour
 {
     [SerializeField] GameObject inventoryPanel;
-    [SerializeField] List<Item> items = new List<Item>();
-    public List<Item> Items { get { return items; } }
+    [SerializeField] List<Item> items;
     public static InitializeCombinationResourcesSlot initializeCombinationResourcesSlot;
 
     private void OnEnable()
@@ -28,6 +27,7 @@ public class InventoryUIPresenter : MonoBehaviour
 
     private void Awake()
     {
+        items = new List<Item>();
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 
