@@ -51,21 +51,15 @@ class Sheep : IResource
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        //GameDataManager.Instance.PlayerGamedata[3003] += receivingResourceCount;
-        TestResource.Instance.testDictionary["Sheep"] += receivingResourceCount;
+        GameDataManager.Instance.PlayerGamedata[3003] += receivingResourceCount;
     }
 
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3003] >= sendingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3003] -= sendingResourceCount;
-        //}
-
-        if(TestResource.Instance.testDictionary["Sheep"] >= sendingResourceCount)
+        if (GameDataManager.Instance.PlayerGamedata[3003] >= sendingResourceCount)
         {
-            TestResource.Instance.testDictionary["Sheep"] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3003] -= sendingResourceCount;
         }
 
         else

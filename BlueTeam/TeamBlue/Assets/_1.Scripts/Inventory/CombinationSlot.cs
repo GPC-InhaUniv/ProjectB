@@ -10,6 +10,7 @@ namespace ProjectB.Inventory
     public class CombinationSlot : Slot
     {
         [SerializeField] CombinationUIPresenter combinationUIPresenter;
+        public CombinationUIPresenter CombinationUIPresenter { get { return combinationUIPresenter; } }
 
         public override void OnPointerClick(PointerEventData eventData)
         {

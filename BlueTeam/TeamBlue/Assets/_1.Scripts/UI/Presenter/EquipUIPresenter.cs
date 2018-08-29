@@ -17,6 +17,7 @@ public class EquipUIPresenter : MonoBehaviour
     public void Awake()
     {
         LoadToWearItem();
+        InventoryUIPresenter.loadToWearItem += LoadToWearItem;
     }
 
     public void SwapToFromInventorySlotToEquipWeaponSlot(Item currentItem, Item swapItem)
