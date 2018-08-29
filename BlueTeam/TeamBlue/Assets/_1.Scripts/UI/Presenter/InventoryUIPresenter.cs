@@ -27,7 +27,7 @@ public class InventoryUIPresenter : MonoBehaviour
 
     private void Awake()
     {
-        items = new List<Item>();
+      
         CombinationUIPresenter.addItemDelegate += AddItem;
     }
 

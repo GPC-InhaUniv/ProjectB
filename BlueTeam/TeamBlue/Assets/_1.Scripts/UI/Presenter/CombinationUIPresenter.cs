@@ -20,7 +20,7 @@ public class CombinationUIPresenter : MonoBehaviour
 
     private void Awake()
     {
-        combinationResourcesItems = new List<Item>();
+        
         InventoryUIPresenter.initializeCombinationResourcesSlot += InitializeToCombinationResourcesSlot;
         requirematerials = new int[4];
     }
