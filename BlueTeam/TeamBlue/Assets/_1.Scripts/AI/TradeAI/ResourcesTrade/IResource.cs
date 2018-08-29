@@ -8,6 +8,6 @@ using ProjectB.GameManager;
 interface IResource
 {
     void ReceiveResources(int receivingResourceCount);
-    void SendResources(int sendingResourceCount);
+    void SendResousrces(int sendingResourceCount);
     int CalculateTradeProbability(int receivingResourceCount, GameResources resourceType, int tradeProbability);
 }

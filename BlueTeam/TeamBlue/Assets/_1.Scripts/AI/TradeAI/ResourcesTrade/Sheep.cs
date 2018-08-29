@@ -55,7 +55,7 @@ class Sheep : IResource
     }
 
 
-    public void SendResources(int sendingResourceCount)
+    public void SendResousrces(int sendingResourceCount)
     {
         if (GameDataManager.Instance.PlayerGamedata[3003] >= sendingResourceCount)
         {
