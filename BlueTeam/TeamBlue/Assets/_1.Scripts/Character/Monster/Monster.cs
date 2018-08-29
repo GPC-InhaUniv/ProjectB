@@ -106,21 +106,19 @@ namespace ProjectB.Characters.Monsters
                 }
                 else
                 {
-                    if (healthPoint > 0)
-                    {
                         animator.SetTrigger(AniStateParm.Hitted.ToString());
                         StartCoroutine(ShowHitEffect(1.0f));
                         healthPoint -= damage;
-
                         SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
-                    }
-                    else if (healthPoint <= 0)
-                    {
-                        healthPoint = 0;
-                        ChangeState(State.Died);
-                    }
+                              
                 }
                 StartCoroutine(AvoidAttack());
+            }
+
+            if(healthPoint <= 0)
+            {
+                healthPoint = 0;
+                ChangeState(State.Died);
             }
         }
         //1초무적//

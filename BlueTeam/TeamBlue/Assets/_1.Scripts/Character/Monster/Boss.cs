@@ -45,6 +45,7 @@ namespace ProjectB.Characters.Monsters
         }
         void Update()
         {
+           
             switch (state)
             {
                 case State.Walking:
@@ -52,6 +53,9 @@ namespace ProjectB.Characters.Monsters
                     break;
                 case State.Chasing:
                     ChaseTarget();
+                    break;
+                case State.Died:
+                    Died();
                     break;
             }
             if (state != currentState)
