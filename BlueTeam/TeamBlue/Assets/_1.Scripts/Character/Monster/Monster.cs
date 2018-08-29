@@ -95,6 +95,7 @@ namespace ProjectB.Characters.Monsters
 
         public override void ReceiveDamage(float damage)
         {
+
             if (!isInvincibility)
             {
                 int defencepossibility = Random.Range(1, 5);
@@ -105,13 +106,15 @@ namespace ProjectB.Characters.Monsters
                 }
                 else
                 {
-                    animator.SetTrigger(AniStateParm.Hitted.ToString());
-                    StartCoroutine(ShowHitEffect(1.0f));
-                    healthPoint -= damage;
+                    if (healthPoint > 0)
+                    {
+                        animator.SetTrigger(AniStateParm.Hitted.ToString());
+                        StartCoroutine(ShowHitEffect(1.0f));
+                        healthPoint -= damage;
 
-                    SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
-
-                    if (healthPoint <= 0)
+                        SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
+                    }
+                    else if (healthPoint <= 0)
                     {
                         healthPoint = 0;
                         ChangeState(State.Died);
@@ -140,6 +143,8 @@ namespace ProjectB.Characters.Monsters
 
         protected void ChangeState(State currentState)
         {
+            if (died)
+                return;
             this.currentState = currentState;
         }
         public void SetAttackTarget(Transform target)

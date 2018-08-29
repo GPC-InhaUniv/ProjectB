@@ -349,7 +349,7 @@ namespace ProjectB.UI.Presenter
 
         public void SetpUpUI()
         {
-            ID.text = AccountInfo.Instance.Id;
+            //ID.text = AccountInfo.Instance.Id;
             level.text = "Level\n" + player.Level.ToString();
 
             UpdateHpUI();

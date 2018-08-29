@@ -29,7 +29,7 @@ namespace ProjectB.Inventory
                 if (this.isClicked && beforePressSlot.IsClicked)
                 {
                     if (beforePressSlot.gameObject.tag == SlotType.WarehouseSlot.ToString())
-                        warehouseUIPresenter.SwapToInventoryItem(this, beforePressSlot);
+                        warehouseUIPresenter.SwapToWarehouseItem(this, beforePressSlot);
 
                     else if (beforePressSlot.gameObject.tag == SlotType.InventorySlot.ToString())
                         warehouseUIPresenter.SwapToFromInventorySlotToWarehouseSlot(this.gameObject.GetComponent<Item>(), beforePressSlot.gameObject.GetComponent<Item>());
