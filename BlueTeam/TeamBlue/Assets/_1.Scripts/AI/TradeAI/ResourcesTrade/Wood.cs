@@ -53,12 +53,11 @@ class Wood : IResource
         GameDataManager.Instance.PlayerGamedata[3000] += receivingResourceCount;
     }
 
-    public void SendResources(int sendingResourceCount)
+    public void SendResousrces(int sendingResourceCount)
     {
         if (GameDataManager.Instance.PlayerGamedata[3000] >= sendingResourceCount)
         {
             GameDataManager.Instance.PlayerGamedata[3000] -= sendingResourceCount;
-
         }
 
         else

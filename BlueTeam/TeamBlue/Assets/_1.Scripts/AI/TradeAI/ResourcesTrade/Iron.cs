@@ -55,7 +55,7 @@ class Iron : IResource
 
     }
 
-    public void SendResources(int sendingResourceCount)
+    public void SendResousrces(int sendingResourceCount)
     {
         if (GameDataManager.Instance.PlayerGamedata[3001] >= sendingResourceCount)
         {

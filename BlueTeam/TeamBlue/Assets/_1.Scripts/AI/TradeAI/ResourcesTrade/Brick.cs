@@ -52,7 +52,7 @@ class Brick : IResource
         GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
     }
 
-    public void SendResources(int sendingResourceCount)
+    public void SendResousrces(int sendingResourceCount)
     {
         if (GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
         {

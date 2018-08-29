@@ -27,11 +27,11 @@ public class Trade : MonoBehaviour
     GameResources receivingResourceType;
 
     GameResources checkingWantsOfResources;
-
+    IResource resourceContext;
 
     Weather weather;
 
-    ResourceContext resourceContext;
+  
 
 
     [SerializeField]
@@ -196,6 +196,7 @@ public class Trade : MonoBehaviour
 
     public void ReceiveResources()
     {
+        
         CheckRelationShip();
        
         if (isAbleToTrade == true)
@@ -206,7 +207,7 @@ public class Trade : MonoBehaviour
             switch (receivingResourceType)
             {
                 case GameResources.Brick:
-                    resourceContext = new ResourceContext(new Brick());
+                    resourceContext = new Brick();
                     resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 흙, 받을 자원 개수 " + receivingResourceCount);
@@ -214,7 +215,7 @@ public class Trade : MonoBehaviour
                     break;
 
                 case GameResources.Iron:
-                    resourceContext = new ResourceContext(new Iron());
+                    resourceContext = new Iron();
                     resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 철광석, 받을 자원 개수 " + receivingResourceCount);
@@ -222,7 +223,7 @@ public class Trade : MonoBehaviour
                     break;
 
                 case GameResources.Sheep:
-                    resourceContext = new ResourceContext(new Sheep());
+                    resourceContext =new Sheep();
                     resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 양, 받을 자원 개수 " + receivingResourceCount);
@@ -230,7 +231,7 @@ public class Trade : MonoBehaviour
                     break;
 
                 case GameResources.Wood:
-                    resourceContext = new ResourceContext(new Wood());
+                    resourceContext = new Wood();
                     resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 나무, 받을 자원 개수 " + receivingResourceCount);
@@ -285,10 +286,10 @@ public class Trade : MonoBehaviour
             {
                 case GameResources.Brick:
 
-                    resourceContext = new ResourceContext(new Brick());
+                    resourceContext = new Brick();
 
                     tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
-                    resourceContext.SendReousrces(sendingResourceCount);
+                    resourceContext.SendResousrces(sendingResourceCount);
 
                     Debug.Log("보낼 자원 : 흙, 보낼 개수 " + sendingResourceCount);
 
@@ -296,10 +297,10 @@ public class Trade : MonoBehaviour
 
                 case GameResources.Iron:
 
-                    resourceContext = new ResourceContext(new Iron());
+                    resourceContext = new Iron();
 
                     tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
-                    resourceContext.SendReousrces(sendingResourceCount);
+                    resourceContext.SendResousrces(sendingResourceCount);
 
                     Debug.Log("보낼 자원 : 철광석, 보낼 개수 " + sendingResourceCount);
 
@@ -307,10 +308,9 @@ public class Trade : MonoBehaviour
 
                 case GameResources.Sheep:
 
-                    resourceContext = new ResourceContext(new Sheep());
-
+                    resourceContext = new Sheep();
                     tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
-                    resourceContext.SendReousrces(sendingResourceCount);
+                    resourceContext.SendResousrces(sendingResourceCount);
 
                     Debug.Log("보낼 자원 : 양, 보낼 개수 " + sendingResourceCount);
 
@@ -318,10 +318,10 @@ public class Trade : MonoBehaviour
 
                 case GameResources.Wood:
 
-                    resourceContext = new ResourceContext(new Wood());
+                    resourceContext = new Wood();
 
                     tradeProbability = resourceContext.CalculateTradeProbability(sendingResourceCount, sendingResourceType, tradeProbability);
-                    resourceContext.SendReousrces(sendingResourceCount);
+                    resourceContext.SendResousrces(sendingResourceCount);
 
                     Debug.Log("보낼 자원 : 나무, 보낼 개수 " + sendingResourceCount);
 
