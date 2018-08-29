@@ -83,7 +83,7 @@ namespace ProjectB.Characters.Monsters
         }
         protected override void UseSkill()
         {
-
+            Debug.Log("gogogogogo");
             bossState.UseSkill(attackTarget);
 
         }
