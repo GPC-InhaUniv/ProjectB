@@ -6,7 +6,6 @@ namespace ProjectB.Characters.Monsters
 {
     public class TargetSearch : MonoBehaviour
     {
-        [SerializeField]
         Monster monster;
         void Start()
         {
@@ -15,11 +14,8 @@ namespace ProjectB.Characters.Monsters
 
         void OnTriggerStay(Collider other)
         {
-
-            // Player태그를 타깃으로 한다.
             if (other.CompareTag("Player"))
                 monster.SetAttackTarget(other.transform);
         }
-
     }
 }

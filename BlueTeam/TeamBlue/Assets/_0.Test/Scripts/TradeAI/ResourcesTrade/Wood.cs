@@ -50,21 +50,15 @@ class Wood : IResource
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        //GameDataManager.Instance.PlayerGamedata[3000] += receivingResourceCount;
-        TestResource.Instance.testDictionary["Wood"] += receivingResourceCount;
+        GameDataManager.Instance.PlayerGamedata[3000] += receivingResourceCount;
     }
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3000] >= receivingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3000] -= receivingResourceCount;
-
-        //}
-
-        if(TestResource.Instance.testDictionary["Wood"] >= sendingResourceCount)
+        if (GameDataManager.Instance.PlayerGamedata[3000] >= sendingResourceCount)
         {
-            TestResource.Instance.testDictionary["Wood"] -= sendingResourceCount;
+            GameDataManager.Instance.PlayerGamedata[3000] -= sendingResourceCount;
+
         }
 
         else

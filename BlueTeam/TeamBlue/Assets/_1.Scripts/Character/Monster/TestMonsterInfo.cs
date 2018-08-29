@@ -8,8 +8,6 @@ namespace ProjectB.Characters.Monsters
     [Serializable]
     public class TestMonsterInfo
     {
-
-
         // test //
         [SerializeField]
         public AttackArea[] attackAreas;
