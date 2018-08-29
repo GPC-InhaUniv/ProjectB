@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ProjectB.Characters.Monsters
 {
@@ -9,7 +7,6 @@ namespace ProjectB.Characters.Monsters
         Collider[] attackAreaColliders;
         AttackArea[] attackArea;
 
-        // Use this for initialization
         void Start()
         {
             attackArea = GetComponentsInChildren<AttackArea>();
@@ -22,21 +19,16 @@ namespace ProjectB.Characters.Monsters
             }
         }
 
-
         public void AttackStart()
         {
             foreach (Collider attackAreaCollider in attackAreaColliders)
-            {
                 attackAreaCollider.enabled = true;
-            }
         }
 
         public void AttackEnd()
         {
             foreach (Collider attackAreaCollider in attackAreaColliders)
-            {
                 attackAreaCollider.enabled = false;
-            }
         }
     }
 }

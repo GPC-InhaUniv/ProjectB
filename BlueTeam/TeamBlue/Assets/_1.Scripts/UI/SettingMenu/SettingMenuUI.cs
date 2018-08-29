@@ -87,12 +87,10 @@ namespace ProjectB.UI.SettingMenu
             {
                 case true:
                     Time.timeScale = 0.0f;
-                    Debug.Log("멈춤");
                     break;
 
                 case false:
                     Time.timeScale = 1.0f;
-                    Debug.Log("재개");
                     break;
             }
         }

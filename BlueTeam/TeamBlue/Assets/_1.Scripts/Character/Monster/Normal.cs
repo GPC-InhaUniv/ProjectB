@@ -1,44 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ProjectB.Characters.Monsters
+﻿namespace ProjectB.Characters.Monsters
 {
     public class Normal : Monster
     {
-
         void Start()
         {
-            monsterMove = GetComponent<MonsterMove>();
-            animator = GetComponent<Animator>();
-            startPosition = transform.position;
-            waitBaseTime = 2.0f;
-            waitTime = waitBaseTime;
-
+            monsterType = MonsterType.Normal;
+            SetMonsterInfo();
             attackable = new NormalAttack(animator);
             skillUsable = new NoSkill(animator);
-
-            SetMonsterInfo();
-            monsterType = MonsterType.Normal;
-            walkRange = 15;
-            skillCoolTime = 10;
-            speed = 2;
-
-            hitParticle.SetActive(false);
         }
+
         void Update()
         {
 
             switch (state)
             {
                 case State.Walking:
-                    WalkAround();                
+                    WalkAround();
                     break;
                 case State.Chasing:
                     ChaseTarget();
                     break;
             }
-
             if (state != currentState)
             {
                 state = currentState;
@@ -57,17 +40,6 @@ namespace ProjectB.Characters.Monsters
                         break;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                //Died();
-
-                for (int i = 0; i < 50; i++)
-                {
-                    ReceiveDamage(500);
-                    
-                }
-            }
         }
-
     }
 }

@@ -27,16 +27,17 @@ namespace ProjectB.GameManager
     }
     public class LoadingSceneManager : MonoBehaviour
     {
+
         public static string NextScene;
         string assetBundleDirectory;
         string currentAssetName = "";
-        const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1VSqGG5vrDuHkhVYbjHV1_1DD6Prxov72";
-        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1LYGKc7Okg5XGOGUNA0CxKNhxYc9HCHNt";
-        const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1LMR1Go8FoTgaeYdFNkUIOJVT-ISc1tHK";
-        const string townBundleURL = "https://docs.google.com/uc?export=download&id=19o1LNrcQ2jS_GWH8HOP-gO6R_Gcz66Na";
-        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1Xb4wusyBEFNwdGiTZk-GkyJnZh9pYtoV";
-        const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1fHQ3_hPYrOq-rDd4vv_qa2AkMAFW3aTE";
-        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1hqiGXKJP2aefgUMhvoELw6_Yb6JqfZ-W";
+        const string ironDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1d2YEeW6sI3BEqI9MwK79rJF2r52kfrq0";
+        const string commonbundleURL = "https://docs.google.com/uc?export=download&id=1DDbQHSdLLk-1Ugnzciu_6Es-W__inkXV";
+        const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=107eeYBkcL7PgLWQZIQCVYfJohlhcv-e1";
+        const string townBundleURL = "https://docs.google.com/uc?export=download&id=1TTEkuizpPZKm5yYhDk2ZW3fG3fbUqRv5";
+        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1MzBJD1l3Zn0qUcB0KNXsp9oKavWKaAU6";
+        const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1TdVmVeXt5yGadsF2k0r6eZ76-ba6zMmU";
+        const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1J66F1659uXcLnNZu-ss10Kc33r785jSD";
         
         int totalBundleCount = 8;
         static int userBundleCount = 0;

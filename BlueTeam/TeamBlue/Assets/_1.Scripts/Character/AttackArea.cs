@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using ProjectB.Characters;
 
 public class AttackArea : MonoBehaviour {
 
-    [SerializeField]
     Character characters;
 
     void Start()
