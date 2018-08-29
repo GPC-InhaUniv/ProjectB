@@ -10,7 +10,6 @@ namespace ProjectB.Characters.Monsters
         Monster monster;
         void Start()
         {
-            // EnemyCtrl을 미리 준비한다.
             monster = GetComponent<Monster>();
         }
 
@@ -18,7 +17,7 @@ namespace ProjectB.Characters.Monsters
         {
 
             // Player태그를 타깃으로 한다.
-            if (other.tag == "Player")
+            if (other.CompareTag("Player"))
                 monster.SetAttackTarget(other.transform);
         }
 

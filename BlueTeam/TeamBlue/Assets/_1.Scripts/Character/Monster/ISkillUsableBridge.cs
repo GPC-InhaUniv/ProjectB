@@ -26,7 +26,6 @@ namespace ProjectB.Characters.Monsters
         {
             this.animator = animator;
         }
-
         public void UseSkill()
         {
             SetState();
@@ -41,8 +40,6 @@ namespace ProjectB.Characters.Monsters
         {
             this.animator = animator;
         }
-
-
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.SkillOne.ToString(),true);
@@ -66,39 +63,39 @@ namespace ProjectB.Characters.Monsters
     public class BossSkillSecond : ISkillUsableBridge
     {
         Animator animator;
-        GameObject SkillTest;
+        GameObject skillPrefab;
         Transform target;
 
         public BossSkillSecond(Animator animator,Transform target)
         {
             this.animator = animator;
             this.target = target;
-            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireRain);
+            //skillPrefab = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireRain);
         }
 
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.SkillOne.ToString(), true);
-            SkillTest.gameObject.transform.position = target.position;
+            //skillPrefab.gameObject.transform.position = target.position;
         }
     }
     public class BossSkillDefence :  ISkillUsableBridge
     {
         Animator animator;
-        GameObject SkillTest;
+        GameObject skillPrefab;
         Transform target;
 
         public BossSkillDefence(Animator animator, Transform target)
         {
             this.animator = animator;
-            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireHemiSphere);
+            skillPrefab = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireHemiSphere);
             this.target = target;
 
         }
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.Defence.ToString(), true);
-            SkillTest.gameObject.transform.position = target.position;
+            skillPrefab.gameObject.transform.position = target.position;
 
             Debug.Log(target.position);
 
@@ -108,21 +105,21 @@ namespace ProjectB.Characters.Monsters
     {
 
         Animator animator;
-        GameObject SkillTest;
+        GameObject skillPrefab;
         Transform target;
 
         public BossSkillThird(Animator animator, Transform target)
         {
           //  SkillTest = skillPrefab[(int)Bossskill.SkillFireEntangle];
             this.animator = animator;
-            SkillTest = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireEntangle);
+            skillPrefab = GameObjectsManager.Instance.BossSkill(KindOfSkill.FireEntangle);
             this.target = target;
 
         }
         public void UseSkill()
         {
             animator.SetTrigger(AniStateParm.SkillTwo.ToString());
-            SkillTest.gameObject.transform.position = target.position;
+            skillPrefab.gameObject.transform.position = target.position;
             Debug.Log(target.position);
 
         }
