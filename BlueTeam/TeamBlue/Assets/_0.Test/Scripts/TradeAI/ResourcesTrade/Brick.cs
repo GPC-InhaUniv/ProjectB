@@ -49,22 +49,22 @@ class Brick : IResource
 
     public void ReceiveResources(int receivingResourceCount)
     {
-        //GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
+        GameDataManager.Instance.PlayerGamedata[3002] += receivingResourceCount;
 
-        TestResource.Instance.testDictionary["Brick"] += receivingResourceCount;
+        //TestResource.Instance.testDictionary["Brick"] += receivingResourceCount;
     }
 
     public void SendResources(int sendingResourceCount)
     {
-        //if (GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
-        //{
-        //    GameDataManager.Instance.PlayerGamedata[3002] -= sendingResourceCount;
-        //}
+        if (GameDataManager.Instance.PlayerGamedata[3002] >= sendingResourceCount)
+        {
+            GameDataManager.Instance.PlayerGamedata[3002] -= sendingResourceCount;
+        }
 
-        if(TestResource.Instance.testDictionary["Brick"] >= sendingResourceCount)
+        /*if(TestResource.Instance.testDictionary["Brick"] >= sendingResourceCount)
         {
             TestResource.Instance.testDictionary["Brick"] -= sendingResourceCount;
-        }
+        }*/
 
         else
         {
