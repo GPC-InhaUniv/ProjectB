@@ -39,10 +39,9 @@ public class Trade : MonoBehaviour
     [SerializeField]
     Text tradeProbabilityText;
     [SerializeField]
-   Text sendingResourceText;
+    Text sendingResourceText;
     [SerializeField]
     Text sendingResourceCountText;
-
     [SerializeField]
     Text receivingResourceText;
     [SerializeField]
@@ -55,10 +54,16 @@ public class Trade : MonoBehaviour
     Text weatherText;
     [SerializeField]
     GameObject selectButton;
-
+    [SerializeField]
+    GameObject sendButton;
     private void OnEnable()
     {
         selectButton.SetActive(true);
+        sendButton.SetActive(true);
+        sendingResourceText.text = string.Empty;
+        sendingResourceCountText.text = string.Empty;
+        receivingResourceText.text = string.Empty;
+        receivingResourceCountText.text = string.Empty;
     }
 
     void Start()
@@ -202,7 +207,7 @@ public class Trade : MonoBehaviour
             {
                 case GameResources.Brick:
                     resourceContext = new ResourceContext(new Brick());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+                    resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 흙, 받을 자원 개수 " + receivingResourceCount);
 
@@ -210,7 +215,7 @@ public class Trade : MonoBehaviour
 
                 case GameResources.Iron:
                     resourceContext = new ResourceContext(new Iron());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+                    resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 철광석, 받을 자원 개수 " + receivingResourceCount);
 
@@ -218,7 +223,7 @@ public class Trade : MonoBehaviour
 
                 case GameResources.Sheep:
                     resourceContext = new ResourceContext(new Sheep());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+                    resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 양, 받을 자원 개수 " + receivingResourceCount);
 
@@ -226,7 +231,7 @@ public class Trade : MonoBehaviour
 
                 case GameResources.Wood:
                     resourceContext = new ResourceContext(new Wood());
-                    resourceContext.ReceiveResources(receivingResourceCount + additionResource);
+                    resourceContext.ReceiveResources(receivingResourceCount);
 
                     Debug.Log("받을 자원 : 나무, 받을 자원 개수 " + receivingResourceCount);
 
@@ -322,7 +327,8 @@ public class Trade : MonoBehaviour
 
                     break;
             }
-          
+
+            GameDataManager.Instance.SetGameDataToServer();
         }
 
         else
@@ -337,7 +343,8 @@ public class Trade : MonoBehaviour
         checkingWantsOfResources = weather.resourcesOfNeed;
         RunWeatherText();
         RunResourceText();
-        
+        sendButton.SetActive(false);
+
     }
 
     public void CheckResourcesOfNeedAboutAI()
