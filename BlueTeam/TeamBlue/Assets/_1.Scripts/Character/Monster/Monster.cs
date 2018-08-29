@@ -55,6 +55,7 @@ namespace ProjectB.Characters.Monsters
         protected MonsterType monsterType;
         protected IAttackableBridge attackable;
         protected ISkillUsableBridge skillUsable;
+        [SerializeField]
         protected State state, currentState;
 
         protected MonsterMove monsterMove;
