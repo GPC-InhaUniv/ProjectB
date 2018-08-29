@@ -13,13 +13,14 @@ public class CombinationUIPresenter : MonoBehaviour
 {
     [SerializeField] GameObject combinationPanel;
     [SerializeField] Item combinationSlotItem;
-    [SerializeField] List<Item> combinationResourcesItems = new List<Item>();
+    [SerializeField] List<Item> combinationResourcesItems;
     int[] requirematerials;
     int combinationItemCode;
     public static AddItemDelegate addItemDelegate;
 
     private void Awake()
     {
+        combinationResourcesItems = new List<Item>();
         InventoryUIPresenter.initializeCombinationResourcesSlot += InitializeToCombinationResourcesSlot;
         requirematerials = new int[4];
     }
@@ -85,7 +86,6 @@ public class CombinationUIPresenter : MonoBehaviour
                 GameDataManager.Instance.PlayerGamedata[combinationItemCode] = 0;
 
             GameDataManager.Instance.PlayerGamedata[combinationItemCode + 1000]++;
-            GameDataManager.Instance.SetGameDataToServer();
             ResetCombinationSlot();
             addItemDelegate();
         }
