@@ -7,6 +7,7 @@ using ProjectB.GameManager;
 
 public class EquipUIPresenter : MonoBehaviour
 {
+    [SerializeField] GameObject equipPanel;
     [SerializeField] List<Item> equipItems;
     // index 0 : HP, 1 : Attack, 2 : Defence 
     [SerializeField] Text[] helmetInfos;
@@ -147,11 +148,28 @@ public class EquipUIPresenter : MonoBehaviour
         helmetInfos[2].text = "Defence : " + currentItem.Defence.ToString();
     }
 
+    public void OnClickEquipExitButton()
+    {
+        equipPanel.SetActive(false);
+    }
+
     public void LoadToWearItem()
     {
         for(int i = 0; i < equipItems.Count; i++)
         {
             equipItems[i].SetItem(GameDataManager.Instance.EquipmentItem[i]);
         }
+
+        weaponInfos[0].text = "HP : " + equipItems[0].Hp.ToString();
+        weaponInfos[1].text = "Attack : " + equipItems[0].Attack.ToString();
+        weaponInfos[2].text = "Defence : " + equipItems[0].Defence.ToString();
+
+        amorInfos[0].text = "HP : " + equipItems[1].Hp.ToString();
+        amorInfos[1].text = "Attack : " + equipItems[1].Attack.ToString();
+        amorInfos[2].text = "Defence : " + equipItems[1].Defence.ToString();
+
+        helmetInfos[0].text = "HP : " + equipItems[2].Hp.ToString();
+        helmetInfos[1].text = "Attack : " + equipItems[2].Attack.ToString();
+        helmetInfos[2].text = "Defence : " + equipItems[2].Defence.ToString();
     }
 }

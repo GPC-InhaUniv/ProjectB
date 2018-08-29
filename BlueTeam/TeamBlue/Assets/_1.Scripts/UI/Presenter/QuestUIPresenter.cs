@@ -10,6 +10,7 @@ public class QuestUIPresenter : MonoBehaviour
     [SerializeField] Text bVillageQuestContentsText;
     [SerializeField] Text aQuestAcceptanceButtonText;
     [SerializeField] Text bQuestAcceptanceButtonText;
+    [SerializeField] GameObject questViewPanel;
 
     IQuestViable aVillageQuest;
     IQuestViable bVillageQuest;
@@ -32,6 +33,11 @@ public class QuestUIPresenter : MonoBehaviour
 
         aQuestAcceptanceButtonText.text = aVillageQuest.AcceptToQuest((QuestType)villageType);
         bQuestAcceptanceButtonText.text = bVillageQuest.AcceptToQuest((QuestType)villageType);
+    }
+
+    public void OnClickQuestViewExitButton()
+    {
+        questViewPanel.SetActive(false);
     }
 
     // 삭제 예정
