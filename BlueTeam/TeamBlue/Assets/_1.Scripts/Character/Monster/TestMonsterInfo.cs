@@ -6,35 +6,10 @@ using System;
 namespace ProjectB.Characters.Monsters
 {
     [Serializable]
-    public class TestMonsterInfo
+    public struct TestMonsterInfo
     {
-        // test //
-        [SerializeField]
-        public AttackArea[] attackAreas;
-        [SerializeField]
-        public GameObject skillprefab;
-        //Monster Status//
-        [SerializeField]
-        public int monsterHP, monsterMaxHP, walkRange;
-        [SerializeField]
-        public float skillCoolTime;
-        [SerializeField]
-        public bool attacking, died, skillUse;
-        [SerializeField]
-        public GameObject[] dropItemPrefab;
-        //Monster System//
-        [SerializeField]
-        public float waitBaseTime;
-        [SerializeField]
-        public float waitTime, speed;
-        //Set Target//
-        [SerializeField]
-        public Transform attackTarget;
-        [SerializeField]
-        public MonsterMove monsterMove;
-        //Move To Destination//
-        [SerializeField]
-        public Vector3 startPosition;
-
+        public bool TestCheck;
+        public int MonsterMaxHP, WalkRange, AttackPower;
+        public float SkillCoolTime, WaitBaseTime, Speed;
     }
 }

@@ -21,33 +21,26 @@ namespace ProjectB.Characters.Monsters
         Defence,
         Died,
     }
-    public delegate void NoticeDie(GameObject gameObject);
+    public enum State
+    {
+        Walking,
+        Chasing,
+        Attacking,
+        Skilling,
+        Died,
+    }
 
+    public delegate void NoticeDie(GameObject gameObject);
     public abstract class Monster : Character
     {
-        // Monster State//
-        protected enum State
-        {
-            Walking,    // 탐색.
-            Chasing,    // 추적.
-            Attacking,  // 공격.
-            Skilling,   // 스킬.
-            Died,       // 사망.
-        };
-
-        public static event NoticeDie NoticeToRader;
+        public static event NoticeDie NoticeToRader;     
+        public TestMonsterInfo testMonsterInfo;
         public Transform attackTarget;
 
-        protected bool attacking, died, skillUse;
-        protected bool isInvincibility;
+        protected bool attacking, died, skillUse, isInvincibility;
 
-        //Monster Status//
-        protected int walkRange;
-        protected float skillCoolTime;
-        //Monster System//
-        protected int stageLevel;
-        protected float waitBaseTime;
-        protected float waitTime, speed;
+        protected int stageLevel, walkRange;
+        protected float skillCoolTime, waitTime, waitBaseTime, speed;
 
         protected MonsterType monsterType;
         protected IAttackableBridge attackable;
@@ -69,49 +62,86 @@ namespace ProjectB.Characters.Monsters
             animator = GetComponent<Animator>();
             startPosition = transform.position;
 
-            stageLevel = GameControllManager.Instance.CurrentIndex;
-            float levelOne = 1.0f;
-            float levelTwo = 1.5f;
-            float levelThree = 2.0f;
-            switch (stageLevel)
+            if (testMonsterInfo.TestCheck)
             {
-                case 1:
-                    maxHealthPoint = maxHealthPoint * levelOne;
-                    healthPoint = maxHealthPoint;
-                    attackPower = attackPower * levelOne;
-                    break;
-                case 2:
-                    maxHealthPoint = maxHealthPoint * levelTwo;
-                    healthPoint = maxHealthPoint;
-                    attackPower = attackPower * levelTwo;
-                    break;
-                case 3:
-                    maxHealthPoint = maxHealthPoint * levelThree;
-                    healthPoint = maxHealthPoint;
-
-                    attackPower = attackPower * levelThree;
-                    break;
-            }
-            //stageLevel에 따라 조절 예정//
-            waitBaseTime = levelThree;
-            waitTime = waitBaseTime;
-
-            int range = 15;
-            int coolTime = 10;
-            int speed = 2;
-            if (monsterType == MonsterType.Boss)
-            {
-                walkRange = range * 2;
-                skillCoolTime = coolTime;
-                this.speed = speed;
+                healthPoint = testMonsterInfo.MonsterMaxHP;
+                walkRange = testMonsterInfo.WalkRange;
+                attackPower = testMonsterInfo.AttackPower;
+                skillCoolTime = testMonsterInfo.SkillCoolTime;
+                waitTime= testMonsterInfo.WaitBaseTime;
+                speed = testMonsterInfo.Speed;
             }
             else
             {
-                walkRange = range;
-                skillCoolTime = coolTime;
-                this.speed = speed;
+                stageLevel = GameControllManager.Instance.CurrentIndex;
+                float levelOne = 1.0f;
+                float levelTwo = 1.5f;
+                float levelThree = 2.0f;
+                switch (monsterType)
+                {
+                    case MonsterType.Boss:
+                        maxHealthPoint = 13000;
+                        attackPower = 100;
+                        break;
+                    case MonsterType.Named:
+                        maxHealthPoint = 1600;
+                        attackPower = 120;
+                        break;
+                    case MonsterType.Normal:
+                        maxHealthPoint = 1000;
+                        attackPower = 70;
+                        break;
+                }
+                switch (stageLevel)
+                {
+                    case 1:
+                        maxHealthPoint = maxHealthPoint * levelOne;
+                        healthPoint = maxHealthPoint;
+                        attackPower = attackPower * levelOne;
+                        break;
+                    case 2:
+                        maxHealthPoint = maxHealthPoint * levelTwo;
+                        healthPoint = maxHealthPoint;
+                        attackPower = attackPower * levelTwo;
+                        break;
+                    case 3:
+                        maxHealthPoint = maxHealthPoint * levelThree;
+                        healthPoint = maxHealthPoint;
+
+                        attackPower = attackPower * levelThree;
+                        break;
+                }
+                //stageLevel에 따라 조절 예정//
+                waitBaseTime = levelThree;
+                waitTime = waitBaseTime;
+
+                int range = 15;
+                int coolTime = 10;
+                int speed = 2;
+                if (monsterType == MonsterType.Boss)
+                {
+                    walkRange = range * 2;
+                    skillCoolTime = coolTime;
+                    this.speed = speed;
+                }
+                else
+                {
+                    walkRange = range;
+                    skillCoolTime = coolTime;
+                    this.speed = speed;
+                }
+                hitParticle.SetActive(false);
             }
-            hitParticle.SetActive(false);
+            Debug.Log("몬스터무브 " + monsterMove);
+            Debug.Log("애니메이터 " + animator);
+            Debug.Log("스타트포지션 " + startPosition);
+            Debug.Log("대기시간 " + waitTime);
+            Debug.Log("몬스터타입 " + monsterType);
+            Debug.Log("몬스터HP " + healthPoint);
+            Debug.Log("공격력 " + attackPower);
+            Debug.Log("워크레인지 " + walkRange);
+            Debug.Log("쿨타임 " + skillCoolTime);
+            Debug.Log("스피드 " + this.speed);
         }
 
         public override void ReceiveDamage(float damage)
