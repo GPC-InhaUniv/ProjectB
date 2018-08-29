@@ -21,7 +21,6 @@ public class CombinationUIPresenter : MonoBehaviour
     {
         InventoryUIPresenter.initializeCombinationResourcesSlot += InitializeToCombinationResourcesSlot;
         requirematerials = new int[4];
-        combinationSlotItem = GameObject.Find("CombinationRecipeSlot").GetComponent<Item>();
     }
 
     private void OnDisable()
@@ -59,7 +58,7 @@ public class CombinationUIPresenter : MonoBehaviour
             return;
 
         bool checkCombination = true;
-        for(int i=0; i<4 ;i++)
+        for(int i = 0; i < 4; i++)
         {
             if (GameDataManager.Instance.PlayerGamedata[i + 3000] < requirematerials[i])
             {
