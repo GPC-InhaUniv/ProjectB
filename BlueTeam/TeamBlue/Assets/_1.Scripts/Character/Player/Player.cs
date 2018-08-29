@@ -228,7 +228,8 @@ namespace ProjectB.Characters.Players
         //데이터 불러오기 및 정리하기
         void GetCharacterStatusFromDataManager()
         {
-            GameDataManager.Instance.GetEquipmentStatus(out equipmentHp, out equipmentAttackPower, out equipmentDefensePowr);
+            GameDataManager.Instance.GetEquipmentStatus(out equipmentAttackPower, out equipmentHp, out equipmentDefensePowr);
+            Debug.Log(equipmentAttackPower);
             exp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
             level = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
         }
@@ -242,7 +243,7 @@ namespace ProjectB.Characters.Players
 
             attackPower = level * 10;
             preAttckPower = attackPower + equipmentAttackPower;
-
+            Debug.Log(preAttckPower);
             defensivePower = equipmentDefensePowr;
         }
         //데이터 불러오기 및 정리하기
