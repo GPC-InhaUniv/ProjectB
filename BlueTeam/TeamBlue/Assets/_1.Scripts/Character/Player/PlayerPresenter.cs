@@ -46,13 +46,6 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            //Attack1 = new CommandAttack1(player.PlayerAinmaton);
-            //Attack2 = new CommandAttack2(player.PlayerAinmaton);
-            //Attack3 = new CommandAttack3(player.PlayerAinmaton);
-            //Attack4 = new CommandAttack4(player.PlayerAinmaton);
-            //상단 5줄은 테스트용임, 오류날 시 주석처리
-
             skillCoolDownTime = 4.0f;
             backStepCoolDownTime = 2.0f;
             swapCoolDownTime = 2.0f;
@@ -66,6 +59,7 @@ namespace ProjectB.UI.Presenter
             isSwap = false;
 
             GetImage();
+
             commandControll = new CommandControll();
 
             attackButton.onClick.AddListener(() => GenerateCombo());
@@ -98,11 +92,9 @@ namespace ProjectB.UI.Presenter
 
         void Update()
         {
-            if (player == null)
-                return;
+            if (player == null) return;
 
             inputMoveVector = PoolInput();
-
             if (!GetIsState(player.IsWorking))
             {
                 SetInputVector();
@@ -145,14 +137,9 @@ namespace ProjectB.UI.Presenter
 
                 StartButtonCoolDown(backStepCoolDownTime, backStepButton, backStepImage);
 
-                SwapWeaponCoolDown();
-            }
-            else
-            {
-                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
+                SwapWeaponCoolDown(backStepCoolDownTime);
             }
         }
-
 
         void InputSkillButton()
         {
@@ -164,11 +151,7 @@ namespace ProjectB.UI.Presenter
 
                 StartButtonCoolDown(skillCoolDownTime, skillButton, skillImage);
 
-                SwapWeaponCoolDown();
-            }
-            else
-            {
-                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
+                SwapWeaponCoolDown(skillCoolDownTime);
             }
         }
 
@@ -178,22 +161,21 @@ namespace ProjectB.UI.Presenter
 
             if (!GetIsState(player.IsRunning))
             {
-                if (player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
+                if (GetWeaponState())
                 {
                     player.WeaponSwitching(PlayerCharacterWeaponState.LongSword);
                 }
-                else if (player.CurrentWeaponState == PlayerCharacterWeaponState.LongSword)
+                else
                 {
                     player.WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
                 }
 
-                SwapWeaponCoolDown();
+                SwapWeaponCoolDown(swapCoolDownTime);
 
                 commandControll.ClearCommand();
                 comboResetCount = 0;
             }
         }
-
 
         void GenerateCombo()
         {
@@ -251,13 +233,9 @@ namespace ProjectB.UI.Presenter
                 commandControll.ExcuteCommand();
 
                 StartButtonCoolDown(attackCoolDownTime, attackButton, attackImage);
-                SwapWeaponCoolDown();
+                SwapWeaponCoolDown(attackCoolDownTime);
 
                 comboResetCount++;
-            }
-            else
-            {
-                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 
@@ -321,11 +299,11 @@ namespace ProjectB.UI.Presenter
             StartCoroutine(ImageCoolDown(time, image));
         }
 
-        void SwapWeaponCoolDown()
+        void SwapWeaponCoolDown(float time)
         {
             if (isSwap == false)
             {
-                StartButtonCoolDown(swapCoolDownTime, weaponSwapButton, weaponSwapImage);
+                StartButtonCoolDown(time, weaponSwapButton, weaponSwapImage);
             }
         }
 
