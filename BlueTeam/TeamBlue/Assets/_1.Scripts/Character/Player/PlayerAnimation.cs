@@ -29,16 +29,25 @@ namespace ProjectB.Characters.Players
             animator = GetComponent<Animator>();
         }
 
+        public void InitWeapon()
+        {
+            animator.SetBool(AnimationState.ShortSword.ToString(), true);
+        }
+        public void InitStateAnimation()
+        {
+            StartCoroutine(InitStateCoroutine());
+        }
+
         public void AttackAnimation(string attackName)
         {
             if (isRunningAttackCoroutine == false)
                 StartCoroutine(AttackAnimationCoroutine(attackName));
         }
 
-        public void SkillAnimation(string skillName)
+        public void SkillAnimation()
         {
             if (isRunningSkillCoroutine == false)
-                StartCoroutine(SkillAnimationCoroutine(skillName));
+                StartCoroutine(SkillAnimationCoroutine());
         }
 
         public void BackStepAnimation()
@@ -47,10 +56,6 @@ namespace ProjectB.Characters.Players
              StartCoroutine(BackStepAnimationCoroutine());
         }
 
-        public void InitStateAnimation()
-        {
-            StartCoroutine(InitStateCoroutine());
-        }
 
         public void RunAnimation(bool isRunning)
         {
@@ -77,10 +82,7 @@ namespace ProjectB.Characters.Players
             animator.SetBool(weaponState.ToString(), true);
         }
  
-        public void InitWeapon()
-        {
-            animator.SetBool(AnimationState.ShortSword.ToString(), true);
-        }
+
 
         public void DieAnimation()
         {
@@ -101,22 +103,25 @@ namespace ProjectB.Characters.Players
         }
         IEnumerator AttackAnimationCoroutine(string attackName)
         {
+            ResetHitTrigger();
             isRunningAttackCoroutine = true;
             animator.SetBool(attackName, true);
             yield return new WaitForSeconds(1.0f);
             animator.SetBool(attackName, false);
             isRunningAttackCoroutine = false;
         }
-        IEnumerator SkillAnimationCoroutine(string skillName)
+        IEnumerator SkillAnimationCoroutine()
         {
+            ResetHitTrigger();
             isRunningSkillCoroutine = true;
-            animator.SetBool(skillName, true);
+            animator.SetBool(AnimationState.Skill.ToString(), true);
             yield return new WaitForSeconds(2.0f);
-            animator.SetBool(skillName, false);
+            animator.SetBool(AnimationState.Skill.ToString(), false);
             isRunningSkillCoroutine = false; 
         }
         IEnumerator BackStepAnimationCoroutine()
         {
+            ResetHitTrigger();
             isRunningBackStepCoroutine = true;
             animator.SetBool(AnimationState.BackStep.ToString(), true);
             yield return new WaitForSeconds(0.5f);

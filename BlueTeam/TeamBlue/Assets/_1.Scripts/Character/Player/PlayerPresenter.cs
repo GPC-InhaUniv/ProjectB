@@ -35,7 +35,7 @@ namespace ProjectB.UI.Presenter
 
         float horizontal, vertical, expValue, hpValue;
 
-        bool isSwap;
+        bool isSwap = false;
 
         int comboResetCount, comboRandom;
 
@@ -53,12 +53,7 @@ namespace ProjectB.UI.Presenter
             swapCoolDownTime = 2.0f;
             attackCoolDownTime = 1.0f;
 
-            comboResetCount = 0;
             comboRandom = Random.Range(1, 3);
-      
-            inputMoveVector = Vector3.zero;
-               
-            isSwap = false;
 
             GetImage();           
 
@@ -76,10 +71,10 @@ namespace ProjectB.UI.Presenter
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player.PlayerAinmaton);
-            Attack2 = new CommandAttack2(player.PlayerAinmaton);
-            Attack3 = new CommandAttack3(player.PlayerAinmaton);
-            Attack4 = new CommandAttack4(player.PlayerAinmaton);
+            Attack1 = new CommandAttack1(player.PlayerAinmatons);
+            Attack2 = new CommandAttack2(player.PlayerAinmatons);
+            Attack3 = new CommandAttack3(player.PlayerAinmatons);
+            Attack4 = new CommandAttack4(player.PlayerAinmatons);
         }
 
         void GetImage()
@@ -111,12 +106,13 @@ namespace ProjectB.UI.Presenter
 
         void SetInputVector()
         {
-            if (GetIsState(player.IsWorking)) return;
-
             if (inputMoveVector != Vector3.zero)
             {
-                player.MoveVector = inputMoveVector;
-                player.ChangeState(PlayerStates.PlayerCharacterRunState);
+                if (!player.IsWorking)
+                {
+                    player.MoveVector = inputMoveVector;
+                    player.ChangeState(PlayerStates.PlayerCharacterRunState);
+                }
             }
             else
             {
@@ -134,10 +130,6 @@ namespace ProjectB.UI.Presenter
 
                 SwapWeaponCoolDown(backStepCoolDownTime);
             }
-            else
-            {
-                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
-            }
         }
 
         void InputSkillButton()
@@ -149,10 +141,6 @@ namespace ProjectB.UI.Presenter
                 StartButtonCoolDown(skillCoolDownTime, skillButton, skillImage);
 
                 SwapWeaponCoolDown(skillCoolDownTime);
-            }
-            else
-            {
-                player.ChangeState(PlayerStates.PlayerCharacterIdleState);
             }
         }
 

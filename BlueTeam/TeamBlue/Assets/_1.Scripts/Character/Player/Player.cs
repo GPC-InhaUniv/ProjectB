@@ -20,77 +20,80 @@ namespace ProjectB.Characters.Players
         PlayerCharacterDieState
     }
 
-    public class Player : Character , IInitializable
+    public class Player : Character, IInitializable
     {
         [SerializeField]
-        Vector3 targetVector;
-        public Vector3 TargetVector { get { return targetVector; } }
+        bool isDied;
 
         float maxExp;
         public float MaxExp { get { return maxExp; } private set { } }
 
         [SerializeField]
-        bool isDied = false;
+        bool isRunning;
+        public bool IsRunning { get { return isRunning; } private set { } }
 
         [SerializeField]
-        bool isRunning = false;
-        public bool IsRunning { get { return isRunning; } private set { } }
-      
-        [SerializeField]
-        bool isWorking = false;
-        public bool IsWorking { get { return isWorking; } private set{ } }
+        bool isWorking;
+        public bool IsWorking { get { return isWorking; } private set { } }
 
         Collider collider;
-        public Collider Collider { get { return collider; } }
+        public Collider Collider { get { return collider; } private set { } }
 
-        PlayerAnimation playerAinmaton;
-        public PlayerAnimation PlayerAinmaton { get { return playerAinmaton; } }
+        PlayerAnimation playerAinmatons;
+        public PlayerAnimation PlayerAinmatons { get { return playerAinmatons; } private set { } }
 
         Rigidbody playerRigidbody;
-        public Rigidbody PlayerRigidbody { get { return playerRigidbody; } }
-        
-        PlayerPresenter playerPresenter;
+        public Rigidbody PlayerRigidbody { get { return playerRigidbody; } private set { } }
+
+        PlayerCharacterWeaponState currentWeaponState;
+        public PlayerCharacterWeaponState CurrentWeaponState { get { return currentWeaponState; } private set { } }
+
         Weapon weapon;
+
+        PlayerCharacterState currentPlayerState;
+
+        PlayerPresenter playerPresenter;
 
         public Vector3 MoveVector;
 
-        public PlayerCharacterState PlayerState;
-        
-        public PlayerCharacterWeaponState CurrentWeaponState;    
-         
-        float preAttckPower;
-        int equipmentHp = 0;
-        int equipmentAttackPower = 0;
-        int equipmentDefensePowr = 0;
+        float totoalAttckPower;
 
-        bool isRunningHitCoroutine = false;
+        int equipmentHp, equipmentAttackPower, equipmentDefensePowr;
+
+        bool isRunningHitCoroutine;
 
         [SerializeField]
         GameObject hitParticle;
 
         private void Awake()
         {
-            playerRigidbody = GetComponent<Rigidbody>();
             weapon = GetComponent<Weapon>();
-            playerAinmaton = GetComponent<PlayerAnimation>();
             collider = GetComponent<CapsuleCollider>();
+            playerRigidbody = GetComponent<Rigidbody>();
+            playerAinmatons = GetComponent<PlayerAnimation>();
+
+            currentPlayerState = new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform, collider);
         }
 
         public void Initialize()
         {
-            playerAinmaton.ResetHitTrigger();
-
             hitParticle.SetActive(false);
-            isDied = false;
-            
+            MoveVector = new Vector3(0, 0, 1);
+
             ChangeState(PlayerStates.PlayerCharacterIdleState);
-            CurrentWeaponState = PlayerCharacterWeaponState.ShortSword;
+            currentWeaponState = PlayerCharacterWeaponState.ShortSword;
+
+            playerAinmatons.ResetHitTrigger();           
+            isDied = false;
 
             weapon.SetShortSword();
-            playerAinmaton.InitStateAnimation();
-            playerAinmaton.InitWeapon();
+            playerAinmatons.InitStateAnimation();
+            playerAinmatons.InitWeapon();
 
-            playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            if (playerPresenter == null)
+            {
+                playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+            }
            
             GetCharacterStatusFromDataManager();
             SetCharacterStatus();
@@ -98,63 +101,49 @@ namespace ProjectB.Characters.Players
             playerPresenter.SetpUpUI();
         }
 
-        void Update()
-        {
-            if (MoveVector != Vector3.zero)
-            {
-                targetVector = MoveVector;
-            }
-
-            playerAinmaton.RunAnimation(isRunning);
-        }
-
         public void SetState(PlayerCharacterState newState)
         {
-            if(isDied == true)
-            {
-                return;
-            }
-            if (PlayerState == newState)
-            {
-                return;
-            }
+            if (isDied == true) return;
+
+            if (currentPlayerState == newState) return;
+
             else
             {
-                PlayerState = newState;
-                PlayerState.Tick(MoveVector);
+                currentPlayerState = newState;
+                currentPlayerState.Tick(MoveVector, isRunning);
             }
         }
 
-        public void ChangeState(PlayerStates playerState)
+        public void ChangeState(PlayerStates playerStates)
         {
-            switch (playerState)
+            switch (playerStates)
             {
                 case PlayerStates.PlayerCharacterIdleState:
                     isRunning = false;
-                    isWorking = false;
                     SetAttackPower(1.0f);
-                    SetState(new PlayerCharacterIdleState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                  
+                    currentPlayerState.Tick(MoveVector, isRunning);
+                    SetState(new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform, collider));
                     break;
                 case PlayerStates.PlayerCharacterAttackState:
                     isWorking = true;
                     SetAttackPower(1.2f);
-                    SetState(new PlayerCharacterAttackState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                                     
+                    SetState(new PlayerCharacterAttackState(playerAinmatons, playerRigidbody, transform, collider));
                     break;
                 case PlayerStates.PlayerCharacterSkillState:
                     isWorking = true;
                     SetAttackPower(3.0f);
-                    SetState(new PlayerCharacterSkillState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                   
+                    SetState(new PlayerCharacterSkillState(playerAinmatons, playerRigidbody, transform, collider));
                     break;
                 case PlayerStates.PlayerCharacterBackStepState:
                     isWorking = true;
-                    SetState(new PlayerCharacterBackStepState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector)); 
+                    SetState(new PlayerCharacterBackStepState(playerAinmatons, playerRigidbody, transform, collider));
                     break;
                 case PlayerStates.PlayerCharacterRunState:
                     isRunning = true;
-                    SetState(new PlayerCharacterRunState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));                    
-                    break;            
+                    SetState(new PlayerCharacterRunState(playerAinmatons, playerRigidbody, transform, collider));
+                    break;
                 case PlayerStates.PlayerCharacterDieState:
-                    SetState(new PlayerCharacterDieState(PlayerAinmaton, PlayerRigidbody, transform, Collider, TargetVector));
+                    SetState(new PlayerCharacterDieState(playerAinmatons, playerRigidbody, transform, collider));
                     isDied = true;
                     break;
                 default:
@@ -162,27 +151,28 @@ namespace ProjectB.Characters.Players
             }
         }
 
-        void SetAttackPower(float power) 
+        void SetAttackPower(float power)
         {
-            attackPower = preAttckPower  * power;
+            attackPower = totoalAttckPower * power;
         }
 
         public override void ReceiveDamage(float damage)
         {
-            if (isWorking == true || isRunning == true || isDied == true)
+            if (isRunning == true || isDied == true)
                 return;
 
             ChangeState(PlayerStates.PlayerCharacterIdleState);
             if (isRunningHitCoroutine == false)
-            {              
+            {
+                isWorking = false;
                 StartCoroutine(HitCoroutine(1.2f));
 
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
-                playerAinmaton.HitAnimation();
+                playerAinmatons.HitAnimation();
                 healthPoint -= CalDamage(damage);
 
                 playerPresenter.UpdateHpUI();
-                
+
                 if (healthPoint <= 0)
                 {
                     healthPoint = 0;
@@ -192,58 +182,50 @@ namespace ProjectB.Characters.Players
 
                     SoundManager.Instance.SetSound(SoundFXType.PlayerDeath);
 
-                    GameControllManager.Instance.CheckGameOver();                  
+                    GameControllManager.Instance.CheckGameOver();
                 }
             }
         }
 
         float CalDamage(float damage)
         {
-            float trueDamage = damage - defensivePower * 0.1f * 0.5f;
+            float trueDamage = damage - (defensivePower * 0.05f);
 
             if (0 < trueDamage)
             {
                 return trueDamage;
             }
-            else return 0;
+            else return 1;
         }
 
         public void WeaponSwitching(PlayerCharacterWeaponState NewWeaponState)
         {
-            if (CurrentWeaponState == NewWeaponState)
-            {
-                return;
-            }
+            if (currentWeaponState == NewWeaponState) return;
 
-            else if (isRunning != true && isWorking!= true)
-            {
-                ChangeState(PlayerStates.PlayerCharacterIdleState);
-                playerAinmaton.WeaponSwapAnimation(NewWeaponState);
-                weapon.SetWeapon(true, NewWeaponState, CurrentWeaponState);
-           
-                CurrentWeaponState = NewWeaponState;
-            }
+            ChangeState(PlayerStates.PlayerCharacterIdleState);
+            playerAinmatons.WeaponSwapAnimation(NewWeaponState);
+            weapon.SetWeapon(true, NewWeaponState, currentWeaponState);
+            currentWeaponState = NewWeaponState;
         }
 
         //데이터 불러오기 및 정리하기
         void GetCharacterStatusFromDataManager()
         {
-            GameDataManager.Instance.GetEquipmentStatus(out equipmentAttackPower, out equipmentHp, out equipmentDefensePowr);
-            Debug.Log(equipmentAttackPower);
             exp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
             level = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
+            GameDataManager.Instance.GetEquipmentStatus(out equipmentAttackPower, out equipmentHp, out equipmentDefensePowr);
         }
 
         void SetCharacterStatus()
         {
-            maxHealthPoint = level * 1000 + equipmentHp;
+            maxHealthPoint = level * 500 + equipmentHp;
             healthPoint = maxHealthPoint;
-        
+
             maxExp = 1000 + (100 * 1.2f * level);
 
             attackPower = level * 10;
-            preAttckPower = attackPower + equipmentAttackPower;
-            Debug.Log(preAttckPower);
+            totoalAttckPower = attackPower + equipmentAttackPower;
+
             defensivePower = equipmentDefensePowr;
         }
         //데이터 불러오기 및 정리하기
@@ -255,16 +237,17 @@ namespace ProjectB.Characters.Players
         }
         public void AttackDone()
         {
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
+            isWorking = false;
         }
 
         public void BackStepStart()
-        {
-
+        {       
+            //백스텝 사운드 추가 예정
         }
         public void BackStepEnd()
         {
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
+            collider.enabled = true;
+            isWorking = false;
         }
         //애니메이션 이벤트
 
@@ -281,7 +264,5 @@ namespace ProjectB.Characters.Players
             isRunningHitCoroutine = false;
         }
     }
-
-
 }
 

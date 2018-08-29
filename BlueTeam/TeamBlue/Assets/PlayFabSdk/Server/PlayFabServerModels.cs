@@ -3325,7 +3325,7 @@ namespace PlayFab.ServerModels
         /// <summary>
         /// State of user leaving the Game Server Instance.
         /// </summary>
-        public PlayerConnectionState? PlayerState;
+        public PlayerConnectionState? playerState;
     }
 
     public enum PlayerConnectionState
