@@ -36,9 +36,6 @@ namespace ProjectB.Characters.Players
         bool isWorking;
         public bool IsWorking { get { return isWorking; } private set { } }
 
-        Collider collider;
-        public Collider Collider { get { return collider; } private set { } }
-
         PlayerAnimation playerAinmatons;
         public PlayerAnimation PlayerAinmatons { get { return playerAinmatons; } private set { } }
 
@@ -68,11 +65,10 @@ namespace ProjectB.Characters.Players
         private void Awake()
         {
             weapon = GetComponent<Weapon>();
-            collider = GetComponent<CapsuleCollider>();
             playerRigidbody = GetComponent<Rigidbody>();
             playerAinmatons = GetComponent<PlayerAnimation>();
 
-            currentPlayerState = new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform, collider);
+            currentPlayerState = new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform);
         }
 
         public void Initialize()
@@ -87,10 +83,9 @@ namespace ProjectB.Characters.Players
             isDied = false;
 
             weapon.SetShortSword();
-            playerAinmatons.InitStateAnimation();
-            playerAinmatons.InitWeapon();
 
-            collider.enabled = true;
+            playerAinmatons.InitWeapon();
+            playerAinmatons.InitStateAnimation();
 
             if (playerPresenter == null)
             {
@@ -117,7 +112,7 @@ namespace ProjectB.Characters.Players
 
             maxExp = 1000 + (100 * 1.2f * level);
 
-            attackPower = level * 10;
+            attackPower = level * 100;
 
             totoalAttckPower = attackPower + equipmentAttackPower;
             defensivePower = equipmentDefensePowr;
@@ -141,31 +136,31 @@ namespace ProjectB.Characters.Players
             switch (playerStates)
             {
                 case PlayerStates.PlayerCharacterIdleState:
-                    isRunning = false;
+                    isRunning = false;                
                     SetAttackPower(1.0f);
                     currentPlayerState.Tick(MoveVector, isRunning);
-                    SetState(new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform, collider));
+                    SetState(new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterAttackState:
                     isWorking = true;
                     SetAttackPower(1.2f);
-                    SetState(new PlayerCharacterAttackState(playerAinmatons, playerRigidbody, transform, collider));
+                    SetState(new PlayerCharacterAttackState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterSkillState:
                     isWorking = true;
                     SetAttackPower(3.0f);
-                    SetState(new PlayerCharacterSkillState(playerAinmatons, playerRigidbody, transform, collider));
+                    SetState(new PlayerCharacterSkillState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterBackStepState:
                     isWorking = true;
-                    SetState(new PlayerCharacterBackStepState(playerAinmatons, playerRigidbody, transform, collider));
+                    SetState(new PlayerCharacterBackStepState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterRunState:
                     isRunning = true;
-                    SetState(new PlayerCharacterRunState(playerAinmatons, playerRigidbody, transform, collider));
+                    SetState(new PlayerCharacterRunState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterDieState:
-                    SetState(new PlayerCharacterDieState(playerAinmatons, playerRigidbody, transform, collider));
+                    SetState(new PlayerCharacterDieState(playerAinmatons, playerRigidbody, transform));
                     isDied = true;
                     break;
                 default:
@@ -183,10 +178,11 @@ namespace ProjectB.Characters.Players
             if (isRunning == true || isDied == true)
                 return;
 
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
             if (isRunningHitCoroutine == false)
             {
                 isWorking = false;
+                SetState(new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform));
+
                 StartCoroutine(HitCoroutine(1.2f));
 
                 SoundManager.Instance.SetSound(SoundFXType.PlayerHit);
@@ -245,7 +241,6 @@ namespace ProjectB.Characters.Players
         }
         public void BackStepEnd()
         {
-            collider.enabled = true;
             isWorking = false;
         }
 
