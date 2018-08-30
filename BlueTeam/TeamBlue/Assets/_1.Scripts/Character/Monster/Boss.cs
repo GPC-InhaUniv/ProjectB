@@ -76,16 +76,21 @@ namespace ProjectB.Characters.Monsters
                     StartCoroutine(ShowHitEffect(1.0f));
                     healthPoint -= damage;
                     SoundManager.Instance.SetSound(SoundFXType.EnemyHit);
+                    Debug.Log(stateHandleNum);
+                    Debug.Log(maxHealthPoint * (2 / 3));
 
                     if (healthPoint <= maxHealthPoint * (2 / 3) && stateHandleNum == 0)
                     {
                         bossState = new PhaseTwo(animator);
                         stateHandleNum++;
+                        Debug.Log("Phase Two");
                     }
                     else if (healthPoint <= maxHealthPoint * (1 / 3) && stateHandleNum == 1)
                     {
                         bossState = new PhaseThree(animator);
                         stateHandleNum++;
+                        Debug.Log("Phase Three");
+
                     }
                     else if (healthPoint <= 0)
                     {
