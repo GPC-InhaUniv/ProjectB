@@ -24,13 +24,10 @@ namespace ProjectB.UI.Presenter
         List<int> itemCode;
         string[] itemName;
 
-        private void Start()
+        private void OnEnable()
         {
             itemCode = new List<int>();
             itemName = new string[2];
-        }
-        private void OnEnable()
-        {  
             ShowResultUI();
         }
         void ShowResultUI()
