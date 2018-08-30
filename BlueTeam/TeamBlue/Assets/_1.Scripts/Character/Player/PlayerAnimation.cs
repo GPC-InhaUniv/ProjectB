@@ -29,10 +29,6 @@ namespace ProjectB.Characters.Players
             animator = GetComponent<Animator>();
         }
 
-        public void InitWeapon()
-        {
-            animator.SetBool(AnimationState.ShortSword.ToString(), true);
-        }
         public void InitStateAnimation()
         {
             StartCoroutine(InitStateCoroutine());
