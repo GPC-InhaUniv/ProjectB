@@ -66,13 +66,11 @@ namespace ProjectB.GameManager
             SoundClips[12] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ItemPickup");
             SoundClips[13] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "Whip");
             SoundClips[14] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyDefence");
-
-
-            SoundSources[0].clip = SoundClips[0];
         }
         
         public void PlayBGM()
         {
+            SoundSources[0].clip = SoundClips[0];
             SoundSources[0].Play();
             SoundSources[0].volume = bgmVolume;
             SoundSources[0].loop = true;
