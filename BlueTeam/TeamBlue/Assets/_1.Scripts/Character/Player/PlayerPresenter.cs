@@ -122,7 +122,9 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            if (!GetIsState(player.IsRunning))
+            if (player.IsWorking) return;
+
+            if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -134,7 +136,9 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            if (!GetIsState(player.IsRunning))
+            if (player.IsWorking) return;
+
+            if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
@@ -146,7 +150,9 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (!GetIsState(player.IsRunning))
+            if (player.IsWorking) return;
+
+            if (!player.IsRunning)
             {
                 if (GetWeaponState())
                 {
@@ -196,6 +202,7 @@ namespace ProjectB.UI.Presenter
         void ComboTwo()
         {
             if (comboResetCount > 0) return;
+
             if (GetWeaponState())
             {
                 commandControll.TakeCommand(Attack1);
@@ -212,7 +219,9 @@ namespace ProjectB.UI.Presenter
 
         void StartCombo()
         {
-            if (!GetIsState(player.IsRunning))
+            if (player.IsWorking) return;
+
+            if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
                 commandControll.ExcuteCommand();
@@ -299,15 +308,6 @@ namespace ProjectB.UI.Presenter
         bool GetWeaponState()
         {
             if(player.CurrentWeaponState == PlayerCharacterWeaponState.ShortSword)
-            {
-                return true;
-            }
-            else return false;
-        }
-
-        bool GetIsState(bool state)
-        {
-            if (state)
             {
                 return true;
             }
