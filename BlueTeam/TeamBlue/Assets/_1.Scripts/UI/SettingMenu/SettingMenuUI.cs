@@ -35,29 +35,9 @@ namespace ProjectB.UI.SettingMenu
         protected const float firstSliderValue = 1.0f;
         protected const float minVolumeValue = 0.0f;
         protected const float maxVolumeValue = 1.0f;
+
         
-
-        protected void RegistComponent(Slider volumeSlider)
-        {
-            volumeSlider = GetComponent<Slider>();
-        }
-
-        protected void SetSliderValue(Slider volumeSlider, float minValue, float maxValue)
-        {
-            volumeSlider.minValue = minValue;
-            volumeSlider.maxValue = maxValue;
-        }
-
-        protected void SetFirstSliderValue(Slider volumeSlider, float firstValue)
-        {
-            volumeSlider.value = firstValue;
-        }
-
-        protected void ControlVolume(Slider bgm, Slider sfx)
-        {
-            SoundManager.Instance.SetVolume(bgm.value, sfx.value);
-        }
-        
+        //메뉴관련
         protected void InActivateWindows(bool isActivatingMenu, GameObject menuWindowUI)
         {
             menuWindowUI.SetActive(isActivatingMenu);
@@ -95,9 +75,33 @@ namespace ProjectB.UI.SettingMenu
             }
         }
 
+
+        //사운드 관련
+        protected void RegistComponent(Slider volumeSlider)
+        {
+            volumeSlider = GetComponent<Slider>();
+        }
+
+        protected void SetFirstSliderValue(Slider volumeSlider, float firstValue)
+        {
+            volumeSlider.value = firstValue;
+        }
+       
+        protected void ControlVolume(Slider bgm, Slider sfx)
+        {
+            SoundManager.Instance.SetVolume(bgm.value, sfx.value);
+        }
+
         protected void PlaySound()
         {
             SoundManager.Instance.SetSound(SoundFXType.ButtonClick);
         }
+
+        protected void SetSliderValue(Slider volumeSlider, float minValue, float maxValue)
+        {
+            volumeSlider.minValue = minValue;
+            volumeSlider.maxValue = maxValue;
+        }
+
     }
 }
