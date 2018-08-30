@@ -68,24 +68,27 @@ namespace ProjectB.Characters.Players
             playerRigidbody = GetComponent<Rigidbody>();
             playerAinmatons = GetComponent<PlayerAnimation>();
 
+            currentWeaponState = PlayerCharacterWeaponState.ShortSword;
+
             currentPlayerState = new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform);
         }
 
         public void Initialize()
         {
-            isDied = false;
-            playerAinmatons.ResetHitTrigger();
-
-            hitParticle.SetActive(false);
-            MoveVector = new Vector3(0, 0, 1);
-
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
-            currentWeaponState = PlayerCharacterWeaponState.ShortSword;
-
             weapon.SetShortSword();
 
-            playerAinmatons.InitWeapon();
+            isDied = false;
             playerAinmatons.InitStateAnimation();
+
+            hitParticle.SetActive(false);
+
+            MoveVector = new Vector3(0, 0, 1);
+
+            if (currentWeaponState != PlayerCharacterWeaponState.ShortSword)
+            {
+                WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
+                weapon.SetShortSword();
+            }
            
             if (playerPresenter == null)
             {

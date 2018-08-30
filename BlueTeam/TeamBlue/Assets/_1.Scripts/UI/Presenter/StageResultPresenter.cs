@@ -50,6 +50,7 @@ namespace ProjectB.UI.Presenter
                         {
                             if (itemCode[j] == itemTable.sheets[0].list[i].Code)
                             {
+                                if(j<2)
                                 itemName[j] = itemTable.sheets[0].list[i].Name;
                                 break;
                             }
