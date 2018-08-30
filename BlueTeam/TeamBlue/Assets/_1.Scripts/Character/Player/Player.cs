@@ -73,20 +73,20 @@ namespace ProjectB.Characters.Players
 
         public void Initialize()
         {
+            isDied = false;
+            playerAinmatons.ResetHitTrigger();
+
             hitParticle.SetActive(false);
             MoveVector = new Vector3(0, 0, 1);
 
             ChangeState(PlayerStates.PlayerCharacterIdleState);
             currentWeaponState = PlayerCharacterWeaponState.ShortSword;
 
-            playerAinmatons.ResetHitTrigger();           
-            isDied = false;
-
             weapon.SetShortSword();
 
             playerAinmatons.InitWeapon();
             playerAinmatons.InitStateAnimation();
-
+           
             if (playerPresenter == null)
             {
                 playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();

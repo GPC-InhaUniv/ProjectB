@@ -25,7 +25,10 @@ namespace ProjectB.Characters.Players
         }
         public void SetShortSword()
         {
+            shortSword.SetActive(true);
             fakeShortSword.SetActive(false);
+
+            fakeLongSword.SetActive(true);
             longSword.SetActive(false);
         }
 

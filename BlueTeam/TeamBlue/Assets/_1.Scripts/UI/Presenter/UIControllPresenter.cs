@@ -78,7 +78,8 @@ namespace ProjectB.UI.Presenter
                     equipmentUI.SetActive(true);
                     break;
                 case (int)UIType.Storage:
-                    storageUI.SetActive(true);
+                    //창고 미구현
+                  //  storageUI.SetActive(true);
                     break;
                 case (int)UIType.CombinationStore:
                     combinationStoreUI.SetActive(true);

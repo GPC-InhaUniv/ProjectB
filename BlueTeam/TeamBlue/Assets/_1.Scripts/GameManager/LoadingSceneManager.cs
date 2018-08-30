@@ -201,7 +201,7 @@ namespace ProjectB.GameManager
 
                     if (progressBar.fillAmount >= 0.94f) //가득 찼다면
                     {
-                        currentAssetName = "완료!";
+                        currentAssetName = "터치를 해주세요!";
                         progressText.text = "100%";
 
                         if (Input.anyKeyDown)
