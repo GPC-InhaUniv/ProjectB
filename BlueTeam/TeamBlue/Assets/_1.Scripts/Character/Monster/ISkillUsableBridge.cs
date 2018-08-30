@@ -68,11 +68,13 @@ namespace ProjectB.Characters.Monsters
         public BossSkillSecond(Animator animator, Transform target)
         {
             this.animator = animator;
+            skillPrefab = GameObjectsManager.Instance.GetBossSkill(KindOfSkill.FireRain);
             this.target = target;
         }
         public void UseSkill()
         {
             animator.SetBool(AniStateParm.SkillOne.ToString(), true);
+            skillPrefab.gameObject.transform.position = target.position;
         }
     }
     public class BossSkillDefence : ISkillUsableBridge
