@@ -95,6 +95,7 @@ namespace ProjectB.Characters.Monsters
                     else
                         animator.SetTrigger(AniStateParm.Hitted.ToString());
                 }
+                StartCoroutine(AvoidAttack());
             }
         }
         void OnDisable()
