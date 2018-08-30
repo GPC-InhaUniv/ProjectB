@@ -34,7 +34,7 @@ namespace ProjectB.GameManager
         const string commonbundleURL = "https://docs.google.com/uc?export=download&id=12KSSF3dsPdtaQ-O2gK89iQAYbwmIecEm";
         const string brickDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1yGwJlGEpi5Y_LMJ7WQHFl9Cp8UqOOPIn";
         const string townBundleURL = "https://docs.google.com/uc?export=download&id=1fkDMH00kGe2tcZgduea0BG2UGPAGtZUq";
-        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1Dvw7V-RTIulB2h4b1Sy8geQqLPRnXv9D";
+        const string playerBundleURL = "https://docs.google.com/uc?export=download&id=1imjg9qG9k96B9P2JRSRXRN2BM7MIFZAt";
         const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=12-LoiSY_YTZx1jeaUG0pc2KfyG8n6sCe";
         const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1h68J292LskcY0VsEQCCg-47_-OY7oDM6";
         

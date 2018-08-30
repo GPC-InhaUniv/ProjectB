@@ -90,6 +90,8 @@ namespace ProjectB.Characters.Players
             playerAinmatons.InitStateAnimation();
             playerAinmatons.InitWeapon();
 
+            collider.enabled = true;
+
             if (playerPresenter == null)
             {
                 playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();

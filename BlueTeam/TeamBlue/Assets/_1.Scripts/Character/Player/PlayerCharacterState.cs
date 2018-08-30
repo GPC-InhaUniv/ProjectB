@@ -13,8 +13,8 @@ namespace ProjectB.Characters.Players
 
         protected Collider playerCollider;
 
-        protected float moveSpeed = 850.0f;
-        protected float backStepSpeed = 400.0f;
+        protected float moveSpeed = 1500.0f;
+        protected float backStepSpeed = 800.0f;
 
         public PlayerCharacterState(PlayerAnimation playerAinmaton, Rigidbody playerRigidbody, Transform playerTransform, Collider playerCollider)
         {
