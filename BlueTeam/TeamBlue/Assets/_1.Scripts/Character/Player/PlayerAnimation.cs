@@ -97,6 +97,7 @@ namespace ProjectB.Characters.Players
         }
         IEnumerator SwapAnimationCoroutine()
         {
+            ResetHitTrigger();
             animator.SetBool(AnimationState.Swap.ToString(), true);
             yield return new WaitForSeconds(0.5f);
             animator.SetBool(AnimationState.Swap.ToString(), false);

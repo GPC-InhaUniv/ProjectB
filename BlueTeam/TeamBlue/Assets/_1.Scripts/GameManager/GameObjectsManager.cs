@@ -216,13 +216,13 @@ namespace ProjectB.GameManager
             GameObject bossSkillObject;
             switch (kindOfSkill)
             {
-                case KindOfSkill.FireHemiSphere:
+                case KindOfSkill.FireEntangle:
                     bossSkillObject = bossSkill[0];
                     break;
                 case KindOfSkill.FireRain:
                     bossSkillObject = bossSkill[1];
                     break;
-                case KindOfSkill.FireEntangle:
+                case KindOfSkill.FireHemiSphere:
                     bossSkillObject = bossSkill[2];
                     break;
                 default:
