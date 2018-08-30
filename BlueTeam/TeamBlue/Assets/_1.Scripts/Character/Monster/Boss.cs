@@ -16,9 +16,9 @@ namespace ProjectB.Characters.Monsters
         {        
             monsterType = MonsterType.Boss;
             SetMonsterInfo();
-            //bossState = new PhaseOne(animator);
+            bossState = new PhaseOne(animator);
             //TEST//
-            bossState = new PhaseTwo(animator);
+            //bossState = new PhaseTwo(animator);
             //bossState = new PhaseThree(animator);
         }
 
