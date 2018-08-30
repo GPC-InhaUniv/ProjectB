@@ -74,9 +74,6 @@ namespace ProjectB.Characters.Monsters
             else
             {
                 stageLevel = GameControllManager.Instance.CurrentIndex;
-                float levelOne = 1.0f;
-                float levelTwo = 1.5f;
-                float levelThree = 2.0f;
                 switch (monsterType)
                 {
                     case MonsterType.Boss:
@@ -92,27 +89,10 @@ namespace ProjectB.Characters.Monsters
                         attackPower = 70;
                         break;
                 }
-                switch (stageLevel)
-                {
-                    case 1:
-                        maxHealthPoint = maxHealthPoint * levelOne;
-                        healthPoint = maxHealthPoint;
-                        attackPower = attackPower * levelOne;
-                        break;
-                    case 2:
-                        maxHealthPoint = maxHealthPoint * levelTwo;
-                        healthPoint = maxHealthPoint;
-                        attackPower = attackPower * levelTwo;
-                        break;
-                    case 3:
-                        maxHealthPoint = maxHealthPoint * levelThree;
-                        healthPoint = maxHealthPoint;
+                ComputeStatus(stageLevel);
 
-                        attackPower = attackPower * levelThree;
-                        break;
-                }
-                //stageLevel에 따라 조절 예정//
-                waitBaseTime = levelThree;
+                healthPoint = maxHealthPoint;
+                waitBaseTime = 2.0f;
                 waitTime = waitBaseTime;
 
                 int range = 15;
@@ -132,16 +112,12 @@ namespace ProjectB.Characters.Monsters
                 }
                 hitParticle.SetActive(false);
             }
-            //Debug.Log("몬스터무브 " + monsterMove);
-            //Debug.Log("애니메이터 " + animator);
-            //Debug.Log("스타트포지션 " + startPosition);
-            //Debug.Log("대기시간 " + waitTime);
-            //Debug.Log("몬스터타입 " + monsterType);
-            //Debug.Log("몬스터HP " + healthPoint);
-            //Debug.Log("공격력 " + attackPower);
-            //Debug.Log("워크레인지 " + walkRange);
-            //Debug.Log("쿨타임 " + skillCoolTime);
-            //Debug.Log("스피드 " + this.speed);
+        }
+
+        protected void ComputeStatus(float stageLevel)
+        {
+            maxHealthPoint = maxHealthPoint * stageLevel;
+            attackPower = attackPower * stageLevel;
         }
 
         public override void ReceiveDamage(float damage)
@@ -202,7 +178,6 @@ namespace ProjectB.Characters.Monsters
             int randomCount;
             switch (monsterType)
             {
-                //5 , 10 , 20 //
                 case MonsterType.Normal:
                     maxPercent = 21;
                     randomCount = Random.Range(1, maxPercent);
@@ -362,15 +337,3 @@ namespace ProjectB.Characters.Monsters
         }
     }
 }
-
-//            START DEBUG CHECK
-//            Debug.Log("몬스터무브 " +monsterMove);
-//            Debug.Log("애니메이터 " +animator);
-//            Debug.Log("스타트포지션 " +startPosition);
-//            Debug.Log("대기시간 " +waitTime);
-//            Debug.Log("몬스터타입 "+monsterType);
-//            Debug.Log("몬스터HP "+healthPoint);
-//            Debug.Log("공격력 "+attackPower);
-//            Debug.Log("워크레인지 "+walkRange);
-//            Debug.Log("쿨타임 "+skillCoolTime);
-//            Debug.Log("스피드 "+this.speed);
