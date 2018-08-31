@@ -279,6 +279,43 @@ namespace ProjectB.GameManager
            
         }
 
+        public void AddPlayerExp()
+        {
+            PlayerInfomation.PlayerExp *= 0.3f;
+            SetGameDataToServer();
+        }
+
+        public void CalculatePlayerLevelUp()
+        {
+            float currentLevel = PlayerInfomation.PlayerLevel;
+            float currentExp = PlayerInfomation.PlayerExp;
+
+            float nextLevepUpExp = 1000 + (100 * 1.2f * currentLevel);
+
+            if (nextLevepUpExp <= currentExp)
+            {
+                currentLevel++;
+                currentExp -= nextLevepUpExp;
+            }
+
+            PlayerInfomation.PlayerLevel = (int)currentLevel;
+            PlayerInfomation.PlayerExp = currentExp;
+        }
+
+
+        public void CalculatePlayerItemAndExp(int totalExp, Dictionary<int,int> ObtainedItemDic)
+        {
+            PlayerInfomation.PlayerExp += totalExp;
+
+            foreach (KeyValuePair<int, int> temp in ObtainedItemDic)
+            {
+                PlayerGamedata[temp.Key] += temp.Value;
+            }
+
+            CalculatePlayerLevelUp();
+            SetGameDataToServer();
+        }
+
 
 
     }

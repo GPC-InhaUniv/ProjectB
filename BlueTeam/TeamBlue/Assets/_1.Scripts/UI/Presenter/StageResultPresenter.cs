@@ -32,7 +32,7 @@ namespace ProjectB.UI.Presenter
         }
         void ShowResultUI()
         {
-            if (GameControllManager.Instance.IsClearDungeon)
+            if (GameControllManager.Instance.IsClearDunegon)
             {
                 resultText.text = "Stage Clear";
                 getEXPText.text = "EXP : " + GameControllManager.Instance.TotalExp + "증가";

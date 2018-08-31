@@ -72,9 +72,7 @@ namespace ProjectB.GameManager
 
             }
 
-            StartCoroutine(LoadBundles());
-            //SoundManager.Instance.LoadSoundClips();
-            //SoundManager.Instance.PlayBGM();
+            StartCoroutine(LoadBundles());         
             StartCoroutine(LoadScene());
 
         }

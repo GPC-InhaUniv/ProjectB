@@ -11,14 +11,14 @@ namespace ProjectB.GameManager
         public int CurrentIndex;
 
 
-        bool isClearDungeon;
-        public bool IsClearDungeon { get { return isClearDungeon; } private set { } }
+       
+        public bool IsClearDunegon { get; private set; }
 
-        int totalExp;
-        public int TotalExp { get { return totalExp; } private set { } }
+       
+        public int TotalExp { get; private set; }
 
-        int totalMonsterCount;
-        public int TotalMonsterCount { get { return totalMonsterCount; } private set {  }  }
+        public int TotalMonsterCount { get; private set; }
+
         int cameraOffSetZ = 5;
         int cameraOffSetY = 2;
         int cameraOffSetX = 3;
@@ -27,83 +27,72 @@ namespace ProjectB.GameManager
         GameObject[] MonsterPostion;
         GameObject uiController;
 
-        public Dictionary<int, int> ObtainedItemDic = new Dictionary<int, int>();
+        public Dictionary<int, int> ObtainedItemDic { get; private set; }
+      
 
         private void Start()
         {
-            totalMonsterCount = MAXMONSTERCOUNT;
+            ObtainedItemDic = new Dictionary<int, int>();
+            TotalMonsterCount = MAXMONSTERCOUNT;
             MonsterPostion = new GameObject[3];
         }
 
         public void CheckMonsterAtDungeon()
         {
-            totalMonsterCount = MAXMONSTERCOUNT;
+            TotalMonsterCount = MAXMONSTERCOUNT;
 
-            totalExp = 1200 * CurrentIndex;
+            TotalExp = 1200 * CurrentIndex;
 
+            int itemCode = 0;
 
             switch (CurrentLoadType)
             {
-                case LoadType.WoodDungeon:
-                    ObtainedItemDic.Add(3000, CurrentIndex * 5);
-                    break;
-                case LoadType.IronDungeon:
-                    ObtainedItemDic.Add(3001, CurrentIndex * 5);
-                    break;
-                case LoadType.BrickDungeon:
-                    ObtainedItemDic.Add(3002, CurrentIndex * 5);
-                    break;
-                case LoadType.SheepDungeon:
-                    ObtainedItemDic.Add(3003, CurrentIndex * 5);
-                    break;
+             
+
+                case LoadType.WoodDungeon: itemCode = 3000; break;
+                case LoadType.IronDungeon: itemCode = 3001; break;
+                case LoadType.BrickDungeon: itemCode = 3002; break;
+                case LoadType.SheepDungeon: itemCode = 3003; break;
+                default: Debug.Log("확인되어지지 않은 값"); break;
 
             }
+
+            if(itemCode!=0)
+            ObtainedItemDic.Add(itemCode, 1);
 
         }
 
         public void CheckGameOver()
         {
-            isClearDungeon = false;
-            GameDataManager.Instance.PlayerInfomation.PlayerExp *= 0.3f;
-            GameDataManager.Instance.SetGameDataToServer();
+            IsClearDunegon = false;
+            GameDataManager.Instance.AddPlayerExp();
             GameMediator.Instance.ClearStage();
-            totalMonsterCount = MAXMONSTERCOUNT;
+            TotalMonsterCount = MAXMONSTERCOUNT;
         }
 
         void CalculateLevelUp()
         {
-            float currentLevel = GameDataManager.Instance.PlayerInfomation.PlayerLevel;
-            float currentExp = GameDataManager.Instance.PlayerInfomation.PlayerExp;
-
-            float nextLevepUpExp = 1000 + (100 * 1.2f * currentLevel);
-            if (nextLevepUpExp <= currentExp)
-            {
-                currentLevel++;
-                currentExp -= nextLevepUpExp;
-            }
-
-            GameDataManager.Instance.PlayerInfomation.PlayerLevel = (int)currentLevel;
-            GameDataManager.Instance.PlayerInfomation.PlayerExp = currentExp;
+            GameDataManager.Instance.CalculatePlayerLevelUp();
 
         }
         public void CheckGameClear()
         {
-            totalMonsterCount--;
-            if (totalMonsterCount <= 0)
+            TotalMonsterCount--;
+
+            CheckMonsterCount();
+
+
+        }
+
+       void CheckMonsterCount()
+        {
+            if (TotalMonsterCount == 0)
             {
-                isClearDungeon = true;
-                GameDataManager.Instance.PlayerInfomation.PlayerExp += totalExp;
-                foreach (KeyValuePair<int, int> temp in ObtainedItemDic)
-                {
-                    GameDataManager.Instance.PlayerGamedata[temp.Key] += temp.Value;
-                }
-                CalculateLevelUp();
-                GameDataManager.Instance.SetGameDataToServer();
+                IsClearDunegon = true;
+                GameDataManager.Instance.CalculatePlayerItemAndExp(TotalExp, ObtainedItemDic);
                 GameMediator.Instance.ClearStage();
-                totalMonsterCount = MAXMONSTERCOUNT;
+                TotalMonsterCount = MAXMONSTERCOUNT;
             }
-
-
         }
 
 
@@ -165,7 +154,7 @@ namespace ProjectB.GameManager
             {
                 CheckMonsterAtDungeon();
 
-                Debug.Log("현재 던전 몬스터 수:" + totalMonsterCount);
+                Debug.Log("현재 던전 몬스터 수:" + TotalMonsterCount);
 
             }
 
@@ -184,7 +173,7 @@ namespace ProjectB.GameManager
                 int positionNum = 0;
                 if (CurrentLoadType != LoadType.BossDungeon)
                 {
-                    for (int i = 0; i < totalMonsterCount; i++)
+                    for (int i = 0; i < TotalMonsterCount; i++)
                     {
                         Vector3 addPos = new Vector3(5, 0, 5);
                         if (i % 6 == 0)
@@ -211,6 +200,17 @@ namespace ProjectB.GameManager
             }
 
 
+        }
+
+        public void SetMonsterDropItem(int itemCode)
+        {
+            if (itemCode <= 0)
+                return;
+
+            if (ObtainedItemDic.ContainsKey(itemCode))
+                ObtainedItemDic[itemCode]++;
+            else
+                ObtainedItemDic.Add(itemCode, 1);
         }
 
         public void SetBGM()
