@@ -51,7 +51,7 @@ namespace ProjectB.Characters.Monsters
         protected Vector3 startPosition;
         protected Animator animator;
 
-        int maxPercent;
+        int randomPercent,maxPercent;
 
         [SerializeField]
         protected GameObject hitParticle;
@@ -90,26 +90,28 @@ namespace ProjectB.Characters.Monsters
                         break;
                 }
                 ComputeStatus(stageLevel);
-
                 healthPoint = maxHealthPoint;
                 waitBaseTime = 2.0f;
                 waitTime = waitBaseTime;
+                walkRange = (monsterType == MonsterType.Boss) ? 30 : 15;
+                skillCoolTime = 10;
+                speed = 2;
 
-                int range = 15;
-                int coolTime = 10;
-                int speed = 2;
-                if (monsterType == MonsterType.Boss)
+                switch (monsterType)
                 {
-                    walkRange = range * 2;
-                    skillCoolTime = coolTime;
-                    this.speed = speed;
+                    case MonsterType.Normal:
+                        maxPercent = 20;
+                        break;
+                    case MonsterType.Named:
+                        maxPercent = 11;
+                        break;
+                    case MonsterType.Boss:
+                        maxPercent = 6;
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    walkRange = range;
-                    skillCoolTime = coolTime;
-                    this.speed = speed;
-                }
+                randomPercent = Random.Range(0, maxPercent);
                 hitParticle.SetActive(false);
             }
         }
@@ -175,30 +177,9 @@ namespace ProjectB.Characters.Monsters
 
             animator.SetTrigger(AniStateParm.Died.ToString());
             GameControllManager.Instance.CheckGameClear();
-            int randomCount;
-            switch (monsterType)
-            {
-                case MonsterType.Normal:
-                    maxPercent = 21;
-                    randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent - 1)
-                        DropItem(MonsterType.Normal);
-                    break;
-                case MonsterType.Named:
-                    maxPercent = 11;
-                    randomCount = Random.Range(1, maxPercent);
-                    if (randomCount == maxPercent - 1)
-                        DropItem(MonsterType.Named);
-                    break;
-                case MonsterType.Boss:
-                    maxPercent = 6;
-                    randomCount = Random.Range(1, maxPercent - 1);
-                    if (randomCount == maxPercent)
-                        DropItem(MonsterType.Boss);
-                    break;
-                default:
-                    break;
-            }
+
+            if (randomPercent == maxPercent) 
+                DropItem(MonsterType.Normal);
             NoticeToRader(gameObject);
         }
 
@@ -210,6 +191,8 @@ namespace ProjectB.Characters.Monsters
         public void SetAttackTarget(Transform target)
         {
             attackTarget = target;
+
+
         }
 
         protected virtual void AttackTarget()
