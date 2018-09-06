@@ -6,14 +6,17 @@ using UnityEngine.Audio;
 public class Sound : MonoBehaviour
 {
     public AudioClip SoundClip;
+    AudioSource SoundSource;
 
     [Range(0.0f,1.0f)]
     public float Volume;
     
 
-    public void RegistSoundClip()
+    public AudioClip RegistSoundClip(string SoundName)
     {
+        AudioClip clip = new AudioClip();
 
+        return clip;
     }
 
     public void ColtrolVolume()
