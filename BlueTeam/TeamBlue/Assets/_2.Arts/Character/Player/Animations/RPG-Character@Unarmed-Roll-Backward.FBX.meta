@@ -255,7 +255,8 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'B_Spine' has translation animation that will
       be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n"
+      animation that will be discarded.\nEvent BackStepEnd has a time (0.266667) outside
+      the clip's valid range (0.000000..0.266667). It will never be fired"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
       average position error 13.8 mm and maximum position error 39.7 mm at time 0:
       2 (7.7%) Frame 2\n\tLeftLowerArm average position error 13.5 mm and maximum
@@ -278,7 +279,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Unarmed-Roll-Backward
       takeName: Take 001
-      firstFrame: 4
+      firstFrame: 7
       lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
@@ -292,9 +293,9 @@ ModelImporter:
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
-      heightFromFeet: 1
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -307,7 +308,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.98086125
         functionName: BackStepEnd
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,

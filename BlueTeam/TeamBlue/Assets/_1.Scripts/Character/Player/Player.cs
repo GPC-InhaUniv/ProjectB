@@ -24,6 +24,8 @@ namespace ProjectB.Characters.Players
     {
         [SerializeField]
         bool isDied;
+        [SerializeField]
+        bool isinvincible;
 
         float maxExp;
         public float MaxExp { get { return maxExp; } private set { } }
@@ -57,7 +59,7 @@ namespace ProjectB.Characters.Players
 
         int equipmentHp, equipmentAttackPower, equipmentDefensePowr;
 
-        bool isRunningHitCoroutine;
+        bool isRunningHitCoroutine, isSwapAble;
 
         [SerializeField]
         GameObject hitParticle;
@@ -73,16 +75,61 @@ namespace ProjectB.Characters.Players
             currentPlayerState = new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform);
         }
 
+
+        //void Start()
+        //{
+        //    weapon.SetShortSword();
+
+        //    isDied = false;
+        //    playerAinmatons.InitStateAnimation();
+
+        //    hitParticle.SetActive(false);
+
+        //    MoveVector = new Vector3(0, 0, 1);
+
+        //    if (currentWeaponState != PlayerCharacterWeaponState.ShortSword)
+        //    {
+        //        WeaponSwitching(PlayerCharacterWeaponState.ShortSword);
+        //        weapon.SetShortSword();
+        //    }
+
+        //    playerPresenter = GameObject.FindGameObjectWithTag("PlayerPresenter").GetComponent<PlayerPresenter>();
+
+        //    TestSetCharacterStatus();
+
+        //    playerPresenter.SetpUpUI();
+        //    //상단 줄은 테스트용임, 오류날 시 주석처리        
+        //}
+
+        ////테스트용 함수 - 삭제 예정
+        //void TestSetCharacterStatus()
+        //{
+        //    exp = 200;
+        //    level = 1;
+
+        //    maxHealthPoint = Level * 1000 + equipmentHp;
+        //    healthPoint = maxHealthPoint;
+
+        //    attackPower = level * 10;
+        //    defensivePower = equipmentDefensePowr;
+
+        //    maxExp = 1000 + (100 * 1.2f * level);
+        //    totoalAttckPower = attackPower + equipmentAttackPower;
+        //}
+        ////테스트용 함수 - 삭제 예정
+
+
         public void Initialize()
         {
-            weapon.SetShortSword();
-
             isDied = false;
-            playerAinmatons.InitStateAnimation();
 
             hitParticle.SetActive(false);
 
             MoveVector = new Vector3(0, 0, 1);
+
+            playerAinmatons.InitStateAnimation();
+
+            weapon.SetShortSword();
 
             if (currentWeaponState != PlayerCharacterWeaponState.ShortSword)
             {
@@ -139,7 +186,7 @@ namespace ProjectB.Characters.Players
             switch (playerStates)
             {
                 case PlayerStates.PlayerCharacterIdleState:
-                    isRunning = false;                
+                    isRunning = false;
                     SetAttackPower(1.0f);
                     currentPlayerState.Tick(MoveVector, isRunning);
                     SetState(new PlayerCharacterIdleState(playerAinmatons, playerRigidbody, transform));
@@ -155,7 +202,7 @@ namespace ProjectB.Characters.Players
                     SetState(new PlayerCharacterSkillState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterBackStepState:
-                    isWorking = true;
+                    isinvincible = true;
                     SetState(new PlayerCharacterBackStepState(playerAinmatons, playerRigidbody, transform));
                     break;
                 case PlayerStates.PlayerCharacterRunState:
@@ -178,7 +225,7 @@ namespace ProjectB.Characters.Players
 
         public override void ReceiveDamage(float damage)
         {
-            if (isRunning == true || isDied == true)
+            if (isRunning == true || isinvincible == true || isDied == true)
                 return;
 
             if (isRunningHitCoroutine == false)
@@ -223,10 +270,16 @@ namespace ProjectB.Characters.Players
         {
             if (currentWeaponState == NewWeaponState) return;
 
-            ChangeState(PlayerStates.PlayerCharacterIdleState);
-            playerAinmatons.WeaponSwapAnimation(NewWeaponState);
-            weapon.SetWeapon(true, NewWeaponState, currentWeaponState);
-            currentWeaponState = NewWeaponState;
+            if(isSwapAble != true)
+            {
+                StartCoroutine(IsinvincibleTimeDuringSwap(0.5f));
+
+                playerAinmatons.WeaponSwapAnimation(NewWeaponState);
+
+                weapon.SetWeapon(true, NewWeaponState, currentWeaponState);
+
+                currentWeaponState = NewWeaponState;
+            }
         }
 
         //애니메이션 이벤트
@@ -244,7 +297,7 @@ namespace ProjectB.Characters.Players
         }
         public void BackStepEnd()
         {
-            isWorking = false;
+            isinvincible = false;
         }
 
         IEnumerator HitCoroutine(float time)
@@ -258,6 +311,14 @@ namespace ProjectB.Characters.Players
             hitParticle.SetActive(false);
 
             isRunningHitCoroutine = false;
+        }
+        IEnumerator IsinvincibleTimeDuringSwap(float time)
+        {
+            isSwapAble = true;
+            isinvincible = true;
+            yield return new WaitForSeconds(time);
+            isinvincible = false;
+            isSwapAble = false;
         }
     }
 }

@@ -25,9 +25,9 @@ namespace ProjectB.UI.Presenter
 
         Player player;
 
-        CommandControll commandControll;
+        CommandControll commandControll = new CommandControll();
 
-        ICommand Attack1, Attack2, Attack3, Attack4;
+        ICommand[] Attack = new ICommand[4];
 
         Vector3 inputMoveVector, moverDirection;
 
@@ -46,7 +46,7 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            commandControll = new CommandControll();
+           // Initialize();
 
             skillCoolDownTime = 4.0f;
             backStepCoolDownTime = 2.0f;
@@ -71,10 +71,10 @@ namespace ProjectB.UI.Presenter
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player.PlayerAinmatons);
-            Attack2 = new CommandAttack2(player.PlayerAinmatons);
-            Attack3 = new CommandAttack3(player.PlayerAinmatons);
-            Attack4 = new CommandAttack4(player.PlayerAinmatons);
+            Attack[0] = new CommandAttack1(player.PlayerAinmatons);
+            Attack[1] = new CommandAttack2(player.PlayerAinmatons);
+            Attack[2] = new CommandAttack3(player.PlayerAinmatons);
+            Attack[3] = new CommandAttack4(player.PlayerAinmatons);
         }
 
         void GetImage()
@@ -122,8 +122,6 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            if (player.IsWorking) return;
-
             if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
@@ -136,8 +134,6 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            if (player.IsWorking) return;
-
             if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
@@ -150,8 +146,6 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (player.IsWorking) return;
-
             if (!player.IsRunning)
             {
                 if (GetWeaponState())
@@ -188,14 +182,14 @@ namespace ProjectB.UI.Presenter
             if (comboResetCount > 0) return;
             if (GetWeaponState())
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack2);
-                commandControll.TakeCommand(Attack3);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[1]);
+                commandControll.TakeCommand(Attack[2]);
             }
             else
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack2);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[1]);
             }
         }
 
@@ -205,22 +199,20 @@ namespace ProjectB.UI.Presenter
 
             if (GetWeaponState())
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack2);
-                commandControll.TakeCommand(Attack4);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[1]);
+                commandControll.TakeCommand(Attack[3]);
             }
             else
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack3);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[2]);
             }
 
         }
 
         void StartCombo()
         {
-            if (player.IsWorking) return;
-
             if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
@@ -316,7 +308,8 @@ namespace ProjectB.UI.Presenter
 
         public void SetpUpUI()
         {
-            ID.text = AccountInfo.Instance.Id;
+            // ID.text = AccountInfo.Instance.Id;
+
             level.text = "Level\n" + player.Level.ToString();
 
             UpdateHpUI();
