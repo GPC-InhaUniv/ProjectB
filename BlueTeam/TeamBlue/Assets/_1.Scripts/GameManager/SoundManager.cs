@@ -4,31 +4,43 @@ namespace ProjectB.GameManager
 {
     public enum SoundFXType
     {
-        BGM,
-        ButtonClick,
-        PlayerAttack,
-        PlayerHit,
-        PlayerDeath,
+        BGM=0,
+        ButtonClick=1,
+        PlayerAttack=2,
+        PlayerHit=3,
+        PlayerDeath=4,
 
-        EnemyAttack,
-        EnemyHit,
-        EnemyExplosionSkill,
-        EnemyDeath,
-        BossDeath,
-        Whip,
+        EnemyAttack=5,
+        EnemyHit=6,
+        EnemyExplosionSkill=7,
+        EnemyDeath=8,
+        BossDeath=9,
+        Whip=10,
 
-        GameOver,
-        GameClear,
-        ItemPickup,
-        EnemyDefence
+        GameOver=11,
+        GameClear=12,
+        ItemPickup=13,
+        EnemyDefence=14
+    }
+
+    public enum BGMType
+    {
+        Village=0,
+        BricksDungeon=1,
+        IronDungeon=2,
+        WoodDungeon=3,
+        SheepDungeon=4,
+        BossDungeon=5
     }
    
     public class SoundManager : Singleton<SoundManager>
     {
-        AudioClip[] SoundClips; 
+        AudioClip[] SFXClips;
+        AudioClip[] BGMClips;
         AudioSource[] SoundSources;
        
         const int numberOfSFX = 15;
+        const int numberOfBGM = 6;
         const int numberOfAudioSources = 6; 
         
         public float sfxVolume;
@@ -38,7 +50,8 @@ namespace ProjectB.GameManager
         {
             sfxVolume = 1.0f;
             bgmVolume = 1.0f;
-            SoundClips = new AudioClip[numberOfSFX];
+            SFXClips = new AudioClip[numberOfSFX];
+            BGMClips = new AudioClip[numberOfBGM];
             SoundSources = new AudioSource[numberOfAudioSources];
 
             for (int i = 0; i < numberOfAudioSources; i++) 
@@ -51,32 +64,75 @@ namespace ProjectB.GameManager
         
         public void LoadSoundClips()
         {
-            SoundClips[0] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "MainBGM");
-            SoundClips[1] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ButtonClick");
-            SoundClips[2] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerAttack");
-            SoundClips[3] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerHit");
-            SoundClips[4] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerDeath");
-            SoundClips[5] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyAttack");
-            SoundClips[6] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyHit");
-            SoundClips[7] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "BossExplosionSkill");
-            SoundClips[8] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyDeath");
-            SoundClips[9] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "BossDeath");
-            SoundClips[10] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "GameOver");
-            SoundClips[11] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "GameClear");
-            SoundClips[12] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ItemPickup");
-            SoundClips[13] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "Whip");
-            SoundClips[14] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyDefence");
+            SFXClips[0] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "MainBGM");
+            SFXClips[1] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ButtonClick");
+            SFXClips[2] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerAttack");
+            SFXClips[3] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerHit");
+            SFXClips[4] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "PlayerDeath");
+            SFXClips[5] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyAttack");
+            SFXClips[6] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyHit");
+            SFXClips[7] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "BossExplosionSkill");
+            SFXClips[8] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyDeath");
+            SFXClips[9] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "BossDeath");
+            SFXClips[10] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "GameOver");
+            SFXClips[11] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "GameClear");
+            SFXClips[12] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "ItemPickup");
+            SFXClips[13] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "Whip");
+            SFXClips[14] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "EnemyDefence");
+
+            BGMClips[0] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "MainBGM");
+            BGMClips[1] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "BrickDungeon");
+            BGMClips[2] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "IronDungeon");
+            BGMClips[3] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "WoodDungeon");
+            BGMClips[4] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "SheepDugeon");
+            BGMClips[5] = AssetBundleManager.Instance.LoadSound(BundleType.Common, "BossDungeon");
+
+        }
+
+
+
+        public void SetBGM(BGMType bgmType)
+        {
+            AudioClip bgmClip;
+            bgmClip = BGMClips[(int)bgmType];
+
+            PlayBGM(bgmClip);
+        }
+
+        public void PlayBGM(AudioClip bgmClip)
+        {
+            SoundSources[0].clip = bgmClip;
+            SoundSources[0].Play();
+            SoundSources[0].volume = bgmVolume;
+            SoundSources[0].loop = true;
+        }
+
+        public void SetSFX(SoundFXType soundType)
+        {
+            AudioClip audioClip;
+            audioClip = SFXClips[(int)soundType];
+            PlaySFX(audioClip);
+        }
+
+        //오버로드 시켜서 쓰면 될듯 싶다. 그런데 여기에 오버로드가지 써야하나..?
+        public void SetAudio()
+        {
+
         }
         
+
+
+
+        //본래의 사운드 매니저 파츠
         public void PlayBGM()
         {
-            SoundSources[0].clip = SoundClips[0];
+            SoundSources[0].clip = SFXClips[0];
             SoundSources[0].Play();
             SoundSources[0].volume = bgmVolume;
             SoundSources[0].loop = true;
         }
         
-        void PlaySound(AudioClip audioClip)
+        void PlaySFX(AudioClip audioClip)
         {
             for (int i = 1; i < SoundSources.Length; i++)
             {
@@ -97,75 +153,7 @@ namespace ProjectB.GameManager
                 }
             }
         }
-
-        public void SetSound(SoundFXType soundType)
-        {
-            AudioClip audioClip;
-            switch(soundType)
-            {
-                case SoundFXType.BGM:
-                    audioClip = SoundClips[1];
-                    break;
-
-                case SoundFXType.PlayerAttack:
-                    audioClip = SoundClips[2];
-                    break;
-
-                case SoundFXType.PlayerHit:
-                    audioClip = SoundClips[3];
-                    break;
-
-                case SoundFXType.PlayerDeath:
-                    audioClip = SoundClips[4];
-                    break;
-
-                case SoundFXType.EnemyAttack:
-                    audioClip = SoundClips[5];
-                    break;
-
-                case SoundFXType.EnemyHit:
-                    audioClip = SoundClips[6];
-                    break;
-
-                case SoundFXType.EnemyExplosionSkill:
-                    audioClip = SoundClips[7];
-                    break;
-
-                case SoundFXType.EnemyDeath:
-                    audioClip = SoundClips[8];
-                    break;
-
-                case SoundFXType.BossDeath:
-                    audioClip = SoundClips[9];
-                    break;
-
-                case SoundFXType.GameOver:
-                    audioClip = SoundClips[10];
-                    break;
-
-                case SoundFXType.GameClear:
-                    audioClip = SoundClips[11];
-                    break;
-
-                case SoundFXType.ItemPickup:
-                    audioClip = SoundClips[12];
-                    break;
-
-                case SoundFXType.Whip:
-                    audioClip = SoundClips[13];
-                    break;
-
-                case SoundFXType.EnemyDefence:
-                    audioClip = SoundClips[14];
-                    break;
-
-                default:
-                    audioClip = null;
-                    break;
-            }
-            PlaySound(audioClip);
-        }
-
+        
         public void SetVolume(float bgmVolume, float sfxVolume)
         {
             for (int i = 1; i < SoundSources.Length; i++) 
@@ -173,6 +161,75 @@ namespace ProjectB.GameManager
                 SoundSources[i].volume = sfxVolume;
             }
             SoundSources[0].volume = bgmVolume;
+        }
+
+
+        public void SetSound(SoundFXType soundType)
+        {
+            AudioClip audioClip;
+            switch (soundType)
+            {
+                case SoundFXType.BGM:
+                    audioClip = SFXClips[1];
+                    break;
+
+                case SoundFXType.PlayerAttack:
+                    audioClip = SFXClips[2];
+                    break;
+
+                case SoundFXType.PlayerHit:
+                    audioClip = SFXClips[3];
+                    break;
+
+                case SoundFXType.PlayerDeath:
+                    audioClip = SFXClips[4];
+                    break;
+
+                case SoundFXType.EnemyAttack:
+                    audioClip = SFXClips[5];
+                    break;
+
+                case SoundFXType.EnemyHit:
+                    audioClip = SFXClips[6];
+                    break;
+
+                case SoundFXType.EnemyExplosionSkill:
+                    audioClip = SFXClips[7];
+                    break;
+
+                case SoundFXType.EnemyDeath:
+                    audioClip = SFXClips[8];
+                    break;
+
+                case SoundFXType.BossDeath:
+                    audioClip = SFXClips[9];
+                    break;
+
+                case SoundFXType.GameOver:
+                    audioClip = SFXClips[10];
+                    break;
+
+                case SoundFXType.GameClear:
+                    audioClip = SFXClips[11];
+                    break;
+
+                case SoundFXType.ItemPickup:
+                    audioClip = SFXClips[12];
+                    break;
+
+                case SoundFXType.Whip:
+                    audioClip = SFXClips[13];
+                    break;
+
+                case SoundFXType.EnemyDefence:
+                    audioClip = SFXClips[14];
+                    break;
+
+                default:
+                    audioClip = null;
+                    break;
+            }
+            PlaySFX(audioClip);
         }
     }
 }
