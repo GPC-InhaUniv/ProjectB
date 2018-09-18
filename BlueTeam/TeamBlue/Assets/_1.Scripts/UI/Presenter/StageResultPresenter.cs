@@ -24,18 +24,15 @@ namespace ProjectB.UI.Presenter
         List<int> itemCode;
         string[] itemName;
 
-        private void Start()
+        private void OnEnable()
         {
             itemCode = new List<int>();
             itemName = new string[2];
-        }
-        private void OnEnable()
-        {  
             ShowResultUI();
         }
         void ShowResultUI()
         {
-            if (GameControllManager.Instance.IsClearDungeon)
+            if (GameControllManager.Instance.IsClearDunegon)
             {
                 resultText.text = "Stage Clear";
                 getEXPText.text = "EXP : " + GameControllManager.Instance.TotalExp + "증가";
@@ -53,6 +50,7 @@ namespace ProjectB.UI.Presenter
                         {
                             if (itemCode[j] == itemTable.sheets[0].list[i].Code)
                             {
+                                if(j<2)
                                 itemName[j] = itemTable.sheets[0].list[i].Name;
                                 break;
                             }

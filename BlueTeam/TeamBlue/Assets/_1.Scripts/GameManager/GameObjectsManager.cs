@@ -36,8 +36,7 @@ namespace ProjectB.GameManager
         private void Start()
         {
             bossSkill = new GameObject[3];
-            normalMonster = new GameObject[monsterPoolSize];
-            namedMonster = new GameObject[monsterPoolSize / 3];
+          
         }
         public void SetPrefab()
         {
@@ -69,6 +68,7 @@ namespace ProjectB.GameManager
 
         public void MakeObject(ObjectType objectType)
         {
+
             switch (objectType)
             {
                 case ObjectType.Area:
@@ -141,7 +141,9 @@ namespace ProjectB.GameManager
         public void MakeMonsterObject()
         {
             monsterPoolSize = GameControllManager.Instance.TotalMonsterCount;
-           
+            normalMonster = new GameObject[monsterPoolSize];
+            namedMonster = new GameObject[monsterPoolSize / 3];
+
             for (int i = 0; i < normalMonster.Length; i++)
             {
                 normalMonster[i] = Instantiate(nomalMonsterPrefab);
@@ -175,6 +177,7 @@ namespace ProjectB.GameManager
         public GameObject GetMonsterObject(MonsterType monsterType)
         {
             GameObject monsterObject;
+         
             switch (monsterType)
             {
                 case MonsterType.Normal:
@@ -213,13 +216,13 @@ namespace ProjectB.GameManager
             GameObject bossSkillObject;
             switch (kindOfSkill)
             {
-                case KindOfSkill.FireHemiSphere:
+                case KindOfSkill.FireEntangle:
                     bossSkillObject = bossSkill[0];
                     break;
                 case KindOfSkill.FireRain:
                     bossSkillObject = bossSkill[1];
                     break;
-                case KindOfSkill.FireEntangle:
+                case KindOfSkill.FireHemiSphere:
                     bossSkillObject = bossSkill[2];
                     break;
                 default:

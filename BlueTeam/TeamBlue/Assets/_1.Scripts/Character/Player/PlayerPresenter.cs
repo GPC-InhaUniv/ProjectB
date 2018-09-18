@@ -25,9 +25,9 @@ namespace ProjectB.UI.Presenter
 
         Player player;
 
-        CommandControll commandControll;
+        CommandControll commandControll = new CommandControll();
 
-        ICommand Attack1, Attack2, Attack3, Attack4;
+        ICommand[] Attack = new ICommand[4];
 
         Vector3 inputMoveVector, moverDirection;
 
@@ -46,7 +46,7 @@ namespace ProjectB.UI.Presenter
 
         void Start()
         {
-            commandControll = new CommandControll();
+           // Initialize();
 
             skillCoolDownTime = 4.0f;
             backStepCoolDownTime = 2.0f;
@@ -71,10 +71,10 @@ namespace ProjectB.UI.Presenter
         public void Initialize()
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            Attack1 = new CommandAttack1(player.PlayerAinmatons);
-            Attack2 = new CommandAttack2(player.PlayerAinmatons);
-            Attack3 = new CommandAttack3(player.PlayerAinmatons);
-            Attack4 = new CommandAttack4(player.PlayerAinmatons);
+            Attack[0] = new CommandAttack1(player.PlayerAinmatons);
+            Attack[1] = new CommandAttack2(player.PlayerAinmatons);
+            Attack[2] = new CommandAttack3(player.PlayerAinmatons);
+            Attack[3] = new CommandAttack4(player.PlayerAinmatons);
         }
 
         void GetImage()
@@ -122,7 +122,7 @@ namespace ProjectB.UI.Presenter
 
         void InputBackStep()
         {
-            if (!GetIsState(player.IsRunning))
+            if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterBackStepState);
 
@@ -134,7 +134,7 @@ namespace ProjectB.UI.Presenter
 
         void InputSkillButton()
         {
-            if (!GetIsState(player.IsRunning))
+            if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterSkillState);
 
@@ -146,7 +146,7 @@ namespace ProjectB.UI.Presenter
 
         void InputWeaponSwapButton()
         {
-            if (!GetIsState(player.IsRunning))
+            if (!player.IsRunning)
             {
                 if (GetWeaponState())
                 {
@@ -182,37 +182,38 @@ namespace ProjectB.UI.Presenter
             if (comboResetCount > 0) return;
             if (GetWeaponState())
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack2);
-                commandControll.TakeCommand(Attack3);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[1]);
+                commandControll.TakeCommand(Attack[2]);
             }
             else
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack2);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[1]);
             }
         }
 
         void ComboTwo()
         {
             if (comboResetCount > 0) return;
+
             if (GetWeaponState())
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack2);
-                commandControll.TakeCommand(Attack4);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[1]);
+                commandControll.TakeCommand(Attack[3]);
             }
             else
             {
-                commandControll.TakeCommand(Attack1);
-                commandControll.TakeCommand(Attack3);
+                commandControll.TakeCommand(Attack[0]);
+                commandControll.TakeCommand(Attack[2]);
             }
 
         }
 
         void StartCombo()
         {
-            if (!GetIsState(player.IsRunning))
+            if (!player.IsRunning)
             {
                 player.ChangeState(PlayerStates.PlayerCharacterAttackState);
                 commandControll.ExcuteCommand();
@@ -305,18 +306,10 @@ namespace ProjectB.UI.Presenter
             else return false;
         }
 
-        bool GetIsState(bool state)
-        {
-            if (state)
-            {
-                return true;
-            }
-            else return false;
-        }
-
         public void SetpUpUI()
         {
-            ID.text = AccountInfo.Instance.Id;
+            // ID.text = AccountInfo.Instance.Id;
+
             level.text = "Level\n" + player.Level.ToString();
 
             UpdateHpUI();

@@ -29,13 +29,10 @@ namespace ProjectB.Characters.Players
             animator = GetComponent<Animator>();
         }
 
-        public void InitWeapon()
-        {
-            animator.SetBool(AnimationState.ShortSword.ToString(), true);
-        }
         public void InitStateAnimation()
         {
             StartCoroutine(InitStateCoroutine());
+            animator.SetBool(AnimationState.ShortSword.ToString(), true);
         }
 
         public void AttackAnimation(string attackName)
@@ -81,8 +78,6 @@ namespace ProjectB.Characters.Players
 
             animator.SetBool(weaponState.ToString(), true);
         }
- 
-
 
         public void DieAnimation()
         {
@@ -92,13 +87,17 @@ namespace ProjectB.Characters.Players
         IEnumerator InitStateCoroutine()
         {
             animator.SetBool(AnimationState.Init.ToString(), true);
+
             yield return new WaitForSeconds(0.5f);
+
             animator.SetBool(AnimationState.Init.ToString(), false);
         }
         IEnumerator SwapAnimationCoroutine()
         {
             animator.SetBool(AnimationState.Swap.ToString(), true);
+
             yield return new WaitForSeconds(0.5f);
+
             animator.SetBool(AnimationState.Swap.ToString(), false);
         }
         IEnumerator AttackAnimationCoroutine(string attackName)
@@ -106,7 +105,9 @@ namespace ProjectB.Characters.Players
             ResetHitTrigger();
             isRunningAttackCoroutine = true;
             animator.SetBool(attackName, true);
-            yield return new WaitForSeconds(1.0f);
+
+            yield return new WaitForSeconds(0.7f);
+
             animator.SetBool(attackName, false);
             isRunningAttackCoroutine = false;
         }
@@ -115,7 +116,9 @@ namespace ProjectB.Characters.Players
             ResetHitTrigger();
             isRunningSkillCoroutine = true;
             animator.SetBool(AnimationState.Skill.ToString(), true);
+
             yield return new WaitForSeconds(2.0f);
+
             animator.SetBool(AnimationState.Skill.ToString(), false);
             isRunningSkillCoroutine = false; 
         }
@@ -124,7 +127,9 @@ namespace ProjectB.Characters.Players
             ResetHitTrigger();
             isRunningBackStepCoroutine = true;
             animator.SetBool(AnimationState.BackStep.ToString(), true);
+
             yield return new WaitForSeconds(0.5f);
+
             animator.SetBool(AnimationState.BackStep.ToString(), false);
             isRunningBackStepCoroutine = false;
         }

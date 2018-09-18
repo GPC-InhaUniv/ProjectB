@@ -20,12 +20,13 @@ namespace ProjectB.Characters.Players
 
             ShortSwordColider.enabled = false;
             LongSwordColider.enabled = false;
-
-
         }
         public void SetShortSword()
         {
+            shortSword.SetActive(true);
             fakeShortSword.SetActive(false);
+
+            fakeLongSword.SetActive(true);
             longSword.SetActive(false);
         }
 

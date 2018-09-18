@@ -193,7 +193,7 @@ ModelImporter:
       name: Attack1
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 23
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -229,7 +229,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9802622
+      - time: 1
         functionName: AttackDone
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 6ca5c1489382b624897dd6fcdf051a86,
