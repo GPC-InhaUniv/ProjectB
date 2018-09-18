@@ -38,6 +38,7 @@ namespace ProjectB.GameManager
         const string woodDungeonBundleURL = "https://docs.google.com/uc?export=download&id=12-LoiSY_YTZx1jeaUG0pc2KfyG8n6sCe";
         const string sheepDungeonBundleURL = "https://docs.google.com/uc?export=download&id=1h68J292LskcY0VsEQCCg-47_-OY7oDM6";
         
+        
         int totalBundleCount = 8;
         static int userBundleCount = 0;
         static LoadType currentType;
